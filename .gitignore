@@ -10,3 +10,10 @@
 /app/tmp/cache/persistent/cake_*
 /app/tmp/cache/persistent/myapp_cake_*
 /app/tmp/logs/*.log
+
+#eclipse files
+/.cache
+.project
+/.settings
+/app/.settings
+.buildpath
