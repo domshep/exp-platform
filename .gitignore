@@ -7,9 +7,10 @@
 /app/config/core.php
  
 # prevent temporary files from ending up in our repo
-/app/tmp/cache/persistent/cake_*
-/app/tmp/cache/persistent/myapp_cake_*
-/app/tmp/logs/*.log
+*/tmp/cache/*
+*/tmp/logs/*
+*/tmp/sessions/*
+*/tmp/tests/*
 
 #eclipse files
 /.cache
