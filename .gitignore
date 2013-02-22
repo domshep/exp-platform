@@ -8,4 +8,5 @@
  
 # prevent temporary files from ending up in our repo
 /app/tmp/cache/persistent/cake_*
+/app/tmp/cache/persistent/myapp_cake_*
 /app/tmp/logs/*.log
