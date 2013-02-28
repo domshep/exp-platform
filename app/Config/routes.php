@@ -27,11 +27,15 @@
  * to use (in this case, /app/View/Pages/home.ctp)...
  */
 	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+	Router::connect('/dashboard', array('controller' => 'pages', 'action' => 'display','dashboard'));
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
+	
+	// My Attempt at getting the "pages" to appear as top level pages - which works but also breaks the user & profiles!
+	//Router::connect('/*', array('controller' => 'pages', 'action' => 'display')); 
+	
 /**
  * Load all plugin routes. See the CakePlugin documentation on
  * how to customize the loading of plugin routes.

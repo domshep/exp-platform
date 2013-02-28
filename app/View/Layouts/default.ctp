@@ -17,7 +17,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+$cakeDescription = __d('cake_dev', 'Champions for Health');
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,9 +28,14 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
-		echo $this->Html->meta('icon');
+		//echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('c4h');
+		echo $this->Html->css('1053');
+		echo $this->Html->script('http://code.jquery.com/jquery-latest.min.js');
+		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
+		echo $this->Html->script('fontsize');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -38,25 +43,54 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	?>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
-		</div>
-		<div id="content">
-
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false)
-				);
-			?>
+	<div id="wrapper">
+		<div id="maincolwrap">
+			<div id="banner" class="header">
+				<div id="fontsize">&nbsp;</div>
+				<div class="latesttweets">Insert Top Module Here</div>
+				<h1><?php echo $this->Html->link($cakeDescription, 'http://www.championsforhealth.wales.nhs.uk'); ?></span></h1>
+			</div>
+			<div id="navsearch">
+				<p id="navigation"><span>Get the latest Champions for Health News</span><?php echo $this->Html->link("Log Out", '/users/logout'); ?></p>
+			</div>
+			<div id="content">
+				<?php echo $this->Session->flash(); ?>
+				<?php echo $this->fetch('content'); ?>
+			</div>
+			<div id="footer">
+				<ul>
+					<li><?php 
+							echo $this->Html->link("Accessibility",
+								'http://www.championsforhealth.wales.nhs.uk/accessibility/'
+							);
+						?> |&nbsp;
+					</li>
+                    <li><?php 
+							echo $this->Html->link("Terms of Use",
+								'http://www.championsforhealth.wales.nhs.uk/disclaimer/'
+							);
+						?> |&nbsp;</li>
+					<li><?php 
+							echo $this->Html->link("Back to top",
+								'#top'
+							);
+						?> |&nbsp;</li>	
+					<li><?php 
+							echo $this->Html->link("Privacy Statement",
+								'http://www.championsforhealth.wales.nhs.uk/privacy-statement'
+							);
+						?> |&nbsp;</li>
+					<li>Designed by 
+						<?php 
+							echo $this->Html->link("It's All Good - Digital",
+								'http://www.itsallgooddigital.co.uk',
+								array('target' => '_blank', 'escape' => false)
+							);
+						?> for NHS Wales</li>
+            	</ul>
+			</div>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>

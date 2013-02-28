@@ -32,8 +32,8 @@ body {
 }
 a {
 	color: #003d4c;
-	text-decoration: underline;
-	font-weight: bold;
+	/*text-decoration: underline;
+	font-weight: bold;*/
 }
 a:hover {
 	color: #367889;
@@ -67,7 +67,7 @@ h4 {
 	font-weight: normal;
 }
 ul, li {
-	margin: 0 12px;
+	/*margin: 0 12px;*/
 }
 p {
 	margin: 0 0 1em 0;
@@ -94,20 +94,20 @@ p {
 	text-decoration: none;
 }
 #header h1 a:hover {
-	color: #fff;
+	color: #ffffff;
 	background: #003d4c;
 	text-decoration: underline;
 }
 #content{
-	background: #fff;
+	background: #ffffff;
 	clear: both;
-	color: #333;
+	color: #333333;
 	padding: 10px 20px 40px 20px;
-	overflow: auto;
+	/*overflow: auto;*/
 }
 #footer {
 	clear: both;
-	padding: 6px 10px;
+	/*padding: 6px 10px;*/
 	text-align: right;
 }
 

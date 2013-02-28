@@ -1,0 +1,471 @@
+/* Champions for Health INTERNET Page-wide HTML elements */
+
+/* Styles from existing website */
+body { 
+	font-size:0.80em; 
+	margin:0px; 
+	background: #ffffff;  
+	font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif; 
+	color: #505050; 
+} 
+img {
+	border-style : none;
+}
+h1 { 
+	font-size: 130%; 
+	color: #325A8A; 
+	margin: 10px 0 10px 20px; 
+	border-bottom: dotted 0px #325A8A; 
+}
+h2, h3, h4, h5, h6, h7, h8, h9, h10 { 
+	font-size: 110%; 
+	padding-top: 5px; 
+	color: #325A8A; 
+	margin-bottom:5px;  
+}
+input {
+	font-size: 1em; 
+}
+a {
+	text-decoration: none; 
+	color: #CF1E11; 
+	outline: 0;
+}
+a:hover {
+	text-decoration: underline; 
+}
+.abtn {
+	width: 120px; 
+	height : 40px;
+	background-color:#2c5d97; 
+	color: white; 
+	font-size : 14pt;
+	cursor: hand;
+}
+a:visited {
+	color: #2c5d97;
+}
+
+/* Common */
+#wrapper, #page, #banner {
+	background-color: #ffffff; 
+}
+#browsertools li, #browsertools li a, #browsertools, #homeleftcol, #homeleftcoltop, #homeleftcolbot, #homemidcol, #homemidcoltop, #homemidcolbot, #homemidcolbot2, #leftcol, #maincolsearch .widecol, #maincolsearch .narrowcol, #maincol, #maincolbot, #maincolwrap, #midcoltop, #banner img#bannerimage, #banner #sitename, #logo{
+	float: left; 
+}
+.latesttweets .followus, #fontsize, #homerightcol, #homerightcoltop, #homerightcolbot, #rightcol, #browsertools ul, #countdown, .latesttweets, #search {
+	float: right; 
+} 
+#homemidcoltop, #homemidcolbot, #homemidcolbot2, #homerightcoltop, #homerightcolbot{
+	padding: 0px; 
+	margin: 0px;  
+}
+#browsertools, #browsertools li a{
+	color: #2E598A; 
+	font-size: 100%; 
+}
+.latesttweets .followus, #countdowntextdays a, div#breadcrumb a {
+	text-decoration: none; 
+}
+.latesttweets a:hover, #countdowntextdays a:hover, div#breadcrumb a:hover, #footer a, #footer a:hover {
+	text-decoration: underline;
+}
+
+/* Page structure */
+#wrapper {
+	margin: auto; 
+	width: 960px; 
+	padding: 0px 5px; 
+}
+#maincolwrap {
+	margin: 0px;
+}
+#page { 
+	clear: both; 
+}
+.fullwidth, #topbar2, #topbar, #banner{
+	width: 960px;
+}
+#content {
+	padding: 0px 5px 0px 20px; 
+}
+
+/*browsertools*/	
+#topbar, #topbar2 {
+	margin: auto;
+	overflow: visible; 
+}
+#fontsize{
+	font-size: 14px;
+}
+#fontsize, fontsize a{
+	margin-bottom:4px; 
+	margin-right: 2px;
+}
+.selectedfont {
+	border: 1px solid #2E598A;
+}
+#font_s{
+	font-size: 10px;
+}
+#font_m{
+	font-size: 14px;
+}
+#font_l{
+	font-size: 18px;
+}
+#font_xl{
+	font-size: 22px;
+}
+
+/* Top Menu - including text resizing */
+#browsertools { 
+	padding-top: 10px; 
+	overflow: visible; 
+	zoom: 1; 
+	margin-right: -10px; 
+	margin-left: 5px;
+}
+#browsertools ul {
+	padding: 0px 0px 0px -5px;
+}
+#browsertools li a {
+	text-decoration: none;
+} 
+#browsertools li a:hover {
+	text-decoration: underline;
+}
+#browsertools li {
+	padding: 0px;
+}
+
+/* banner and header styles */
+#banner {
+	margin: 0px; 
+	overflow: auto; 
+	zoom: 1;
+}
+#banner h1
+{
+	width: 456px;
+	height: 129px;
+}  
+#banner h1 a{
+	display: block;
+	width: 456px;
+	height: 129px;
+	background-image: url(/img/champions-for-health-logo.gif);
+	background-repeat: no-repeat;
+	text-indent: -9000px;
+}
+
+/*tweets plugin - Top Right Module */ 
+.latesttweets {
+	min-height:70px; 
+	height:auto!important; 
+	height:70px;  
+	overflow: auto; 
+	width: 415px; 
+	font-size: 100%; 
+	margin: 10px 0px 10px 5px;
+	border: 1px solid #FFC709;
+	clear: right;
+} 
+.latesttweets .followus, .latesttweets .body, .latesttweets .date, .latesttweets h2, .latesttweets ul{
+	color: #000000;
+	margin: 0;  
+}
+.latesttweets h2 {
+	margin: 5px 5px 2px 5px; 
+}
+.latesttweets ul {
+	margin: 5px 5px; 
+	list-style-type: none;
+}
+.latesttweets li {
+	zoom: 1; 
+	overflow: auto;
+}
+.latesttweets .date, .latesttweets .body {
+	font-size: 95%; 
+	font-weight: normal;
+}
+.latesttweets .newsitem {
+	margin-left: 0px; 
+	margin-bottom: 0px;
+}
+.latesttweets .title {
+	font-size: 110%; 
+	font-weight: bold;
+}
+.latesttweets .date { 
+	padding: 4px 0px 8px; 
+}
+
+/*breadcrumbs*/
+div#breadcrumb { 
+	padding: 10px 0 4px 0; 
+	margin-left: 20px; 
+	font-size: 92%; 
+	color: #505050; 
+	border-bottom: 1px solid #FFC709; 
+}
+div#breadcrumb a { 
+	color: #325A8A;
+}
+
+/* footer */ 
+#footer { 
+	text-align: center; 
+	clear: both; 
+	border-top: 15px solid #fff; 
+	background: #325A8A; 
+	color:#FFFFFF;
+}
+#footer a, #footer a:hover {
+	color: #ffffff; 
+}
+#footer ul { 
+	padding: 5px; 
+	margin-top: 0px; 
+}
+#footer #footerbase { 
+	background-color: #325A8A; 
+	overflow: auto; 
+	zoom: 1; 
+}
+#footer li { 
+	display: inline; 
+	font-size: 100%; 
+}
+
+/* main content styles */
+#content p {
+	line-height: 1.4em; 
+	padding: 0px 0;
+}
+#content {
+	padding-top: 5px;  
+	padding-right: 20px;
+}
+
+.small { 
+	font-size: 80%; 
+}
+      
+/* navigation */
+#navigation {
+	font-size: 110%; 
+	background-color: #325A8A; 
+	width: 960px;
+	min-height:28px; 
+	height:auto!important; 
+	height:28px; 
+	margin-left: 0; 
+	clear: left; 
+	overflow: visible; 
+	border-top: 8px solid #FFC709; 
+}
+#navigation a, #navigation span, #navigation li{
+	color: #FFC709; 
+}
+#navigation a, #navigation span  {
+	display: block; 
+	float: left; 
+	width: auto; 
+	padding: 3px 10px 3px 10px; 
+	text-decoration: none; 
+	font-weight: 600; 
+}
+#navigation a{
+	float: right;
+}
+#navigation ul {
+	padding: 4px 8px 2px 0; 
+	overflow: visible;
+} 
+#navigation li {
+	float: left; 
+	background-color: #325A8A;
+	margin: 0 15px 0 0;
+}
+#navigation li ul li {
+	height: auto; 
+	border: none;
+}
+#navigation li ul {
+	position: absolute; 
+	width: 10em; 
+	left: -999em;
+	z-index: 9999;
+}
+#navigation a:hover, #navigation li.sfhover ul { 
+	left: auto; 
+	color: #FFC709;
+}
+#navigation li .selected { 
+	color: #ffffff; 
+}
+
+/* navigation child*/
+#navigation2 {
+	background: #325A8A; 
+	font-size: 120%; 
+	color: #FFC709; 
+	padding: 0 2px 2px 2px;  
+	text-align: left; 
+	border-bottom: 0px solid #666; 
+	margin: 0;
+} 
+#navigation2 a {
+	color: #FFC709; 
+}
+#navigation2 h2 {
+	font-size: 110%; 
+	font-weight: 600; 
+	padding-left: 0; 
+	margin: 0 5px 10px 0px;
+}
+#navigation2 ul { 
+	padding: 5px 0 10px 0;
+	margin-right: 0; 
+	font-weight: bold;
+}
+#navigation2 ul ul {
+	list-style-type: none; 
+	background: none;
+	margin: 0 0 0 5px; 
+	padding: 0; 
+	font-weight: normal;
+}
+#navigation2 ul li {
+	border-top: 0 solid #666666;
+}
+#navigation2 ul li a {
+	color: #FFC709; 
+	font-weight: normal;
+}
+#navigation2 li {
+	border-bottom: 0px solid #666666; 
+	list-style-type: none; 
+	background-color: #325A8A;  
+	color: #FFC709; 
+	padding: 10px 1px 1px 5px; 
+	font-weight: bold; 
+	text-align: left;
+	font-size: 100%; 
+}
+#navigation2 li .selected {
+	color: #ffffff; 
+}
+#navigation2 li li {
+	list-style-type: none; 
+	background-color: #325A8A;  
+	color: #FFC709; 
+	text-align: left;  
+	padding: 10px 0 10px 0;
+	font-size: 100%;
+}
+#navigation2 li li a {
+	color: #FFC709; 
+}
+#navigation2 li li li { 
+	list-style-type: none; 
+	background-color: #325A8A;  
+	color: #FFC709; 
+	text-align: left;  
+	font-size: 100%;
+} 
+
+/*default Plugins */
+.nav {
+	background-color: #FFC709; 
+	margin-right: 10px; 
+	border: solid 0px #666;  
+	margin-top: 10px; 
+	padding: 10px 2px 2px;
+	color: #325A8A;
+	font-weight: normal;	
+	font-size: 100%; 
+}
+.nav h2 { 
+	font-size: 110%; 
+	margin: 0px; 
+	padding: 7px 7px; 
+}
+.nav ul {
+	padding: 7px 7px;
+}
+.nav li {
+	padding: 7px 4px; 
+}
+.nav a { 
+	font-weight: bold;
+}
+.nav p {
+	padding: 7px 7px;  
+	font-size: 90%; 
+}
+
+.divmain {
+	position: relative; 
+	float: left; 
+	width: 76%; /*780px;*/ 
+	padding : 0px;
+}
+.divright {
+	position: absolute; 
+	left: 740px;  
+	top: 220px; 
+	width: 240px; /*180px;*/ 
+}
+.divbanner {
+	position:absolute; 
+	top:10px; 
+	left:600px;
+}
+.divbottom { 
+	float: left; 
+	width: 100%; 
+}
+.widget {
+	clear: both;
+	border:2px solid blue; 
+	padding-top:10px; 
+	padding-left:10px; 
+	padding-bottom:10px;
+	background-color : #9ecde5;
+}
+.allTEST {
+	left: 40px; 
+	position:absolute;
+}
+
+.modulesgrid{
+	float: left;
+	width: 75%;
+	display: block;
+}	
+.widgetbox{
+	float: left;
+	width: 24%;
+}
+h2.bigred{
+	font-size: 2.4em;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	color: #BF1C2D;
+}
+
+.profilelink a{
+	font-size: 1.7em;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	color: #BF1C2D;
+}
+.profilelink a.pad{
+	padding-top: 20px;
+	display: block;
+}
+.profilelink img{
+	float: left;
+	margin-bottom: 10px;
+}
