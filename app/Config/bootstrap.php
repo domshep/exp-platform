@@ -109,3 +109,8 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+/**
+ * Load any additional classes needed by the experimental platform
+ */
+App::uses('ModulePlugin', 'Lib');
