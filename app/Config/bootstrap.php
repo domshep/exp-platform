@@ -73,6 +73,7 @@ Cache::config('default', array('engine' => 'File'));
  */
 CakePlugin::load('MenuBuilder');
 CakePlugin::load('DebugKit');
+CakePlugin::load('TestModule'); //Loads a single plugin
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -109,3 +110,8 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+/**
+ * Load any additional classes needed by the experimental platform
+ */
+App::uses('ModulePlugin', 'Lib');
