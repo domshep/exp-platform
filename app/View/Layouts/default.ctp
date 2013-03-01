@@ -31,7 +31,6 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 		//echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-		echo $this->Html->css('c4h');
 		echo $this->Html->css('1053');
 		echo $this->Html->script('http://code.jquery.com/jquery-latest.min.js');
 		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
@@ -48,7 +47,7 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 			<div id="banner" class="header">
 				<div id="fontsize">&nbsp;</div>
 				<div class="latesttweets">Insert Top Module Here</div>
-				<h1><?php echo $this->Html->link($cakeDescription, 'http://www.championsforhealth.wales.nhs.uk'); ?></span></h1>
+				<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></span></h1>
 			</div>
 			<div id="navsearch">
 				<p id="navigation"><span>Get the latest Champions for Health News</span><?php echo $this->Html->link("Log Out", '/users/logout'); ?></p>
@@ -61,13 +60,13 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 				<ul>
 					<li><?php 
 							echo $this->Html->link("Accessibility",
-								'http://www.championsforhealth.wales.nhs.uk/accessibility/'
+								'#'
 							);
 						?> |&nbsp;
 					</li>
                     <li><?php 
 							echo $this->Html->link("Terms of Use",
-								'http://www.championsforhealth.wales.nhs.uk/disclaimer/'
+								'#'
 							);
 						?> |&nbsp;</li>
 					<li><?php 
@@ -77,16 +76,16 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 						?> |&nbsp;</li>	
 					<li><?php 
 							echo $this->Html->link("Privacy Statement",
-								'http://www.championsforhealth.wales.nhs.uk/privacy-statement'
+								'#'
 							);
-						?> |&nbsp;</li>
+						?> </li><!-- |&nbsp;
 					<li>Designed by 
 						<?php 
 							echo $this->Html->link("It's All Good - Digital",
 								'http://www.itsallgooddigital.co.uk',
 								array('target' => '_blank', 'escape' => false)
 							);
-						?> for NHS Wales</li>
+						?> for NHS Wales</li>-->
             	</ul>
 			</div>
 		</div>
