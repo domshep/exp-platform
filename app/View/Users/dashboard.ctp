@@ -21,6 +21,20 @@
 <div class="modulesgrid">
 	<h2 class="bigred">My Challenge Dashboard</h2>
 	<p>[Insert Modules Grid Here...]</p>
+	<div class="modules">
+	<h2><?php echo __('List of available modules'); ?></h2>
+	<table cellpadding="0" cellspacing="0">
+	<?php foreach ($modules as $module): ?>
+	<tr>
+		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
+		<td class="actions">
+			<?php echo $this->Form->postLink(__('Explore module'), '/' . $module['Module']['name'] . '_module/tests/explore_module'); ?>
+		</td>
+	</tr>
+<?php endforeach; ?>
+	</table>
+	<p>
+</div>
 </div>
 <div class="widgetbox">
 	<p class="profilelink">

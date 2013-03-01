@@ -19,7 +19,8 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
   }
   
   public function explore_module() {
-  	return "This is just a test module, while we work on the module interface";
+  	$this->set('message', "This is just a test module, while we work on the module interface");
+  	$this->set('module_name', $this->module_name());
   }
   
   public function add_module() {

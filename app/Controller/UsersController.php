@@ -134,6 +134,8 @@ class UsersController extends AppController {
 	}
 	
 	public function dashboard() {
-			
+		$this->loadModel('Module');
+		$this->Module->recursive = 0;
+		$this->set('modules', $this->Module->find('all'));
 	}
 }
