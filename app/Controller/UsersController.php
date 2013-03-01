@@ -135,6 +135,13 @@ class UsersController extends AppController {
 	
 	public function dashboard() {
 		$this->loadModel('Module');
+		
+		// Get list of modules selected by the user
+		$options = array('conditions' => array('User.' . $this->User->primaryKey => $this->Auth->user('id')));
+		$currentUser = $this->User->find('first', $options);
+		$this->set('user_modules', $currentUser['Module']);
+		
+		// Get list of all available modules
 		$this->Module->recursive = 0;
 		$this->set('modules', $this->Module->find('all'));
 	}

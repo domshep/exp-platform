@@ -4,6 +4,25 @@ App::uses('AuthComponent', 'Controller/Component');
 class User extends AppModel {
 	public $hasOne = 'Profile';
 	
+	public $hasAndBelongsToMany = array(
+			'Module' =>
+			array(
+					'className'              => 'Module',
+					'joinTable'              => 'modules_users',
+					'foreignKey'             => 'user_id',
+					'associationForeignKey'  => 'module_id',
+					'unique'                 => false,
+					'conditions'             => '',
+					'fields'                 => '',
+					'order'                  => '',
+					'limit'                  => '',
+					'offset'                 => '',
+					'finderQuery'            => '',
+					'deleteQuery'            => '',
+					'insertQuery'            => ''
+			)
+	);
+	
 	public $validate = array(
 			'email' => array(
 					'email',
