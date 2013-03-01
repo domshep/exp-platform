@@ -35,8 +35,7 @@ class AppController extends Controller {
 	public $components = array(
 			'Session',
 			'Auth' => array(
-					'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
-					'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'dashboard'),
+					'loginRedirect' => array('controller' => 'users', 'action' => 'dashboard'),
 					'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
 					'authenticate' => array(
 							'Form' => array(
@@ -45,7 +44,7 @@ class AppController extends Controller {
 	);
 	
 	public function beforeFilter() {
-		$this->Auth->allow('index', 'view', 'register', 'dashboard');
+		$this->Auth->allow('index', 'view', 'register', 'logout');
 	}
 	
 	public function isAuthorized($user) {

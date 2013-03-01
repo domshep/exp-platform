@@ -9,7 +9,7 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('register'); // Let users register themselves
+		$this->Auth->allow('register'); // Let new users register themselves
 	}
 	
 	public function login() {
@@ -78,8 +78,9 @@ class UsersController extends AppController {
 			$this->User->create();
 			$this->User->set('role','user');
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('Welcome! Your login details have been recorded.'));
+				$this->Auth->login($this->User);
+				$this->redirect($this->Auth->redirect());
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
@@ -130,5 +131,9 @@ class UsersController extends AppController {
 		}
 		$this->Session->setFlash(__('User was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+	
+	public function dashboard() {
+			
 	}
 }
