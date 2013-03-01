@@ -47,7 +47,7 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 			<div id="banner" class="header">
 				<div id="fontsize">&nbsp;</div>
 				<div class="latesttweets">Insert Top Module Here</div>
-				<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></span></h1>
+				<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></h1>
 			</div>
 			<div id="navsearch">
 				<p id="navigation"><span>Get the latest Champions for Health News</span>
