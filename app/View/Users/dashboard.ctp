@@ -42,13 +42,13 @@
 			echo $this->Html->image(
 				'heart-man-logo.gif', 
 				array('alt' => 'Heart Logo',
-    				'url' => '/users'
+    				'url' => array('controller' => 'users', 'action' => 'viewProfile')
 					)
 				);
 			
 			echo $this->Html->link(
 				__d('cake_dev', ' My Profile >>'),
-				'/users',
+				array('controller' => 'users', 'action' => 'viewProfile'),
 				array('class'=>'pad')
 			);
 		?>

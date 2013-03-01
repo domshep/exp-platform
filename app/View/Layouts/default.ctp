@@ -50,7 +50,11 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 				<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></span></h1>
 			</div>
 			<div id="navsearch">
-				<p id="navigation"><span>Get the latest Champions for Health News</span><?php echo $this->Html->link("Log Out", '/users/logout'); ?></p>
+				<p id="navigation"><span>Get the latest Champions for Health News</span>
+				<?php 
+					if ($is_logged_in) {
+						echo $this->Html->link("Log Out", '/users/logout');
+					}?></p>
 			</div>
 			<div id="content">
 				<?php echo $this->Session->flash(); ?>
@@ -90,6 +94,6 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 			</div>
 		</div>
 	</div>
-	<?php //echo $this->element('sql_dump'); ?>
+	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>

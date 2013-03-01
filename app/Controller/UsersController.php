@@ -138,4 +138,24 @@ class UsersController extends AppController {
 		$this->Module->recursive = 0;
 		$this->set('modules', $this->Module->find('all'));
 	}
+	
+	public function viewProfile() {
+		$options = array('conditions' => array('User.' . $this->User->primaryKey => $this->Auth->user('id')));
+		$this->set('user', $this->User->find('first', $options));
+	}
+	
+	public function editProfile() {
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->User->Profile->save($this->request->data)) {
+				$this->Session->setFlash(__('Your profile has been updated'));
+				$this->redirect(array('action' => 'viewProfile'));
+			} else {
+				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('Profile.' . $this->User->Profile->belongsTo['User']['foreignKey'] => $this->Auth->user('id')));
+				
+			$this->request->data = $this->User->Profile->find('first', $options);
+		}
+	}
 }

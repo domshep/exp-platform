@@ -45,6 +45,8 @@ class AppController extends Controller {
 	
 	public function beforeFilter() {
 		$this->Auth->allow('index', 'view', 'register', 'logout');
+		$role = $this->Auth->user('role');
+		$this->set('is_logged_in', isset($role));
 	}
 	
 	public function isAuthorized($user) {
