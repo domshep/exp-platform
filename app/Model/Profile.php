@@ -38,4 +38,27 @@ class Profile extends AppModel {
 			'order' => ''
 		)
 	);
+	
+	public $validate = array(
+			'height_cm' => array(
+					'rule' => 'numeric',
+					'message' => 'Please enter your height in cm'
+			),
+			'mobile_no' => array(
+					'rule' => array('phone','/^([0-9]{1}[0-9]{9})$/'),
+					'message' => 'Please enter a valid mobile number (no spaces), or leave blank',
+					'allowEmpty' => true
+			),
+			'date_of_birth' => array(
+					'rule' => 'date',
+					'message' => 'Please enter your date of birth'
+			),
+			'gender' => array(
+					'valid' => array(
+							'rule' => array('inList', array('M', 'F')),
+							'message' => 'Please select your gender',
+							'allowEmpty' => false
+					)
+			)
+	);
 }

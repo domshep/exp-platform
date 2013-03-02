@@ -29,6 +29,10 @@ class User extends AppModel {
 					'required' => array(
 							'rule' => array('notEmpty'),
 							'message' => 'An email address is required'
+					),
+					'isUnique' => array(
+							'rule'    => 'isUnique',
+							'message' => 'This email address is already registered'
 					)
 			),
 			'password' => array(
@@ -40,7 +44,7 @@ class User extends AppModel {
 			'role' => array(
 					'valid' => array(
 							'rule' => array('inList', array('super-admin', 'admin', 'user')),
-							'message' => 'Please enter a valid role',
+							'message' => 'Please select a valid user-role',
 							'allowEmpty' => false
 					)
 			)
@@ -51,6 +55,11 @@ class User extends AppModel {
 			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
 		}
 		return true;
+	}
+	
+	public function  getUser($id) {
+		$options = array('conditions' => array('User.' . $this->primaryKey => $id));
+		return $this->find('first', $options);
 	}
 }
 ?>

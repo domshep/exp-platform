@@ -147,22 +147,35 @@ class UsersController extends AppController {
 	}
 	
 	public function viewProfile() {
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $this->Auth->user('id')));
-		$this->set('user', $this->User->find('first', $options));
+		$this->set('user', $this->User->getUser($this->Auth->user('id')));
 	}
 	
 	public function editProfile() {
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->User->Profile->save($this->request->data)) {
+			// Get user id from current user session, rather than from form
+			$currentUser = $this->User->getUser($this->Auth->user('id'));
+			$this->request->data['User']['id'] = $currentUser['User']['id'];
+			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
+			$this->request->data['Profile']['id'] = $currentUser['Profile']['id'];
+			
+			// Has password changed?
+			if (!empty($this->request->data['User']['new_password'])) {
+				if($this->request->data['User']['new_password'] != $this->request->data['User']['repeat_password']) {
+					$this->Session->setFlash(__('Your passwords did not match. Please, try again.'));
+					return;
+				} else {
+					$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+				}
+			}
+			
+			if ($this->User->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('Your profile has been updated'));
 				$this->redirect(array('action' => 'viewProfile'));
 			} else {
 				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Profile.' . $this->User->Profile->belongsTo['User']['foreignKey'] => $this->Auth->user('id')));
-				
-			$this->request->data = $this->User->Profile->find('first', $options);
+			$this->request->data = $this->User->getUser($this->Auth->user('id'));
 		}
 	}
 }

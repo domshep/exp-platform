@@ -36,24 +36,27 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `user_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `gender` varchar(1) DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
   `height_cm` int(10) unsigned DEFAULT NULL,
   `post_code` varchar(20) DEFAULT NULL,
   `mobile_no` varchar(20) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
-  `role` varchar(20) DEFAULT NULL,
+  `role` varchar(20) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

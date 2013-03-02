@@ -7,6 +7,11 @@
 			<?php echo h($user['User']['id']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Profile Id'); ?></dt>
+		<dd>
+			<?php echo h($user['Profile']['id']); ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Name'); ?></dt>
 		<dd>
 			<?php echo h($user['Profile']['name']); ?>
@@ -22,7 +27,12 @@
 			<?php echo h($user['Profile']['gender']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Height Cm'); ?></dt>
+		<dt><?php echo __('Date of Birth'); ?></dt>
+		<dd>
+			<?php echo h($user['Profile']['date_of_birth']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Height (cm)'); ?></dt>
 		<dd>
 			<?php echo h($user['Profile']['height_cm']); ?>
 			&nbsp;
