@@ -79,10 +79,10 @@ class UsersController extends AppController {
 			$this->User->set('role','user');
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('Welcome! Your login details have been recorded.'));
-				$this->Auth->login($this->User);
-				$this->redirect($this->Auth->redirect());
+				$this->Auth->login();
+				$this->redirect(array('action'=>'editProfile'));
 			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('There was a problem with your registration. Please, try again.'));
 			}
 		}
 	}

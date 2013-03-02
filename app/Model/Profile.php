@@ -40,6 +40,7 @@ class Profile extends AppModel {
 	);
 	
 	public $validate = array(
+			'name' => 'required',
 			'height_cm' => array(
 					'rule' => 'numeric',
 					'message' => 'Please enter your height in cm'

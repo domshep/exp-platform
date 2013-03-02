@@ -14,7 +14,9 @@
 				'minYear' => date('Y') - 90,
 				'maxYear' => date('Y') - 18,
 		));
-		echo $this->Form->input('Profile.height_cm');
+		echo $this->Form->input('Profile.height_cm', array(
+				'label' => 'Height (cm)'
+		));
 		echo $this->Form->input('Profile.post_code');
 		echo $this->Form->input('Profile.mobile_no');
 		
