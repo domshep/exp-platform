@@ -39,6 +39,7 @@ class AppController extends Controller {
 			'Auth' => array(
 					'loginRedirect' => array('controller' => 'users', 'action' => 'dashboard'),
 					'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+					'authError' => 'You&rsquo;ll need to login or register to continue',
 					'authenticate' => array(
 							'Form' => array(
 									'fields' => array('username'=>'email')))
