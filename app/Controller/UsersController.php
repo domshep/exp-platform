@@ -9,7 +9,7 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('register','loadmodules'); // Let new users register themselves
+		$this->Auth->allow('register'); // Let new users register themselves
 	}
 	
 	public function admin_login() {
@@ -223,15 +223,6 @@ class UsersController extends AppController {
 		// Get list of all available modules
 		$this->Module->recursive = 0;
 		$this->set('modules', $this->Module->find('all'));
-	}
-	
-	public function loadmodules() {
-		$this->loadModel('Module');
-		
-		// Get list of all available modules
-		$this->Module->recursive = 0;
-		$this->set('modules', $this->Module->find('all'));
-		return $this->Module->find('all');
 	}
 	
 	public function viewProfile() {

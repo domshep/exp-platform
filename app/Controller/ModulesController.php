@@ -7,6 +7,11 @@ App::uses('AppController', 'Controller');
  */
 class ModulesController extends AppController {
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('list_all_explorable_modules'); // Let anyone see the list of all explorable modules.
+	}
+	
 /**
  * index method
  *
@@ -168,5 +173,18 @@ class ModulesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 	}
+	
+	/**
+	 * Get a list of all available modules.
+	 * 
+	 * TODO: Current returns ALL modules, will need to tweak the search to find only those that can be explored.
+	 */
+	public function list_all_explorable_modules() {
+		// Get list of all available modules
+		$this->Module->recursive = 0;
+		$this->set('modules', $this->Module->find('all'));
+		return $this->Module->find('all');
+	}
+	
 }
 ?>

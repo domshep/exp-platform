@@ -1,5 +1,11 @@
 <?php
 class TestsController extends TestModuleAppController implements ModulePlugin {
+
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('explore_module'); // Let anyone explore the module, whether they're logged in or not.
+	}
+	
 /**
  * test_view method
  *

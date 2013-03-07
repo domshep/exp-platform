@@ -22,7 +22,7 @@
 	<h2 class="bigred">Home</h2>
 	<p>[Insert Page Intro Here...]</p>
 	<table cellpadding="0" cellspacing="0">
-	<?php $modules = $this->requestAction('users/loadmodules'); ?>
+	<?php $modules = $this->requestAction('modules/list_all_explorable_modules'); ?>
 	<?php foreach ($modules as $module): ?>
 	<tr>
 		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
