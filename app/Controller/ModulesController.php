@@ -180,7 +180,11 @@ class ModulesController extends AppController {
 	 * TODO: Current returns ALL modules, will need to tweak the search to find only those that can be explored.
 	 */
 	public function list_all_explorable_modules() {
-		// Get list of all available modules
+		// Don't allow this method to be called directly from a URL
+		if (empty($this->request->params['requested'])) {
+			throw new ForbiddenException();
+		}
+		
 		$this->Module->recursive = 0;
 		$this->set('modules', $this->Module->find('all'));
 		return $this->Module->find('all');
