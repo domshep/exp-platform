@@ -127,30 +127,6 @@ class UsersController extends AppController {
 		}
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
-		}
-	}
-
 	public function admin_edit($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
@@ -172,28 +148,6 @@ class UsersController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @throws MethodNotAllowedException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->request->onlyAllow('post', 'delete');
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('User deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('User was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
-	
 	public function admin_delete($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
@@ -236,6 +190,8 @@ class UsersController extends AppController {
 			$this->request->data['User']['id'] = $currentUser['User']['id'];
 			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
 			$this->request->data['Profile']['id'] = $currentUser['Profile']['id'];
+			
+			debug($this->request->data);
 			
 			// Has password changed?
 			if (!empty($this->request->data['User']['new_password'])) {

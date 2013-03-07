@@ -40,7 +40,10 @@ class Profile extends AppModel {
 	);
 	
 	public $validate = array(
-			'name' => 'required',
+			'name' => array(
+					'rule' => 'notEmpty',
+					'message' => 'Please enter the name you wish to be known by'
+			),
 			'height_cm' => array(
 					'rule' => 'numeric',
 					'message' => 'Please enter your height in cm'
