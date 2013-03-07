@@ -236,7 +236,14 @@ div#breadcrumb a {
 }
 #footer li { 
 	display: inline; 
-	font-size: 100%; 
+	font-size: 100%;
+	padding-left:1em;
+	padding-right:1em;
+	border-left:1px solid white;
+}
+
+#footer li.first-item {
+	border-left:0px solid white;
 }
 
 /* main content styles */
@@ -253,8 +260,8 @@ div#breadcrumb a {
 	font-size: 80%; 
 }
       
-/* navigation */
-#navigation {
+/* main-menu */
+#main-menu {
 	font-size: 110%; 
 	background-color: #325A8A; 
 	width: 960px;
@@ -266,10 +273,13 @@ div#breadcrumb a {
 	overflow: visible; 
 	border-top: 8px solid #FFC709; 
 }
-#navigation a, #navigation span, #navigation li{
+#main-menu a, #main-menu span, #main-menu li{
 	color: #FFC709; 
 }
-#navigation a, #navigation span  {
+#main-menu li {
+	list-style-type:none;
+}
+#main-menu a, #main-menu span  {
 	display: block; 
 	float: left; 
 	width: auto; 
@@ -277,33 +287,33 @@ div#breadcrumb a {
 	text-decoration: none; 
 	font-weight: 600; 
 }
-#navigation a{
+#main-menu a{
 	float: right;
 }
-#navigation ul {
+#main-menu ul {
 	padding: 4px 8px 2px 0; 
 	overflow: visible;
 } 
-#navigation li {
+#main-menu li {
 	float: left; 
 	background-color: #325A8A;
 	margin: 0 15px 0 0;
 }
-#navigation li ul li {
+#main-menu li ul li {
 	height: auto; 
 	border: none;
 }
-#navigation li ul {
+#main-menu li ul {
 	position: absolute; 
 	width: 10em; 
 	left: -999em;
 	z-index: 9999;
 }
-#navigation a:hover, #navigation li.sfhover ul { 
+#main-menu a:hover, #main-menu li.sfhover ul { 
 	left: auto; 
 	color: #FFC709;
 }
-#navigation li .selected { 
+#main-menu li .selected { 
 	color: #ffffff; 
 }
 

@@ -32,6 +32,8 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	var $helpers = array('MenuBuilder.MenuBuilder' => array('authField' => 'role'));
+	
 	public $components = array(
 			'Session',
 			'Auth' => array(
@@ -45,8 +47,67 @@ class AppController extends Controller {
 	
 	public function beforeFilter() {
 		$this->Auth->allow('index', 'view', 'register', 'logout');
+		
+		$user = $this->Auth->user();
+		
+		// Workaround, because menu-builder doesn't seem to like the automatic structure of our User model
+		// Could be that we're doing the authentication bit wrong, but this temporary fix can stand for now...
+		$user['User']['role'] = $user['role'];
+		$this->set(compact('user'));
+		
 		$role = $this->Auth->user('role');
-		$this->set('is_logged_in', isset($role));
+		
+		// Define your menu
+		$menu = array(
+				'main-menu' => array(
+						array(
+								'title' => 'Home',
+								'url' => '/',
+						),
+						'dashboard-menu' => array(
+								'title' => 'My Dashboard',
+								'url' => '/users/dashboard',
+								'permissions' => array('user','admin','super-admin'),
+						),
+						array(
+								'title' => 'Log out',
+								'url' => '/users/logout',
+                    			'permissions' => array('user','admin','super-admin'),
+						),
+						// Only non-logged in users can see this
+               		 	array(
+                    			'title' => 'Login',
+                    			'url' => array('controller' => 'users', 'action' => 'login'),
+                    			'permissions' => array(''),
+                		),
+						array(
+								'title' => 'Register',
+								'url' => array('controller' => 'users', 'action' => 'register'),
+								'permissions' => array(''),
+						),
+				),
+				'footer-menu' => array(
+						array(
+								'title' => 'Accessibility',
+								'url' => '#',
+						),
+						array(
+								'title' => 'Terms of Use',
+								'url' => '#',
+						),
+						array(
+								'title' => 'Back to Top',
+								'url' => '#',
+						),
+						array(
+								'title' => 'Privacy Statement',
+								'url' => '#',
+						),
+				),
+		);
+		
+		// For default settings name must be menu
+		$this->set(compact('menu'));
 	}
 	
 	public function isAuthorized($user) {
@@ -58,6 +119,5 @@ class AppController extends Controller {
 		// Default deny
 		return false;
 	}
-	
 }
 ?>

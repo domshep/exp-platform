@@ -50,47 +50,18 @@ $cakeDescription = __d('cake_dev', 'Champions for Health');
 				<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></h1>
 			</div>
 			<div id="navsearch">
-				<p id="navigation"><span>Get the latest Champions for Health News</span>
 				<?php 
-					if ($is_logged_in) {
-						echo $this->Html->link("Log Out", '/users/logout');
-					}?></p>
+        			echo $this->MenuBuilder->build('main-menu');
+    			?>
 			</div>
 			<div id="content">
 				<?php echo $this->Session->flash(); ?>
 				<?php echo $this->fetch('content'); ?>
 			</div>
 			<div id="footer">
-				<ul>
-					<li><?php 
-							echo $this->Html->link("Accessibility",
-								'#'
-							);
-						?> |&nbsp;
-					</li>
-                    <li><?php 
-							echo $this->Html->link("Terms of Use",
-								'#'
-							);
-						?> |&nbsp;</li>
-					<li><?php 
-							echo $this->Html->link("Back to top",
-								'#top'
-							);
-						?> |&nbsp;</li>	
-					<li><?php 
-							echo $this->Html->link("Privacy Statement",
-								'#'
-							);
-						?> </li><!-- |&nbsp;
-					<li>Designed by 
-						<?php 
-							echo $this->Html->link("It's All Good - Digital",
-								'http://www.itsallgooddigital.co.uk',
-								array('target' => '_blank', 'escape' => false)
-							);
-						?> for NHS Wales</li>-->
-            	</ul>
+				<?php 
+        			echo $this->MenuBuilder->build('footer-menu');
+    			?>
 			</div>
 		</div>
 	</div>
