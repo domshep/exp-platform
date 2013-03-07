@@ -9,13 +9,21 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('register'); // Let new users register themselves
+		$this->Auth->allow('register','loadmodules'); // Let new users register themselves
+	}
+	
+	public function admin_login() {
+		$this->redirect($this->Auth->redirect('users/login'));
 	}
 	
 	public function login() {
 		if ($this->request->is('post')) {
 			if ($this->Auth->login()) {
-				$this->redirect($this->Auth->redirect());
+				if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+					$this->redirect($this->Auth->redirect(array('action'=>'dashboard')));
+				} else {
+					$this->redirect($this->Auth->redirect('admin/users/index'));
+				}
 			} else {
 				$this->Session->setFlash(__('Invalid email address or password, try again'));
 			}
@@ -32,8 +40,23 @@ class UsersController extends AppController {
  * @return void
  */
 	public function index() {
+		//$this->User->recursive = 0;
+		//$this->set('users', $this->paginate());
+		$this->redirect($this->Auth->redirect('users/dashboard'));
+	}
+
+/**
+ * admin index method
+ *
+ * @return void
+ */
+	public function admin_index() {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+				$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
+	}
 	}
 
 /**
@@ -51,12 +74,28 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
+	
+	public function admin_view($id = null) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+				$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			if (!$this->User->exists($id)) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->set('user', $this->User->find('first', $options));
+		}
+	}
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
+	public function admin_add() {
+		
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+				$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
 		if ($this->request->is('post')) {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
@@ -66,6 +105,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
+	}
 	}
 	
 	/**
@@ -111,6 +151,27 @@ class UsersController extends AppController {
 		}
 	}
 
+	public function admin_edit($id = null) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+				$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			if (!$this->User->exists($id)) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			if ($this->request->is('post') || $this->request->is('put')) {
+				if ($this->User->save($this->request->data)) {
+					$this->Session->setFlash(__('The user has been saved'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				}
+			} else {
+				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+				$this->request->data = $this->User->find('first', $options);
+			}
+		}
+	}
+
 /**
  * delete method
  *
@@ -133,6 +194,24 @@ class UsersController extends AppController {
 		$this->redirect(array('action' => 'index'));
 	}
 	
+	public function admin_delete($id = null) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+				$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			$this->request->onlyAllow('post', 'delete');
+			if ($this->User->delete()) {
+				$this->Session->setFlash(__('User deleted'));
+				$this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('User was not deleted'));
+			$this->redirect(array('action' => 'index'));
+		}
+	}
+	
 	public function dashboard() {
 		$this->loadModel('Module');
 		
@@ -144,6 +223,15 @@ class UsersController extends AppController {
 		// Get list of all available modules
 		$this->Module->recursive = 0;
 		$this->set('modules', $this->Module->find('all'));
+	}
+	
+	public function loadmodules() {
+		$this->loadModel('Module');
+		
+		// Get list of all available modules
+		$this->Module->recursive = 0;
+		$this->set('modules', $this->Module->find('all'));
+		return $this->Module->find('all');
 	}
 	
 	public function viewProfile() {

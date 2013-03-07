@@ -21,6 +21,17 @@
 <div class="modulesgrid">
 	<h2 class="bigred">Home</h2>
 	<p>[Insert Page Intro Here...]</p>
+	<table cellpadding="0" cellspacing="0">
+	<?php $modules = $this->requestAction('users/loadmodules'); ?>
+	<?php foreach ($modules as $module): ?>
+	<tr>
+		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
+		<td class="actions">
+			<?php echo $this->Form->postLink(__('About this module'), '/' . $module['Module']['name'] . '_module/tests/explore_module'); ?>
+		</td>
+	</tr>
+<?php endforeach; ?>
+	</table>
 </div>
 <div class="widgetbox">
 	<p class="profilelink">

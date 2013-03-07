@@ -47,7 +47,7 @@ class Profile extends AppModel {
 			),
 			'mobile_no' => array(
 					'rule' => array('phone','/^([0-9]{1}[0-9]{9})$/'),
-					'message' => 'Please enter a valid mobile number (no spaces), or leave blank',
+					'message' => 'Please enter a valid mobile number (ten digits, no spaces), or leave blank',
 					'allowEmpty' => true
 			),
 			'date_of_birth' => array(

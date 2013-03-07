@@ -35,7 +35,6 @@
 	</table>
 	<p>
 </div>
-
 	<div class="modules">
 	<h2><?php echo __('List of all available modules'); ?></h2>
 	<table cellpadding="0" cellspacing="0">
@@ -48,7 +47,7 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
-	<p>
+	<p>&nbsp;</p>
 </div>
 </div>
 <div class="widgetbox">
