@@ -25,6 +25,14 @@ class ModulesControllerTest extends ControllerTestCase {
 	}
 
 /**
+ * testAdminIndex method
+ *
+ * @return void
+ */
+	public function testAdminIndex() {
+	}
+
+/**
  * testView method
  *
  * @return void
@@ -33,11 +41,35 @@ class ModulesControllerTest extends ControllerTestCase {
 	}
 
 /**
+ * testAdminView method
+ *
+ * @return void
+ */
+	public function testAdminView() {
+	}
+
+/**
+ * testAdminAdd method
+ *
+ * @return void
+ */
+	public function testAdminAdd() {
+	}
+
+/**
  * testAdd method
  *
  * @return void
  */
 	public function testAdd() {
+	}
+
+/**
+ * testAdminEdit method
+ *
+ * @return void
+ */
+	public function testAdminEdit() {
 	}
 
 /**
@@ -54,6 +86,22 @@ class ModulesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testDelete() {
+	}
+
+/**
+ * testAdminDelete method
+ *
+ * @return void
+ */
+	public function testAdminDelete() {
+	}
+
+/**
+ * testListAllExplorableModules method
+ *
+ * @return void
+ */
+	public function testListAllExplorableModules() {
 	}
 
 }

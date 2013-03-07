@@ -13,8 +13,35 @@ class UsersControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.user'
+		'app.user',
+		'app.profile',
+		'app.module',
+		'app.modules_user'
 	);
+
+/**
+ * testAdminLogin method
+ *
+ * @return void
+ */
+	public function testAdminLogin() {
+	}
+
+/**
+ * testLogin method
+ *
+ * @return void
+ */
+	public function testLogin() {
+	}
+
+/**
+ * testLogout method
+ *
+ * @return void
+ */
+	public function testLogout() {
+	}
 
 /**
  * testIndex method
@@ -22,6 +49,14 @@ class UsersControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndex() {
+	}
+
+/**
+ * testAdminIndex method
+ *
+ * @return void
+ */
+	public function testAdminIndex() {
 	}
 
 /**
@@ -33,27 +68,67 @@ class UsersControllerTest extends ControllerTestCase {
 	}
 
 /**
- * testAdd method
+ * testAdminView method
  *
  * @return void
  */
-	public function testAdd() {
+	public function testAdminView() {
 	}
 
 /**
- * testEdit method
+ * testAdminAdd method
  *
  * @return void
  */
-	public function testEdit() {
+	public function testAdminAdd() {
 	}
 
 /**
- * testDelete method
+ * testRegister method
  *
  * @return void
  */
-	public function testDelete() {
+	public function testRegister() {
+	}
+
+/**
+ * testAdminEdit method
+ *
+ * @return void
+ */
+	public function testAdminEdit() {
+	}
+
+/**
+ * testAdminDelete method
+ *
+ * @return void
+ */
+	public function testAdminDelete() {
+	}
+
+/**
+ * testDashboard method
+ *
+ * @return void
+ */
+	public function testDashboard() {
+	}
+
+/**
+ * testViewProfile method
+ *
+ * @return void
+ */
+	public function testViewProfile() {
+	}
+
+/**
+ * testEditProfile method
+ *
+ * @return void
+ */
+	public function testEditProfile() {
 	}
 
 }

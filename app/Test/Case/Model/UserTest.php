@@ -1,11 +1,11 @@
 <?php
-App::uses('Profile', 'Model');
+App::uses('User', 'Model');
 
 /**
- * Profile Test Case
+ * User Test Case
  *
  */
-class ProfileTest extends CakeTestCase {
+class UserTest extends CakeTestCase {
 
 /**
  * Fixtures
@@ -13,8 +13,8 @@ class ProfileTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.profile',
 		'app.user',
+		'app.profile',
 		'app.module',
 		'app.modules_user'
 	);
@@ -26,7 +26,7 @@ class ProfileTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
-		$this->Profile = ClassRegistry::init('Profile');
+		$this->User = ClassRegistry::init('User');
 	}
 
 /**
@@ -35,9 +35,17 @@ class ProfileTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		unset($this->Profile);
+		unset($this->User);
 
 		parent::tearDown();
+	}
+
+/**
+ * testGetUser method
+ *
+ * @return void
+ */
+	public function testGetUser() {
 	}
 
 }
