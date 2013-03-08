@@ -27,7 +27,7 @@
 	<tr>
 		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Form->postLink(__('About this module'), '/' . $module['Module']['name'] . '_module/tests/explore_module'); ?>
+			<?php echo $this->Form->postLink(__('About this module'), '/' . $module['Module']['base_url'] . '/explore_module'); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

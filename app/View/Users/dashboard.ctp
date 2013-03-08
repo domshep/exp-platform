@@ -42,61 +42,26 @@
 		<div class="news">
 			<h3><?php echo __('My Module News and Updates'); ?></h3>
 			<?php 
-				if (count($user_modules) == 0) echo "<p>You currently have no news</p>";
-				foreach ($user_modules as $module): 
-					$modulename = strtolower($module['name']);
-					$url = $modulename.'_module/'.$modulename.'s/dashboard_news';
-					$newswidget = $this->requestAction($url); 
+				if (count($user['Module']) == 0) echo "<p>You currently have no news</p>";
+				foreach ($user['Module'] as $module): 
+					$newswidget = $this->requestAction($module['base_url'].'/dashboard_news'); 
 					if ($newswidget != "") echo $newswidget;
-				endforeach; 
+				endforeach;
 			?>
 		</div>
 		<?php 
-			if (count($user_modules) == 0) echo "<p>You currently have no modules</p>"; 
-			foreach ($user_modules as $module):
-			$modulename = strtolower($module['name']);
-			$url = $modulename.'_module/'.$modulename.'s/dashboard_widget';
-			$widget = $this->requestAction($url); 
+			if (count($user['Module']) == 0) echo "<p>You currently have no modules</p>"; 
+			foreach ($user['Module'] as $module):
+				$widget = $this->requestAction($module['base_url'].'/dashboard_widget'); 
 		?>
-		<div class='module' id="<?php echo $modulename; ?>">
+		<div class='module' id="<?php echo $module['name']; ?>">
 			<h3><?php echo h($module['name']); ?>&nbsp;</h3>
 			<?php 
 				echo $widget; 
-				echo $this->Form->postLink(__('Explore module'), '/' . $modulename . '_module/'. $modulename .'s/explore_module'); 
+				echo $this->Form->postLink(__('Explore module'), '/'.$module['base_url'].'/explore_module'); 
 			?>
 		</div>
 		<?php endforeach; ?>
 	</div>
-	<div class="modules">
-		<h2><?php echo __('All available modules'); ?></h2>
-		<div class="news">
-			<h3><?php echo __('All News and Updates'); ?></h3>
-			<?php 
-				if (count($modules) == 0) echo "<p>There is not any news for modules</p>";
-				foreach ($modules as $module):
-					$modulename = strtolower($module['Module']['name']);
-					$url = $modulename.'_module/'.$modulename.'s/dashboard_news';
-					$newswidget = $this->requestAction($url); 
-					if ($newswidget != "") echo $newswidget;
-				endforeach; 
-			?>
-		</div>
-		<?php 
-			foreach ($modules as $module):
-				$modulename = strtolower($module['Module']['name']);
-				$url = $modulename.'_module/'.$modulename.'s/dashboard_widget';
-				$widget = $this->requestAction($url); 
-				?>
-				<div class='module' id="<?php echo $modulename; ?>">
-					<h3><?php echo h($module['Module']['name']); ?>&nbsp;</h3>
-					<?php 
-						echo $widget; 
-						echo $this->Form->postLink(__('Explore module'), '/' . $modulename . '_module/'. $modulename .'s/explore_module'); 
-					?>
-				</div>
-			<?php endforeach; 
-		?>
-		<p>&nbsp;</p>
-	</div>
-	</div>
+</div>
 <p style="clear:both;">&nbsp;</p>

@@ -14,7 +14,7 @@ class User extends AppModel {
 					'unique'                 => false,
 					'conditions'             => '',
 					'fields'                 => '',
-					'order'                  => '',
+					'order'                  => 'ModulesUser.position ASC',
 					'limit'                  => '',
 					'offset'                 => '',
 					'finderQuery'            => '',
