@@ -44,6 +44,23 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
   	$this->set('module_name', $this->module_name());
   }
   
+  public function screener() {
+  	$this->loadModel('TestModule.FiveadayScreener');
+  	$this->set('module_name', $this->module_name());
+  	
+  	if ($this->request->is('post')) {
+		$this->FiveadayScreener->create();
+		
+		if ($this->FiveadayScreener->save($this->request->data)) {
+			$this->Session->setFlash(__('The module has been saved'));
+					
+			$this->redirect(array('action' => 'index'));
+		} else {
+				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
+		}
+	}
+  }
+  
   public function module_dashboard() {
   	$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
   	$this->set('module_name', $this->module_name());

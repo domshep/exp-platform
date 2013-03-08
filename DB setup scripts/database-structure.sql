@@ -6,7 +6,31 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 
-DROP TABLE IF EXISTS `modules`;
+CREATE TABLE IF NOT EXISTS `fiveaday_screeners` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `veg_often` int(11) NOT NULL,
+  `veg_no` int(11) NOT NULL,
+  `salad_often` int(11) NOT NULL,
+  `salad_no` int(11) NOT NULL,
+  `whole_fruit_often` int(11) NOT NULL,
+  `whole_fruit_no` int(11) NOT NULL,
+  `medium_fruit_often` int(11) NOT NULL,
+  `medium_fruit_no` int(11) NOT NULL,
+  `small_fruit_often` int(11) NOT NULL,
+  `small_fruit_no` int(11) NOT NULL,
+  `tinned_fruit_often` int(11) NOT NULL,
+  `tinned_fruit_no` int(11) NOT NULL,
+  `dried_fruit_often` int(11) NOT NULL,
+  `dried_fruit_no` int(11) NOT NULL,
+  `fruit_juice_often` int(11) NOT NULL,
+  `fruit_juice_no` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `modules` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
@@ -19,7 +43,6 @@ CREATE TABLE IF NOT EXISTS `modules` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
-DROP TABLE IF EXISTS `modules_users`;
 CREATE TABLE IF NOT EXISTS `modules_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
@@ -30,7 +53,6 @@ CREATE TABLE IF NOT EXISTS `modules_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
-DROP TABLE IF EXISTS `profile`;
 CREATE TABLE IF NOT EXISTS `profile` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned DEFAULT NULL,
@@ -46,7 +68,6 @@ CREATE TABLE IF NOT EXISTS `profile` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
