@@ -191,8 +191,6 @@ class UsersController extends AppController {
 			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
 			$this->request->data['Profile']['id'] = $currentUser['Profile']['id'];
 			
-			debug($this->request->data);
-			
 			// Has password changed?
 			if (!empty($this->request->data['User']['new_password'])) {
 				if($this->request->data['User']['new_password'] != $this->request->data['User']['repeat_password']) {

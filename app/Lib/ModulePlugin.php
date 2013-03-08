@@ -8,5 +8,7 @@ interface ModulePlugin {
 	public function module_dashboard();
 	public function data_entry();
 	public function review_progress();
+	public function dashboard_widget();
+	public function dashboard_news();
 }
 ?>

@@ -12,16 +12,19 @@ img {
 	border-style : none;
 }
 h1 { 
-	font-size: 130%; 
+	font-size: 140%; 
 	color: #325A8A; 
 	margin: 10px 0 10px 20px; 
 	border-bottom: dotted 0px #325A8A; 
 }
 h2, h3, h4, h5, h6, h7, h8, h9, h10 { 
-	font-size: 110%; 
+	font-size: 120%; 
 	padding-top: 5px; 
 	color: #325A8A; 
 	margin-bottom:5px;  
+}
+h2{
+	font-size: 130%; 
 }
 input {
 	font-size: 1em; 
@@ -438,12 +441,16 @@ div#breadcrumb a {
 	float: left; 
 	width: 100%; 
 }
-.widget {
+.modules{
 	clear: both;
+}
+.widget, .module {
+	width: 47%;
+	margin-right: 10px;
+	float: left;
 	border:2px solid blue; 
-	padding-top:10px; 
-	padding-left:10px; 
-	padding-bottom:10px;
+	border-radius: 5px;
+	padding:5px; 
 	background-color : #9ecde5;
 }
 .allTEST {
@@ -453,7 +460,7 @@ div#breadcrumb a {
 
 .modulesgrid{
 	float: left;
-	width: 75%;
+	width: 100%;
 	display: block;
 }	
 .widgetbox{
@@ -466,6 +473,10 @@ h2.bigred{
 	color: #BF1C2D;
 }
 
+.profilelink{
+	float: right;
+	width: 25%;
+}
 .profilelink a{
 	font-size: 1.7em;
 	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
@@ -478,4 +489,54 @@ h2.bigred{
 .profilelink img{
 	float: left;
 	margin-bottom: 10px;
+}
+
+.modules{
+	width: 92%;
+}
+.news{
+	border: solid 1px #000000;
+	background-color:#993333;
+	border-radius: 10px;
+	color: #ffffff;
+	margin-bottom: 10px;
+}
+.news a{
+	color: #ffffff;
+}
+
+.modulesgrid h3{
+	border-radius: 5px;
+	background-color:#FFFFFF;
+}
+.news h3{
+	background-color: #325A8A;
+	color:#FFC709;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 3px solid #FFC709;
+}
+.news h4{
+	color:#ffffff;
+	border-bottom: 2px solid #ffffff;
+}
+.modules h2{
+	color:#325A8A;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 3px solid #325A8A;
+}
+.modulesgrid h4, .modulesgrid h3, .modulesgrid h2{
+	padding: 5px;
+}
+.news h2, .news p{
+	padding: 10px;
+}
+.news a:link{
+	text-decoration: underline;
+	text-align: right;
+}
+.news p, .news h4, .news hr{
+	margin: 10px;
+}
+.news hr{
+	border: solid 2px #ffffff;
 }

@@ -16,6 +16,16 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 		$this->set('message', "Hello from the " . $this->module_name());
 	}
 	
+	public function dashboard_widget() {
+		$this->set('message', "Hello from the " . $this->module_name());
+  		$this->set('module_name', $this->module_name());
+	}
+	
+	public function dashboard_news() {
+		$this->set('message', "News from the " . $this->module_name());
+		$this->render();
+	}
+	
   public function module_name() {
   	return 'test module';
   }

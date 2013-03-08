@@ -10,8 +10,19 @@ class DavesController extends DaveModuleAppController implements ModulePlugin {
 		$this->set('message', "Hello from the " . $this->module_name());
 	}
 	
+	public function dashboard_widget() {
+		$this->set('message', "Hello from the " . $this->module_name());
+		$this->render();
+	}
+	
+	public function dashboard_news() {
+		$this->set('message', "News from the " . $this->module_name());
+		$this->render();
+  		return '<p>this is my news</p>';
+	}
+	
   public function module_name() {
-  	return 'test module';
+  	return 'Dave&apos;s module';
   }
   
   public function module_snapshot() {
