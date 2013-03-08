@@ -50,15 +50,29 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
   	
   	if ($this->request->is('post')) {
 		$this->FiveadayScreener->create();
-		
-		if ($this->FiveadayScreener->save($this->request->data)) {
-			$this->Session->setFlash(__('The module has been saved'));
-					
-			$this->redirect(array('action' => 'index'));
+		$this->FiveadayScreener->set($this->request->data);
+		if ($this->FiveadayScreener->validates()) {
+			if(isset($this->request->data['FiveadayScreener']['score'])) {
+				$score = $this->FiveadayScreener->calculateScore();
+				$this->FiveadayScreener->save();
+				$this->redirect('module_added');
+			} else {
+				$score = $this->FiveadayScreener->calculateScore();
+				$this->set('score', $score);
+				$this->FiveadayScreener->set('score', "".$score);
+				$this->set($this->FiveadayScreener->data);
+				$this->render('score');
+			}
 		} else {
-				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
+			$this->Session->setFlash(__('Your score could not be calculated - see the error messages below. Please, try again.'));
+			$this->render('screener');
 		}
 	}
+  }
+  
+  public function module_added() {
+  	$this->set('message', "The healthy eating module has now been added to your dashboard.");
+  	$this->set('module_name', $this->module_name());
   }
   
   public function module_dashboard() {

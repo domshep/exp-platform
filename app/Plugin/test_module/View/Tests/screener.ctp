@@ -16,7 +16,7 @@
 <tr valign="top"><td class="colblue" width="251" bgcolor="#0099CC"><b><font color="#FFFFFF" face="Tahoma"><br>Vegetables</font></b><font color="#FFFFFF" face="Tahoma"> e.g. cauliflower, cabbage, peas, carrots, mushrooms, tomatoes, leeks, swede, courgettes, broccoli, runner beans </font><b><font color="#FFFFFF" face="Tahoma">Do not include potatoes</font></b><br>
 <u><font color="#FFFFFF" face="Tahoma"><br></font></u></td>
 <td class="colgreen" width="44">
-<?php echo $this->Form->input('FiveadayScreener.veg_often', array(
+<?php echo $this->Form->input('veg_often', array(
     'options' => array(0 => 'Never', 1 => '1 day', 2 => '2 days', 3 => '3 days', 4 => '4 days', 5 => '5 days', 6 => '6 days', 7 => '7 days'),
     'empty' => '(choose one)'
 ));?>
