@@ -1,6 +1,6 @@
 <h2 class="bigred"><?php  echo $module_name; ?> - Add Module</h2>
-<div class="view">
-<b><font size="4" face="Tahoma">Complete this screening tool to get some feedback on your </font></b><b><font size="4" face="Tahoma">current diet</font></b><br>
+<div>
+<h3>Complete this screening tool to get some feedback on your current diet</h3>
 <br>
 <?php echo $this->Form->create('FiveadayScreener', array(
     'inputDefaults' => array(
@@ -148,12 +148,4 @@ $options = array(
 
 echo $this->Form->end($options);
 ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('My Dashboard'), array('controller' => 'users', 'action' => 'dashboard', 'plugin' => null)); ?> </li>
-		<li><?php echo $this->Html->link(__('Explore Module'), array('action' => 'explore_module')); ?></li>
-	</ul>
 </div>
