@@ -17,7 +17,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-$cakeDescription = __d('cake_dev', 'Champions for Health');
+$cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion');
 ?>
 <!DOCTYPE html>
 <html>

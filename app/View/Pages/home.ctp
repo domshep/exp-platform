@@ -1,55 +1,21 @@
-<?php
-/**
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Pages
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
- $cakeDescription = __d('cake_dev', 'Champions for Health');
-?>
-<div class="modulesgrid">
-	<h2 class="bigred">Home</h2>
-	<p>[Insert Page Intro Here...]</p>
-	<table cellpadding="0" cellspacing="0">
+<div>
+	<h2 class="bigred">Experimental Platform for Health Promotion</h2>
+	<p>This web-tool is an under-development 'experimental platform', intended to provide a platform for the preliminary development
+	and testing of interactive health topic modules.</p>
+	<p>The initial platform has been based on the website developed for NHS Wales' <a href="http://www.championsforhealth.wales.nhs.uk">Champions for Health</a> campaign.</p>
+	<p>It is expected that further health topic modules will be developed in the future, but the ones
+	that are currently available via this test deployment are listed below.</p>
+	<hr />
+	<h3>Available health modules</h3>
+	<table>
 	<?php $modules = $this->requestAction('modules/list_all_explorable_modules'); ?>
 	<?php foreach ($modules as $module): ?>
 	<tr>
 		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Form->postLink(__('About this module'), '/' . $module['Module']['base_url'] . '/explore_module'); ?>
+			<?php echo $this->Form->postLink(__('Explore this module'), '/' . $module['Module']['base_url'] . '/explore_module'); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
-</div>
-<div class="widgetbox">
-	<p class="profilelink">
-		<?php
-			echo $this->Html->link(
-				__d('cake_dev', ' Sign Up >>'),
-				'/users/register',
-				array('class'=>'pad')
-			);
-			
-			echo $this->Html->link(
-				__d('cake_dev', ' Log In >>'),
-				'/users/login',
-				array('class'=>'pad')
-			);
-		?>
-	</p>
-	<div class="widget">
-		<p>[Insert More Info here...]</p>
-	</div>
 </div>
