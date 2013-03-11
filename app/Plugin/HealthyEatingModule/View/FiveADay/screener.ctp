@@ -1,5 +1,5 @@
-<h2 class="bigred"><?php  echo $module_name; ?> - Add Module</h2>
-<div>
+<?php $this->extend('/Modules/module_template');?>
+
 <h3>Complete this screening tool to get some feedback on your current diet</h3>
 <br>
 <?php echo $this->Form->create('FiveadayScreener', array(
@@ -148,4 +148,3 @@ $options = array(
 
 echo $this->Form->end($options);
 ?>
-</div>

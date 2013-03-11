@@ -589,3 +589,21 @@ a.button {
 a.button:hover {
 	background: #5BA150;
 }
+
+/* Module page styles */
+.module-title img.icon {
+	width:64px;
+	height:64px;
+	float:left;
+	margin-right:0.8em;
+}
+.module-title h1 {
+	font-size: 2.4em;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	color: #BF1C2D;
+	margin:10px 0 10px 0;
+}
+.module-content {
+	clear:both;
+}
+

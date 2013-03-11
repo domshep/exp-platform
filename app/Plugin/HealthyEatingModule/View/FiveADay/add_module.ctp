@@ -1,5 +1,5 @@
-<h2 class="bigred"><?php  echo $module_name; ?> - Add Module</h2>
-<div>
+<?php $this->extend('/Modules/module_template');?>
+
 <h3>Eat healthily assessment guidance</h3>
 <p>This assessment helps measure how much of your recommended 5 daily portions of different fruit and vegetables you are consuming. This acts as an indicator of a healthy diet during your challenge period.</p>
 <p>To help generate the most accurate results possible, please  can you read the guidance below and click &lsquo;Take the test&rsquo; to take the assessment. The questions in the assessment refer to the last <strong>7 days</strong>.</p>
@@ -16,4 +16,3 @@
 <img src="/test_module/img/example_form.gif" width="782" height="127"><br>
 <br>
 <?php echo $this->Html->link('Take the test >', 'screener', array('class' => 'button action', 'target' => '_self')); ?>
-</div>

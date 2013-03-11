@@ -1,5 +1,5 @@
-<h2 class="bigred"><?php echo $module_name; ?> - Add Module</h2>
-<div>
+<?php $this->extend('/Modules/module_template');?>
+
     <h3>Your score is <?php echo $score;?></h3>
     <?php if($score < 35) {?>
     <p>Were you aware that this score indicates that you have eaten less than half (40%) of your recommended 5-a-day fruit and vegetable  intake?</p>
@@ -49,4 +49,3 @@ $options = array(
 
 echo $this->Form->end($options);
 ?>
-</div>

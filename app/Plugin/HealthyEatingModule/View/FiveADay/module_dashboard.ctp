@@ -1,7 +1,6 @@
-<h2 class="bigred"><?php  echo $module_name; ?></h2>
-<div class="view">
+<?php $this->extend('/Modules/module_template');?>
+
 <h2><?php  echo $message; ?></h2>
-</div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>

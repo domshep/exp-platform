@@ -8,6 +8,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	
 	public function beforeRender() {
 		$this->set('module_name', $this->_module_name());
+		$this->set('module_icon_url', $this->_module_icon_url());
 	}
 	
 	public function dashboard_widget() {
@@ -34,6 +35,15 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 */
  	public function _module_name() {
   		return 'Healthy Eating - &lsquo;5-a-day&rsquo;';
+  	}
+  	
+  	/**
+  	 * Returns the path to the icon for this module.
+  	 * 
+  	 * @return string
+  	 */
+  	public function _module_icon_url() {
+  		return '/healthy_eating_module/img/five_a_day/icon.png';
   	}
 
   	/**
