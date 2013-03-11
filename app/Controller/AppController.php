@@ -71,6 +71,11 @@ class AppController extends Controller {
 								'permissions' => array('user','admin','super-admin'),
 						),
 						array(
+								'title' => 'Admin panel',
+								'url' => '/admin/users',
+                    			'permissions' => array('admin','super-admin'),
+						),
+						array(
 								'title' => 'Log out',
 								'url' => '/users/logout',
                     			'permissions' => array('user','admin','super-admin'),
