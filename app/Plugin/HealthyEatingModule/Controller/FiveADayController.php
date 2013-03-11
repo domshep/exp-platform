@@ -1,5 +1,5 @@
 <?php
-class TestsController extends TestModuleAppController implements ModulePlugin {
+class FiveADayController extends HealthyEatingModuleAppController implements ModulePlugin {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -33,7 +33,7 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 	 * @return string
 	 */
  	public function _module_name() {
-  		return 'Test module';
+  		return 'Healthy Eating - &lsquo;5-a-day&rsquo;';
   	}
 
   	/**

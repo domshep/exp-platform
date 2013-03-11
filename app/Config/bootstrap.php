@@ -73,8 +73,9 @@ Cache::config('default', array('engine' => 'File'));
  */
 CakePlugin::load('MenuBuilder');
 CakePlugin::load('DebugKit');
-CakePlugin::load('TestModule'); //Loads a single plugin
-CakePlugin::load('DaveModule'); //Loads another plugin
+CakePlugin::load('TestModule');
+CakePlugin::load('DaveModule');
+CakePlugin::Load('HealthyEatingModule');
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:

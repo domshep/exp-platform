@@ -1,11 +1,10 @@
 <?php
 class DavesController extends DaveModuleAppController implements ModulePlugin {
-/**
- * test_view method
- *
- * @throws NotFoundException
- * @return void
- */
+	
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('explore_module'); // Let anyone explore the module, whether they're logged in or not.
+	}
 
 	public function beforeRender() {
 		$this->set('module_name', $this->_module_name());

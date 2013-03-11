@@ -55,7 +55,7 @@
 				$widget = $this->requestAction($module['base_url'].'/dashboard_widget'); 
 		?>
 		<div class='module' id="<?php echo $module['name']; ?>">
-			<h3><?php echo h($module['name']); ?>&nbsp;</h3>
+			<h3><?php echo $module['name']; ?>&nbsp;</h3>
 			<?php 
 				echo $widget; 
 				echo $this->Form->postLink(__('Explore module'), '/'.$module['base_url'].'/explore_module'); 

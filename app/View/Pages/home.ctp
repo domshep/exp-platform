@@ -11,7 +11,7 @@
 	<?php $modules = $this->requestAction('modules/list_all_explorable_modules'); ?>
 	<?php foreach ($modules as $module): ?>
 	<tr>
-		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
+		<td><?php echo $module['Module']['name']; ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Form->postLink(__('Explore this module'), '/' . $module['Module']['base_url'] . '/explore_module'); ?>
 		</td>
