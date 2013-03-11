@@ -8,6 +8,7 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 	
 	public function beforeRender() {
 		$this->set('module_name', $this->_module_name());
+		$this->set('module_icon_url', $this->_module_icon_url());
 	}
 	
 	public function dashboard_widget() {
@@ -37,6 +38,15 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
   	}
 
   	/**
+  	 * Returns the path to the icon for this module.
+  	 *
+  	 * @return string
+  	 */
+  	public function _module_icon_url() {
+  		return '/test_module/img/icon.png';
+  	}
+  	
+  	/**
   	 * Initial landing screen for finding out what the module is about. This is the first
   	 * page that a non-logged in user will see when they arrive in the module.
   	 */
@@ -65,24 +75,24 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 	 * yet decided how best to do that...
 	 */
 	public function screener() {
-  		$this->loadModel('TestModule.FiveadayScreener');
+  		$this->loadModel('TestModule.TestScreener');
 	  	
 	  	if ($this->request->is('post')) {
-			$this->FiveadayScreener->create();
-			$this->FiveadayScreener->set($this->request->data);
-			if ($this->FiveadayScreener->validates()) {
-				if(isset($this->request->data['FiveadayScreener']['score'])) {
+			$this->TestScreener->create();
+			$this->TestScreener->set($this->request->data);
+			if ($this->TestScreener->validates()) {
+				if(isset($this->request->data['TestScreener']['score'])) {
 					// Score has been submitted, so the user has clicked to 'add module to dashboard'
-					$score = $this->FiveadayScreener->calculateScore();
-					$this->FiveadayScreener->save();
+					$score = $this->TestScreener->calculateScore();
+					$this->TestScreener->save();
 					$this->redirect('module_added');
 				} else {
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
-					$score = $this->FiveadayScreener->calculateScore();
+					$score = $this->TestScreener->calculateScore();
 					$this->set('score', $score);
-					$this->FiveadayScreener->set('score', "".$score);
-					$this->set($this->FiveadayScreener->data);
+					$this->TestScreener->set('score', "".$score);
+					$this->set($this->TestScreener->data);
 					$this->render('score');
 				}
 			} else {

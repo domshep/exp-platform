@@ -34,7 +34,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 * @return string
 	 */
  	public function _module_name() {
-  		return 'Healthy Eating - &lsquo;5-a-day&rsquo;';
+  		return 'Healthy Eating &ndash; &lsquo;5-a-day&rsquo;';
   	}
   	
   	/**
