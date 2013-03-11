@@ -7,14 +7,20 @@
 	that are currently available via this test deployment are listed below.</p>
 	<hr />
 	<h3>Available health modules</h3>
-	<table>
+	<table class="module-list">
 	<?php $modules = $this->requestAction('modules/list_all_explorable_modules'); ?>
 	<?php foreach ($modules as $module): ?>
 	<tr>
-		<td><?php echo $module['Module']['name']; ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Form->postLink(__('Explore this module'), '/' . $module['Module']['base_url'] . '/explore_module'); ?>
+		<td style="width:15em;height:40px;vertical-align:middle;">
+			<?php
+			echo $this->Html->link(__('Explore this module'), '/' . $module['Module']['base_url'] . '/explore_module', array('class' => 'button action', 'target' => '_self'));			
+			?>
 		</td>
+		<td style="height:40px;vertical-align:middle;">
+		<?php
+		echo $this->Html->image('/'.$module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+		echo $module['Module']['name'];
+		?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>

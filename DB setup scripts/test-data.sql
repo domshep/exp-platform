@@ -7,10 +7,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 
-INSERT INTO `modules` (`id`, `name`, `version`, `type`, `parent_id`, `base_url`, `created`, `modified`) VALUES
-(1, 'Healthy Eating - &lsquo;5-a-day&rsquo;', 1, 'daily', 0, 'healthy_eating_module/five_a_day', '2013-03-11 00:00:00', '2013-03-11 00:00:00'),
-(2, 'Dave&apos;s module', 1, 'daily', 0, 'dave_module/daves', '2013-03-08 10:01:31', '2013-03-08 10:01:34'),
-(3, 'Test module', 1, 'weekly', 0, 'test_module/tests', '2013-02-22 23:38:26', '2013-02-22 23:38:26');
+INSERT INTO `modules` (`id`, `name`, `version`, `type`, `parent_id`, `base_url`, `icon_url`, `created`, `modified`) VALUES
+(1, 'Healthy Eating &ndash; &lsquo;5-a-day&rsquo;', 1, 'daily', 0, 'healthy_eating_module/five_a_day', 'healthy_eating_module/img/five_a_day/icon.png', '2013-03-11 00:00:00', '2013-03-11 00:00:00'),
+(2, 'Dave&apos;s module', 1, 'daily', 0, 'dave_module/daves', 'dave_module/img/icon.png', '2013-03-08 10:01:31', '2013-03-08 10:01:34'),
+(3, 'Test module', 1, 'weekly', 0, 'test_module/tests', 'test_module/img/icon.png', '2013-02-22 23:38:26', '2013-02-22 23:38:26');
 
 INSERT INTO `modules_users` (`id`, `user_id`, `module_id`, `position`, `created`, `modified`) VALUES
 (1, 1, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),

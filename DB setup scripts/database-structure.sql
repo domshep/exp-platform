@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `type` varchar(20) NOT NULL,
   `parent_id` int(10) unsigned NOT NULL,
   `base_url` varchar(75) NOT NULL,
+  `icon_url` varchar(100) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

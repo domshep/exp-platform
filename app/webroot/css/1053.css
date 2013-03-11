@@ -49,6 +49,22 @@ a:visited {
 	color: #2c5d97;
 }
 
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
+
+img.left {
+	margin:0 1em 1em 0;
+}
+
+img.right {
+	margin:0 0 1em 1em;
+}
+
 /* Common */
 #wrapper, #page, #banner {
 	background-color: #ffffff; 
@@ -257,6 +273,9 @@ div#breadcrumb a {
 #content {
 	padding-top: 5px;  
 	padding-right: 20px;
+}
+#content ul {
+	margin:1em 0 1em 2em;
 }
 
 .small { 
@@ -591,11 +610,13 @@ a.button:hover {
 }
 
 /* Module page styles */
-.module-title img.icon {
+img.icon {
 	width:64px;
 	height:64px;
-	float:left;
-	margin-right:0.8em;
+}
+img.small-icon {
+	width:32px;
+	height:32px;
 }
 .module-title h1 {
 	font-size: 2.4em;
@@ -603,7 +624,14 @@ a.button:hover {
 	color: #BF1C2D;
 	margin:10px 0 10px 0;
 }
+.module-title img.icon {
+	float:left;
+	margin-right:0.8em;
+}
 .module-content {
 	clear:both;
+}
+.module-list img.small-icon {
+	margin-right:1em;
 }
 
