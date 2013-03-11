@@ -32,12 +32,12 @@ CREATE TABLE IF NOT EXISTS `fiveaday_screeners` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `modules`;
 CREATE TABLE IF NOT EXISTS `modules` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `version` decimal(10,0) unsigned NOT NULL,
   `type` varchar(20) NOT NULL,
   `parent_id` int(10) unsigned NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 DROP TABLE IF EXISTS `modules_users`;
 CREATE TABLE IF NOT EXISTS `modules_users` (
