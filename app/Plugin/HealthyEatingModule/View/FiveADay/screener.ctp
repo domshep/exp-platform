@@ -2,7 +2,7 @@
 
 <h3>Complete this screening tool to get some feedback on your current diet</h3>
 <br>
-<?php echo $this->Form->create('FiveadayScreener', array(
+<?php echo $this->Form->create('FiveADayScreener', array(
     'inputDefaults' => array(
         'label' => false
     )))?>

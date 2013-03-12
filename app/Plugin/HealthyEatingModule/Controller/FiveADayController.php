@@ -75,24 +75,24 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 * yet decided how best to do that...
 	 */
 	public function screener() {
-  		$this->loadModel('TestModule.FiveadayScreener');
+  		$this->loadModel('HealthyEatingModule.FiveADayScreener');
 	  	
 	  	if ($this->request->is('post')) {
-			$this->FiveadayScreener->create();
-			$this->FiveadayScreener->set($this->request->data);
-			if ($this->FiveadayScreener->validates()) {
-				if(isset($this->request->data['FiveadayScreener']['score'])) {
+			$this->FiveADayScreener->create();
+			$this->FiveADayScreener->set($this->request->data);
+			if ($this->FiveADayScreener->validates()) {
+				if(isset($this->request->data['FiveADayScreener']['score'])) {
 					// Score has been submitted, so the user has clicked to 'add module to dashboard'
-					$score = $this->FiveadayScreener->calculateScore();
-					$this->FiveadayScreener->save();
+					$score = $this->FiveADayScreener->calculateScore();
+					$this->FiveADayScreener->save();
 					$this->redirect('module_added');
 				} else {
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
-					$score = $this->FiveadayScreener->calculateScore();
+					$score = $this->FiveADayScreener->calculateScore();
 					$this->set('score', $score);
-					$this->FiveadayScreener->set('score', "".$score);
-					$this->set($this->FiveadayScreener->data);
+					$this->FiveADayScreener->set('score', "".$score);
+					$this->set($this->FiveADayScreener->data);
 					$this->render('score');
 				}
 			} else {

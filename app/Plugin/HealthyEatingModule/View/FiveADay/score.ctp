@@ -18,7 +18,7 @@
     <p><a href="http://www.nhs.uk/Livewell/Goodfood/Pages/Healthyeating.aspx ">Click here for more information on what makes a balanced diet</a></p>
     
 
-    <?php echo $this->Form->create('FiveadayScreener', array(
+    <?php echo $this->Form->create('FiveADayScreener', array(
     'inputDefaults' => array(
         'label' => false
     )));
@@ -39,7 +39,7 @@
     echo $this->Form->hidden('dried_fruit_no');
     echo $this->Form->hidden('fruit_juice_often');
     echo $this->Form->hidden('fruit_juice_no');
-    echo $this->Form->hidden('FiveadayScreener.score', array('value'=>$score));
+    echo $this->Form->hidden('FiveADayScreener.score', array('value'=>$score));
     
     
     

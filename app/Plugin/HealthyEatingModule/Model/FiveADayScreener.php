@@ -133,14 +133,14 @@ class FiveADayScreener extends AppModel {
 	);
 	
 	public function calculateScore() {
-		$score = ($this->data['FiveadayScreener']['veg_often'] * $this->data['FiveadayScreener']['veg_no'])
-				+ ($this->data['FiveadayScreener']['salad_often'] * $this->data['FiveadayScreener']['salad_no'])
-				+ ($this->data['FiveadayScreener']['whole_fruit_often'] * $this->data['FiveadayScreener']['whole_fruit_no'])
-				+ ($this->data['FiveadayScreener']['medium_fruit_often'] * $this->data['FiveadayScreener']['medium_fruit_no'])
-				+ ($this->data['FiveadayScreener']['small_fruit_often'] * $this->data['FiveadayScreener']['small_fruit_no'])
-				+ ($this->data['FiveadayScreener']['tinned_fruit_often'] * $this->data['FiveadayScreener']['tinned_fruit_no'])
-				+ ($this->data['FiveadayScreener']['dried_fruit_often'] * $this->data['FiveadayScreener']['dried_fruit_no'])
-				+ ($this->data['FiveadayScreener']['fruit_juice_often'] * $this->data['FiveadayScreener']['fruit_juice_no']);
+		$score = ($this->data['FiveADayScreener']['veg_often'] * $this->data['FiveADayScreener']['veg_no'])
+				+ ($this->data['FiveADayScreener']['salad_often'] * $this->data['FiveADayScreener']['salad_no'])
+				+ ($this->data['FiveADayScreener']['whole_fruit_often'] * $this->data['FiveADayScreener']['whole_fruit_no'])
+				+ ($this->data['FiveADayScreener']['medium_fruit_often'] * $this->data['FiveADayScreener']['medium_fruit_no'])
+				+ ($this->data['FiveADayScreener']['small_fruit_often'] * $this->data['FiveADayScreener']['small_fruit_no'])
+				+ ($this->data['FiveADayScreener']['tinned_fruit_often'] * $this->data['FiveADayScreener']['tinned_fruit_no'])
+				+ ($this->data['FiveADayScreener']['dried_fruit_often'] * $this->data['FiveADayScreener']['dried_fruit_no'])
+				+ ($this->data['FiveADayScreener']['fruit_juice_often'] * $this->data['FiveADayScreener']['fruit_juice_no']);
 
 		return $score;
 	}
