@@ -17,6 +17,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 			throw new ForbiddenException();
 		}
 		$this->set('message', "Hello from the " . $this->_module_name());
+		$this->render();
 	}
 	
 	public function dashboard_news() {
@@ -121,7 +122,20 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	}
   
  	public function data_entry() {
+		//var $helpers = array('Session');
   		$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+		if ($this->request->is('post')) {
+			$this->FiveADayWeekly->create();
+			$this->FiveADayWeekly->set($this->request->data);
+			if ($this->FiveADayWeekly->validates()) {
+				$this->FiveADayWeekly->save();
+			} else {
+				// Validation failed
+				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
+				$this->render();
+			}
+		}
   	}
   
   	public function review_progress() {

@@ -55,11 +55,16 @@
 				$widget = $this->requestAction($module['base_url'].'/dashboard_widget'); 
 		?>
 		<div class='module' id="<?php echo $module['name']; ?>">
-			<h3><?php echo $module['name']; ?>&nbsp;</h3>
-			<?php 
+			<h3><?php echo $this->Html->image('/'.$module['icon_url'], array('alt' => "&lsquo;".$module['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+			?> <strong><?php echo $module['name']; ?></strong>&nbsp;</h3>
+			<p><?php 
+				$remove = '/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/i';
+				$modname = preg_replace($remove, '', $module['name']);
 				echo $widget; 
-				echo $this->Form->postLink(__('Explore module'), '/'.$module['base_url'].'/explore_module'); 
-			?>
+				echo $this->Form->postLink(__('About \'' . $modname . '\'?'), '/'.$module['base_url'].'/explore_module',array('class' => 'button action', 'target' => '_self')); 
+				echo "<br/>";
+				echo $this->Form->postLink(__('My \'' . $modname . '\' Progress'), '/'.$module['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self')); 
+			?></p>
 		</div>
 		<?php endforeach; ?>
 	</div>

@@ -466,6 +466,7 @@ div#breadcrumb a {
 .widget, .module {
 	width: 47%;
 	margin-right: 10px;
+	margin-bottom: 10px;
 	float: left;
 	border:2px solid blue; 
 	border-radius: 5px;
@@ -541,7 +542,7 @@ h2.bigred{
 .modules h2{
 	color:#325A8A;
 	border-radius: 5px 5px 0 0;
-	border-bottom: 3px solid #325A8A;
+	font-weight: bold;
 }
 .modulesgrid h4, .modulesgrid h3, .modulesgrid h2{
 	padding: 5px;
@@ -593,6 +594,9 @@ a.button:hover {
 a.button {
 	display: inline;
 	font-size: 110%;
+	clear: both;
+	float: left;
+	margin-bottom: 10px;
 	width: auto;
 }
 a.button {
@@ -635,3 +639,70 @@ img.small-icon {
 	margin-right:1em;
 }
 
+/* Quiz Table -- Registrations */
+.quiztable{
+	border: solid 1px #cccccc;
+	padding: 0px;
+}
+.quiztable tr{
+	padding:0px;
+}
+.quiztable tr, .quiztable td{
+	vertical-align: top;
+	margin:0px;
+}
+.quiztable .colblue{
+	background-color:#0099CC;
+	color: #ffffff;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.quiztable .colgreen, .quiztable .colblue, .quiztable .colpeach{
+	font-family: Tahoma, Arial, sans-serif;
+}	
+.quiztable th, .quiztable .col4{
+	text-align: center;
+}
+.quiztable .col1{
+	width:  251px;
+}
+.quiztable .col2{
+	width: 355px;
+}
+.quiztable .col3{
+	width: 298px;
+}
+.quiztable .col4{
+	width:76px;
+}
+
+/* calendar */
+.calendar caption{
+	background-color: #FFFFFF;
+}
+.calendar th{
+	background-color: #FFFFFF;
+}
+.calendar tr:nth-child(2n+1) {
+    background: none repeat scroll 0 0 #F2F2F2;
+}
+.calendar{
+	border: solid 1px #000000;
+}
+.calendar .red, .calendar .red a:link{
+	background-color:#FF0000;
+	color:#FFFFFF;
+}
+
+/* Five a Day Form */
+#fiveadayweekly{
+	width: 630px;
+	float: left;
+}
+#fiveadayweekly th{
+	width: 90px;
+}
+#fiveadayweekly input[type=text]{
+	width: 20px;
+	padding: 10px;
+}
