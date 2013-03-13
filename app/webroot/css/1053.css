@@ -33,6 +33,7 @@ a {
 	text-decoration: none; 
 	color: #CF1E11; 
 	outline: 0;
+	font-weight: normal;
 }
 a:hover {
 	text-decoration: underline; 
@@ -47,6 +48,9 @@ a:hover {
 }
 a:visited {
 	color: #2c5d97;
+}
+ul, li {
+	margin:0;
 }
 
 .left {
@@ -63,6 +67,9 @@ img.left {
 
 img.right {
 	margin:0 0 1em 1em;
+}
+#content {
+	overflow:hidden;
 }
 
 /* Common */
@@ -240,6 +247,7 @@ div#breadcrumb a {
 	border-top: 15px solid #fff; 
 	background: #325A8A; 
 	color:#FFFFFF;
+	padding:0px;
 }
 #footer a, #footer a:hover {
 	color: #ffffff; 

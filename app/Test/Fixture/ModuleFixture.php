@@ -6,23 +6,11 @@
 class ModuleFixture extends CakeTestFixture {
 
 /**
- * Fields
+ * Import
  *
  * @var array
  */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'version' => array('type' => 'float', 'null' => false, 'default' => null, 'length' => 10),
-		'type' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'parent_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
-	);
+	public $import = array('model' => 'Module');
 
 /**
  * Records
@@ -31,13 +19,37 @@ class ModuleFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'name' => 'Lorem ipsum dolor ',
-			'version' => 1,
-			'type' => 'Lorem ipsum dolor ',
-			'parent_id' => 1,
-			'created' => '2013-02-22 23:36:45',
-			'modified' => '2013-02-22 23:36:45'
+			'id' => '1',
+			'name' => 'Healthy Eating &ndash; &lsquo;5-a-day&rsquo;',
+			'version' => '1',
+			'type' => 'daily',
+			'parent_id' => '0',
+			'base_url' => 'healthy_eating_module/five_a_day',
+			'icon_url' => 'healthy_eating_module/img/five_a_day/icon.png',
+			'created' => '2013-03-11 00:00:00',
+			'modified' => '2013-03-11 00:00:00'
+		),
+		array(
+			'id' => '2',
+			'name' => 'Dave&apos;s module',
+			'version' => '1',
+			'type' => 'daily',
+			'parent_id' => '0',
+			'base_url' => 'dave_module/daves',
+			'icon_url' => 'dave_module/img/icon.png',
+			'created' => '2013-03-08 10:01:31',
+			'modified' => '2013-03-08 10:01:34'
+		),
+		array(
+			'id' => '3',
+			'name' => 'Test module',
+			'version' => '1',
+			'type' => 'weekly',
+			'parent_id' => '0',
+			'base_url' => 'test_module/tests',
+			'icon_url' => 'test_module/img/icon.png',
+			'created' => '2013-02-22 23:38:26',
+			'modified' => '2013-02-22 23:38:26'
 		),
 	);
 

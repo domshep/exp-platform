@@ -13,25 +13,11 @@ class ProfileFixture extends CakeTestFixture {
 	public $table = 'profile';
 
 /**
- * Fields
+ * Import
  *
  * @var array
  */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 10, 'key' => 'primary'),
-		'user_id' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 10),
-		'name' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'gender' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 1, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'height_cm' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 10),
-		'post_code' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'mobile_no' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'indexes' => array(
-			'PRIMARY' => array('column' => 'id', 'unique' => 1)
-		),
-		'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'InnoDB')
-	);
+	public $import = array('model' => 'Profile');
 
 /**
  * Records
@@ -40,15 +26,28 @@ class ProfileFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'user_id' => 1,
-			'name' => 'Lorem ipsum dolor sit amet',
-			'gender' => 'Lorem ipsum dolor sit ame',
-			'height_cm' => 1,
-			'post_code' => 'Lorem ipsum dolor ',
-			'mobile_no' => 'Lorem ipsum dolor ',
-			'created' => '2013-02-22 19:33:40',
-			'modified' => '2013-02-22 19:33:40'
+			'id' => '1',
+			'user_id' => '1',
+			'name' => 'Andy',
+			'gender' => 'M',
+			'date_of_birth' => '1974-03-01',
+			'height_cm' => '170',
+			'post_code' => 'CF14 9XX',
+			'mobile_no' => '0747999999',
+			'created' => '2013-03-02 09:45:04',
+			'modified' => '2013-03-07 15:26:41'
+		),
+		array(
+			'id' => '2',
+			'user_id' => '2',
+			'name' => 'Dave Burton',
+			'gender' => 'M',
+			'date_of_birth' => '1980-03-08',
+			'height_cm' => '170',
+			'post_code' => 'CF14 9XX',
+			'mobile_no' => null,
+			'created' => '2013-03-08 11:26:53',
+			'modified' => '2013-03-08 11:26:55'
 		),
 	);
 
