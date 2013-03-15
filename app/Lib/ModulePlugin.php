@@ -34,10 +34,22 @@ interface ModulePlugin {
 	public function data_entry();
 	
 	/**
+	 * If you need the user to be able to edit this data it can be done here.
+	 */
+	public function edit_data();
+	
+	
+	/**
 	 * Initial landing screen for the review area for the module. Should provide options for
 	 * reviewing achievements.
 	 */
 	public function review_progress();
+	
+	/**
+	 * Displays the view block that will appear in the module dashboard 'achievements' widget
+	 * reviewing achievements. This will be unique to the user.
+	 */
+	public function dashboard_achievements();
 	
 	/**
 	 * Displays the view block that will appear in the module dashboard widget for those

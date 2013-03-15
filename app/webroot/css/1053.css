@@ -472,14 +472,20 @@ div#breadcrumb a {
 	clear: both;
 }
 .widget, .module {
-	width: 47%;
+	width: 47.2%;
 	margin-right: 10px;
 	margin-bottom: 10px;
 	float: left;
-	border:2px solid blue; 
+	box-shadow: 3px 3px 3px #eeeeee; 
 	border-radius: 5px;
-	padding:5px; 
+	padding:10px; 
 	background-color : #9ecde5;
+}
+.module:nth-child(even){
+	margin-right:0px;
+}
+.module:nth-child(odd){
+	clear: left;
 }
 .allTEST {
 	left: 40px; 
@@ -520,14 +526,21 @@ h2.bigred{
 }
 
 .modules{
-	width: 92%;
+	width: 100%;
 }
 .news{
-	border: solid 1px #000000;
-	background-color:#993333;
+	background-color: #993333;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#993333), to(#C5385B));
+	background-image: -webkit-linear-gradient(left top, #993333, #C5385B);
+	background-image: -moz-linear-gradient(left top, #993333, #C5385B);
+	background-image: -ms-linear-gradient(left top, #993333, #C5385B);
+	background-image: -o-linear-gradient(left top, #993333, #C5385B);
+	background-image: linear-gradient(left top, #993333, #C5385B);
 	border-radius: 10px;
+	box-shadow: 3px 3px 3px #eeeeee; 
 	color: #ffffff;
 	margin-bottom: 10px;
+	padding-bottom: 5px;
 }
 .news a{
 	color: #ffffff;
@@ -537,33 +550,57 @@ h2.bigred{
 	border-radius: 5px;
 	background-color:#FFFFFF;
 }
-.news h3{
+.modulesgrid .news h3{
+	font-weight: bold;
+	font-size: 140%;
 	background-color: #325A8A;
-	color:#FFC709;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#325A8A), to(#9ECDE5));
+	background-image: -webkit-linear-gradient(left top, #325A8A, #9ECDE5);
+	background-image: -moz-linear-gradient(left top, #325A8A, #9ECDE5);
+	background-image: -ms-linear-gradient(left top, #325A8A, #9ECDE5);
+	background-image: -o-linear-gradient(left top, #325A8A, #9ECDE5);
+	background-image: linear-gradient(left top, #325A8A, #9ECDE5);
+	color:#FFFFFF;
 	border-radius: 5px 5px 0 0;
 	border-bottom: 3px solid #FFC709;
 }
-.news h4{
+.modulesgrid .news h4{
 	color:#ffffff;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
 	border-bottom: 2px solid #ffffff;
+	font-weight: bold;
 }
 .modules h2{
 	color:#325A8A;
 	border-radius: 5px 5px 0 0;
 	font-weight: bold;
 }
-.modulesgrid h4, .modulesgrid h3, .modulesgrid h2{
-	padding: 5px;
-}
-.news h2, .news p{
+.modulesgrid h3, .modulesgrid h2{
 	padding: 10px;
+}
+#content .news h2{
+	padding: 10px;
+}
+
+#content .news p{
+}
+.modulesgrid .intro{
+	margin-left: 10px;
+	margin-right: 10px;
 }
 .news a:link{
 	text-decoration: underline;
 	text-align: right;
 }
-.news p, .news h4, .news hr{
-	margin: 10px;
+.news h4 a:link{
+	text-decoration: none;
+}
+.news p, .news hr{
+	margin-left: 10px;
+	margin-right: 10px;
 }
 .news hr{
 	border: solid 2px #ffffff;
@@ -645,6 +682,15 @@ img.small-icon {
 }
 .module-list img.small-icon {
 	margin-right:1em;
+}
+
+/* Achievements */
+.achievements{
+	margin-bottom: 5px;
+}
+.achievements h4{
+	color:#333333;
+	border-bottom: 2px solid #333333;
 }
 
 /* Quiz Table -- Registrations */

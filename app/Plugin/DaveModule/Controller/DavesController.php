@@ -8,6 +8,7 @@ class DavesController extends DaveModuleAppController implements ModulePlugin {
 
 	public function beforeRender() {
 		$this->set('module_name', $this->_module_name());
+		$this->set('module_icon_url', $this->_module_icon_url());
 	}
 	
 	public function dashboard_widget() {
@@ -23,6 +24,16 @@ class DavesController extends DaveModuleAppController implements ModulePlugin {
 		$this->set('message', "News from the " . $this->_module_name());
 		$this->render();
   		return '<p>this is my news</p>';
+	}
+	
+	
+	public function dashboard_achievements() {
+		// Don't allow this method to be called directly from a URL
+		if (empty($this->request->params['requested'])) {
+			throw new ForbiddenException();
+		}
+		$this->set('message', "Achievements from the " . $this->_module_name());
+		$this->render();
 	}
 	
   public function _module_name() {
@@ -45,8 +56,16 @@ class DavesController extends DaveModuleAppController implements ModulePlugin {
   	$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
   }
   
+  public function edit_data() {
+  	$this->set('message', "This is the edit data page, allowing a user to edit a previously entered piece of data");
+  }
+  
   public function review_progress() {
   	return "This page will allow the logged-in user to review their progress against the module";
+  }
+  
+  public function _module_icon_url() {
+  	return '/DaveModule/img/icon.png';
   }
 }
 ?>

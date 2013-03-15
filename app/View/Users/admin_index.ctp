@@ -45,5 +45,6 @@
 		<li><?php echo $this->Html->link(__('Register'), '/users/register'); ?></li>
 		<li><?php echo $this->Html->link(__('User Profiles'), '/admin/profiles/index'); ?></li>
 		<li><?php echo $this->Html->link(__('List Modules'), '/admin/modules/index'); ?></li>
+		<li><?php echo $this->Html->link(__('News Admin'), '/admin/news/'); ?></li>
 	</ul>
 </div>

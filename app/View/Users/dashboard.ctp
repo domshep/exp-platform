@@ -36,10 +36,18 @@
 		?>
 	</p>
 	<h2 class="bigred">My Challenge Dashboard</h2>
-	<p>Intro text</p>
+	<p class="intro">Intro text</p>
+	<div class="news">
+		<h3><?php echo __('The Latest News and Updates'); ?></h3>
+		<?php  
+			$mainnewswidget = $this->requestAction('/news/news_widget/limit:3'); 
+			if ($mainnewswidget != "") echo $mainnewswidget;
+			else echo "<p>Sorry, no news was found</p>";
+		?>
+	</div>
+	<h2><?php echo __('My modules'); ?></h2>
 	<div class="modules">
-		<h2><?php echo __('My modules'); ?></h2>
-		<div class="news">
+		<!--<div class="news">
 			<h3><?php echo __('My Module News and Updates'); ?></h3>
 			<?php 
 				if (count($user['Module']) == 0) echo "<p>You currently have no news</p>";
@@ -48,7 +56,7 @@
 					if ($newswidget != "") echo $newswidget;
 				endforeach;
 			?>
-		</div>
+		</div>-->
 		<?php 
 			if (count($user['Module']) == 0) echo "<p>You currently have no modules</p>"; 
 			foreach ($user['Module'] as $module):

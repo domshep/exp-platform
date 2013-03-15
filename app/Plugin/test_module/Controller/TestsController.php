@@ -119,7 +119,20 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 	public function module_dashboard() {
   		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
   	}
+  	
+  	public function dashboard_achievements() {
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		$this->set('message', "Achievements from the " . $this->_module_name());
+  		$this->render();
+  	}
   
+  	public function edit_data() {
+  		$this->set('message', "This is the edit data page, allowing a user to edit a previously entered piece of data");
+  	}
+  	
  	public function data_entry() {
   		$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
   	}

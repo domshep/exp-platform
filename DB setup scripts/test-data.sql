@@ -19,6 +19,9 @@ INSERT INTO `modules_users` (`id`, `user_id`, `module_id`, `position`, `created`
 (4, 1, 2, 2, '2013-03-08 10:54:04', '2013-03-08 10:54:07'),
 (5, 2, 2, 2, '2013-03-08 11:25:35', '2013-03-08 11:25:37');
 
+INSERT INTO `news` (`id`, `headline`, `article`, `created`, `modified`) VALUES
+(1, 'my news article edited', 0x7465737420656469746564, '2013-03-14 18:37:06', '2013-03-15 09:14:36');
+
 INSERT INTO `profile` (`id`, `user_id`, `name`, `gender`, `date_of_birth`, `height_cm`, `post_code`, `mobile_no`, `created`, `modified`) VALUES
 (1, 1, 'Andy', 'M', '1974-03-01', 170, 'CF14 9XX', '0747999999', '2013-03-02 09:45:04', '2013-03-07 15:26:41'),
 (2, 2, 'Dave Burton', 'M', '1980-03-08', 170, 'CF14 9XX', NULL, '2013-03-08 11:26:53', '2013-03-08 11:26:55');

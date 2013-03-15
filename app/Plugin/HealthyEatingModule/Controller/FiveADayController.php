@@ -1,6 +1,6 @@
 <?php
 class FiveADayController extends HealthyEatingModuleAppController implements ModulePlugin {
-
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('explore_module'); // Let anyone explore the module, whether they're logged in or not.
@@ -26,6 +26,15 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 			throw new ForbiddenException();
 		}
 		$this->set('message', "News from the " . $this->_module_name());
+		$this->render();
+	}
+	
+	public function dashboard_achievements() {
+		// Don't allow this method to be called directly from a URL
+		if (empty($this->request->params['requested'])) {
+			throw new ForbiddenException();
+		}
+		$this->set('message', "Achievements from the " . $this->_module_name());
 		$this->render();
 	}
 
@@ -122,7 +131,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	}
   
  	public function data_entry() {
-		//var $helpers = array('Session');
+		$this->set('userID', $this->Auth->user('id'));
+		
   		$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
 		if ($this->request->is('post')) {
@@ -136,6 +146,37 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 				$this->render();
 			}
 		}
+  	}
+	
+	public function edit_data($id=null) {
+		// Load the User ID
+		$this->set('userID', $this->Auth->user('id'));
+		// Set the welcome message
+  		$this->set('message', "This is where you edit the data you have entered. In some modules you may wish to limit this. Data will only be editable for this module for a set period of time.");
+		// Load the FiveADay Weekly Model
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+		// If the ID exists
+		if (!$this->FiveADayWeekly->exists($id)) {
+			throw new NotFoundException(__('Invalid record'));
+		}
+		// If the page has been posted.
+		if ($this->request->is('post')) {
+			$this->FiveADayWeekly->create();
+			$this->FiveADayWeekly->set($this->request->data);
+			if ($this->FiveADayWeekly->validates()) {
+				$this->FiveADayWeekly->save();
+			} else {
+				// Validation failed
+				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
+				$this->render();
+			}
+		}
+		else // if not...
+		{
+			//$options = array('conditions' => array('HealthyEatingModule.FiveADayWeekly.id' => $id));
+			//$this->request->data = $this->FiveADayWeekly->id = $id;//'first', $options);
+    		$this->set('FiveADayWeekly', $this->FiveADayWeekly->id = $id);
+		}	
   	}
   
   	public function review_progress() {

@@ -1,17 +1,10 @@
 <?php $this->extend('/Modules/module_template'); ?>
 <h2><?php echo $message; ?></h2>
-<div class="users form">
-	<h3><?php 
-		$dayoftheweek = gmdate('w')-1;
-		if ($dayoftheweek == -1) $dayoftheweek = 6; // our week starts on Monday.
-		$weekstartdate = gmmktime(0,0,0,gmdate("m"),gmdate("d")-$dayoftheweek,gmdate("Y"));
-		
-		echo __('Week 1: Week Commencing ') . gmdate("d/m/Y",$weekstartdate); ?></h3>
+<div class="fiveaday form">
+	<h3><?php echo __('Week 1: Week Commencing '); ?></h3>
 	<p><?php echo __('How many portions of different fruit and vegetables did you eat this week? Enter 0 if you haven\'t eaten any portions of fruit or vegetables that day.'); ?></p>
-<?php echo $this->Form->create('FiveADayWeekly', array(
-    'inputDefaults' => array(
-        'label' => false
-    ))) ?>
+	<?php 
+	echo $this->Form->create('FiveADayWeekly') ?>
 	<table cellspacing="0" id="fiveadayweekly">
 		<tr>
 			<th>Monday</th>
@@ -24,18 +17,18 @@
 			<th>TOTAL</th>
 		</tr>
 		<tr>
-			<td><?php echo $this->Form->input('monday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('tuesday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('wednesday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('thursday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('friday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('saturday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('sunday',array('label'=>false,'value'=>'0')); ?></td>
+			<td><?php echo $this->Form->input('monday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('tuesday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('wednesday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('thursday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('friday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('saturday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('sunday',array('label'=>false)); ?></td>
 			<td><?php 
-				echo $this->Form->input('total',array('readonly'=>true,'value'=>'0','label'=>false)); 
-				echo $this->Form->hidden('user_id',array('value'=>$userID));
-				$weekstartdate = gmdate("Y-m-d 00:00:00",$weekstartdate);
-				echo $this->Form->hidden('date',array('value'=>$weekstartdate)); 
+				echo $this->Form->input('total',array('readonly'=>true,'label'=>false)); 
+				echo $this->Form->hidden('user_id'); 
+				echo $this->Form->hidden('id');
+				echo $this->Form->hidden('date'); 
 			?></td>
 		</tr>
 	</table>

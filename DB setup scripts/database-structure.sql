@@ -76,6 +76,16 @@ CREATE TABLE IF NOT EXISTS `modules_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
+DROP TABLE IF EXISTS `news`;
+CREATE TABLE IF NOT EXISTS `news` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `headline` varchar(255) NOT NULL,
+  `article` blob NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
 DROP TABLE IF EXISTS `profile`;
 CREATE TABLE IF NOT EXISTS `profile` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
