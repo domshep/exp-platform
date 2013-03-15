@@ -12,7 +12,7 @@ INSERT INTO `modules` (`id`, `name`, `version`, `type`, `parent_id`, `base_url`,
 (2, 'Dave&apos;s module', 1, 'daily', 0, 'dave_module/daves', 'dave_module/img/icon.png', '2013-03-08 10:01:31', '2013-03-08 10:01:34'),
 (3, 'Test module', 1, 'weekly', 0, 'test_module/tests', 'test_module/img/icon.png', '2013-02-22 23:38:26', '2013-02-22 23:38:26');
 
-INSERT INTO `modules_users` (`id`, `user_id`, `module_id`, `position`, `created`, `modified`) VALUES
+INSERT INTO `module_users` (`id`, `user_id`, `module_id`, `position`, `created`, `modified`) VALUES
 (1, 1, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),
 (2, 2, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),
 (3, 4, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),

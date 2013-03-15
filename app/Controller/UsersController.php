@@ -171,11 +171,12 @@ class UsersController extends AppController {
 		
 		// Get list of modules selected by the user
 		$currentUser = $this->User->getUser($this->Auth->user('id'));
-		$this->set('user', $currentUser);
-		
-		// Get list of all available modules
-		$this->Module->recursive = 0;
-		$this->set('modules', $this->Module->find('all'));
+		foreach($currentUser['ModuleUser'] as $module) {
+			$userModules[] = $this->Module->find('first', array(
+					'conditions' => array('Module.id' => $module['module_id'])
+			));
+		}
+		$this->set('userModules', $userModules);
 	}
 	
 	public function viewProfile() {

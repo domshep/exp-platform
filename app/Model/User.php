@@ -3,25 +3,7 @@ App::uses('AuthComponent', 'Controller/Component');
 
 class User extends AppModel {
 	public $hasOne = 'Profile';
-	
-	public $hasAndBelongsToMany = array(
-			'Module' =>
-			array(
-					'className'              => 'Module',
-					'joinTable'              => 'modules_users',
-					'foreignKey'             => 'user_id',
-					'associationForeignKey'  => 'module_id',
-					'unique'                 => false,
-					'conditions'             => '',
-					'fields'                 => '',
-					'order'                  => 'ModulesUser.position ASC',
-					'limit'                  => '',
-					'offset'                 => '',
-					'finderQuery'            => '',
-					'deleteQuery'            => '',
-					'insertQuery'            => ''
-			)
-	);
+	public $hasMany = array('ModuleUser');
 	
 	public $validate = array(
 			'email' => array(
@@ -57,9 +39,28 @@ class User extends AppModel {
 		return true;
 	}
 	
-	public function  getUser($id) {
+	public function getUser($id) {
 		$options = array('conditions' => array('User.' . $this->primaryKey => $id));
 		return $this->find('first', $options);
+	}
+	
+	/**
+	 * The module identified by $moduleID is added to the user's dashboard, at the next available dashboard position.
+	 * @param int $id the user id
+	 * @param int $moduleID the module id
+	 * @param int $position the dashboard position (or next available position, if left null)
+	 * @return boolean true if successful, false otherwise
+	 */
+	public function addModule($id, $moduleID, $position = null) {
+		if(is_null($position)) {
+			$position = $this->ModuleUser->getNextPosition($id);
+		}
+		$this->ModuleUser->save(array(
+			'user_id' => $id,
+			'module_id'=> $moduleID,
+			'position' => $position
+		));
+		return true;
 	}
 }
 ?>

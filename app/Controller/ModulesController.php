@@ -186,7 +186,6 @@ class ModulesController extends AppController {
 		}
 		
 		$this->Module->recursive = 0;
-		$this->set('modules', $this->Module->find('all'));
 		return $this->Module->find('all');
 	}
 	

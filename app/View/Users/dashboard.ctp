@@ -58,20 +58,20 @@
 			?>
 		</div>-->
 		<?php 
-			if (count($user['Module']) == 0) echo "<p>You currently have no modules</p>"; 
-			foreach ($user['Module'] as $module):
-				$widget = $this->requestAction($module['base_url'].'/dashboard_widget'); 
+			if (empty($userModules)) echo "<p>You currently have no modules</p>"; 
+			foreach ($userModules as $module):
+				$widget = $this->requestAction($module['Module']['base_url'].'/dashboard_widget'); 
 		?>
-		<div class='module' id="<?php echo $module['name']; ?>">
-			<h3><?php echo $this->Html->image('/'.$module['icon_url'], array('alt' => "&lsquo;".$module['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
-			?> <strong><?php echo $module['name']; ?></strong>&nbsp;</h3>
+		<div class='module' id="<?php echo $module['Module']['name']; ?>">
+			<h3><?php echo $this->Html->image('/'.$module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+			?> <strong><?php echo $module['Module']['name']; ?></strong>&nbsp;</h3>
 			<p><?php 
 				$remove = '/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/i';
-				$modname = preg_replace($remove, '', $module['name']);
+				$modname = preg_replace($remove, '', $module['Module']['name']);
 				echo $widget; 
-				echo $this->Form->postLink(__('About \'' . $modname . '\'?'), '/'.$module['base_url'].'/explore_module',array('class' => 'button action', 'target' => '_self')); 
+				echo $this->Form->postLink(__('About \'' . $modname . '\'?'), '/'.$module['Module']['base_url'].'/explore_module',array('class' => 'button action', 'target' => '_self')); 
 				echo "<br/>";
-				echo $this->Form->postLink(__('My \'' . $modname . '\' Progress'), '/'.$module['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self')); 
+				echo $this->Form->postLink(__('My \'' . $modname . '\' Progress'), '/'.$module['Module']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self')); 
 			?></p>
 		</div>
 		<?php endforeach; ?>

@@ -76,15 +76,29 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 	 */
 	public function screener() {
   		$this->loadModel('TestModule.TestScreener');
+  		$this->loadModel('User');
+  		$this->loadModel('Module');
 	  	
 	  	if ($this->request->is('post')) {
 			$this->TestScreener->create();
 			$this->TestScreener->set($this->request->data);
 			if ($this->TestScreener->validates()) {
 				if(isset($this->request->data['TestScreener']['score'])) {
+					// Get the current user
+					$this->User->create();
+					$this->User->set($this->User->getUser($this->Auth->user('id')));
+					
 					// Score has been submitted, so the user has clicked to 'add module to dashboard'
 					$score = $this->TestScreener->calculateScore();
+					
+					// Save the screener data
 					$this->TestScreener->save();
+					
+					// And then add the module to the user's dashboard
+					$this->User->addModule(
+							$this->User->data['User']['id'],
+							$this->Module->getModuleID($this->_module_name())
+					);
 					$this->redirect('module_added');
 				} else {
 					// No score yet, so the user has only just submitted the original form.

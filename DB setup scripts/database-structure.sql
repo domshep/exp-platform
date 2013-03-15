@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS `modules` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
-DROP TABLE IF EXISTS `modules_users`;
-CREATE TABLE IF NOT EXISTS `modules_users` (
+DROP TABLE IF EXISTS `module_users`;
+CREATE TABLE IF NOT EXISTS `module_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
   `module_id` int(10) NOT NULL,
