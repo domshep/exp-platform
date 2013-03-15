@@ -42,4 +42,9 @@ It is important to remember that eating the recommended levels of
 		target="_blank" href="http://change4lifewales.org.uk/adults/?lang=en"><strong>Change4Life
 			Wales</strong> </a> website.
 </p>
-<?php echo $this->Html->link(__('Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'button action', 'target' => '_self')); ?>
+<?php
+if($added_to_dashboard) {
+	echo "<p>This module is already on your dashboard.</p>";
+} else {
+	echo $this->Html->link(__('Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'button action', 'target' => '_self'));
+}?>

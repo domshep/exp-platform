@@ -83,12 +83,12 @@ class AppController extends Controller {
 						// Only non-logged in users can see this
                		 	array(
                     			'title' => 'Login',
-                    			'url' => array('controller' => 'users', 'action' => 'login'),
+                    			'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'login'),
                     			'permissions' => array(''),
                 		),
 						array(
 								'title' => 'Register',
-								'url' => array('controller' => 'users', 'action' => 'register'),
+								'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'register'),
 								'permissions' => array(''),
 						),
 				),

@@ -1,17 +1,17 @@
 <?php
 /**
- * ModulesUserFixture
+ * ModuleUserFixture
  *
  */
-class ModulesUserFixture extends CakeTestFixture {
-	
-	/**
-	 * Import
-	 *
-	 * @var array
-	 */
-	public $import = array('table' => 'modules_users');
-	
+class ModuleUserFixture extends CakeTestFixture {
+
+/**
+ * Import
+ *
+ * @var array
+ */
+	public $import = array('model' => 'ModuleUser');
+
 /**
  * Records
  *

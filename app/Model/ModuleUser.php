@@ -23,4 +23,15 @@ class ModuleUser extends AppModel
 		$last = $this->find('first', $options);
 		return $last['ModuleUser']['position'] + 1;
 	}
+	
+	/**
+	 * Returns true if the given module id is already linked to the given user's dashboard.
+	 * @param unknown $userID
+	 * @param unknown $moduleID
+	 */
+	public function alreadyOnDashboard($userId, $moduleId) {
+		$options = array('conditions' => array('user_id' => $userId, 'module_id' => $moduleId));
+		$moduleexists = $this->find('first', $options);
+		return !empty($moduleexists);
+	}
 }

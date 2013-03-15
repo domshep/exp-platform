@@ -16,7 +16,7 @@ class UserTest extends CakeTestCase {
 		'app.user',
 		'app.profile',
 		'app.module',
-		'app.modules_user'
+		'app.module_user'
 	);
 
 /**
@@ -47,12 +47,10 @@ class UserTest extends CakeTestCase {
  */
 	public function testGetFirstUser() {
 		$result = $this->User->getUser(1);
-		
 		$this->assertEquals(1, $result['User']['id']);
 		$this->assertEquals('andy@itsallnice-digital.co.uk', $result['User']['email']);
 		$this->assertEquals('1974-03-01', $result['Profile']['date_of_birth']);
-		$this->assertEquals('Healthy Eating &ndash; &lsquo;5-a-day&rsquo;', $result['Module'][0]['name']);
-		$this->assertEquals('1', $result['Module'][0]['ModulesUser']['position']);
+		$this->assertEquals('1', $result['ModuleUser'][0]['position']);
 	}
 	
 	/**
@@ -65,8 +63,7 @@ class UserTest extends CakeTestCase {
 		$this->assertEquals(4, $result['User']['id']);
 		$this->assertEquals('test-user@example.com', $result['User']['email']);
 		$this->assertNull($result['Profile']['date_of_birth']);
-		$this->assertEquals('Healthy Eating &ndash; &lsquo;5-a-day&rsquo;', $result['Module'][0]['name']);
-		$this->assertEquals('1', $result['Module'][0]['ModulesUser']['position']);
+		$this->assertEquals('1', $result['ModuleUser'][0]['position']);
 	}
 	
 	/**
