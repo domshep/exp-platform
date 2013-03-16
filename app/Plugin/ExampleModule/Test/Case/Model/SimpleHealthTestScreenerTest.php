@@ -1,6 +1,4 @@
 <?php
-App::uses('SimpleHealthTestScreener');
-
 /**
  * SimpleHealthTestScreener Test Case
  *
@@ -14,10 +12,10 @@ class SimpleHealthTestScreenerTest extends CakeTestCase {
 	 */
 	public $fixtures = array(
 			'plugin.example_module.simple_health_test_screener',
-			'plugin.example_module.user',
-			'plugin.example_module.profile',
-			'plugin.example_module.module',
-			'plugin.example_module.modules_user'
+			'user',
+			'profile',
+			'module',
+			'module_user'
 	);
 
 	/**

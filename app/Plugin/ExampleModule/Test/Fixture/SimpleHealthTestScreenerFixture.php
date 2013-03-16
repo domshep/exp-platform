@@ -10,7 +10,7 @@ class SimpleHealthTestScreenerFixture extends CakeTestFixture {
  *
  * @var array
  */
-	public $import = array('table' => 'example_screeners');
+	public $import = array('table' => 'simple_health_test_screeners');
 
 	/**
 	 * Records
