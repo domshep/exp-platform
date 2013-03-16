@@ -2,6 +2,15 @@
 
 <h2><?php  echo $message; ?></h2>
 <p><?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button')); ?></p>
+
+<div class="modulesgrid">
+<div class="news">
+			<h3>News and updates</h3>
+			<?php 
+				$newswidget = $this->requestAction(array('action'=> 'dashboard_news')); 
+				if ($newswidget != "") echo $newswidget;
+			?>
+</div>
 <div class="modules">
 	<div class="module" style="text-align:center;">
 		<h4><strong>Your Progress to Date</strong></h4>
@@ -81,5 +90,6 @@
 	<div class="module">
 		<h4><strong>My Weekly Achievements</strong></h4>
 		<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
+	</div>
 	</div>
 </div>

@@ -17,6 +17,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			throw new ForbiddenException();
 		}
 		$this->set('message', "Hello from the " . $this->_module_name());
+		$this->render();
 	}
 	
 	public function dashboard_news() {
