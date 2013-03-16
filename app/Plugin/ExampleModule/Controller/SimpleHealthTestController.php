@@ -94,6 +94,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
 					// and then save the screener data.
 					$score = $this->SimpleHealthTestScreener->calculateScore();
+					$this->SimpleHealthTestScreener->set('score', $score);
 					$this->SimpleHealthTestScreener->set('user_id', $this->User->data['User']['id']);
 					$this->SimpleHealthTestScreener->save();
 					
@@ -174,25 +175,52 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	
 	public function data_entry($date = null) {
 		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+		$this->loadModel('User');
 		
 		if(is_null($date)) $date = date("Ymd");
 		
-		$this->set('weekBeginning', $this->_getWeekBeginningDate($date));
-		$this->set('userID', $this->Auth->user('id'));
+		$weekBeginning = $this->_getWeekBeginningDate($date);
+		$this->set('weekBeginning', $weekBeginning);
+		// Get the current user
+		$this->User->create();
+		$this->User->set($this->User->findById($this->Auth->user('id')));
+		$this->set('userID', $this->User->data['User']['id']);
 		
-  		$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
-
-		if ($this->request->is('post')) {
-			debug($this->request->data);
+		// Is there a previous record for this date and user?
+		$this->SimpleHealthTestWeekly->create();
+		$previousEntry = $this->SimpleHealthTestWeekly->findByUserIdAndWeekBeginning(
+				$this->User->data['User']['id'],
+				date("Y-m-d",$weekBeginning));
+		
+		if ($this->request->is('post') || $this->request->is('put')) {
+			
+			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
 			$this->SimpleHealthTestWeekly->create();
 			$this->SimpleHealthTestWeekly->set($this->request->data);
+			
+			$total = $this->SimpleHealthTestWeekly->calculateTotal();
+			$this->SimpleHealthTestWeekly->set('total', $total);
+			$this->SimpleHealthTestWeekly->set('user_id', $this->User->data['User']['id']);
+
 			if ($this->SimpleHealthTestWeekly->validates()) {
-				$this->SimpleHealthTestWeekly->save();
+				$success = $this->SimpleHealthTestWeekly->save();
+				
+				if($success) {
+					//TODO - redraw graphs? update milestones?
+					
+					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
+					return $this->redirect('module_dashboard');
+				} else {
+					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
+				}
 			} else {
+				debug($this->SimpleHealthTestWeekly->validationErrors);
 				// Validation failed
-				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
-				$this->render();
+				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
 			}
+		} else {
+			
+			if(!empty($previousEntry)) $this->request->data = $previousEntry;
 		}
   	}
   

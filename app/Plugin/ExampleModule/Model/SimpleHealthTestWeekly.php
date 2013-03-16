@@ -20,11 +20,11 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
  * @var array
  */
 	public $validate = array(
-		'date' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'week_beginning' => array(
+			'date' => array(
+				'rule' => array('date','ymd'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				//'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -34,7 +34,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				//'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -44,7 +44,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -54,7 +54,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -64,7 +64,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -74,7 +74,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -84,7 +84,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -94,7 +94,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -104,7 +104,7 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
+				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -138,4 +138,18 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 			'order' => ''
 		)
 	);
+	
+	public function calculateTotal() {
+		$total = $this->data['SimpleHealthTestWeekly']['monday']
+				+ $this->data['SimpleHealthTestWeekly']['tuesday']
+				+ $this->data['SimpleHealthTestWeekly']['wednesday']
+				+ $this->data['SimpleHealthTestWeekly']['thursday']
+				+ $this->data['SimpleHealthTestWeekly']['friday']
+				+ $this->data['SimpleHealthTestWeekly']['saturday']
+				+ $this->data['SimpleHealthTestWeekly']['sunday'];
+
+		if(!is_numeric($total)) $total = 0;
+		
+		return $total;
+	}
 }

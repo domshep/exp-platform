@@ -1,12 +1,12 @@
-<?php $this->extend('/Modules/module_template'); ?>
+<?php $this->extend('/Modules/module_template');?>
 <div>
 	<h2>Week Commencing: <?php echo date('d-m-Y',$weekBeginning); ?></h2>
 	<p>How healthy have you felt each day this week? Give yourself a score out of 10...</p>
-<?php echo $this->Form->create('SimpleHealthTestWeekly', array(
+<?php echo $this->Form->create('ExampleModule.SimpleHealthTestWeekly', array(
     'inputDefaults' => array(
         'label' => false
     ))) ?>
-	<table>
+	<table class="weekly-total">
 		<tr>
 			<th>Monday</th>
 			<th>Tuesday</th>
@@ -18,31 +18,33 @@
 			<th>TOTAL</th>
 		</tr>
 		<tr>
-			<td><?php echo $this->Form->input('monday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('tuesday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('wednesday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('thursday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('friday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('saturday',array('label'=>false,'value'=>'0')); ?></td>
-			<td><?php echo $this->Form->input('sunday',array('label'=>false,'value'=>'0')); ?></td>
+			<td><?php echo $this->Form->input('SimpleHealthTestWeekly.monday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('SimpleHealthTestWeekly.tuesday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('SimpleHealthTestWeekly.wednesday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('SimpleHealthTestWeekly.thursday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('SimpleHealthTestWeekly.friday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('SimpleHealthTestWeekly.saturday',array('label'=>false)); ?></td>
+			<td><?php echo $this->Form->input('SimpleHealthTestWeekly.sunday',array('label'=>false)); ?></td>
 			<td><?php 
-				echo $this->Form->input('total',array('readonly'=>true,'value'=>'0','label'=>false)); 
-				echo $this->Form->hidden('date',array('value'=>$weekBeginning)); 
+				echo $this->Form->input('SimpleHealthTestWeekly.total',array('readonly'=>true,'label'=>false)); 
+				echo $this->Form->hidden('SimpleHealthTestWeekly.week_beginning',array('value'=>date('Y-m-d',$weekBeginning)));
+				echo $this->Form->hidden('SimpleHealthTestWeekly.id');
+					
 			?></td>
 		</tr>
 	</table>
 <?php echo $this->Form->end(__('Submit')); ?>
 </div>
 <script type="text/javascript">
-	jQuery("#FiveADayWeeklyMonday, #FiveADayWeeklyTuesday, #FiveADayWeeklyWednesday, #FiveADayWeeklyThursday, #FiveADayWeeklyFriday, #FiveADayWeeklySaturday, #FiveADayWeeklySunday").bind("keyup", function() {
+	jQuery(".weekly-total input").bind("keyup", function() {
     var $tr = $(this).closest("tr");
-    var monday = parseFloat($tr.find("#FiveADayWeeklyMonday").val());
-    var tuesday = parseFloat($tr.find("#FiveADayWeeklyTuesday").val());
-    var wednesday = parseFloat($tr.find("#FiveADayWeeklyWednesday").val());
-    var thursday = parseFloat($tr.find("#FiveADayWeeklyThursday").val());
-    var friday = parseFloat($tr.find("#FiveADayWeeklyFriday").val());
-    var saturday = parseFloat($tr.find("#FiveADayWeeklySaturday").val());
-    var sunday = parseFloat($tr.find("#FiveADayWeeklySunday").val());
+    var monday = parseFloat($tr.find("#SimpleHealthTestWeeklyMonday").val());
+    var tuesday = parseFloat($tr.find("#SimpleHealthTestWeeklyTuesday").val());
+    var wednesday = parseFloat($tr.find("#SimpleHealthTestWeeklyWednesday").val());
+    var thursday = parseFloat($tr.find("#SimpleHealthTestWeeklyThursday").val());
+    var friday = parseFloat($tr.find("#SimpleHealthTestWeeklyFriday").val());
+    var saturday = parseFloat($tr.find("#SimpleHealthTestWeeklySaturday").val());
+    var sunday = parseFloat($tr.find("#SimpleHealthTestWeeklySunday").val());
     if(isNaN(monday)) monday = 0;
     if(isNaN(tuesday)) tuesday = 0;
     if(isNaN(wednesday)) wednesday = 0;
@@ -50,6 +52,6 @@
     if(isNaN(friday)) friday = 0;
     if(isNaN(saturday)) saturday = 0;
     if(isNaN(sunday)) sunday = 0;
-    $tr.find("#FiveADayWeeklyTotal").val(monday + tuesday + wednesday + thursday + friday + saturday + sunday);
+    $tr.find("#SimpleHealthTestWeeklyTotal").val(monday + tuesday + wednesday + thursday + friday + saturday + sunday);
 });
 </script>
