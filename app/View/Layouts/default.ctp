@@ -46,7 +46,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 		<div id="maincolwrap">
 			<div id="banner" class="header">
 				<div id="fontsize">&nbsp;</div>
-				<div class="latesttweets">Insert Top Module Here</div>
+				<div class="latesttweets">This area could be used for displaying a Twitter feed, or the "Why am I doing this?" module...</div>
 				<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></h1>
 			</div>
 			<div id="navsearch">

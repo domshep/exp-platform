@@ -1,17 +1,6 @@
-<h2 class="bigred">My profile</h2>
+<h1>My profile</h1>
 <div class="users view">
-<h2><?php  echo __('User'); ?></h2>
 	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Profile Id'); ?></dt>
-		<dd>
-			<?php echo h($user['Profile']['id']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Name'); ?></dt>
 		<dd>
 			<?php echo h($user['Profile']['name']); ?>

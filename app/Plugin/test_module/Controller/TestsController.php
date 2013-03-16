@@ -121,7 +121,7 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
 	public function module_added() {
-  		$this->set('message', "The healthy eating module has now been added to your dashboard.");
+  		$this->set('message', "The test module has now been added to your dashboard.");
   	}
 	
   	/**
