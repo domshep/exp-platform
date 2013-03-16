@@ -120,7 +120,7 @@ class UsersController extends AppController {
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('Welcome! Your login details have been recorded.'));
 				$this->Auth->login();
-				$this->redirect(array('action'=>'editProfile'));
+				$this->redirect(array('action'=>'addProfile'));
 			} else {
 				$this->Session->setFlash(__('There was a problem with your registration. Please, try again.'));
 			}
@@ -171,6 +171,9 @@ class UsersController extends AppController {
 		
 		// Get list of modules selected by the user
 		$currentUser = $this->User->getUser($this->Auth->user('id'));
+		
+		$userModules = array();
+		
 		foreach($currentUser['ModuleUser'] as $module) {
 			$userModules[] = $this->Module->find('first', array(
 					'conditions' => array('Module.id' => $module['module_id'])
@@ -181,6 +184,31 @@ class UsersController extends AppController {
 	
 	public function viewProfile() {
 		$this->set('user', $this->User->getUser($this->Auth->user('id')));
+	}
+	
+	public function addProfile() {
+		// Does the user already have a profile stored? If so, send them to edit it instead...
+		$currentUser = $this->User->getUser($this->Auth->user('id'));
+		
+		if(!is_null($currentUser['Profile']['id'])) {
+			return $this->redirect(array('action' => 'editProfile'));
+		}
+		
+		
+		if ($this->request->is('post') || $this->request->is('put')) {
+			// Get user id from current user session, rather than from form
+			$this->request->data['User']['id'] = $currentUser['User']['id'];
+			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
+			
+			if ($this->User->saveAssociated($this->request->data)) {
+				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
+				$this->redirect(array('action' => 'dashboard'));
+			} else {
+				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
+			}
+		} else {
+			$this->request->data = $currentUser;
+		}
 	}
 	
 	public function editProfile() {
@@ -211,4 +239,6 @@ class UsersController extends AppController {
 			$this->request->data = $this->User->getUser($this->Auth->user('id'));
 		}
 	}
+	
+	
 }
