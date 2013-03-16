@@ -93,9 +93,7 @@
 							$remove = '/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/i';
 							$modname = preg_replace($remove, '', $module['Module']['name']);
 							echo $widget; 
-							echo $this->Form->postLink(__('About \'' . $modname . '\'?'), '/'.$module['Module']['base_url'].'/explore_module',array('class' => 'button action', 'target' => '_self')); 
-							echo "<br/>";
-							echo $this->Form->postLink(__('My \'' . $modname . '\' Progress'), '/'.$module['Module']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self')); 
+							echo $this->Html->link(__('My \'' . $modname . '\' Progress'), '/'.$module['Module']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self')); 
 						?></p>
 					</div>
 				<?php endforeach;

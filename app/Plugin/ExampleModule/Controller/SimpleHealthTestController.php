@@ -154,8 +154,25 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$this->set('message', "This is the edit data page, allowing a user to edit a previously entered piece of data");
   	}
   	
- 	public function data_entry() {
+	public function data_entry($date = null) {
+		if(is_null($date)) $date = date("Ymd");
+		
+		$this->set('weekBeginning', $date);
+		$this->set('userID', $this->Auth->user('id'));
+		
   		$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+		if ($this->request->is('post')) {
+			$this->FiveADayWeekly->create();
+			$this->FiveADayWeekly->set($this->request->data);
+			if ($this->FiveADayWeekly->validates()) {
+				$this->FiveADayWeekly->save();
+			} else {
+				// Validation failed
+				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
+				$this->render();
+			}
+		}
   	}
   
   	public function review_progress() {
