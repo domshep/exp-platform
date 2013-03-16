@@ -88,22 +88,44 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 * If the user then submits the 'score' form (by choosing to add the module to their dashboard)
 	 * then the post will contain a score, and the screener submission will be saved to the
 	 * database.
-	 * 
-	 * TODO: This routine still needs to add the module to the user's dashboard, but haven't
-	 * yet decided how best to do that...
 	 */
 	public function screener() {
   		$this->loadModel('HealthyEatingModule.FiveADayScreener');
+  		$this->loadModel('User');
+  		$this->loadModel('Module');
 	  	
 	  	if ($this->request->is('post')) {
+	  		// Get hold of the posted data
 			$this->FiveADayScreener->create();
 			$this->FiveADayScreener->set($this->request->data);
+			
 			if ($this->FiveADayScreener->validates()) {
+				// Validation passed
 				if(isset($this->request->data['FiveADayScreener']['score'])) {
-					// Score has been submitted, so the user has clicked to 'add module to dashboard'
+					// The submitted data contained a 'score' so they must have already completed
+					// the test and have now asked for the module to be added to their dashboard.
+					
+					// Get the current user
+					$this->User->create();
+					$this->User->set($this->User->findById($this->Auth->user('id')));
+					
+					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
+					// and then save the screener data.
 					$score = $this->FiveADayScreener->calculateScore();
+					$this->FiveADayScreener->set('user_id', $this->User->data['User']['id']);
 					$this->FiveADayScreener->save();
-					$this->redirect('module_added');
+					
+					// And then add the module to the user's dashboard
+					$success = $this->User->addModule(
+							$this->User->data['User']['id'],
+							$this->Module->getModuleID($this->_module_name())
+					);
+					if($success) {
+						return $this->redirect('module_added');
+					} else {
+						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
+					}
+					
 				} else {
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
@@ -115,8 +137,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 				}
 			} else {
 				// Validation failed
-				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? See the error messages below. Please, try again.'));
-				$this->render('screener');
+				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
 			}
 		}
   	}

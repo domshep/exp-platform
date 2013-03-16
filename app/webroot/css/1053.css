@@ -691,6 +691,8 @@ img.small-icon {
 .quiztable{
 	border: solid 1px #cccccc;
 	padding: 0px;
+	border-spacing:0;
+	border-collapse:collapse;
 }
 .quiztable tr{
 	padding:0px;
@@ -711,17 +713,18 @@ img.small-icon {
 .quiztable th, .quiztable .col4{
 	text-align: center;
 }
-.quiztable .col1{
-	width:  251px;
+.quiztable .col1 {
+	width:  250px;
 }
-.quiztable .col2{
-	width: 355px;
+.quiztable .col2, .quiztable .col3{
+	width: 220px;
+	text-align:center;
+	padding:0.5em;
 }
-.quiztable .col3{
-	width: 298px;
-}
+
 .quiztable .col4{
-	width:76px;
+	width:75px;
+	padding:0.5em;
 }
 
 /* calendar */

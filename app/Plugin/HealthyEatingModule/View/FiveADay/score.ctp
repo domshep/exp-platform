@@ -1,6 +1,7 @@
 <?php $this->extend('/Modules/module_template');?>
 
-    <h3>Your score is <?php echo $score;?></h3>
+    <h2>Your score is <?php echo $score;?></h2>
+    <p>TODO: NEED SCORE CALCULATIONS AND MESSAGES FOR THIS MODULE</p>
     <?php if($score < 35) {?>
     <p>Were you aware that this score indicates that you have eaten less than half (40%) of your recommended 5-a-day fruit and vegetable  intake?</p>
 

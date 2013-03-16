@@ -1,11 +1,11 @@
 <?php $this->extend('/Modules/module_template'); ?>
-<h3>Complete this screening tool to get some feedback on your current diet</h3>
+<h2>Complete this screening tool to get some feedback on your current diet</h2>
 <br />
 <?php echo $this->Form->create('FiveADayScreener', array(
     'inputDefaults' => array(
         'label' => false
     )))?>
-<table class="quiztable" cellspacing="0">
+<table class="quiztable">
 	<tr>
 		<th class="colblue col1">Food Type</th>
 		<th class="colgreen col2">On average, <em>how often</em> did you eat each food type during the past 7 days</th>
@@ -36,7 +36,7 @@
 	<tr>
 		<td class="colblue col1">
 			<strong>Salad</strong>
-			e.g. mixed greens, lettuce, cucumber, onion, peppers</font>
+			e.g. mixed greens, lettuce, cucumber, onion, peppers
 		</td>
 		<td class="colgreen col2">
 			<?php 

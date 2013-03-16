@@ -70,9 +70,6 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	 * If the user then submits the 'score' form (by choosing to add the module to their dashboard)
 	 * then the post will contain a score, and the screener submission will be saved to the
 	 * database.
-	 * 
-	 * TODO: This routine still needs to add the module to the user's dashboard, but haven't
-	 * yet decided how best to do that...
 	 */
 	public function screener() {
   		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
@@ -122,7 +119,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 				}
 			} else {
 				// Validation failed
-				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? See the error messages below. Please, try again.'));
+				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
 			}
 		}
   	}
