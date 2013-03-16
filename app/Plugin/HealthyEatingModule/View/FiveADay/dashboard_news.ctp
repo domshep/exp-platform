@@ -1,3 +1,4 @@
-<h4>News: <?php echo $message; ?></h4>
-<p>Your news from the <?php echo $module_name; ?> module...</p>
-<p><a href="http://www.bbc.co.uk/news">Go to BBC News...</a></p>
+<h4>Keep it up...</h4>
+<p>You're just one week away from earning your silver medal for the &lsquo;<?php echo $module_name; ?>&rsquo; module
+by eating your target amount of fruit and veg each week for 4 weeks in a row!</p>
+<p>You can do it!</p>

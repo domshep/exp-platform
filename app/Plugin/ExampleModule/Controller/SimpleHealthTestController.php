@@ -157,48 +157,33 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	}
   	
   	/**
-  	 * Returns the week beginning date for the given date (starting on a Monday).
+  	 * Handles the weekly data entry form for this module.
   	 * 
-  	 * TODO: This needs to be moved to a library helper class.
-  	 * 
-  	 * @param unknown $date
+  	 * @param string $date the date for which this entry relates. If null, today's date will be used.
   	 */
-  	public function _getWeekBeginningDate($date) {
-  		$dateTime = strtotime($date);
-  		if(date('w',$dateTime) == '1') {
-  			// It's Monday, so return the same date
-  			return $dateTime;
-  		} else {
-  			// return last Monday's date
-  			return strtotime('this week last monday', $dateTime);
-  		}
-  	}
-  	
 	public function data_entry($date = null) {
 		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
 		$this->loadModel('User');
 		
+		// Use today's date if no date given.
 		if(is_null($date)) $date = date("Ymd");
 		
-		$weekBeginning = $this->_getWeekBeginningDate($date);
+		// What is the week beginning (Monday) for the given date?
+		$helper = new ModuleHelperFunctions();
+		$weekBeginning = $helper->_getWeekBeginningDate($date);
 		$this->set('weekBeginning', $weekBeginning);
+		
 		// Get the current user
 		$this->User->create();
 		$this->User->set($this->User->findById($this->Auth->user('id')));
 		$this->set('userID', $this->User->data['User']['id']);
 		
-		// Is there a previous record for this date and user?
-		$this->SimpleHealthTestWeekly->create();
-		$previousEntry = $this->SimpleHealthTestWeekly->findByUserIdAndWeekBeginning(
-				$this->User->data['User']['id'],
-				date("Y-m-d",$weekBeginning));
-		
 		if ($this->request->is('post') || $this->request->is('put')) {
+			// The form has been submitted, so validate and then save.
 			
 			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
 			$this->SimpleHealthTestWeekly->create();
 			$this->SimpleHealthTestWeekly->set($this->request->data);
-			
 			$total = $this->SimpleHealthTestWeekly->calculateTotal();
 			$this->SimpleHealthTestWeekly->set('total', $total);
 			$this->SimpleHealthTestWeekly->set('user_id', $this->User->data['User']['id']);
@@ -215,12 +200,19 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
 				}
 			} else {
-				debug($this->SimpleHealthTestWeekly->validationErrors);
 				// Validation failed
 				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
 			}
 		} else {
+			// This is a new request for this form - display a blank or previous record
 			
+			// Is there a previous record for this date and user?
+			$this->SimpleHealthTestWeekly->create();
+			$previousEntry = $this->SimpleHealthTestWeekly->findByUserIdAndWeekBeginning(
+					$this->User->data['User']['id'],
+					date("Y-m-d",$weekBeginning));
+			
+			// If so, edit this entry instead of creating a new one...
 			if(!empty($previousEntry)) $this->request->data = $previousEntry;
 		}
   	}

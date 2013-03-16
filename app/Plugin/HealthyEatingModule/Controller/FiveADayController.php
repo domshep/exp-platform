@@ -158,23 +158,66 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	public function module_dashboard() {
   		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
   	}
-  
- 	public function data_entry() {
-		$this->set('userID', $this->Auth->user('id'));
-		
-  		$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
+  	
+  	/**
+  	 * Handles the weekly data entry form for this module.
+  	 *
+  	 * @param string $date the date for which this entry relates. If null, today's date will be used.
+  	 */
+  	public function data_entry($date = null) {
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
-		if ($this->request->is('post')) {
-			$this->FiveADayWeekly->create();
-			$this->FiveADayWeekly->set($this->request->data);
-			if ($this->FiveADayWeekly->validates()) {
-				$this->FiveADayWeekly->save();
-			} else {
-				// Validation failed
-				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
-				$this->render();
-			}
-		}
+  		$this->loadModel('User');
+  	
+  		// Use today's date if no date given.
+  		if(is_null($date)) $date = date("Ymd");
+  	
+  		// What is the week beginning (Monday) for the given date?
+  		$helper = new ModuleHelperFunctions();
+  		$weekBeginning = $helper->_getWeekBeginningDate($date);
+  		$this->set('weekBeginning', $weekBeginning);
+  	
+  		// Get the current user
+  		$this->User->create();
+  		$this->User->set($this->User->findById($this->Auth->user('id')));
+  		$this->set('userID', $this->User->data['User']['id']);
+  	
+  		if ($this->request->is('post') || $this->request->is('put')) {
+  			// The form has been submitted, so validate and then save.
+  				
+  			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
+  			$this->FiveADayWeekly->create();
+  			$this->FiveADayWeekly->set($this->request->data);
+  			$total = $this->FiveADayWeekly->calculateTotal();
+  			$this->FiveADayWeekly->set('total', $total);
+  			$this->FiveADayWeekly->set('user_id', $this->User->data['User']['id']);
+  	
+  			if ($this->FiveADayWeekly->validates()) {
+  				$success = $this->FiveADayWeekly->save();
+  	
+  				if($success) {
+  					//TODO - redraw graphs? update milestones?
+  						
+  					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
+  					return $this->redirect('module_dashboard');
+  				} else {
+  					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
+  				}
+  			} else {
+  				// Validation failed
+  				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
+  			}
+  		} else {
+  			// This is a new request for this form - display a blank or previous record
+  				
+  			// Is there a previous record for this date and user?
+  			$this->FiveADayWeekly->create();
+  			$previousEntry = $this->FiveADayWeekly->findByUserIdAndWeekBeginning(
+  					$this->User->data['User']['id'],
+  					date("Y-m-d",$weekBeginning));
+  				
+  			// If so, edit this entry instead of creating a new one...
+  			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+  		}
   	}
 	
 	public function edit_data($id=null) {

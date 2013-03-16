@@ -730,6 +730,8 @@ img.small-icon {
 /* calendar */
 .calendar caption{
 	background-color: #FFFFFF;
+	font-size:1.2em;
+	font-weight:bold;
 }
 .calendar th{
 	background-color: #FFFFFF;
@@ -738,7 +740,9 @@ img.small-icon {
     background: none repeat scroll 0 0 #F2F2F2;
 }
 .calendar{
-	border: solid 1px #000000;
+	padding:0.5em;
+	border-spacing:0;
+	border-collapse:collapse;
 }
 .calendar .red, .calendar .red a:link{
 	background-color:#FF0000;

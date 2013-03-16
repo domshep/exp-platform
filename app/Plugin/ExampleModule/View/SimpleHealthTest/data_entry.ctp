@@ -29,11 +29,10 @@
 				echo $this->Form->input('SimpleHealthTestWeekly.total',array('readonly'=>true,'label'=>false)); 
 				echo $this->Form->hidden('SimpleHealthTestWeekly.week_beginning',array('value'=>date('Y-m-d',$weekBeginning)));
 				echo $this->Form->hidden('SimpleHealthTestWeekly.id');
-					
 			?></td>
 		</tr>
 	</table>
-<?php echo $this->Form->end(__('Submit')); ?>
+<p><?php echo $this->Form->end(__('Submit')); ?></p>
 </div>
 <script type="text/javascript">
 	jQuery(".weekly-total input").bind("keyup", function() {

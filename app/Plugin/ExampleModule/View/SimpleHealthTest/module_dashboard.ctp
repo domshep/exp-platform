@@ -28,7 +28,7 @@
 	</div>
 	<div class="module">
 		<h4><strong>So far this month:</strong></h4>
-		<table class="calendar" cellspacing="0">
+		<table class="calendar">
 			<caption>March 2013</caption>
 			<tr>
 				<th>M</th>

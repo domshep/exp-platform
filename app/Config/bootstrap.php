@@ -117,4 +117,5 @@ CakeLog::config('error', array(
  * Load any additional classes needed by the experimental platform
  */
 App::uses('ModulePlugin', 'Lib');
+App::uses('ModuleHelperFunctions', 'Lib');
 ?>
