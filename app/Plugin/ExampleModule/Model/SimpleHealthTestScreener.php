@@ -1,18 +1,18 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * TestScreener Model
+ * SimpleHealthTestScreener Model
  *
  * @property User $User
  */
-class TestScreener extends AppModel {
+class SimpleHealthTestScreener extends AppModel {
 
 /**
  * Use table
  *
  * @var mixed False or table name
  */
-	public $useTable = 'test_screeners';
+	public $useTable = 'simple_health_test_screeners';
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -42,7 +42,7 @@ class TestScreener extends AppModel {
 	);
 	
 	public function calculateScore() {
-		if($this->data['TestScreener']['healthy']=='Y') {
+		if($this->data['SimpleHealthTestScreener']['healthy']=='Y') {
 			$score = 100;
 		} else {
 			$score = 99;

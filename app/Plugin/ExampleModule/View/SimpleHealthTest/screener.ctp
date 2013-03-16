@@ -2,7 +2,7 @@
 
 <h3>Complete this screening tool to get some feedback on your current health</h3>
 <br>
-<?php echo $this->Form->create('TestScreener')?>
+<?php echo $this->Form->create('SimpleHealthTestScreener')?>
     
     <?php echo $this->Form->input('healthy', array(
     'options' => array('Y'=> 'Y','N'=>'N'),

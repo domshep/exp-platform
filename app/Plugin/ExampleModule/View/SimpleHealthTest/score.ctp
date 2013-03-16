@@ -8,13 +8,13 @@
     <p>Oh, so close. Go and lie down.</p>
     <?php }
 
-    echo $this->Form->create('TestScreener', array(
+    echo $this->Form->create('SimpleHealthTestScreener', array(
     'inputDefaults' => array(
         'label' => false
     )));
     
     echo $this->Form->hidden('healthy');
-    echo $this->Form->hidden('TestScreener.score', array('value'=>$score));
+    echo $this->Form->hidden('SimpleHealthTestScreener.score', array('value'=>$score));
     
     
     

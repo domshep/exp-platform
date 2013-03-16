@@ -1,5 +1,5 @@
 <?php
-class TestsController extends TestModuleAppController implements ModulePlugin {
+class SimpleHealthTestController extends ExampleModuleAppController implements ModulePlugin {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -34,7 +34,7 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 	 * @return string
 	 */
  	public function _module_name() {
-  		return 'Test module';
+  		return 'Example module &ndash; simple health test';
   	}
 
   	/**
@@ -43,7 +43,7 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
   	 * @return string
   	 */
   	public function _module_icon_url() {
-  		return '/test_module/img/icon.png';
+  		return '/example_module/img/icon.png';
   	}
   	
   	/**
@@ -51,7 +51,7 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
   	 * page that a non-logged in user will see when they arrive in the module.
   	 */
  	public function explore_module() {
-  		$this->set('message', "This is just a test module, while we work on the module interface");
+  		$this->set('message', "This is just an example module, while we work on the module interface");
  	}
 
  	/**
@@ -75,24 +75,24 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 	 * yet decided how best to do that...
 	 */
 	public function screener() {
-  		$this->loadModel('TestModule.TestScreener');
+  		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
 	  	if ($this->request->is('post')) {
-			$this->TestScreener->create();
-			$this->TestScreener->set($this->request->data);
-			if ($this->TestScreener->validates()) {
-				if(isset($this->request->data['TestScreener']['score'])) {
+			$this->SimpleHealthTestScreener->create();
+			$this->SimpleHealthTestScreener->set($this->request->data);
+			if ($this->SimpleHealthTestScreener->validates()) {
+				if(isset($this->request->data['SimpleHealthTestScreener']['score'])) {
 					// Get the current user
 					$this->User->create();
 					$this->User->set($this->User->getUser($this->Auth->user('id')));
 					
 					// Score has been submitted, so the user has clicked to 'add module to dashboard'
-					$score = $this->TestScreener->calculateScore();
+					$score = $this->SimpleHealthTestScreener->calculateScore();
 					
 					// Save the screener data
-					$this->TestScreener->save();
+					$this->SimpleHealthTestScreener->save();
 					
 					// And then add the module to the user's dashboard
 					$this->User->addModule(
@@ -103,10 +103,10 @@ class TestsController extends TestModuleAppController implements ModulePlugin {
 				} else {
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
-					$score = $this->TestScreener->calculateScore();
+					$score = $this->SimpleHealthTestScreener->calculateScore();
 					$this->set('score', $score);
-					$this->TestScreener->set('score', "".$score);
-					$this->set($this->TestScreener->data);
+					$this->SimpleHealthTestScreener->set('score', "".$score);
+					$this->set($this->SimpleHealthTestScreener->data);
 					$this->render('score');
 				}
 			} else {

@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS `profile` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
-DROP TABLE IF EXISTS `test_screeners`;
-CREATE TABLE IF NOT EXISTS `test_screeners` (
+DROP TABLE IF EXISTS `simple_health_test_screeners`;
+CREATE TABLE IF NOT EXISTS `simple_health_test_screeners` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `healthy` varchar(1) NOT NULL,

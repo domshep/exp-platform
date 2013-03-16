@@ -1,16 +1,16 @@
 <?php
 /**
- * TestScreenerFixture
+ * SimpleHealthTestScreenerFixture
  *
  */
-class TestScreenerFixture extends CakeTestFixture {
+class SimpleHealthTestScreenerFixture extends CakeTestFixture {
 
 /**
  * Import
  *
  * @var array
  */
-	public $import = array('table' => 'test_screeners');
+	public $import = array('table' => 'example_screeners');
 
 	/**
 	 * Records

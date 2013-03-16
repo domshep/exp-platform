@@ -10,15 +10,15 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 INSERT INTO `modules` (`id`, `name`, `version`, `type`, `parent_id`, `base_url`, `icon_url`, `created`, `modified`) VALUES
 (1, 'Healthy Eating &ndash; &lsquo;5-a-day&rsquo;', 1, 'daily', 0, 'healthy_eating_module/five_a_day', 'healthy_eating_module/img/five_a_day/icon.png', '2013-03-11 00:00:00', '2013-03-11 00:00:00'),
-(2, 'Dave&apos;s module', 1, 'daily', 0, 'dave_module/daves', 'dave_module/img/icon.png', '2013-03-08 10:01:31', '2013-03-08 10:01:34'),
-(3, 'Test module', 1, 'weekly', 0, 'test_module/tests', 'test_module/img/icon.png', '2013-02-22 23:38:26', '2013-02-22 23:38:26');
+(2, 'Example module &ndash; simple health test', 1, 'weekly', 0, 'example_module/simple_health_test', 'example_module/img/icon.png', '2013-02-22 23:38:26', '2013-02-22 23:38:26'),
+(3, 'Dave&apos;s module', 1, 'daily', 0, 'dave_module/daves', 'dave_module/img/icon.png', '2013-03-08 10:01:31', '2013-03-08 10:01:34');
 
 INSERT INTO `module_users` (`id`, `user_id`, `module_id`, `position`, `created`, `modified`) VALUES
 (1, 1, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),
-(2, 2, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),
+(2, 3, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),
 (3, 4, 1, 1, '2013-03-01 00:00:00', '2013-03-01 00:00:00'),
-(4, 1, 2, 2, '2013-03-08 10:54:04', '2013-03-08 10:54:07'),
-(5, 2, 2, 2, '2013-03-08 11:25:35', '2013-03-08 11:25:37');
+(4, 1, 3, 2, '2013-03-08 10:54:04', '2013-03-08 10:54:07'),
+(5, 2, 3, 2, '2013-03-08 11:25:35', '2013-03-08 11:25:37');
 
 INSERT INTO `news` (`id`, `headline`, `article`, `created`, `modified`) VALUES
 (1, 'Brief Interventions Training Programme', 0x46696e64206f757420686f7720796f752063616e20736861726520796f757220616368696576656d656e747320616e64206d6f746976617465206f74686572732062792074616b696e67207061727420696e2074686520e2809c427269656620496e74657276656e74696f6e7320547261696e696e672050726f6772616d6d65e2809d2e, '2013-03-14 18:37:06', '2013-03-16 08:10:37');
