@@ -1,18 +1,12 @@
 <?php $this->extend('/Modules/module_template'); ?>
-<h2><?php echo $message; ?></h2>
-<div class="users form">
-	<h3><?php 
-		$dayoftheweek = gmdate('w')-1;
-		if ($dayoftheweek == -1) $dayoftheweek = 6; // our week starts on Monday.
-		$weekstartdate = gmmktime(0,0,0,gmdate("m"),gmdate("d")-$dayoftheweek,gmdate("Y"));
-		
-		echo __('Week 1: Week Commencing ') . gmdate("d/m/Y",$weekstartdate); ?></h3>
-	<p><?php echo __('How many portions of different fruit and vegetables did you eat this week? Enter 0 if you haven\'t eaten any portions of fruit or vegetables that day.'); ?></p>
-<?php echo $this->Form->create('FiveADayWeekly', array(
+<div>
+	<h2>Week Commencing: <?php echo date('d-m-Y',$weekBeginning); ?></h2>
+	<p>How healthy have you felt each day this week? Give yourself a score out of 10...</p>
+<?php echo $this->Form->create('SimpleHealthTestWeekly', array(
     'inputDefaults' => array(
         'label' => false
     ))) ?>
-	<table cellspacing="0" id="fiveadayweekly">
+	<table>
 		<tr>
 			<th>Monday</th>
 			<th>Tuesday</th>
@@ -33,9 +27,7 @@
 			<td><?php echo $this->Form->input('sunday',array('label'=>false,'value'=>'0')); ?></td>
 			<td><?php 
 				echo $this->Form->input('total',array('readonly'=>true,'value'=>'0','label'=>false)); 
-				echo $this->Form->hidden('user_id',array('value'=>$userID));
-				$weekstartdate = gmdate("Y-m-d 00:00:00",$weekstartdate);
-				echo $this->Form->hidden('date',array('value'=>$weekstartdate)); 
+				echo $this->Form->hidden('date',array('value'=>$weekBeginning)); 
 			?></td>
 		</tr>
 	</table>

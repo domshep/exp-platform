@@ -154,19 +154,40 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$this->set('message', "This is the edit data page, allowing a user to edit a previously entered piece of data");
   	}
   	
+  	/**
+  	 * Returns the week beginning date for the given date (starting on a Monday).
+  	 * 
+  	 * TODO: This needs to be moved to a library helper class.
+  	 * 
+  	 * @param unknown $date
+  	 */
+  	public function _getWeekBeginningDate($date) {
+  		$dateTime = strtotime($date);
+  		if(date('w',$dateTime) == '1') {
+  			// It's Monday, so return the same date
+  			return $dateTime;
+  		} else {
+  			// return last Monday's date
+  			return strtotime('this week last monday', $dateTime);
+  		}
+  	}
+  	
 	public function data_entry($date = null) {
+		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+		
 		if(is_null($date)) $date = date("Ymd");
 		
-		$this->set('weekBeginning', $date);
+		$this->set('weekBeginning', $this->_getWeekBeginningDate($date));
 		$this->set('userID', $this->Auth->user('id'));
 		
   		$this->set('message', "This is the data entry page, allowing capture of daily, weekly or one-off achievements");
-  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+
 		if ($this->request->is('post')) {
-			$this->FiveADayWeekly->create();
-			$this->FiveADayWeekly->set($this->request->data);
-			if ($this->FiveADayWeekly->validates()) {
-				$this->FiveADayWeekly->save();
+			debug($this->request->data);
+			$this->SimpleHealthTestWeekly->create();
+			$this->SimpleHealthTestWeekly->set($this->request->data);
+			if ($this->SimpleHealthTestWeekly->validates()) {
+				$this->SimpleHealthTestWeekly->save();
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
