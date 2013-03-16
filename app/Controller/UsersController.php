@@ -170,7 +170,7 @@ class UsersController extends AppController {
 		$this->loadModel('Module');
 		
 		// Get list of modules selected by the user
-		$currentUser = $this->User->getUser($this->Auth->user('id'));
+		$currentUser = $this->User->findById($this->Auth->user('id'));
 		
 		$userModules = array();
 		
@@ -183,12 +183,12 @@ class UsersController extends AppController {
 	}
 	
 	public function viewProfile() {
-		$this->set('user', $this->User->getUser($this->Auth->user('id')));
+		$this->set('user', $this->User->findById($this->Auth->user('id')));
 	}
 	
 	public function addProfile() {
 		// Does the user already have a profile stored? If so, send them to edit it instead...
-		$currentUser = $this->User->getUser($this->Auth->user('id'));
+		$currentUser = $this->User->findById($this->Auth->user('id'));
 		
 		if(!is_null($currentUser['Profile']['id'])) {
 			return $this->redirect(array('action' => 'editProfile'));
@@ -214,7 +214,7 @@ class UsersController extends AppController {
 	public function editProfile() {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			// Get user id from current user session, rather than from form
-			$currentUser = $this->User->getUser($this->Auth->user('id'));
+			$currentUser = $this->User->findById($this->Auth->user('id'));
 			$this->request->data['User']['id'] = $currentUser['User']['id'];
 			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
 			$this->request->data['Profile']['id'] = $currentUser['Profile']['id'];
@@ -236,7 +236,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
 			}
 		} else {
-			$this->request->data = $this->User->getUser($this->Auth->user('id'));
+			$this->request->data = $this->User->findById($this->Auth->user('id'));
 		}
 	}
 	

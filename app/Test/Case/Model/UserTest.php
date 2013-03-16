@@ -41,12 +41,12 @@ class UserTest extends CakeTestCase {
 	}
 
 /**
- * testGetUser method
+ * testFindById method
  *
  * @return void
  */
-	public function testGetFirstUser() {
-		$result = $this->User->getUser(1);
+	public function testFindFirstUser() {
+		$result = $this->User->findById(1);
 		$this->assertEquals(1, $result['User']['id']);
 		$this->assertEquals('andy@itsallnice-digital.co.uk', $result['User']['email']);
 		$this->assertEquals('1974-03-01', $result['Profile']['date_of_birth']);
@@ -54,12 +54,12 @@ class UserTest extends CakeTestCase {
 	}
 	
 	/**
-	 * testGetUser method
+	 * testFindById method
 	 *
 	 * @return void
 	 */
-	public function testGetLastUser() {
-		$result = $this->User->getUser(4);
+	public function testFindLastUser() {
+		$result = $this->User->findById(4);
 		$this->assertEquals(4, $result['User']['id']);
 		$this->assertEquals('test-user@example.com', $result['User']['email']);
 		$this->assertNull($result['Profile']['date_of_birth']);
@@ -67,14 +67,24 @@ class UserTest extends CakeTestCase {
 	}
 	
 	/**
-	 * testGetUser method
+	 * testFindById method
 	 *
 	 * @return void
 	 */
 	public function testGetInvalidUser() {
-		$result = $this->User->getUser(5);
+		$result = $this->User->findById(5);
 		
 		$this->assertEmpty($result);
+	}
+	
+	public function testAddModule() {
+		$result = $this->User->addModule(1,3);
+		$this->assertTrue($result);
+	}
+	
+	public function testAddModuleAlreadyOnDashboard() {
+		$result = $this->User->addModule(1,2);
+		$this->assertFalse($result);
 	}
 
 }

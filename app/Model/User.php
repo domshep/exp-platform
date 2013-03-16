@@ -39,25 +39,25 @@ class User extends AppModel {
 		return true;
 	}
 	
-	public function getUser($id) {
-		$options = array('conditions' => array('User.' . $this->primaryKey => $id));
-		return $this->find('first', $options);
-	}
-	
 	/**
 	 * The module identified by $moduleID is added to the user's dashboard, at the next available dashboard position.
+	 * If the module is already on the user's dashboard, then nothing is updated and false is returned.
 	 * @param int $id the user id
-	 * @param int $moduleID the module id
+	 * @param int $moduleId the module id
 	 * @param int $position the dashboard position (or next available position, if left null)
 	 * @return boolean true if successful, false otherwise
 	 */
-	public function addModule($id, $moduleID, $position = null) {
+	public function addModule($id, $moduleId, $position = null) {
+		if($this->ModuleUser->alreadyOnDashboard($id, $moduleId)) {
+			return false;
+		}
+		
 		if(is_null($position)) {
 			$position = $this->ModuleUser->getNextPosition($id);
 		}
 		$this->ModuleUser->save(array(
 			'user_id' => $id,
-			'module_id'=> $moduleID,
+			'module_id'=> $moduleId,
 			'position' => $position
 		));
 		return true;

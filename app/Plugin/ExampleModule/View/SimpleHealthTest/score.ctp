@@ -1,5 +1,4 @@
 <?php $this->extend('/Modules/module_template');?>
-
     <h1>Your score is <?php echo $score;?></h1>
     <?php 
     if($score==100) {?>

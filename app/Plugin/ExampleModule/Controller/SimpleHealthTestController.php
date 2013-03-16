@@ -80,39 +80,49 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$this->loadModel('Module');
 	  	
 	  	if ($this->request->is('post')) {
+	  		// Get hold of the posted data
 			$this->SimpleHealthTestScreener->create();
 			$this->SimpleHealthTestScreener->set($this->request->data);
+			
 			if ($this->SimpleHealthTestScreener->validates()) {
+				// Validation passed
 				if(isset($this->request->data['SimpleHealthTestScreener']['score'])) {
+					// The submitted data contained a 'score' so they must have already completed
+					// the test and have now asked for the module to be added to their dashboard.
+					
 					// Get the current user
 					$this->User->create();
-					$this->User->set($this->User->getUser($this->Auth->user('id')));
+					$this->User->set($this->User->findById($this->Auth->user('id')));
 					
-					// Score has been submitted, so the user has clicked to 'add module to dashboard'
+					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
+					// and then save the screener data.
 					$score = $this->SimpleHealthTestScreener->calculateScore();
-					
-					// Save the screener data
+					$this->SimpleHealthTestScreener->set('user_id', $this->User->data['User']['id']);
 					$this->SimpleHealthTestScreener->save();
 					
 					// And then add the module to the user's dashboard
-					$this->User->addModule(
+					$success = $this->User->addModule(
 							$this->User->data['User']['id'],
 							$this->Module->getModuleID($this->_module_name())
 					);
-					$this->redirect('module_added');
+					if($success) {
+						return $this->redirect('module_added');
+					} else {
+						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
+					}
+					
 				} else {
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
 					$score = $this->SimpleHealthTestScreener->calculateScore();
 					$this->set('score', $score);
-					$this->SimpleHealthTestScreener->set('score', "".$score);
+					$this->SimpleHealthTestScreener->set('score', $score);
 					$this->set($this->SimpleHealthTestScreener->data);
 					$this->render('score');
 				}
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? See the error messages below. Please, try again.'));
-				$this->render('screener');
 			}
 		}
   	}
