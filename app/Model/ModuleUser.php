@@ -21,6 +21,9 @@ class ModuleUser extends AppModel
 	public function getNextPosition($userId) {
 		$options = array('conditions' => array('user_id' => $userId), 'order' => array('position' => 'desc'));
 		$last = $this->find('first', $options);
+		
+		if(empty($last)) return 1;
+		
 		return $last['ModuleUser']['position'] + 1;
 	}
 	
