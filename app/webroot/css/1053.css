@@ -687,6 +687,12 @@ img.small-icon {
 	border-bottom: 2px solid #333333;
 }
 
+/* Weekly data entry */
+img.next, img.previous {
+	vertical-align:middle;
+	margin:0 0.5em;
+}
+
 /* Quiz Table -- Registrations */
 .quiztable{
 	border: solid 1px #cccccc;

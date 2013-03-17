@@ -167,11 +167,19 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		
 		// Use today's date if no date given.
 		if(is_null($date)) $date = date("Ymd");
-		
+
 		// What is the week beginning (Monday) for the given date?
 		$helper = new ModuleHelperFunctions();
 		$weekBeginning = $helper->_getWeekBeginningDate($date);
 		$this->set('weekBeginning', $weekBeginning);
+		
+		$previousWeek = strtotime('-1 week', $weekBeginning);
+		$this->set('previousWeek', $previousWeek);
+		$nextWeek = strtotime('+1 week', $weekBeginning);
+		
+		if(mktime() > $nextWeek){
+			$this->set('nextWeek', $nextWeek);
+		}
 		
 		// Get the current user
 		$this->User->create();

@@ -1,6 +1,28 @@
 <?php $this->extend('/Modules/module_template'); ?>
 <div>
-	<h2>Week Commencing: <?php echo date('d-m-Y',$weekBeginning); ?></h2>
+	<h2><?php 
+	
+	?>Week Commencing: <?php
+	echo $this->Html->image(
+			'Actions-go-previous-view-icon.png',
+			array('alt' => 'Previous week',
+				  'url' => 'data_entry/' . date('Ymd',$previousWeek),
+				  'class' => 'previous',
+				  'title' => 'Go to previous week'
+			)
+	);
+	echo date('d-m-Y',$weekBeginning);
+	
+	if(isset($nextWeek)) {
+		echo $this->Html->image(
+				'Actions-go-next-view-icon.png',
+				array('alt' => 'Next week',
+					  'url' => 'data_entry/' . date('Ymd',$nextWeek),
+					  'class' => 'next',
+					  'title' => 'Go to next week'
+				)
+		);
+	}?></h2>
 	<p>How many portions of different fruit and vegetables did you eat this week? Enter 0 if you haven't eaten any portions of fruit or vegetables that day.</p>
 <?php echo $this->Form->create('HealthyEating.FiveADayWeekly', array(
     'inputDefaults' => array(

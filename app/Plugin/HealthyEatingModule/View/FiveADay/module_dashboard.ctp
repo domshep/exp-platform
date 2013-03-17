@@ -45,22 +45,22 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>01</td>
-				<td class="red"><?php echo $this->Html->link(__('02'), array('action' => 'view_records' . "/2013-03-02")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('02'), array('action' => 'data_entry' . "/20130302")); ?></td>
 				<td>03</td>
 			</tr>
 			<tr>
 				<td>04</td>
-				<td class="red"><?php echo $this->Html->link(__('05'), array('action' => 'view_records' . "/2013-03-05")); ?></td>
-				<td class="red"><?php echo $this->Html->link(__('06'), array('action' => 'view_records' . "/2013-03-06")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('05'), array('action' => 'data_entry' . "/20130305")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('06'), array('action' => 'data_entry' . "/20130306")); ?></td>
 				<td>07</td>
 				<td>08</td>
 				<td>09</td>
-				<td class="red"><?php echo $this->Html->link(__('10'), array('action' => 'view_records' . "/2013-03-10")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('10'), array('action' => 'data_entry' . "/20130310")); ?></td>
 			</tr>
 			<tr>
-				<td class="red"><?php echo $this->Html->link(__('11'), array('action' => 'view_records' . "/2013-03-11")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('11'), array('action' => 'data_entry' . "/20130311")); ?></td>
 				<td>12</td>
-				<td class="red"><?php echo $this->Html->link(__('13'), array('action' => 'view_records' . "/2013-03-13")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('13'), array('action' => 'data_entry' . "/20130313")); ?></td>
 				<td>14</td>
 				<td>15</td>
 				<td>16</td>
@@ -70,15 +70,15 @@
 				<td>18</td>
 				<td>19</td>
 				<td>20</td>
-				<td class="red"><?php echo $this->Html->link(__('21'), array('action' => 'view_records' . "/2013-03-21")); ?></td>
-				<td class="red"><?php echo $this->Html->link(__('22'), array('action' => 'view_records' . "/2013-03-22")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('21'), array('action' => 'data_entry' . "/20130321")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('22'), array('action' => 'data_entry' . "/20130322")); ?></td>
 				<td>23</td>
 				<td>24</td>
 			</tr>
 			<tr>
 				<td>25</td>
 				<td>26</td>
-				<td class="red"><?php echo $this->Html->link(__('27'), array('action' => 'view_records' . "/2013-03-27")); ?></td>
+				<td class="red"><?php echo $this->Html->link(__('27'), array('action' => 'data_entry' . "/20130327")); ?></td>
 				<td>28</td>
 				<td>29</td>
 				<td>30</td>
