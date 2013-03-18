@@ -74,6 +74,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	 */
 	public function screener() {
   		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
+  		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
@@ -98,6 +99,11 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					$this->SimpleHealthTestScreener->set('score', $score);
 					$this->SimpleHealthTestScreener->set('user_id', $this->User->data['User']['id']);
 					$this->SimpleHealthTestScreener->save();
+					
+					// Calculate / initialise the achievement stats
+					$this->SimpleHealthTestAchievement->create();
+					$this->SimpleHealthTestAchievement->updateAchievements($this->User->data['User']['id']);
+					$this->SimpleHealthTestAchievement->save();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -144,10 +150,15 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	}
   	
   	public function dashboard_achievements() {
+  		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+  		
   		// Don't allow this method to be called directly from a URL
   		if (empty($this->request->params['requested'])) {
   			throw new ForbiddenException();
   		}
+  		
+  		$achievements = $this->SimpleHealthTestAchievement->findByUserId($this->Auth->user('id'));
+  		$this->set('achievements', $achievements);
   		$this->set('message', "Achievements from the " . $this->_module_name());
   		$this->render();
   	}
@@ -163,6 +174,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 */
 	public function data_entry($date = null) {
 		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
 		$this->loadModel('User');
 		
 		// Use today's date if no date given.
@@ -200,7 +212,12 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 				$success = $this->SimpleHealthTestWeekly->save();
 				
 				if($success) {
-					//TODO - redraw graphs? update milestones?
+					//Re-calculate the achievement stats
+					$this->SimpleHealthTestAchievement->create();
+					$this->SimpleHealthTestAchievement->updateAchievements($this->User->data['User']['id']);
+					$this->SimpleHealthTestAchievement->save();
+					
+					//TODO - redraw graphs?
 					
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
 					return $this->redirect('module_dashboard');

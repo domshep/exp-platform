@@ -139,6 +139,12 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		)
 	);
 	
+	/**
+	 * Calculates the "total health score" for this weekly record, by totalling up each of the individual
+	 * daily scores.
+	 * 
+	 * @return number
+	 */
 	public function calculateTotal() {
 		$total = $this->data['SimpleHealthTestWeekly']['monday']
 				+ $this->data['SimpleHealthTestWeekly']['tuesday']

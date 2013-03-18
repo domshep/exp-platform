@@ -97,11 +97,22 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `height_cm` int(10) unsigned DEFAULT NULL,
   `post_code` varchar(20) DEFAULT NULL,
   `mobile_no` varchar(20) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+DROP TABLE IF EXISTS `simple_health_test_achievements`;
+CREATE TABLE IF NOT EXISTS `simple_health_test_achievements` (
+  `user_id` int(11) NOT NULL,
+  `healthy_days_last_week` int(11) NOT NULL DEFAULT '0',
+  `total_days_healthy` int(11) NOT NULL DEFAULT '0',
+  `total_full_weeks_healthy` int(11) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `simple_health_test_screeners`;
 CREATE TABLE IF NOT EXISTS `simple_health_test_screeners` (
