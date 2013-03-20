@@ -1,10 +1,22 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+
+DROP TABLE IF EXISTS `fiveaday_achievements`;
+CREATE TABLE IF NOT EXISTS `fiveaday_achievements` (
+  `user_id` int(11) NOT NULL,
+  `healthy_days_last_week` int(11) NOT NULL DEFAULT '0',
+  `total_days_healthy` int(11) NOT NULL DEFAULT '0',
+  `total_full_weeks_healthy` int(11) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `fiveaday_screeners`;
 CREATE TABLE IF NOT EXISTS `fiveaday_screeners` (
@@ -123,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `simple_health_test_screeners` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `simple_health_test_weekly`;
 CREATE TABLE IF NOT EXISTS `simple_health_test_weekly` (
@@ -142,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `simple_health_test_weekly` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
@@ -155,3 +167,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

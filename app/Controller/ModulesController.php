@@ -6,6 +6,7 @@ App::uses('AppController', 'Controller');
  * @property Module $Module
  */
 class ModulesController extends AppController {
+    public $helpers = array('Calendar');
 
 	public function beforeFilter() {
 		parent::beforeFilter();

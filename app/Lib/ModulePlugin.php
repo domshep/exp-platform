@@ -36,7 +36,7 @@ interface ModulePlugin {
 	/**
 	 * If you need the user to be able to edit this data it can be done here.
 	 */
-	public function edit_data();
+	//public function admin_edit_data();
 	
 	
 	/**

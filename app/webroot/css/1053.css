@@ -754,6 +754,10 @@ img.next, img.previous {
 	background-color:#FF0000;
 	color:#FFFFFF;
 }
+.calendar .green, .calendar .green a:link{
+	background-color:#006600;
+	color:#FFFFFF;
+}
 
 /* Five a Day Form */
 #fiveadayweekly{

@@ -1,5 +1,6 @@
 <?php
 class FiveADayController extends HealthyEatingModuleAppController implements ModulePlugin {
+    public $helpers = array('Calendar');
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -36,15 +37,20 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		$this->set('message', "News from the " . $this->_module_name());
 		$this->render();
 	}
-	
-	public function dashboard_achievements() {
-		// Don't allow this method to be called directly from a URL
-		if (empty($this->request->params['requested'])) {
-			throw new ForbiddenException();
-		}
-		$this->set('message', "Achievements from the " . $this->_module_name());
-		$this->render();
-	}
+  	
+  	public function dashboard_achievements() {
+  		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		
+  		$achievements = $this->FiveADayAchievement->findByUserId($this->Auth->user('id'));
+  		$this->set('achievements', $achievements);
+  		$this->set('message', "Achievements from the " . $this->_module_name());
+  		$this->render();
+  	}
 
 	/**
 	 * Returns the public name of the module.
@@ -155,8 +161,89 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * Will usually contain feedback / charts on their achievements so far, along with the
   	 * ability to quickly make a new data entry.
   	 */
-	public function module_dashboard() {
+	public function module_dashboard($year = null,$month = null) {
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
+  		$this->loadModel('User');
+		
+		$month_list = array('january', 'febuary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
+		
+		// Use today's date if no date given.
+		if(is_null($month)) $month = gmdate("F");
+		if(is_null($year)) $year = gmdate("Y");
+		$this->set('month', $month);
+		$this->set('year', $year);
+		
+		for($i = 0; $i < 12; $i++)
+		{
+			if(strtolower($month) == $month_list[$i])
+			{
+				if(intval($year) != 0)
+				{
+					$flag = 1;
+					$monthnum = $i + 1;
+					break;
+				}
+			}
+		}
+		
+		$date = gmmktime(0,0,0,$monthnum,1,$year);
   		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
+		
+		$helper = new ModuleHelperFunctions();
+  		$weekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$date));
+	
+  		// Get the current user
+  		$this->User->create();
+  		$this->User->set($this->User->findById($this->Auth->user('id')));
+  		$this->set('userID', $this->User->data['User']['id']);
+  		
+		$month = $monthnum;
+		$recordsarray = "";
+		$i = 0;
+		$j = 1;
+		
+		// What day of the week does the month start on?
+		$first_day_in_month = gmdate('D', gmmktime(0,0,0, $monthnum, 1, $year)); 
+		if ($first_day_in_month == "Mon") $startday = 0;
+		if ($first_day_in_month == "Tues") $startday = 1;
+		if ($first_day_in_month == "Wed") $startday = 2;
+		if ($first_day_in_month == "Thu") $startday = 3;
+		if ($first_day_in_month == "Fri") $startday = 4;
+		if ($first_day_in_month == "Sat") $startday = 5;
+		if ($first_day_in_month == "Sun") $startday = 6;
+		$week = 1;
+		
+		// Load the relevant Records:
+		while ($month == $monthnum and $i < 6)
+		{
+  			$this->FiveADayWeekly->create();
+  			$this->FiveADayWeekly->set($this->request->data);
+			
+  			$previousEntry = $this->FiveADayWeekly->findByUserIdAndWeekBeginning(
+  				$this->User->data['User']['id'],
+  				gmdate("Y-m-d",$weekBeginning));
+		
+  			// If so, edit this entry instead of creating a new one...
+  			//if(!empty($previousEntry)){ 
+			$this->request->data = $previousEntry;
+			if ($j > 0)  $recordsarray .= ",";
+			if ($startday == 0 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.monday') .",";
+			if ($startday <= 1 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.tuesday') . ",";
+			if ($startday <= 2 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.wednesday') .",";
+			if ($startday <= 3 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.thursday') .",";
+			if ($startday <= 4 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.friday') .",";
+			if ($startday <= 5 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.saturday') .",";
+			$recordsarray .= $this->request->data('FiveADayWeekly.sunday');
+			//}
+			$weekBeginning = gmmktime(0,0,0,gmdate("m",$weekBeginning),gmdate("d",$weekBeginning)+7,gmdate("Y",$weekBeginning));
+			$month = gmdate("m",$weekBeginning);
+			$i++;
+			$j=$j+7;
+			$week++;
+		}
+		$records = explode(",",$recordsarray);
+		$this->set('records', $records);
   	}
   	
   	/**
@@ -166,10 +253,11 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 */
   	public function data_entry($date = null) {
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
   		$this->loadModel('User');
   	
   		// Use today's date if no date given.
-  		if(is_null($date)) $date = date("Ymd");
+  		if(is_null($date)) $date = gmdate("Ymd");
   	
   		// What is the week beginning (Monday) for the given date?
   		$helper = new ModuleHelperFunctions();
@@ -203,6 +291,11 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   				$success = $this->FiveADayWeekly->save();
   	
   				if($success) {
+					//Re-calculate the achievement stats
+					$this->FiveADayAchievement->create();
+					$this->FiveADayAchievement->updateAchievements($this->User->data['User']['id']);
+					$this->FiveADayAchievement->save();
+					
   					//TODO - redraw graphs? update milestones?
   						
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
@@ -228,7 +321,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		}
   	}
 	
-	public function edit_data($id=null) {
+	/*
+	public function admin_edit($id=null) {
 		// Load the User ID
 		$this->set('userID', $this->Auth->user('id'));
 		// Set the welcome message
@@ -257,7 +351,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 			//$this->request->data = $this->FiveADayWeekly->id = $id;//'first', $options);
     		$this->set('FiveADayWeekly', $this->FiveADayWeekly->id = $id);
 		}	
-  	}
+  	}*/
   
   	public function review_progress() {
   		return "This page will allow the logged-in user to review their progress against the module";
