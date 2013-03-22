@@ -89,12 +89,12 @@
 					<div class='module' id="<?php echo $module['Module']['name']; ?>">
 						<h3><?php echo $this->Html->image('/'.$module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
 						?> <strong><?php echo $module['Module']['name']; ?></strong>&nbsp;</h3>
-						<p><?php 
+						<?php 
 							$remove = '/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/i';
 							$modname = preg_replace($remove, '', $module['Module']['name']);
 							echo $widget; 
 							echo $this->Html->link(__('My \'' . $modname . '\' dashboard'), '/'.$module['Module']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self')); 
-						?></p>
+						?>
 					</div>
 				<?php endforeach;
 			}?>

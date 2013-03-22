@@ -11,9 +11,11 @@
 				if ($newswidget != "") echo $newswidget;
 			?>
 </div>
+
 <div class="modules">
-	<div class="module" style="text-align:center;">
-		<h4><strong>Your Progress to Date</strong>
+	<div class="module">
+		<h3><?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Piechart icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+						?>&nbsp;<strong>Your progress over time</strong>
 		<a href="#graph" class="info" title="More Information">
 			<?php 
 				echo $this->Html->image(
@@ -22,7 +24,7 @@
 				);
 			?>
 		</a>
-		</h4>
+		</h3>
 		<p>&nbsp;<br/>
 			<?php 
 				echo $this->Html->image(
@@ -36,7 +38,8 @@
 		<p><?php echo $this->Html->link(__('View My Records'), array('action' => 'view_records'),array('class' => 'button')); ?></p>
 	</div>
 	<div class="module">
-		<h4><strong>So far this month:</strong>
+		<h3><?php echo $this->Html->image('/img/Actions-view-calendar-icon.png', array('alt' => "Calendar icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+						?>&nbsp;<strong>Your month at a glance:</strong>
 		<a href="#cal" class="info" title="About the Calendar">
 			<?php 
 				echo $this->Html->image(
@@ -44,12 +47,13 @@
 					array('alt' => 'Information')
 				);
 			?>
-		</a></h4>
+		</a></h3>
 		<?php echo $this->Calendar->calendar($year,$month,$records, '/healthy_eating_module/five_a_day/module_dashboard','/healthy_eating_module/five_a_day/data_entry','5','green5','red5'); ?>
 		<p><?php echo $this->Html->link(__('View My Monthly Stats'), array('action' => 'view_records'),array('class' => 'button')); ?></p>
 	</div>
 	<div class="module">
-		<h4><strong>My Weekly Achievements</strong>
+		<h3><?php echo $this->Html->image('/img/Actions-rating-icon.png', array('alt' => "Star icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+						?>&nbsp;<strong>Your achievements</strong>
 		<a href="#achieve" class="info" title="Your Achievements">
 			<?php 
 				echo $this->Html->image(
@@ -57,7 +61,7 @@
 					array('alt' => 'Information')
 				);
 			?>
-		</a></h4>
+		</a></h3>
 		<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 	</div>
 	</div>

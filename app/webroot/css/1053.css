@@ -564,6 +564,7 @@ div#breadcrumb a {
 	color:#FFFFFF;
 	border-radius: 5px 5px 0 0;
 	border-bottom: 3px solid #FFC709;
+	margin-bottom: 0px;
 }
 .modulesgrid .news h4{
 	color:#ffffff;
@@ -581,6 +582,13 @@ div#breadcrumb a {
 }
 .modulesgrid h3, .modulesgrid h2{
 	padding: 10px;
+}
+.modulesgrid h3 {
+	font-size:1.3em;
+	margin-bottom:1em;
+}
+.modulesgrid h3 img.small-icon {
+	margin-right:1em;
 }
 #content .news h2{
 	padding: 10px;
