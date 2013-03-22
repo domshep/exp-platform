@@ -34,6 +34,7 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 	 * counts as a 'healthy day' for this example module.
 	 */
 	private $healthyScore = 5;
+	private $healthyWeekScore = 35;
 
 /**
  * Validation rules
@@ -99,14 +100,7 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 	private function totalHealthyWeeks($user_id) {
 		$total = $this->query("SELECT COUNT(*) AS `total` FROM `fiveaday_weekly` WHERE user_id = " . $user_id
 				. " AND ("
-				. " monday >= " . $this->healthyScore
-				. " AND tuesday >= " . $this->healthyScore
-				. " AND wednesday >= " . $this->healthyScore
-				. " AND thursday >= " . $this->healthyScore
-				. " AND friday >= " . $this->healthyScore
-				. " AND saturday >= " . $this->healthyScore
-				. " AND sunday >= " . $this->healthyScore
-				. ");"
+				. " total >= " . $this->healthyWeekScore . ");"
 				);
 		return $total[0][0]['total'];
 	}

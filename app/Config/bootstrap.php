@@ -74,7 +74,6 @@ Cache::config('default', array('engine' => 'File'));
 CakePlugin::load('MenuBuilder');
 CakePlugin::load('DebugKit');
 CakePlugin::load('ExampleModule');
-CakePlugin::load('DaveModule');
 CakePlugin::Load('HealthyEatingModule');
 
 /**

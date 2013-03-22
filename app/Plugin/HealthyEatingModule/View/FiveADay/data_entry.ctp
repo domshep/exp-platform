@@ -24,10 +24,7 @@
 		);
 	}?></h2>
 	<p>How many portions of different fruit and vegetables did you eat this week? Enter 0 if you haven't eaten any portions of fruit or vegetables that day.</p>
-<?php echo $this->Form->create('HealthyEating.FiveADayWeekly', array(
-    'inputDefaults' => array(
-        'label' => false
-    ))) ?>
+<?php echo $this->Form->create('HealthyEating.FiveADayWeekly') ?>
 	<table class="weekly-total">
 		<tr>
 			<th>Monday</th>
@@ -52,6 +49,9 @@
 				echo $this->Form->hidden('FiveADayWeekly.week_beginning',array('value'=>date('Y-m-d',$weekBeginning)));
 				echo $this->Form->hidden('FiveADayWeekly.id');
 			?></td>
+		</tr>
+		<tr>
+			<td colspan="8"><label for="FiveADayWeeklyWhat_Worked">What worked for you this week?</label><?php echo $this->Form->textarea('FiveADayWeekly.what_worked',array('label'=>'false', 'cols'=>'35', 'rows'=>'5')); ?></td>
 		</tr>
 	</table>
 <p><?php echo $this->Form->end(__('Submit')); ?></p>

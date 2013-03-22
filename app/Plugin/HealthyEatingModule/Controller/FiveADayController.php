@@ -166,6 +166,14 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
   		$this->loadModel('User');
 		
+  		// Get the current user
+  		$this->User->create();
+  		$this->User->set($this->User->findById($this->Auth->user('id')));
+  		$this->set('userID', $this->User->data['User']['id']);
+		
+  		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
+		
+		// Calendar Related Items:
 		$month_list = array('january', 'febuary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
 		
 		// Use today's date if no date given.
@@ -188,15 +196,98 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		}
 		
 		$date = gmmktime(0,0,0,$monthnum,1,$year);
-  		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
 		
 		$helper = new ModuleHelperFunctions();
   		$weekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$date));
 	
+		$month = $monthnum;
+		$recordsarray = "";
+		$i = 0;
+		$j = 1;
+		
+		// What day of the week does the month start on?
+		$first_day_in_month = gmdate('D', gmmktime(0,0,0, $monthnum, 1, $year)); 
+		if ($first_day_in_month == "Mon") $startday = 0;
+		if ($first_day_in_month == "Tues") $startday = 1;
+		if ($first_day_in_month == "Wed") $startday = 2;
+		if ($first_day_in_month == "Thu") $startday = 3;
+		if ($first_day_in_month == "Fri") $startday = 4;
+		if ($first_day_in_month == "Sat") $startday = 5;
+		if ($first_day_in_month == "Sun") $startday = 6;
+		$week = 1;
+		
+		// Load the relevant Records:
+		while ($month == $monthnum and $i < 6)
+		{
+  			$this->FiveADayWeekly->create();
+  			$this->FiveADayWeekly->set($this->request->data);
+			
+  			$previousEntry = $this->FiveADayWeekly->findByUserIdAndWeekBeginning(
+  				$this->User->data['User']['id'],
+  				gmdate("Y-m-d",$weekBeginning));
+		
+  			// If so, edit this entry instead of creating a new one...
+  			//if(!empty($previousEntry)){ 
+			$this->request->data = $previousEntry;
+			if ($j > 0)  $recordsarray .= ",";
+			if ($startday == 0 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.monday') .",";
+			if ($startday <= 1 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.tuesday') . ",";
+			if ($startday <= 2 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.wednesday') .",";
+			if ($startday <= 3 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.thursday') .",";
+			if ($startday <= 4 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.friday') .",";
+			if ($startday <= 5 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.saturday') .",";
+			$recordsarray .= $this->request->data('FiveADayWeekly.sunday');
+			//}
+			$weekBeginning = gmmktime(0,0,0,gmdate("m",$weekBeginning),gmdate("d",$weekBeginning)+7,gmdate("Y",$weekBeginning));
+			$month = gmdate("m",$weekBeginning);
+			$i++;
+			$j=$j+7;
+			$week++;
+		}
+		$records = explode(",",$recordsarray);
+		$this->set('records', $records);
+  	}
+  	
+  	/**
+  	 * 'View Records' shows any entries that have been made in the module this month, when accessed by a logged-in user from their dashboard.
+  	 */
+	public function view_records($year = null,$month = null) {
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+  		$this->loadModel('User');
+		
   		// Get the current user
   		$this->User->create();
   		$this->User->set($this->User->findById($this->Auth->user('id')));
   		$this->set('userID', $this->User->data['User']['id']);
+  		
+  		$this->set('message', "These are your entries for this module for the requested month");
+		
+		// Calendar Related Items:
+		$month_list = array('january', 'febuary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
+		
+		// Use today's date if no date given.
+		if(is_null($month)) $month = gmdate("F");
+		if(is_null($year)) $year = gmdate("Y");
+		$this->set('month', $month);
+		$this->set('year', $year);
+		
+		for($i = 0; $i < 12; $i++)
+		{
+			if(strtolower($month) == $month_list[$i])
+			{
+				if(intval($year) != 0)
+				{
+					$flag = 1;
+					$monthnum = $i + 1;
+					break;
+				}
+			}
+		}
+		
+		$date = gmmktime(0,0,0,$monthnum,1,$year);
+		
+		$helper = new ModuleHelperFunctions();
+  		$weekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$date));
   		
 		$month = $monthnum;
 		$recordsarray = "";

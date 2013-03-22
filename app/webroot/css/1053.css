@@ -183,9 +183,10 @@ img.right {
 }  
 #banner h1 a{
 	display: block;
-	width: 456px;
+	width: 500px;
 	height: 129px;
-	background-image: url(/img/champions-for-health-logo.gif);
+	/*background-image: url(/img/champions-for-health-logo.gif);*/
+	background-image: url(/img/new-logo2.png);
 	background-repeat: no-repeat;
 	text-indent: -9000px;
 }
@@ -740,6 +741,7 @@ img.next, img.previous {
 	font-weight:bold;
 }
 .calendar th{
+	width: 14%;
 	background-color: #FFFFFF;
 }
 .calendar tr:nth-child(2n+1) {
@@ -757,6 +759,56 @@ img.next, img.previous {
 .calendar .green, .calendar .green a:link{
 	background-color:#006600;
 	color:#FFFFFF;
+}
+
+/*Five A Day Calendar*/
+
+.calendar .red5 a{
+	height: 26px;
+	/*background-color:#FF0000;*/
+	background-image: url(/healthy_eating_module/img/five_a_day/apple-core.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	display: block;
+	padding-top: 10px;
+}
+.calendar .red5, .calendar .red5 a:link, .calendar .red5 a:visited{
+	color:#000000;
+	text-align: center;
+}
+.calendar .green5, .calendar .green5 a:link, .calendar .green5 a:visited{
+	color:#ffffff;
+	text-align: center;
+}
+.calendar .green5 a{
+	height: 26px;
+	/*background-color:#006600;*/
+	background-image: url(/healthy_eating_module/img/five_a_day/apple-full.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	display: block;
+	height: 27px;
+	padding-top: 10px;
+}
+.calendar .cell-number {
+	color: #000000;
+	text-align: left;
+}
+.calendar .cell-data {
+	margin-top: 10px;
+}
+.calendar .add .cell-data{
+	text-align: center;
+	margin-top: 0px;
+}
+.calendar .add a{
+	background-image: url(/healthy_eating_module/img/five_a_day/add.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	display: block;
+	height: 27px;
+	text-indent: -6000px;
+	overflow: hidden;
 }
 
 /* Five a Day Form */

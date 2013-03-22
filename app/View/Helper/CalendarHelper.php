@@ -24,8 +24,11 @@
         	debug($settings);
     	}*/
 		
-		public function calendar($year = '', $month = '', $data = '', $base_url ='', $link_url = '', $pass = '')
+		// year - month - data to show on date as an array - link for prev/next - link for date shown - pass rate - class for pass - class for fail
+		public function calendar($year = '', $month = '', $data = '', $base_url = '', $link_url = '', $pass = '', $passclass = '', $failclass = '')
 		{
+			if ($passclass == "") $passclass = 'green';
+			if ($failclass == "") $failclass = 'red';
 			
 			$str = '';
 			$month_list = array('january', 'febuary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
@@ -130,10 +133,13 @@
 						// If this cell has contents
 						if ($cell != "&nbsp;" and $cell != ""){
 							// if the cell value meets the target
-							if ($cell >= $pass) $class = ' class="green"';
-							elseif ($cell < $pass) $class = ' class="red"'; // else show the failure
+							if ($cell >= $pass) $class = ' class="'.$passclass.'"';
+							elseif ($cell < $pass) $class = ' class="'.$failclass.'"'; // else show the failure
 						}
-						elseif ($caldate < $now) $cell = "+"; // if the date is in the past show an "add" link.
+						elseif ($caldate < $now){ 
+							$cell = "+"; // if the date is in the past show an "add" link.
+							$class = " class='add'";
+						}
 						else $cell = "&nbsp;"; // else show nothing
 						
 						//Sort out the issue with single digit days

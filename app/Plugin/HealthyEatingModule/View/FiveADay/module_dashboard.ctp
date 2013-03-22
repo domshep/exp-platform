@@ -13,7 +13,16 @@
 </div>
 <div class="modules">
 	<div class="module" style="text-align:center;">
-		<h4><strong>Your Progress to Date</strong></h4>
+		<h4><strong>Your Progress to Date</strong>
+		<a href="#graph" class="info" title="More Information">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'Information')
+				);
+			?>
+		</a>
+		</h4>
 		<p>&nbsp;<br/>
 			<?php 
 				echo $this->Html->image(
@@ -27,13 +36,54 @@
 		<p><?php echo $this->Html->link(__('View My Records'), array('action' => 'view_records'),array('class' => 'button')); ?></p>
 	</div>
 	<div class="module">
-		<h4><strong>So far this month:</strong></h4>
-		<?php echo $this->Calendar->calendar($year,$month,$records, '/healthy_eating_module/five_a_day/module_dashboard','/healthy_eating_module/five_a_day/data_entry','5'); ?>
-		<p><?php echo $this->Html->link(__('View My Weekly Stats'), array('action' => 'view_records'),array('class' => 'button')); ?></p>
+		<h4><strong>So far this month:</strong>
+		<a href="#cal" class="info" title="About the Calendar">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'Information')
+				);
+			?>
+		</a></h4>
+		<?php echo $this->Calendar->calendar($year,$month,$records, '/healthy_eating_module/five_a_day/module_dashboard','/healthy_eating_module/five_a_day/data_entry','5','green5','red5'); ?>
+		<p><?php echo $this->Html->link(__('View My Monthly Stats'), array('action' => 'view_records'),array('class' => 'button')); ?></p>
 	</div>
 	<div class="module">
-		<h4><strong>My Weekly Achievements</strong></h4>
+		<h4><strong>My Weekly Achievements</strong>
+		<a href="#achieve" class="info" title="Your Achievements">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'Information')
+				);
+			?>
+		</a></h4>
 		<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 	</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	<!--
+		$(document).ready(function(){
+			//Examples of how to assign the ColorBox event to in-line elements
+			$(".info").colorbox({inline:true, width:"50%"});
+		});
+	-->
+</script>
+
+<!-- This contains the hidden content for inline calls -->
+<div style='display:none'>
+	<div id='graph' style='padding:10px; background:#fff;'>
+		<h3>Information:</h3>
+		<p>This graph is just a dummy at this stage, but it will chart your progress as you proceed.</p>
+	</div>
+	<div id='cal' style='padding:10px; background:#fff;'>
+		<h3>Information:</h3>
+		<p>To update your information simply click on the add buttons. Successful entries are marked with a full red apples and those days where you didn't quite meet the mark show an apple core.</p>
+	</div>
+	<div id='achieve' style='padding:10px; background:#fff;'>
+		<h3>Information:</h3>
+		<p>All stats are based on the last full week you completed. This week's entries won't show until next Monday.</p>
 	</div>
 </div>

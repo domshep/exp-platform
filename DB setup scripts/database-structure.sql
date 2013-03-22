@@ -10,12 +10,12 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `fiveaday_achievements`;
 CREATE TABLE IF NOT EXISTS `fiveaday_achievements` (
   `user_id` int(11) NOT NULL,
-  `healthy_days_last_week` int(11) NOT NULL DEFAULT '0',
-  `total_days_healthy` int(11) NOT NULL DEFAULT '0',
-  `total_full_weeks_healthy` int(11) NOT NULL DEFAULT '0',
+  `healthy_days_last_week` int(11) NOT NULL default '0',
+  `total_days_healthy` int(11) NOT NULL default '0',
+  `total_full_weeks_healthy` int(11) NOT NULL default '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `fiveaday_screeners`;
@@ -47,51 +47,52 @@ CREATE TABLE IF NOT EXISTS `fiveaday_screeners` (
 
 DROP TABLE IF EXISTS `fiveaday_weekly`;
 CREATE TABLE IF NOT EXISTS `fiveaday_weekly` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL auto_increment,
   `week_beginning` date NOT NULL,
   `user_id` int(11) NOT NULL,
-  `monday` int(11) DEFAULT NULL,
-  `tuesday` int(11) DEFAULT NULL,
-  `wednesday` int(11) DEFAULT NULL,
-  `thursday` int(11) DEFAULT NULL,
-  `friday` int(11) DEFAULT NULL,
-  `saturday` int(11) DEFAULT NULL,
-  `sunday` int(11) DEFAULT NULL,
+  `monday` int(11) default NULL,
+  `tuesday` int(11) default NULL,
+  `wednesday` int(11) default NULL,
+  `thursday` int(11) default NULL,
+  `friday` int(11) default NULL,
+  `saturday` int(11) default NULL,
+  `sunday` int(11) default NULL,
   `total` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`),
+  `what_worked` text NULL,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `modules`;
 CREATE TABLE IF NOT EXISTS `modules` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(100) NOT NULL,
   `version` decimal(10,0) unsigned NOT NULL,
   `type` varchar(20) NOT NULL,
-  `parent_id` int(10) unsigned NOT NULL,
+  `parent_id` int(11) unsigned NOT NULL,
   `base_url` varchar(75) NOT NULL,
   `icon_url` varchar(100) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `created` datetime default NULL,
+  `modified` datetime default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 DROP TABLE IF EXISTS `module_users`;
 CREATE TABLE IF NOT EXISTS `module_users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) NOT NULL,
-  `module_id` int(10) NOT NULL,
-  `position` int(10) unsigned NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `module_id` int(11) NOT NULL,
+  `position` int(11) unsigned NOT NULL,
+  `created` datetime default NULL,
+  `modified` datetime default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE IF NOT EXISTS `news` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `headline` varchar(255) NOT NULL,
   `article` blob NOT NULL,
   `created` datetime NOT NULL,
@@ -101,8 +102,8 @@ CREATE TABLE IF NOT EXISTS `news` (
 
 DROP TABLE IF EXISTS `profile`;
 CREATE TABLE IF NOT EXISTS `profile` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `gender` varchar(1) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
@@ -154,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `simple_health_test_weekly` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
