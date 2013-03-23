@@ -23,10 +23,9 @@ echo $this->Html->css('/ExampleModule/css/module.css');
 			?>
 		</a>
 		</h3>
-		<p>&nbsp;<br/>
-			<?php 
+		<p><?php 
 				echo $this->Html->image(
-					'graph-dummy.jpg', 
+					'/example_module/simple_health_test/minigraph', 
 					array('alt' => '5 A Day Dummy Graph',
     				'url' => array('action' => 'view_records')
 					)

@@ -1,6 +1,7 @@
 <?php
 class SimpleHealthTestController extends ExampleModuleAppController implements ModulePlugin {
 	public $helpers = array('Calendar');
+	public $components = array('RequestHandler');
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -306,7 +307,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   						'user_id' => $userId,
   						'week_beginning >=' => gmdate("Y-m-d",$monthWeekBeginning),
   						'week_beginning <=' => gmdate("Y-m-t",$monthStartDate)
-  				)
+  				),
+  				'order' => array('week_beginning' => 'asc')
   		));
   		
   		$records = array();
@@ -324,6 +326,49 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		}
   		
   		return $records;
+  	}
+  	
+  	public function minigraph() {
+  		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+  		$this->layout = 'ajax';
+  		$this->RequestHandler->respondAs('png');
+  		
+  		// Retrieve all the weekly entries between the start week and the last day of the month
+  		$lastThreeMonthEntries = $this->SimpleHealthTestWeekly->find('all',array(
+  				'conditions' => array(
+  						'user_id' => $this->Auth->user('id'),
+  						'week_beginning >=' => date("Y-m-d", strtotime("-3 months")),
+  						'week_beginning <=' => date("Y-m-d",time())
+  				),
+  				'order' => array('week_beginning' => 'asc')
+  		));
+  		
+  		// Need at least three weeks of entries to display a chart...
+  		if(count($lastThreeMonthEntries) < 3) {
+  			return $this->redirect('/img/not-enough-data-chart.png');
+  		}
+  		
+  		$ydata = array();
+  		$dates = array();
+  		
+  		// Iterate through the entries and reformat them into separate arrays for the graph function.
+  		foreach($lastThreeMonthEntries as $key => $weeklyEntry) {
+  			$ydata[] = $weeklyEntry['SimpleHealthTestWeekly']['total'];
+  			$dates[] = strtotime($weeklyEntry['SimpleHealthTestWeekly']['week_beginning']);
+  		}
+  		
+  		$this->set("graphData", $ydata);
+  		$this->set("dates",$dates);
+  	}
+  	
+  	public function graph() {
+  		$this->layout = 'ajax';
+  		$this->RequestHandler->respondAs('png');
+  		//,3,8,12,5,1,9,13,5,7
+  		$ydata = array($this->Auth->user('id'),11);
+  		$dates = array(strtotime("25-02-2013"),strtotime("11-03-2013"));
+  		$this->set("graphData", $ydata);
+  		$this->set("dates",$dates);
   	}
 }
 ?>

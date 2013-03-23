@@ -1,9 +1,7 @@
-<h4><strong>Your health progress to date</strong></h4>
-		<p>&nbsp;<br/>
-			<?php 
+<p><?php 
 				echo $this->Html->image(
-					'graph-dummy.jpg', 
-					array('alt' => '5 A Day Dummy Graph',
+					'/example_module/simple_health_test/minigraph', 
+					array('alt' => 'Your simple health scores over the last 3 months',
     				'url' => array('action' => 'view_records')
 					)
 				);
