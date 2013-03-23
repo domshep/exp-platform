@@ -1,14 +1,23 @@
 <?php
 class SimpleHealthTestController extends ExampleModuleAppController implements ModulePlugin {
-
+	public $helpers = array('Calendar');
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('explore_module'); // Let anyone explore the module, whether they're logged in or not.
 	}
 	
 	public function beforeRender() {
+		$this->loadModel('ModuleUser');
+		$this->loadModel('Module');
+		
 		$this->set('module_name', $this->_module_name());
 		$this->set('module_icon_url', $this->_module_icon_url());
+		
+		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
+			$this->Auth->user('id'),
+			$this->Module->getModuleID($this->_module_name()));
+		$this->set('added_to_dashboard', $addedToDashboard);
 	}
 	
 	public function dashboard_widget() {
@@ -16,7 +25,6 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-		$this->set('message', "Hello from the " . $this->_module_name());
 		$this->render();
 	}
 	
@@ -145,8 +153,17 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * Will usually contain feedback / charts on their achievements so far, along with the
   	 * ability to quickly make a new data entry.
   	 */
-	public function module_dashboard() {
-  		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
+	public function module_dashboard($year = null,$month = null) {
+  		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+  		$this->loadModel('User');
+
+  		// Get the current user
+  		$userId = $this->Auth->user('id');
+  		
+		// Calendar Related Items:
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
+		$this->set('records', $monthlyRecords);
   	}
   	
   	public function dashboard_achievements() {
@@ -162,11 +179,21 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$this->set('message', "Achievements from the " . $this->_module_name());
   		$this->render();
   	}
-  
-  	public function edit_data() {
-  		$this->set('message', "This is the edit data page, allowing a user to edit a previously entered piece of data");
+
+  	/**
+  	 * 'View Records' shows any entries that have been made in the module this month, when accessed by a logged-in user from their dashboard.
+  	 */
+  	public function view_records($year = null,$month = null) {
+  		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+  		
+  		// Get the current user
+  		$userId = $this->Auth->user('id');
+  		
+		// Calendar Related Items:
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
+  		$this->set('records', $monthlyRecords);
   	}
-  	
+  	 
   	/**
   	 * Handles the weekly data entry form for this module.
   	 * 
@@ -189,7 +216,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		$this->set('previousWeek', $previousWeek);
 		$nextWeek = strtotime('+1 week', $weekBeginning);
 		
-		if(mktime() > $nextWeek){
+		if(time() > $nextWeek){
 			$this->set('nextWeek', $nextWeek);
 		}
 		
@@ -244,6 +271,54 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   
   	public function review_progress() {
   		return "This page will allow the logged-in user to review their progress against the module";
+  	}
+  	
+  	/**
+  	 * Returns the set of monthly calendar entries for the given year and month, in a format ready to
+  	 * pass to the CalendarHelper class.
+  	 * 
+  	 * @param string $year
+  	 * @param string $month
+  	 * @return array
+  	 */
+  	private function getMonthlyCalendarEntries($userId = null, $year = null, $month = null) {
+  		$helper = new ModuleHelperFunctions();
+  		
+  		// Use today's date if no date given.
+  		if(is_null($month)) $month = gmdate("F");
+  		if(is_null($year)) $year = gmdate("Y");
+  		$this->set('month', $month);
+  		$this->set('year', $year);
+  		
+  		// Calculate the month number and week-beginning date for the first of the month
+  		$monthnum = gmdate('n', strtotime("2:00 1 ".$month. " ".$year));
+  		$monthStartDate = gmmktime(2,0,0,$monthnum,1,$year);
+  		$monthWeekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$monthStartDate));
+  		
+  		// Retrieve all the weekly entries between the start week and the last day of the month
+  		$allEntries = $this->SimpleHealthTestWeekly->find('all',array(
+  				'conditions' => array(
+  						'user_id' => $userId,
+  						'week_beginning >=' => gmdate("Y-m-d",$monthWeekBeginning),
+  						'week_beginning <=' => gmdate("Y-m-t",$monthStartDate)
+  				)
+  		));
+  		
+  		$records = array();
+  		$weekdayList = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+  		
+  		// Iterate through the entries and reformat them as, e.g., array( 1 => '10', 2 => '5', 14 => '2'... 31 => '12')
+  		foreach($allEntries as $key => $weeklyEntry) {
+  			foreach($weekdayList as $weekDayNo => $weekday) {
+  				$weekDayDate = strtotime("2:00 " . $weeklyEntry['SimpleHealthTestWeekly']['week_beginning']
+  						. " +" . $weekDayNo . " day");
+  				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
+  					$records[date('j', $weekDayDate)] = $weeklyEntry['SimpleHealthTestWeekly'][$weekday];
+  				}
+  			}
+  		}
+  		
+  		return $records;
   	}
 }
 ?>

@@ -15,8 +15,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		$this->set('module_icon_url', $this->_module_icon_url());
 		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
-				$this->Auth->user('id'),
-				$this->Module->getModuleID($this->_module_name()));
+			$this->Auth->user('id'),
+			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
 	}
 	
@@ -25,7 +25,6 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-		$this->set('message', "Hello from the " . $this->_module_name());
 		$this->render();
 	}
 	
@@ -38,20 +37,6 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		$this->render();
 	}
   	
-  	public function dashboard_achievements() {
-  		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
-  		
-  		// Don't allow this method to be called directly from a URL
-  		if (empty($this->request->params['requested'])) {
-  			throw new ForbiddenException();
-  		}
-  		
-  		$achievements = $this->FiveADayAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
-  		$this->set('message', "Achievements from the " . $this->_module_name());
-  		$this->render();
-  	}
-
 	/**
 	 * Returns the public name of the module.
 	 * 
@@ -75,7 +60,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * page that a non-logged in user will see when they arrive in the module.
   	 */
  	public function explore_module() {
-  		$this->set('message', "This is just a test module, while we work on the module interface");
+  		// Nothing to do here - just go straight to the view
  	}
 
  	/**
@@ -97,6 +82,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 */
 	public function screener() {
   		$this->loadModel('HealthyEatingModule.FiveADayScreener');
+  		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
@@ -118,8 +104,14 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
 					// and then save the screener data.
 					$score = $this->FiveADayScreener->calculateScore();
+					$this->FiveADayScreener->set('score', $score);
 					$this->FiveADayScreener->set('user_id', $this->User->data['User']['id']);
 					$this->FiveADayScreener->save();
+					
+					// Calculate / initialise the achievement stats
+					$this->FiveADayAchievement->create();
+					$this->FiveADayAchievement->updateAchievements($this->User->data['User']['id']);
+					$this->FiveADayAchievement->save();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -165,35 +157,40 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
 		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
   		$this->loadModel('User');
-		
+
   		// Get the current user
-  		$this->User->create();
-  		$this->User->set($this->User->findById($this->Auth->user('id')));
-  		$this->set('userID', $this->User->data['User']['id']);
-		
-  		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
-		
+  		$userId = $this->Auth->user('id');
+  		
 		// Calendar Related Items:
-		$monthlyRecords = $this->getMonthlyCalendarEntries($year, $month);
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
 		$this->set('records', $monthlyRecords);
   	}
   	
+  	public function dashboard_achievements() {
+  		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
+  	
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  	
+  		$achievements = $this->FiveADayAchievement->findByUserId($this->Auth->user('id'));
+  		$this->set('achievements', $achievements);
+  		$this->set('message', "Achievements from the " . $this->_module_name());
+  		$this->render();
+  	}
+
   	/**
   	 * 'View Records' shows any entries that have been made in the module this month, when accessed by a logged-in user from their dashboard.
   	 */
 	public function view_records($year = null,$month = null) {
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
-  		$this->loadModel('User');
-		
+
   		// Get the current user
-  		$this->User->create();
-  		$this->User->set($this->User->findById($this->Auth->user('id')));
-  		$this->set('userID', $this->User->data['User']['id']);
+  		$userId = $this->Auth->user('id');
   		
-  		$this->set('message', "These are your entries for this module for the requested month");
-		
 		// Calendar Related Items:
-  		$monthlyRecords = $this->getMonthlyCalendarEntries($year, $month);
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
   		$this->set('records', $monthlyRecords);
   	}
   	
@@ -316,7 +313,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * @param string $month
   	 * @return array
   	 */
-  	private function getMonthlyCalendarEntries($year = null, $month = null) {
+  	private function getMonthlyCalendarEntries($userId = null, $year = null, $month = null) {
   		$helper = new ModuleHelperFunctions();
   		
   		// Use today's date if no date given.
@@ -333,7 +330,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		// Retrieve all the weekly entries between the start week and the last day of the month
   		$allEntries = $this->FiveADayWeekly->find('all',array(
   				'conditions' => array(
-  						'user_id' => $this->User->data['User']['id'],
+  						'user_id' => $userId,
   						'week_beginning >=' => gmdate("Y-m-d",$monthWeekBeginning),
   						'week_beginning <=' => gmdate("Y-m-t",$monthStartDate)
   				)

@@ -1,8 +1,7 @@
-<?php $this->extend('/Modules/module_template');?>
-
-<h2><?php  echo $message; ?></h2>
-<p><?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button')); ?></p>
-
+<?php
+$this->extend('/Modules/module_template');
+echo $this->Html->css('/ExampleModule/css/module.css');
+?>
 <div class="modulesgrid">
 <div class="news">
 			<h3>News and updates</h3>
@@ -12,8 +11,18 @@
 			?>
 </div>
 <div class="modules">
-	<div class="module" style="text-align:center;">
-		<h4><strong>Your Progress to Date</strong></h4>
+	<div class="module">
+		<h3><?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Piechart icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+						?>&nbsp;<strong>Your progress over time</strong>
+		<a href="#graph" class="info" title="More Information">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'Information')
+				);
+			?>
+		</a>
+		</h3>
 		<p>&nbsp;<br/>
 			<?php 
 				echo $this->Html->image(
@@ -27,68 +36,32 @@
 		<p><?php echo $this->Html->link(__('View My Records'), array('action' => 'view_records'),array('class' => 'button')); ?></p>
 	</div>
 	<div class="module">
-		<h4><strong>So far this month:</strong></h4>
-		<table class="calendar">
-			<caption>March 2013</caption>
-			<tr>
-				<th>M</th>
-				<th>T</th>
-				<th>W</th>
-				<th>T</th>
-				<th>F</th>
-				<th>S</th>
-				<th>S</th>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>01</td>
-				<td class="red"><?php echo $this->Html->link(__('02'), array('action' => 'data_entry' . "/20130302")); ?></td>
-				<td>03</td>
-			</tr>
-			<tr>
-				<td>04</td>
-				<td class="red"><?php echo $this->Html->link(__('05'), array('action' => 'data_entry' . "/20130305")); ?></td>
-				<td class="red"><?php echo $this->Html->link(__('06'), array('action' => 'data_entry' . "/20130306")); ?></td>
-				<td>07</td>
-				<td>08</td>
-				<td>09</td>
-				<td class="red"><?php echo $this->Html->link(__('10'), array('action' => 'data_entry' . "/20130310")); ?></td>
-			</tr>
-			<tr>
-				<td class="red"><?php echo $this->Html->link(__('11'), array('action' => 'data_entry' . "/20130311")); ?></td>
-				<td>12</td>
-				<td class="red"><?php echo $this->Html->link(__('13'), array('action' => 'data_entry' . "/20130313")); ?></td>
-				<td>14</td>
-				<td>15</td>
-				<td>16</td>
-				<td>17</td>
-			</tr>
-			<tr>
-				<td>18</td>
-				<td>19</td>
-				<td>20</td>
-				<td class="red"><?php echo $this->Html->link(__('21'), array('action' => 'data_entry' . "/20130321")); ?></td>
-				<td class="red"><?php echo $this->Html->link(__('22'), array('action' => 'data_entry' . "/20130322")); ?></td>
-				<td>23</td>
-				<td>24</td>
-			</tr>
-			<tr>
-				<td>25</td>
-				<td>26</td>
-				<td class="red"><?php echo $this->Html->link(__('27'), array('action' => 'data_entry' . "/20130327")); ?></td>
-				<td>28</td>
-				<td>29</td>
-				<td>30</td>
-				<td>31</td>
-			</tr>
-		</table>
-		<p><?php echo $this->Html->link(__('View My Weekly Stats'), array('action' => 'view_records'),array('class' => 'button')); ?></p>
+		<h3><?php echo $this->Html->image('/img/Actions-view-calendar-icon.png', array('alt' => "Calendar icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+						?>&nbsp;<strong>Your month at a glance:</strong>
+		<a href="#cal" class="info" title="About the Calendar">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'Information')
+				);
+			?>
+		</a></h3>
+		<?php echo $this->Calendar->calendar($year,$month,$records, '/example_module/simple_health_test/module_dashboard','/example_module/simple_health_test/data_entry','7','green-simple','red-simple'); ?>
+		<p>
+		<?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button', 'style' => 'float:left;')); ?>
+		<?php echo $this->Html->link(__('View your monthly records'), array('action' => 'view_records'),array('class' => 'button', 'style' => 'float:right;clear:none;')); ?></p>
 	</div>
 	<div class="module">
-		<h4><strong>My Weekly Achievements</strong></h4>
+		<h3><?php echo $this->Html->image('/img/Actions-rating-icon.png', array('alt' => "Star icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
+						?>&nbsp;<strong>Your 5-a-day achievements</strong>
+		<a href="#achieve" class="info" title="Your Achievements">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'Information')
+				);
+			?>
+		</a></h3>
 		<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 	</div>
 	</div>
