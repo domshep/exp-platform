@@ -8,16 +8,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	}
 	
 	public function beforeRender() {
-		$this->loadModel('ModuleUser');
-		$this->loadModel('Module');
-		
 		$this->set('module_name', $this->_module_name());
 		$this->set('module_icon_url', $this->_module_icon_url());
-		
-		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
-			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
-		$this->set('added_to_dashboard', $addedToDashboard);
 	}
 	
 	public function dashboard_widget() {
@@ -60,6 +52,14 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * page that a non-logged in user will see when they arrive in the module.
   	 */
  	public function explore_module() {
+ 		$this->loadModel('ModuleUser');
+ 		$this->loadModel('Module');
+ 		
+		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
+			$this->Auth->user('id'),
+			$this->Module->getModuleID($this->_module_name()));
+		$this->set('added_to_dashboard', $addedToDashboard);
+		
   		$this->set('message', "This is just an example module, while we work on the module interface");
  	}
 
@@ -68,7 +68,13 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
  	 * dashboard.
  	 */
  	public function add_module() {
-  		// Nothing to do here - just go straight to the view
+ 		$this->loadModel('ModuleUser');
+ 		$this->loadModel('Module');
+ 		
+		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
+			$this->Auth->user('id'),
+			$this->Module->getModuleID($this->_module_name()));
+		$this->set('added_to_dashboard', $addedToDashboard);
  	}
   
 	/**
@@ -176,7 +182,6 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		
   		$achievements = $this->SimpleHealthTestAchievement->findByUserId($this->Auth->user('id'));
   		$this->set('achievements', $achievements);
-  		$this->set('message', "Achievements from the " . $this->_module_name());
   		$this->render();
   	}
 
