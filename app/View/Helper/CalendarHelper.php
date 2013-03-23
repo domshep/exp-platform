@@ -116,8 +116,14 @@
 		);
 			
 			$str .= '<table class="calendar" id="calendar">';
-			$str .= '<tr><th class="cell-prev">'. $prev_link. '</th><th colspan="5" style="text-align: center;">' . ucfirst($month) . ' ' . $year . '</th><th class="cell-next">' . $next_link. '</th></tr>';
-			$str .= '<tr>';
+			$str .= '<tr><th class="cell-prev">'. $prev_link. '</th>';
+			$str .= '<th colspan="5" style="text-align: center;">' . ucfirst($month) . ' ' . $year . '</th>';
+			if(strtotime("1 " . $next_month . " ".$next_year) <= time()) {
+				$str .= '<th class="cell-next">' . $next_link. '</th>';
+			} else {
+				$str .= '<th class="cell-next">&nbsp;</th>';
+			}
+			$str .= '</tr><tr>';
 			
 			// Day of the week headers
 			for($i = 0; $i < 7;$i++)

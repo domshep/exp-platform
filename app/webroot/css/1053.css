@@ -502,6 +502,7 @@ div#breadcrumb a {
 	float: left;
 	width: 100%;
 	display: block;
+	margin-top:1em;
 }	
 .widgetbox{
 	float: left;
@@ -550,6 +551,8 @@ div#breadcrumb a {
 .modulesgrid h3{
 	border-radius: 5px;
 	background-color:#FFFFFF;
+	font-size:1.3em;
+	margin-bottom:1em;
 }
 .modulesgrid .news h3{
 	font-weight: bold;
@@ -583,10 +586,7 @@ div#breadcrumb a {
 .modulesgrid h3, .modulesgrid h2{
 	padding: 10px;
 }
-.modulesgrid h3 {
-	font-size:1.3em;
-	margin-bottom:1em;
-}
+
 .modulesgrid h3 img.small-icon {
 	margin-right:1em;
 }
@@ -752,6 +752,14 @@ img.next, img.previous {
 	width: 14%;
 	background-color: #FFFFFF;
 }
+.calendar th.date {
+	font-size:1.2em;
+	font-weight:bold;
+	text-align:center;
+}
+.calendar th.cell-header {
+	text-align:center;
+}
 .calendar tr:nth-child(2n+1) {
     background: none repeat scroll 0 0 #F2F2F2;
 }
@@ -769,65 +777,37 @@ img.next, img.previous {
 	color:#FFFFFF;
 }
 
-/*Five A Day Calendar*/
-
-.calendar .red5 a{
-	height: 26px;
-	/*background-color:#FF0000;*/
-	background-image: url(/healthy_eating_module/img/five_a_day/apple-core.png);
-	background-repeat: no-repeat;
-	background-position: center top;
-	display: block;
-	padding-top: 10px;
-}
-.calendar .red5, .calendar .red5 a:link, .calendar .red5 a:visited{
-	color:#000000;
-	text-align: center;
-}
-.calendar .green5, .calendar .green5 a:link, .calendar .green5 a:visited{
-	color:#ffffff;
-	text-align: center;
-}
-.calendar .green5 a{
-	height: 26px;
-	/*background-color:#006600;*/
-	background-image: url(/healthy_eating_module/img/five_a_day/apple-full.png);
-	background-repeat: no-repeat;
-	background-position: center top;
-	display: block;
-	height: 27px;
-	padding-top: 10px;
-}
-.calendar .cell-number {
-	color: #000000;
-	text-align: left;
-}
-.calendar .cell-data {
-	margin-top: 10px;
-}
-.calendar .add .cell-data{
-	text-align: center;
-	margin-top: 0px;
-}
 .calendar .add a{
-	background-image: url(/healthy_eating_module/img/five_a_day/add.png);
+	background-image: url(/img/Actions-window-new-icon.png);
 	background-repeat: no-repeat;
 	background-position: center top;
 	display: block;
-	height: 27px;
+	height: 32px;
 	text-indent: -6000px;
 	overflow: hidden;
 }
 
-/* Five a Day Form */
-#fiveadayweekly{
-	width: 630px;
-	float: left;
+.calendar-holder {
+	width:60%;
+	float:left;
 }
-#fiveadayweekly th{
-	width: 90px;
+.calendar-key {
+	width:35%;
+	float:left;
+	margin-left:2em;
+	box-shadow: 3px 3px 3px #eeeeee; 
+	border-radius: 5px;
+	padding:10px; 
+	background-color : #9ecde5;
 }
-#fiveadayweekly input[type=text]{
-	width: 20px;
-	padding: 10px;
+.calendar-key h3{
+	border-radius: 5px;
+	background-color:#FFFFFF;
+	font-size:1.3em;
+	margin-bottom:1em;
+	padding:10px;
+	font-weight:bold;
+}
+.calendar-key h3 img {
+	margin-right:1em;
 }
