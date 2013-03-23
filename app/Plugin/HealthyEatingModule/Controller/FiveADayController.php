@@ -219,7 +219,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$this->set('previousWeek', $previousWeek);
   		$nextWeek = strtotime('+1 week', $weekBeginning);
   		
-  		if(mktime() > $nextWeek){
+  		if(time() > $nextWeek){
   			$this->set('nextWeek', $nextWeek);
   		}
   	
