@@ -108,12 +108,6 @@ class FiveADayWeekly extends AppModel {
 							'message' => 'Something has gone wrong. The total is not a valid figure',
 					)
 			)
-			,'what_worked' => array(
-					'valid' => array(
-                		'rule'    => array('between', 5, 1001),
-                		'message' => 'Please enter a note about What Worked. It must be between 5 to 1000 characters long'
-					)
-			)
 		);
 
 	public function calculateTotal() {
@@ -129,5 +123,5 @@ class FiveADayWeekly extends AppModel {
 	
 		return $total;
 	}
-	}
+}
 ?>

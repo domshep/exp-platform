@@ -6,7 +6,7 @@ class ModuleHelperFunctions {
 	 * @param string $date
 	 */
 	public function _getWeekBeginningDate($date) {
-		$dateTime = strtotime($date);
+		$dateTime = strtotime("2:00 " . $date);
 		if(date('w',$dateTime) == '1') {
 			// It's Monday, so return the same date
 			return $dateTime;

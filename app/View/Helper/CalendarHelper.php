@@ -19,6 +19,8 @@
 
 	class CalendarHelper extends AppHelper 
 	{
+		public $helpers = array('Html');
+		
 		/*public function __construct(View $view, $settings = array()) {
         	parent::__construct($view, $settings);
         	debug($settings);
@@ -31,7 +33,7 @@
 			if ($failclass == "") $failclass = 'red';
 			
 			$str = '';
-			$month_list = array('january', 'febuary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
+			$month_list = array('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
 			$day_list = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
 			$day = 1;
 			$today = 0;
@@ -96,8 +98,25 @@
 			$first_day_in_month = gmdate('D', gmmktime(0,0,0, $month_num, 1, $year)); 
 	 		
 			// Heading and Prev / Next
+			$prev_link = $this->Html->image(
+				'Actions-go-previous-view-icon.png',
+				array('alt' => 'Previous week',
+				  	'url' => $base_url . '/' . $prev_year . '/' . $prev_month . '#calendar',
+				  	'class' => 'previous',
+				  	'title' => 'Go to previous month'
+					)
+			);
+			$next_link = $this->Html->image(
+				'Actions-go-next-view-icon.png',
+				array('alt' => 'Next week',
+					  'url' => $base_url . '/' . $next_year . '/' . $next_month . '#calendar',
+					  'class' => 'next',
+					  'title' => 'Go to next month'
+				)
+		);
+			
 			$str .= '<table class="calendar" id="calendar">';
-			$str .= '<tr><th class="cell-prev"><a href="' . $base_url . '/' . $prev_year . '/' . $prev_month . '#calendar">prev</a></th><th colspan="5" style="text-align: center;">' . ucfirst($month) . ' ' . $year . '</th><th class="cell-next"><a href="' . $base_url . '/' . $next_year . '/' . $next_month . '#calendar" style="text-align:right;">next</a></th></tr>';
+			$str .= '<tr><th class="cell-prev">'. $prev_link. '</th><th colspan="5" style="text-align: center;">' . ucfirst($month) . ' ' . $year . '</th><th class="cell-next">' . $next_link. '</th></tr>';
 			$str .= '<tr>';
 			
 			// Day of the week headers

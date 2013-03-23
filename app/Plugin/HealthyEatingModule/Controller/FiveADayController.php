@@ -174,78 +174,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$this->set('message', "This is the 'home page' for the module, and will display feedback on module progress, and links to data entry screens");
 		
 		// Calendar Related Items:
-		$month_list = array('january', 'febuary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
-		
-		// Use today's date if no date given.
-		if(is_null($month)) $month = gmdate("F");
-		if(is_null($year)) $year = gmdate("Y");
-		$this->set('month', $month);
-		$this->set('year', $year);
-		
-		for($i = 0; $i < 12; $i++)
-		{
-			if(strtolower($month) == $month_list[$i])
-			{
-				if(intval($year) != 0)
-				{
-					$flag = 1;
-					$monthnum = $i + 1;
-					break;
-				}
-			}
-		}
-		
-		$date = gmmktime(0,0,0,$monthnum,1,$year);
-		
-		$helper = new ModuleHelperFunctions();
-  		$weekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$date));
-	
-		$month = $monthnum;
-		$recordsarray = "";
-		$i = 0;
-		$j = 1;
-		
-		// What day of the week does the month start on?
-		$first_day_in_month = gmdate('D', gmmktime(0,0,0, $monthnum, 1, $year)); 
-		if ($first_day_in_month == "Mon") $startday = 0;
-		if ($first_day_in_month == "Tues") $startday = 1;
-		if ($first_day_in_month == "Wed") $startday = 2;
-		if ($first_day_in_month == "Thu") $startday = 3;
-		if ($first_day_in_month == "Fri") $startday = 4;
-		if ($first_day_in_month == "Sat") $startday = 5;
-		if ($first_day_in_month == "Sun") $startday = 6;
-		$week = 1;
-		
-		// Load the relevant Records:
-		while ($month == $monthnum and $i < 6)
-		{
-  			$this->FiveADayWeekly->create();
-  			$this->FiveADayWeekly->set($this->request->data);
-			
-  			$previousEntry = $this->FiveADayWeekly->findByUserIdAndWeekBeginning(
-  				$this->User->data['User']['id'],
-  				gmdate("Y-m-d",$weekBeginning));
-		
-  			// If so, edit this entry instead of creating a new one...
-  			//if(!empty($previousEntry)){ 
-			$this->request->data = $previousEntry;
-			if ($j > 0)  $recordsarray .= ",";
-			if ($startday == 0 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.monday') .",";
-			if ($startday <= 1 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.tuesday') . ",";
-			if ($startday <= 2 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.wednesday') .",";
-			if ($startday <= 3 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.thursday') .",";
-			if ($startday <= 4 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.friday') .",";
-			if ($startday <= 5 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.saturday') .",";
-			$recordsarray .= $this->request->data('FiveADayWeekly.sunday');
-			//}
-			$weekBeginning = gmmktime(0,0,0,gmdate("m",$weekBeginning),gmdate("d",$weekBeginning)+7,gmdate("Y",$weekBeginning));
-			$month = gmdate("m",$weekBeginning);
-			$i++;
-			$j=$j+7;
-			$week++;
-		}
-		$records = explode(",",$recordsarray);
-		$this->set('records', $records);
+		$monthlyRecords = $this->getMonthlyCalendarEntries($year, $month);
+		$this->set('records', $monthlyRecords);
   	}
   	
   	/**
@@ -263,78 +193,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$this->set('message', "These are your entries for this module for the requested month");
 		
 		// Calendar Related Items:
-		$month_list = array('january', 'febuary', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december');
-		
-		// Use today's date if no date given.
-		if(is_null($month)) $month = gmdate("F");
-		if(is_null($year)) $year = gmdate("Y");
-		$this->set('month', $month);
-		$this->set('year', $year);
-		
-		for($i = 0; $i < 12; $i++)
-		{
-			if(strtolower($month) == $month_list[$i])
-			{
-				if(intval($year) != 0)
-				{
-					$flag = 1;
-					$monthnum = $i + 1;
-					break;
-				}
-			}
-		}
-		
-		$date = gmmktime(0,0,0,$monthnum,1,$year);
-		
-		$helper = new ModuleHelperFunctions();
-  		$weekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$date));
-  		
-		$month = $monthnum;
-		$recordsarray = "";
-		$i = 0;
-		$j = 1;
-		
-		// What day of the week does the month start on?
-		$first_day_in_month = gmdate('D', gmmktime(0,0,0, $monthnum, 1, $year)); 
-		if ($first_day_in_month == "Mon") $startday = 0;
-		if ($first_day_in_month == "Tues") $startday = 1;
-		if ($first_day_in_month == "Wed") $startday = 2;
-		if ($first_day_in_month == "Thu") $startday = 3;
-		if ($first_day_in_month == "Fri") $startday = 4;
-		if ($first_day_in_month == "Sat") $startday = 5;
-		if ($first_day_in_month == "Sun") $startday = 6;
-		$week = 1;
-		
-		// Load the relevant Records:
-		while ($month == $monthnum and $i < 6)
-		{
-  			$this->FiveADayWeekly->create();
-  			$this->FiveADayWeekly->set($this->request->data);
-			
-  			$previousEntry = $this->FiveADayWeekly->findByUserIdAndWeekBeginning(
-  				$this->User->data['User']['id'],
-  				gmdate("Y-m-d",$weekBeginning));
-		
-  			// If so, edit this entry instead of creating a new one...
-  			//if(!empty($previousEntry)){ 
-			$this->request->data = $previousEntry;
-			if ($j > 0)  $recordsarray .= ",";
-			if ($startday == 0 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.monday') .",";
-			if ($startday <= 1 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.tuesday') . ",";
-			if ($startday <= 2 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.wednesday') .",";
-			if ($startday <= 3 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.thursday') .",";
-			if ($startday <= 4 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.friday') .",";
-			if ($startday <= 5 or $week > 1) $recordsarray .= $this->request->data('FiveADayWeekly.saturday') .",";
-			$recordsarray .= $this->request->data('FiveADayWeekly.sunday');
-			//}
-			$weekBeginning = gmmktime(0,0,0,gmdate("m",$weekBeginning),gmdate("d",$weekBeginning)+7,gmdate("Y",$weekBeginning));
-			$month = gmdate("m",$weekBeginning);
-			$i++;
-			$j=$j+7;
-			$week++;
-		}
-		$records = explode(",",$recordsarray);
-		$this->set('records', $records);
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($year, $month);
+  		$this->set('records', $monthlyRecords);
   	}
   	
   	/**
@@ -446,6 +306,54 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   
   	public function review_progress() {
   		return "This page will allow the logged-in user to review their progress against the module";
+  	}
+  	
+  	/**
+  	 * Returns the set of monthly calendar entries for the given year and month, in a format ready to
+  	 * pass to the CalendarHelper class.
+  	 * 
+  	 * @param string $year
+  	 * @param string $month
+  	 * @return array
+  	 */
+  	private function getMonthlyCalendarEntries($year = null, $month = null) {
+  		$helper = new ModuleHelperFunctions();
+  		
+  		// Use today's date if no date given.
+  		if(is_null($month)) $month = gmdate("F");
+  		if(is_null($year)) $year = gmdate("Y");
+  		$this->set('month', $month);
+  		$this->set('year', $year);
+  		
+  		// Calculate the month number and week-beginning date for the first of the month
+  		$monthnum = gmdate('n', strtotime("2:00 1 ".$month. " ".$year));
+  		$monthStartDate = gmmktime(2,0,0,$monthnum,1,$year);
+  		$monthWeekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$monthStartDate));
+  		
+  		// Retrieve all the weekly entries between the start week and the last day of the month
+  		$allEntries = $this->FiveADayWeekly->find('all',array(
+  				'conditions' => array(
+  						'user_id' => $this->User->data['User']['id'],
+  						'week_beginning >=' => gmdate("Y-m-d",$monthWeekBeginning),
+  						'week_beginning <=' => gmdate("Y-m-t",$monthStartDate)
+  				)
+  		));
+  		
+  		$records = array();
+  		$weekdayList = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+  		
+  		// Iterate through the entries and reformat them as, e.g., array( 1 => '10', 2 => '5', 14 => '2'... 31 => '12')
+  		foreach($allEntries as $key => $weeklyEntry) {
+  			foreach($weekdayList as $weekDayNo => $weekday) {
+  				$weekDayDate = strtotime("2:00 " . $weeklyEntry['FiveADayWeekly']['week_beginning']
+  						. " +" . $weekDayNo . " day");
+  				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
+  					$records[date('j', $weekDayDate)] = $weeklyEntry['FiveADayWeekly'][$weekday];
+  				}
+  			}
+  		}
+  		
+  		return $records;
   	}
 }
 ?>
