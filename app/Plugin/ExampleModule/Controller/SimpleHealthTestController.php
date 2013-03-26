@@ -169,8 +169,10 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$userId = $this->Auth->user('id');
   		
 		// Calendar Related Items:
-  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
-		$this->set('records', $monthlyRecords);
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
+  		$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
+  		$this->set('records', $monthlyRecords);
+  		$this->set('popups', $popupRecords);
   	}
   	
   	public function dashboard_achievements() {
@@ -196,8 +198,10 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$userId = $this->Auth->user('id');
   		
 		// Calendar Related Items:
-  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
+  		$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
   		$this->set('records', $monthlyRecords);
+  		$this->set('popups', $popupRecords);
   	}
   	 
   	/**
@@ -287,7 +291,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * @param string $month
   	 * @return array
   	 */
-  	private function getMonthlyCalendarEntries($userId = null, $year = null, $month = null) {
+  	private function getMonthlyCalendarEntries($userId = null, $year = null, $month = null, $whatworked = false) {
   		$helper = new ModuleHelperFunctions();
   		
   		// Use today's date if no date given.
@@ -320,7 +324,12 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   				$weekDayDate = strtotime("2:00 " . $weeklyEntry['SimpleHealthTestWeekly']['week_beginning']
   						. " +" . $weekDayNo . " day");
   				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
-  					$records[date('j', $weekDayDate)] = $weeklyEntry['SimpleHealthTestWeekly'][$weekday];
+					if ($whatworked == false) $records[date('j', $weekDayDate)] = $weeklyEntry['SimpleHealthTestWeekly'][$weekday]; // weekday entries
+					else
+					{ 
+						$whatworked = $weeklyEntry['SimpleHealthTestWeekly']['what_worked'];
+						$records[date('j', $weekDayDate)] = $whatworked; // what worked?
+					}
   				}
   			}
   		}

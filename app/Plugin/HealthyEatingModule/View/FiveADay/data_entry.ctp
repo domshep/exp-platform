@@ -23,7 +23,15 @@
 				)
 		);
 	}?></h2>
-	<p>How many portions of different fruit and vegetables did you eat this week? Enter 0 if you haven't eaten any portions of fruit or vegetables that day.</p>
+	<p>How many portions of different fruit and vegetables did you eat this week? Enter 0 if you haven't eaten any portions of fruit or vegetables that day.
+			<a href="#portion" class="info" title="How much is as a portion?">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'How much is a portion?')
+				);
+			?>
+			</a></p>
 <?php echo $this->Form->create('HealthyEating.FiveADayWeekly') ?>
 	<table class="weekly-total">
 		<tr>
@@ -51,7 +59,15 @@
 			?></td>
 		</tr>
 		<tr>
-			<td colspan="8"><label for="FiveADayWeeklyWhat_Worked">What worked for you this week?</label><?php echo $this->Form->textarea('FiveADayWeekly.what_worked',array('label'=>'false', 'cols'=>'35', 'rows'=>'5')); ?></td>
+			<td colspan="8"><label for="FiveADayWeeklyWhat_Worked">What worked for you this week?
+			<a href="#whatworked" class="info" title="What is this?">
+			<?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'What is this?')
+				);
+			?>
+			</a></label><?php echo $this->Form->textarea('FiveADayWeekly.what_worked',array('label'=>'false', 'cols'=>'35', 'rows'=>'5')); ?></td>
 		</tr>
 	</table>
 <p><?php echo $this->Form->end(__('Submit')); ?></p>
@@ -76,3 +92,15 @@ jQuery(".weekly-total input").bind("keyup", function() {
     $tr.find("#FiveADayWeeklyTotal").val(monday + tuesday + wednesday + thursday + friday + saturday + sunday);
 });
 </script>
+
+
+<!-- This contains the hidden content for inline calls -->
+<div style='display:none'>
+	<div id='portion' class='popup'>
+		<h3><img src='/healthy_eating_module/img/five_a_day/5-a-dayportionposter.png' alt="Healthy Eating Poster" style="float:right; margin-left: 10px;" />Information: How much is a portion?</h3>
+		<p>Did you know that the World Health Organization recommends eating a minimum of 400g of fruit and vegetables every day to lower risk of serious health problems? This is equal to 5 portions of 80g.</p>
+		<p>But how do we measure what 80g is? Have a look at the poster on the right to see how your portion sizes match up.</p>
+		<p>A larger version of the poster, which is produced by the <a href='http://www.wcrf-uk.org/'>World Cancer Research Fund</a>, can be <a href='http://www.wcrf-uk.org/PDFs/5adayposter.pdf'>downloaded from their website</a>.
+You can also download information on <a href='http://www.wcrf-uk.org/PDFs/Portion-Size-finding-the-balance.pdf'>portion sizes for a balanced diet</a> by the World Cancer Research Fund.</p>
+	</div>
+</div>

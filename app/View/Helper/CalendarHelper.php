@@ -9,6 +9,8 @@
 
     $data[2] = ‘This is an entry for the 2nd day of the month’;
     $data[24] = ‘A link for the 24th of the month‘;
+	
+	$popupdata[1] = 'The information to show in a pop up for 1st of month';
 
     The data is any HTML you want – it is up to you to generate it yourself before you hand it to the calendar.
 
@@ -27,7 +29,7 @@
     	}*/
 		
 		// year - month - data to show on date as an array - link for prev/next - link for date shown - pass rate - class for pass - class for fail
-		public function calendar($year = '', $month = '', $data = '', $base_url = '', $link_url = '', $pass = '', $passclass = '', $failclass = '')
+		public function calendar($year = '', $month = '', $data = '', $popupdata = '', $base_url = '', $link_url = '', $pass = '', $passclass = '', $failclass = '')
 		{
 			if ($passclass == "") $passclass = 'green';
 			if ($failclass == "") $failclass = 'red';
@@ -141,7 +143,12 @@
 				{
 					// Load the data
 					$cell = '&nbsp;';
+					$popup = '';
+					$popupfull = '';
 					if(isset($data[$day])) $cell = $data[$day];
+					if(isset($popupdata[$day])) $popupfull = $popupdata[$day];
+					$popup = $popupfull;
+					if (strlen($popup) > 50) $popup = substr($popupfull,0,50) . "...";
 					$class = '';
 					
 					// optional weekend and today classes
@@ -171,8 +178,11 @@
 						if ($day < 10) $month_day = "0".$day;
 						else $month_day = $day;
 						
+						if ($popup != "") $hover = 'title="'.$popup.'"';
+						else $hover = '';
+						
 						// Write the cell.
-						$str .= '<td '.$class.'><div class="cell-number">'.$day.'</div><div class="cell-data"><a href="'.$link_url.'/'.$year.$month_num.$month_day.'">'.$cell.'</a></div></td>';
+						$str .= '<td '.$class.'><div class="cell-number">'.$day.'</div><div class="cell-data"><a '.$hover.' href="'.$link_url.'/'.$year.$month_num.$month_day.'">'.$cell.'</a></div></td>';
 						$day++;
 					}
 					else $str .= '<td ' . $class . '>&nbsp;</td>'; // end of the month fillers

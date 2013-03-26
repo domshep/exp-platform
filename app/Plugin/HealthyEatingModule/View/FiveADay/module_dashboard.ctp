@@ -47,7 +47,7 @@ echo $this->Html->css('/HealthyEatingModule/css/module.css');
 				);
 			?>
 		</a></h3>
-		<?php echo $this->Calendar->calendar($year,$month,$records, '/healthy_eating_module/five_a_day/module_dashboard','/healthy_eating_module/five_a_day/data_entry','5','green5','red5'); ?>
+		<?php echo $this->Calendar->calendar($year,$month,$records, $popups,'/healthy_eating_module/five_a_day/module_dashboard','/healthy_eating_module/five_a_day/data_entry','5','green5','red5'); ?>
 		<p>
 		<?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button', 'style' => 'float:left;')); ?>
 		<?php echo $this->Html->link(__('View your monthly records'), array('action' => 'view_records'),array('class' => 'button', 'style' => 'float:right;clear:none;')); ?></p>
@@ -68,26 +68,17 @@ echo $this->Html->css('/HealthyEatingModule/css/module.css');
 	</div>
 </div>
 
-<script type="text/javascript">
-	<!--
-		$(document).ready(function(){
-			//Examples of how to assign the ColorBox event to in-line elements
-			$(".info").colorbox({inline:true, width:"50%"});
-		});
-	-->
-</script>
-
 <!-- This contains the hidden content for inline calls -->
 <div style='display:none'>
-	<div id='graph' style='padding:10px; background:#fff;'>
+	<div id='graph' class='popup'>
 		<h3>Information:</h3>
 		<p>This graph is just a dummy at this stage, but it will chart your progress as you proceed.</p>
 	</div>
-	<div id='cal' style='padding:10px; background:#fff;'>
+	<div id='cal' class='popup'>
 		<h3>Information:</h3>
 		<p>To update your information simply click on the add buttons. Successful entries are marked with a full red apples and those days where you didn't quite meet the mark show an apple core.</p>
 	</div>
-	<div id='achieve' style='padding:10px; background:#fff;'>
+	<div id='achieve' class='popup'>
 		<h3>Information:</h3>
 		<p>All stats are based on the last full week you completed. This week's entries won't show until next Monday.</p>
 	</div>

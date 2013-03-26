@@ -72,6 +72,16 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'consec_healthy_weeks' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 	);
 	
 	/**
@@ -84,11 +94,13 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 		$healthyDaysLastWeek = $this->healthyDaysLastWeek($user_id);
 		$totalDaysHealthy = $this->totalDaysHealthy($user_id);
 		$healthyWeeks = $this->totalHealthyWeeks($user_id);
+		$totalConsecWeeks = $this->totalWeeksHealthyConsec($user_id);
 		
 		$this->set('user_id', $user_id);
 		$this->set('healthy_days_last_week', $healthyDaysLastWeek);
 		$this->set('total_days_healthy', $totalDaysHealthy);
 		$this->set('total_full_weeks_healthy', $healthyWeeks);
+		$this->set('consec_healthy_weeks', $totalConsecWeeks);
 	}
 	
 	/**
@@ -135,6 +147,27 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 			}
 		}
 		return $total;
+	}
+	
+	
+	/**
+	 * Returns the number of consecutively healthy weeks.
+	 * If the run is interrupted the total resets to 0.
+	 * @param int $user_id
+	 * @return number
+	 */
+	private function totalWeeksHealthyConsec($user_id) {
+		$healthyWeeks = $this->query("SELECT `total` FROM `fiveaday_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
+		
+		if(empty($healthyWeeks)) return 0;
+	
+		$total = 0;
+		foreach($healthyWeeks as $week) {
+			$thisweek = $week['fiveaday_weekly'];
+			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
+			else $total = 0;
+		}
+		return $total; // number of consecutive healthy weeks
 	}
 	
 	/**

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `fiveaday_achievements` (
   `total_full_weeks_healthy` int(11) NOT NULL default '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
+  `consec_healthy_weeks` int(10) NOT NULL default '0',
   PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `fiveaday_weekly` (
   `what_worked` text NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `modules`;
 CREATE TABLE IF NOT EXISTS `modules` (
@@ -77,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 DROP TABLE IF EXISTS `module_users`;
 CREATE TABLE IF NOT EXISTS `module_users` (
@@ -88,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `module_users` (
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE IF NOT EXISTS `news` (
@@ -98,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `news` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 DROP TABLE IF EXISTS `profile`;
 CREATE TABLE IF NOT EXISTS `profile` (
@@ -114,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 DROP TABLE IF EXISTS `simple_health_test_achievements`;
 CREATE TABLE IF NOT EXISTS `simple_health_test_achievements` (
@@ -140,22 +141,23 @@ CREATE TABLE IF NOT EXISTS `simple_health_test_screeners` (
 
 DROP TABLE IF EXISTS `simple_health_test_weekly`;
 CREATE TABLE IF NOT EXISTS `simple_health_test_weekly` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL auto_increment,
   `week_beginning` date NOT NULL,
   `user_id` int(11) NOT NULL,
-  `monday` int(11) DEFAULT NULL,
-  `tuesday` int(11) DEFAULT NULL,
-  `wednesday` int(11) DEFAULT NULL,
-  `thursday` int(11) DEFAULT NULL,
-  `friday` int(11) DEFAULT NULL,
-  `saturday` int(11) DEFAULT NULL,
-  `sunday` int(11) DEFAULT NULL,
+  `monday` int(11) default NULL,
+  `tuesday` int(11) default NULL,
+  `wednesday` int(11) default NULL,
+  `thursday` int(11) default NULL,
+  `friday` int(11) default NULL,
+  `saturday` int(11) default NULL,
+  `sunday` int(11) default NULL,
   `total` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`),
+  `what_worked` text,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (

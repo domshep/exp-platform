@@ -21,10 +21,14 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	}
 	
 	public function dashboard_news() {
+		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
 		// Don't allow this method to be called directly from a URL
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
+  		$achievements = $this->FiveADayAchievement->findByUserId($this->Auth->user('id'));
+  		$this->set('achievements', $achievements);
+		
 		$this->set('message', "News from the " . $this->_module_name());
 		$this->render();
 	}
@@ -166,8 +170,10 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$userId = $this->Auth->user('id');
   		
 		// Calendar Related Items:
-  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
-		$this->set('records', $monthlyRecords);
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
+  		$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
+  		$this->set('records', $monthlyRecords);
+  		$this->set('popups', $popupRecords);
   	}
   	
   	public function dashboard_achievements() {
@@ -194,8 +200,10 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$userId = $this->Auth->user('id');
   		
 		// Calendar Related Items:
-  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month);
+  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
+  		$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
   		$this->set('records', $monthlyRecords);
+  		$this->set('popups', $popupRecords);
   	}
   	
   	/**
@@ -317,7 +325,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * @param string $month
   	 * @return array
   	 */
-  	private function getMonthlyCalendarEntries($userId = null, $year = null, $month = null) {
+  	private function getMonthlyCalendarEntries($userId = null, $year = null, $month = null, $whatworked = false) {
   		$helper = new ModuleHelperFunctions();
   		
   		// Use today's date if no date given.
@@ -349,8 +357,13 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   				$weekDayDate = strtotime("2:00 " . $weeklyEntry['FiveADayWeekly']['week_beginning']
   						. " +" . $weekDayNo . " day");
   				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
-  					$records[date('j', $weekDayDate)] = $weeklyEntry['FiveADayWeekly'][$weekday];
-  				}
+  					if ($whatworked == false) $records[date('j', $weekDayDate)] = $weeklyEntry['FiveADayWeekly'][$weekday]; // weekday entries
+					else
+					{ 
+						$whatworked = $weeklyEntry['FiveADayWeekly']['what_worked'];
+						$records[date('j', $weekDayDate)] = $whatworked; // what worked?
+					}
+				}
   			}
   		}
   		

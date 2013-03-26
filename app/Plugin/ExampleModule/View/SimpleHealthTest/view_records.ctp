@@ -7,7 +7,7 @@ echo $this->Html->css('/ExampleModule/css/module.css');
 <p>Use this screen to quickly review your records on a month-by-month basis.
 <div class="calendar-holder">
 <?php 
-	echo $this->Calendar->calendar($year,$month,$records, '/example_module/simple_health_test/view_records','/example_module/simple_health_test/data_entry','7','green-simple','red-simple'); 
+	echo $this->Calendar->calendar($year,$month,$records, $popups,'/example_module/simple_health_test/view_records','/example_module/simple_health_test/data_entry','7','green-simple','red-simple'); 
 ?>
 </div>
 <div class="calendar-key">

@@ -12,15 +12,15 @@ $xdata = $dates;
 $graph = new Graph(434,375);
 $graph->SetScale('datlin');
 
-$graph->title->SetFont(FF_ARIAL, FS_BOLD, 12);
+$graph->title->SetFont(FF_FONT2, FS_BOLD, 12);
 $graph->title->Set("Your 'simple health' scores over recent weeks");
 $graph->title->SetMargin(15);
 
-$graph->xaxis->title->SetFont(FF_ARIAL, FS_BOLD, 10);
+$graph->xaxis->title->SetFont(FF_FONT1, FS_BOLD, 10);
 $graph->xaxis->title->Set("Week beginning");
 $graph->xaxis->title->SetMargin(50);
 
-$graph->yaxis->title->SetFont(FF_ARIAL, FS_BOLD, 10);
+$graph->yaxis->title->SetFont(FF_FONT1, FS_BOLD, 10);
 $graph->yaxis->title->Set("Weekly health score");
 
 //$graph->xaxis->scale->SetDateAlign( DAYADJ_7 );
