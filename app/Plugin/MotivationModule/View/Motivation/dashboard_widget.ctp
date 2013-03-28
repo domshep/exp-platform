@@ -1,14 +1,26 @@
-<!--<p><?php 
-			/* echo $this->Html->image(
-					'/motivation_module/motivation/minigraph', 
-					array('alt' => 'Your simple health scores over the last 3 months',
-    				'url' => array('action' => 'view_records')
-					)
-				); */
-			?></p>-->
-<div class="why">
-	<h4><strong>Why am I doing this?</strong></h4>
-	[INSERT THE REASON HERE...]
-	<?php // echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
-</div>
-<p><?php echo $this->Html->link(__('Edit my reason'), array('action' => 'screener', date("Ymd")),array('class' => 'button')); ?></p>
+<?php
+if(is_null($user['User']['role'])) {
+	// User not logged in, so currently display nothing
+} else {
+?>
+<h2>Why am I doing this?</h2>
+<?php
+	if(empty($motivation)) {?>
+		<p class="reason">Click the pencil to record a personal reason for taking on your challenges</p>
+		<p class="byline"><?php
+		echo $this->Html->image("pencil.gif", array(
+				"alt" => "Pencil",
+				"title" => "Record a reason",
+				'url' => array('action' => 'screener')
+		));
+	} else {?>
+		<p class="reason">&ldquo;<?php echo $motivation['MotivationScreener']['reason'];?>&rdquo;</p>
+		<p class="byline">My words - <?php echo date('d M Y',strtotime($motivation['MotivationScreener']['modified']));?> <?php
+		echo $this->Html->image("pencil.gif", array(
+				"alt" => "Pencil",
+				"title" => "Edit my reason",
+				'url' => array('action' => 'screener')
+		));
+	}
+}?>
+</p>

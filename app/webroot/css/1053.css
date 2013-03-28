@@ -819,3 +819,28 @@ img.next, img.previous {
 .popup li{
 	margin-left: 10px;
 }
+
+/* Why am I doing this? widget */
+.why {
+	float:right;
+	height:auto!important; 
+	height:70px;  
+	overflow: auto; 
+	width: 315px; 
+	font-size: 100%; 
+	margin: 0px 0px 10px 5px;
+	clear: right;
+}
+.why h2 {
+	font-size:2em;
+	font-weight:bold;
+}
+.why .reason {
+	color: #BF1C2D;
+	font-weight:bold;
+}
+.why .byline {
+	text-align:right;
+	font-weight:bold;
+	font-style:italic;
+}

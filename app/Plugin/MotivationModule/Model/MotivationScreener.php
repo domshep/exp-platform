@@ -31,22 +31,5 @@ class MotivationScreener extends AppModel {
 			'order' => ''
 		)
 	);
-	
-	public $validate = array(
-		'Reason' => array(
-			'valid' => array(
-         		'allowEmpty' => 'false'
-     		)
-		)
-	);
-	
-	public function calculateScore() { /* Not Valid */
-		/*if($this->data['SimpleHealthTestScreener']['healthy']=='Y') {
-			$score = 100;
-		} else {
-			$score = 99;
-		}*/
-		return 100;
-	}
 }
 ?>

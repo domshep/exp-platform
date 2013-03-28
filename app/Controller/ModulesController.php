@@ -187,7 +187,7 @@ class ModulesController extends AppController {
 		}
 		
 		$this->Module->recursive = 0;
-		return $this->Module->find('all');
+		return $this->Module->findAllByType('dashboard');
 	}
 	
 }
