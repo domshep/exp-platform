@@ -1,6 +1,7 @@
 <?php
 class FiveADayController extends HealthyEatingModuleAppController implements ModulePlugin {
-    public $helpers = array('Calendar');
+    public $helpers = array('Calendar', 'Cache');
+	public $components = array('RequestHandler');
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -368,6 +369,42 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		}
   		
   		return $records;
+  	}
+  	
+  	/**
+  	 * Returns the .png graphic for the run-chart that is displayed on the module dashboard.
+  	 */
+  	public function minigraph() {
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+  		$this->layout = 'ajax';
+  		$this->RequestHandler->respondAs('png');
+  	
+  		// Retrieve all the weekly entries between the start week and the last day of the month
+  		$lastThreeMonthEntries = $this->FiveADayWeekly->find('all',array(
+  				'conditions' => array(
+  						'user_id' => $this->Auth->user('id'),
+  						'week_beginning >=' => date("Y-m-d", strtotime("-3 months")),
+  						'week_beginning <=' => date("Y-m-d",time())
+  				),
+  				'order' => array('week_beginning' => 'asc')
+  		));
+  		
+  		// Need at least three weeks of entries to display a chart...
+  		if(count($lastThreeMonthEntries) < 3) {
+  			return $this->redirect('/img/not-enough-data-chart.png');
+  		}
+  	
+  		$ydata = array();
+  		$dates = array();
+  	
+  		// Iterate through the entries and reformat them into separate arrays for the graph function.
+  		foreach($lastThreeMonthEntries as $key => $weeklyEntry) {
+  			$ydata[] = $weeklyEntry['FiveADayWeekly']['total'];
+  			$dates[] = strtotime($weeklyEntry['FiveADayWeekly']['week_beginning']);
+  		}
+  	
+  		$this->set("graphData", $ydata);
+  		$this->set("dates",$dates);
   	}
 }
 ?>

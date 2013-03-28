@@ -847,12 +847,14 @@ img.next, img.previous {
 
 /* Graph classes */
 .mini-graph {
-	border-radius: 5px;
+	border-radius: 0px 0px 5px 5px;
 	background-color:#FFFFFF;
-	margin-bottom:1em;
 }
 .graph-caption {
 	font-style:italic;
 	text-align:center;
 	font-size:1.4em;
+	border-radius: 5px 5px 0px 0px;
+	background-color:#FFFFFF;
+	margin-bottom:0px;
 }

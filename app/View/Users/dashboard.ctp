@@ -48,7 +48,6 @@
 		</div>
 		<?php } ?>
 	
-	<h2>My modules</h2>
 	<div class="modules">
 		<!--<div class="news">
 			<h3><?php echo __('My Module News and Updates'); ?></h3>

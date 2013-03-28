@@ -1,15 +1,17 @@
-<h4><strong>Your 5-a-day progress to date</strong></h4>
-		<p>&nbsp;<br/>
-			<?php 
+<h4 class="graph-caption">My 5-a-day over recent weeks</h4>
+		<p><?php 
 				echo $this->Html->image(
-					'graph-dummy.jpg', 
-					array('alt' => '5 A Day Dummy Graph',
-    				'url' => array('action' => 'view_records')
+					'/healthy_eating_module/five_a_day/minigraph', 
+					array(
+						'alt' => 'My 5-a-day over recent weeks',
+	    				'url' => array('action' => 'view_records'),
+						'class' => 'mini-graph'
 					)
 				);
-			?></p>
+			?>
+		</p>
 <div class="achievements">
-	<h4><strong>Your weekly achievements</strong></h4>
+	<h4><strong>My weekly achievements</strong></h4>
 	<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 </div>
 <p><?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button')); ?></p>
