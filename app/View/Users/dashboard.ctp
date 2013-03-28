@@ -21,9 +21,10 @@
 	<p class="profilelink">
 		<?php
 			echo $this->Html->image(
-				'heart-man-logo.gif', 
-				array('alt' => 'Heart Logo',
-    				'url' => array('controller' => 'users', 'action' => 'viewProfile')
+				'Apps-system-users-icon.png', 
+				array('alt' => 'Profile icon',
+    				'url' => array('controller' => 'users', 'action' => 'viewProfile'),
+					'style' => 'width:64px;margin-right:0.5em;'
 					)
 				);
 			
