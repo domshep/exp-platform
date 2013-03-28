@@ -1,6 +1,6 @@
 <?php
 class SimpleHealthTestController extends ExampleModuleAppController implements ModulePlugin {
-	public $helpers = array('Calendar');
+	public $helpers = array('Calendar', 'Cache');
 	public $components = array('RequestHandler');
 	
 	public function beforeFilter() {
@@ -124,6 +124,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					$this->SimpleHealthTestAchievement->create();
 					$this->SimpleHealthTestAchievement->updateAchievements($this->User->data['User']['id']);
 					$this->SimpleHealthTestAchievement->save();
+					
+					Cache::clear();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -342,6 +344,9 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		return $records;
   	}
   	
+  	/**
+  	 * Returns the .png graphic for the run-chart that is displayed on the module dashboard.
+  	 */
   	public function minigraph() {
   		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
   		$this->layout = 'ajax';
@@ -371,16 +376,6 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   			$dates[] = strtotime($weeklyEntry['SimpleHealthTestWeekly']['week_beginning']);
   		}
   		
-  		$this->set("graphData", $ydata);
-  		$this->set("dates",$dates);
-  	}
-  	
-  	public function graph() {
-  		$this->layout = 'ajax';
-  		$this->RequestHandler->respondAs('png');
-  		//,3,8,12,5,1,9,13,5,7
-  		$ydata = array($this->Auth->user('id'),11);
-  		$dates = array(strtotime("25-02-2013"),strtotime("11-03-2013"));
   		$this->set("graphData", $ydata);
   		$this->set("dates",$dates);
   	}

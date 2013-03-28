@@ -844,3 +844,15 @@ img.next, img.previous {
 	font-weight:bold;
 	font-style:italic;
 }
+
+/* Graph classes */
+.mini-graph {
+	border-radius: 5px;
+	background-color:#FFFFFF;
+	margin-bottom:1em;
+}
+.graph-caption {
+	font-style:italic;
+	text-align:center;
+	font-size:1.4em;
+}
