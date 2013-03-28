@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 DROP TABLE IF EXISTS `module_users`;
 CREATE TABLE IF NOT EXISTS `module_users` (
@@ -90,6 +90,16 @@ CREATE TABLE IF NOT EXISTS `module_users` (
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `motivation_screeners`;
+CREATE TABLE IF NOT EXISTS `motivation_screeners` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `reason` text NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE IF NOT EXISTS `news` (
@@ -120,12 +130,13 @@ CREATE TABLE IF NOT EXISTS `profile` (
 DROP TABLE IF EXISTS `simple_health_test_achievements`;
 CREATE TABLE IF NOT EXISTS `simple_health_test_achievements` (
   `user_id` int(11) NOT NULL,
-  `healthy_days_last_week` int(11) NOT NULL DEFAULT '0',
-  `total_days_healthy` int(11) NOT NULL DEFAULT '0',
-  `total_full_weeks_healthy` int(11) NOT NULL DEFAULT '0',
+  `healthy_days_last_week` int(11) NOT NULL default '0',
+  `total_days_healthy` int(11) NOT NULL default '0',
+  `total_full_weeks_healthy` int(11) NOT NULL default '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY (`user_id`)
+  `consec_healthy_weeks` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `simple_health_test_screeners`;

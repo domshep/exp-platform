@@ -1,10 +1,10 @@
 <?php
-App::uses('ExampleModuleAppModel', 'ExampleModule.Model');
+App::uses('MotivationModuleAppModel', 'MotivationModule.Model');
 /**
  * SimpleHealthTestAchievement Model
  *
  */
-class SimpleHealthTestAchievement extends ExampleModuleAppModel {
+class MotivationAchievement extends MotivationModuleAppModel {
 
 /**
  * Primary key field
@@ -98,7 +98,7 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 	 * @param int $user_id
 	 */
 	private function totalHealthyWeeks($user_id) {
-		$total = $this->query("SELECT COUNT(*) AS `total` FROM `simple_health_test_weekly` WHERE user_id = " . $user_id
+		$total = $this->query("SELECT COUNT(*) AS `total` FROM `motivation_weekly` WHERE user_id = " . $user_id
 				. " AND ("
 				. " monday >= " . $this->healthyScore
 				. " AND tuesday >= " . $this->healthyScore
@@ -119,13 +119,13 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 	 * @return number
 	 */
 	private function totalWeeksHealthyConsec($user_id) {
-		$healthyWeeks = $this->query("SELECT `total` FROM `simple_health_test_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
+		$healthyWeeks = $this->query("SELECT `total` FROM `motivation_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
 		
 		if(empty($healthyWeeks)) return 0;
 	
 		$total = 0;
 		foreach($healthyWeeks as $week) {
-			$thisweek = $week['simple_health_test_weekly'];
+			$thisweek = $week['motivation_weekly'];
 			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
 			else $total = 0;
 		}
@@ -139,7 +139,7 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 	 * @return number
 	 */
 	private function totalDaysHealthy($user_id) {
-		$containHealthyDays = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `simple_health_test_weekly` WHERE user_id = " . $user_id
+		$containHealthyDays = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `motivation_weekly` WHERE user_id = " . $user_id
 				. " AND ("
 				. " monday >= " . $this->healthyScore
 				. " OR tuesday >= " . $this->healthyScore
@@ -155,7 +155,7 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 		
 		$total = 0;
 		foreach($containHealthyDays as $week) {
-			foreach($week['simple_health_test_weekly'] as $day) {
+			foreach($week['motivation_weekly'] as $day) {
 				if ($day >= $this->healthyScore) {
 					$total++;
 				}
@@ -171,7 +171,7 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 	 * @return number
 	 */
 	private function healthyDaysLastWeek($user_id) {
-		$lastWeek = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `simple_health_test_weekly` WHERE user_id = " . $user_id
+		$lastWeek = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `motivation_weekly` WHERE user_id = " . $user_id
 				. " AND (week_beginning >= DATE_SUB(curdate(),INTERVAL 13 DAY)"
 				. " AND week_beginning < DATE_SUB(curdate(),INTERVAL 6 DAY));"
 		);
@@ -179,7 +179,7 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 		if(empty($lastWeek)) return 0;
 		
 		$total = 0;
-		foreach($lastWeek[0]['simple_health_test_weekly'] as $day) {
+		foreach($lastWeek[0]['motivation_weekly'] as $day) {
 			if ($day >= $this->healthyScore) {
 				$total++;
 			}

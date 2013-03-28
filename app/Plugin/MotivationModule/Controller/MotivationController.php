@@ -1,5 +1,5 @@
 <?php
-class SimpleHealthTestController extends ExampleModuleAppController implements ModulePlugin {
+class MotivationController extends MotivationModuleAppController implements ModulePlugin {
 	public $helpers = array('Calendar');
 	public $components = array('RequestHandler');
 	
@@ -22,14 +22,14 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	}
 	
 	public function dashboard_news() {
-		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+		//$this->loadModel('MotivationModule.MotivationAchievement');
 		
 		// Don't allow this method to be called directly from a URL
-		if (empty($this->request->params['requested'])) {
-			throw new ForbiddenException();
-		}
-  		$achievements = $this->SimpleHealthTestAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
+		//if (empty($this->request->params['requested'])) {
+		//	throw new ForbiddenException();
+		//}
+  		//$achievements = $this->MotivationAchievement->findByUserId($this->Auth->user('id'));
+  		//$this->set('achievements', $achievements);
 		
 		$this->set('message', "News from the " . $this->_module_name());
 		$this->render();
@@ -41,7 +41,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	 * @return string
 	 */
  	public function _module_name() {
-  		return 'Example module &ndash; simple health test';
+  		return 'Why am I doing this?';
   	}
 
   	/**
@@ -50,7 +50,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * @return string
   	 */
   	public function _module_icon_url() {
-  		return '/example_module/img/icon.png';
+  		return '/motivation_module/img/icon.png';
   	}
   	
   	/**
@@ -66,7 +66,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
 		
-  		$this->set('message', "This is just an example module, while we work on the module interface");
+  		$this->set('message', "This is the Why am I doing this module.");
  	}
 
  	/**
@@ -92,63 +92,72 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	 * then the post will contain a score, and the screener submission will be saved to the
 	 * database.
 	 */
-	public function screener() {
-  		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
-  		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+	public function screener() 
+	{
+  		$this->loadModel('MotivationModule.MotivationScreener');
+  		//$this->loadModel('MotivationModule.MotivationAchievement');
   		$this->loadModel('User');
   		$this->loadModel('Module');
-	  	
-	  	if ($this->request->is('post')) {
-	  		// Get hold of the posted data
-			$this->SimpleHealthTestScreener->create();
-			$this->SimpleHealthTestScreener->set($this->request->data);
-			
-			if ($this->SimpleHealthTestScreener->validates()) {
+		
+	  	if ($this->request->is('post') || $this->request->is('put')) 
+		{
+			if ($this->MotivationScreener->validates()) 
+			{
 				// Validation passed
-				if(isset($this->request->data['SimpleHealthTestScreener']['score'])) {
-					// The submitted data contained a 'score' so they must have already completed
-					// the test and have now asked for the module to be added to their dashboard.
-					
+				if(isset($this->request->data['MotivationScreener']['id'])) 
+				{
+					// The submitted data contained an 'id' so they must have already completed
+					// the test and have now asked for the module to be added to their dashboard or to update an existing record.
+						
 					// Get the current user
 					$this->User->create();
 					$this->User->set($this->User->findById($this->Auth->user('id')));
-					
-					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
-					// and then save the screener data.
-					$score = $this->SimpleHealthTestScreener->calculateScore();
-					$this->SimpleHealthTestScreener->set('score', $score);
-					$this->SimpleHealthTestScreener->set('user_id', $this->User->data['User']['id']);
-					$this->SimpleHealthTestScreener->save();
-					
-					// Calculate / initialise the achievement stats
-					$this->SimpleHealthTestAchievement->create();
-					$this->SimpleHealthTestAchievement->updateAchievements($this->User->data['User']['id']);
-					$this->SimpleHealthTestAchievement->save();
-					
-					// And then add the module to the user's dashboard
+							
+					// save the screener data.
+					$this->MotivationScreener->set('user_id', $this->User->data['User']['id']);
+					$this->MotivationScreener->set('id', $this->request->data['MotivationScreener']['id']);
+					//$this->MotivationScreener->set('reason', $this->request->data['MotivationScreener']['reason']);
+					$this->MotivationScreener->save();
+				
+					// If the user hasn't done so already
+					// Add the module to the user's dashboard -- this will fail if the module has already been added.
 					$success = $this->User->addModule(
-							$this->User->data['User']['id'],
-							$this->Module->getModuleID($this->_module_name())
+						$this->User->data['User']['id'],
+						$this->Module->getModuleID($this->_module_name())
 					);
-					if($success) {
-						return $this->redirect('module_added');
-					} else {
-						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
+					if($success) return $this->redirect('module_added');
+					else 
+					{
+						// this means that the user has already added the module.
+						if($success) $this->Session->setFlash(__('Your reason has been updated'));
+						else $this->Session->setFlash(__('Sorry, something went wrong. We could not save your reason.'));
 					}
-					
-				} else {
+				} 
+				else 
+				{
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
-					$score = $this->SimpleHealthTestScreener->calculateScore();
-					$this->set('score', $score);
-					$this->SimpleHealthTestScreener->set('score', $score);
-					$this->set($this->SimpleHealthTestScreener->data);
+					//$score = $this->MotivationScreener->calculateScore();
+					//$this->set('score', $score);
+					//$this->MotivationScreener->set('score', $score);
+					$this->set($this->MotivationScreener->data);
 					$this->render('score');
 				}
-			} else {
+			} 
+			else 
+			{
 				// Validation failed
-				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->Session->setFlash(__('Your reason could not be saved - Did you miss some questions? Please see the error messages below, and try again.'));
 			}
+		}
+		else
+		{
+			// It hasn't been posted so we are either adding a new entry or editing the form:
+			$this->MotivationScreener->create();
+			$previousEntry = $this->MotivationScreener->find('first',array('user_id'=>'$userId'));
+			
+			// If so, edit this entry instead of creating a new one...
+			if(!empty($previousEntry)) $this->request->data = $previousEntry;
 		}
   	}
   	
@@ -156,7 +165,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
 	public function module_added() {
-  		$this->set('message', "The test module has now been added to your dashboard.");
+  		$this->set('message', "The 'Why am I doing this' module has now been added to your dashboard.");
   	}
 	
   	/**
@@ -166,47 +175,52 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * ability to quickly make a new data entry.
   	 */
 	public function module_dashboard($year = null,$month = null) {
-  		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
-		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+  		//$this->loadModel('MotivationModule.MotivationWeekly');
+		//$this->loadModel('MotivationModule.MotivationAchievement');
+		$this->loadModel('MotivationModule.MotivationScreener');
   		$this->loadModel('User');
 
   		// Get the current user
   		$userId = $this->Auth->user('id');
   		
 		// Calendar Related Items:
-  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
-  		$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
-  		$this->set('records', $monthlyRecords);
-  		$this->set('popups', $popupRecords);
+  		//$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
+  		//$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
+  		//$this->set('records', $monthlyRecords);
+  		//$this->set('popups', $popupRecords);
+		
+		$this->redirect('screener');
   	}
   	
   	public function dashboard_achievements() {
-  		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+  		//$this->loadModel('MotivationModule.MotivationAchievement');
   		
   		// Don't allow this method to be called directly from a URL
   		if (empty($this->request->params['requested'])) {
   			throw new ForbiddenException();
   		}
   		
-  		$achievements = $this->SimpleHealthTestAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
-  		$this->render();
+  		//$achievements = $this->SimpleHealthTestAchievement->findByUserId($this->Auth->user('id'));
+  		//$this->set('achievements', $achievements);
+  		//$this->render();
+		$this->render('module_added');
   	}
 
   	/**
   	 * 'View Records' shows any entries that have been made in the module this month, when accessed by a logged-in user from their dashboard.
   	 */
   	public function view_records($year = null,$month = null) {
-  		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+  		$this->loadModel('MotivationModule.MotivationWeekly');
   		
   		// Get the current user
   		$userId = $this->Auth->user('id');
   		
 		// Calendar Related Items:
-  		$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
-  		$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
-  		$this->set('records', $monthlyRecords);
-  		$this->set('popups', $popupRecords);
+  		//$monthlyRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, false);
+  		//$popupRecords = $this->getMonthlyCalendarEntries($userId, $year, $month, true);
+  		//$this->set('records', $monthlyRecords);
+  		//$this->set('popups', $popupRecords);
+		$this->render('module_added');
   	}
   	 
   	/**
@@ -215,15 +229,15 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * @param string $date the date for which this entry relates. If null, today's date will be used.
   	 */
 	public function data_entry($date = null) {
-		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
-		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+		//$this->loadModel('MotivationModule.MotivationWeekly');
+		//$this->loadModel('MotivationModule.MotivationAchievement');
 		$this->loadModel('User');
 		
 		// Use today's date if no date given.
 		if(is_null($date)) $date = date("Ymd");
 
 		// What is the week beginning (Monday) for the given date?
-		$helper = new ModuleHelperFunctions();
+		/*$helper = new ModuleHelperFunctions();
 		$weekBeginning = $helper->_getWeekBeginningDate($date);
 		$this->set('weekBeginning', $weekBeginning);
 		
@@ -244,20 +258,20 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			// The form has been submitted, so validate and then save.
 			
 			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
-			$this->SimpleHealthTestWeekly->create();
-			$this->SimpleHealthTestWeekly->set($this->request->data);
-			$total = $this->SimpleHealthTestWeekly->calculateTotal();
-			$this->SimpleHealthTestWeekly->set('total', $total);
-			$this->SimpleHealthTestWeekly->set('user_id', $this->User->data['User']['id']);
+			$this->MotivationWeekly->create();
+			$this->MotivationWeekly->set($this->request->data);
+			$total = $this->MotivationWeekly->calculateTotal();
+			$this->MotivationWeekly->set('total', $total);
+			$this->MotivationWeekly->set('user_id', $this->User->data['User']['id']);
 
-			if ($this->SimpleHealthTestWeekly->validates()) {
-				$success = $this->SimpleHealthTestWeekly->save();
+			if ($this->MotivationWeekly->validates()) {
+				$success = $this->MotivationWeekly->save();
 				
 				if($success) {
 					//Re-calculate the achievement stats
-					$this->SimpleHealthTestAchievement->create();
-					$this->SimpleHealthTestAchievement->updateAchievements($this->User->data['User']['id']);
-					$this->SimpleHealthTestAchievement->save();
+					$this->MotivationAchievement->create();
+					$this->MotivationAchievement->updateAchievements($this->User->data['User']['id']);
+					$this->MotivationAchievement->save();
 					
 					//TODO - redraw graphs?
 					
@@ -274,23 +288,27 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			// This is a new request for this form - display a blank or previous record
 			
 			// Is there a previous record for this date and user?
-			$this->SimpleHealthTestWeekly->create();
-			$previousEntry = $this->SimpleHealthTestWeekly->findByUserIdAndWeekBeginning(
+			$this->MotivationWeekly->create();
+			$previousEntry = $this->MotivationWeekly->findByUserIdAndWeekBeginning(
 					$this->User->data['User']['id'],
 					date("Y-m-d",$weekBeginning));
 			
 			// If so, edit this entry instead of creating a new one...
 			if(!empty($previousEntry)) $this->request->data = $previousEntry;
 		}
+		*/
+		
+		$this->render('module_added');
   	}
   
   	public function review_progress() {
-  		return "This page will allow the logged-in user to review their progress against the module";
+  		return "This page will allow the logged-in user to view their 'why am I doing this?' statement";
+		$this->render('module_added');
   	}
   	
   	/**
   	 * Returns the set of monthly calendar entries for the given year and month, in a format ready to
-  	 * pass to the CalendarHelper class.
+  	 * pass to the CalendarHelper class. ** NOT RELEVANT TO THIS MODULE **
   	 * 
   	 * @param string $year
   	 * @param string $month
@@ -326,13 +344,13 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		// Iterate through the entries and reformat them as, e.g., array( 1 => '10', 2 => '5', 14 => '2'... 31 => '12')
   		foreach($allEntries as $key => $weeklyEntry) {
   			foreach($weekdayList as $weekDayNo => $weekday) {
-  				$weekDayDate = strtotime("2:00 " . $weeklyEntry['SimpleHealthTestWeekly']['week_beginning']
+  				$weekDayDate = strtotime("2:00 " . $weeklyEntry['MotivationWeekly']['week_beginning']
   						. " +" . $weekDayNo . " day");
   				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
-					if ($whatworked == false) $records[date('j', $weekDayDate)] = $weeklyEntry['SimpleHealthTestWeekly'][$weekday]; // weekday entries
+					if ($whatworked == false) $records[date('j', $weekDayDate)] = $weeklyEntry['MotivationWeekly'][$weekday]; // weekday entries
 					else
 					{ 
-						$whatworked = $weeklyEntry['SimpleHealthTestWeekly']['what_worked'];
+						$whatworked = $weeklyEntry['MotivationWeekly']['what_worked'];
 						$records[date('j', $weekDayDate)] = $whatworked; // what worked?
 					}
   				}
@@ -343,12 +361,12 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	}
   	
   	public function minigraph() {
-  		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+  		$this->loadModel('MotivationModule.MotivationWeekly');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
   		
   		// Retrieve all the weekly entries between the start week and the last day of the month
-  		$lastThreeMonthEntries = $this->SimpleHealthTestWeekly->find('all',array(
+  		$lastThreeMonthEntries = $this->MotivationWeekly->find('all',array(
   				'conditions' => array(
   						'user_id' => $this->Auth->user('id'),
   						'week_beginning >=' => date("Y-m-d", strtotime("-3 months")),
@@ -367,8 +385,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		
   		// Iterate through the entries and reformat them into separate arrays for the graph function.
   		foreach($lastThreeMonthEntries as $key => $weeklyEntry) {
-  			$ydata[] = $weeklyEntry['SimpleHealthTestWeekly']['total'];
-  			$dates[] = strtotime($weeklyEntry['SimpleHealthTestWeekly']['week_beginning']);
+  			$ydata[] = $weeklyEntry['MotivationWeekly']['total'];
+  			$dates[] = strtotime($weeklyEntry['MotivationWeekly']['week_beginning']);
   		}
   		
   		$this->set("graphData", $ydata);

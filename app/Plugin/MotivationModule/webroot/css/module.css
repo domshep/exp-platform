@@ -1,0 +1,38 @@
+/*Simple Health Test Calendar*/
+
+.calendar .red-simple a{
+	height: 32px;
+	background-image: url(/example_module/img/Emotes-face-sad-icon.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	display: block;
+	padding-top: 10px;
+	text-indent: -6000px;
+	overflow: hidden;
+}
+.calendar .red-simple, .calendar .red-simple a:link, .calendar .red-simple a:visited{
+	color:#000000;
+	text-align: center;
+}
+.calendar .green-simple, .calendar .green-simple a:link, .calendar .green-simple a:visited{
+	color:#ffffff;
+	text-align: center;
+}
+.calendar .green-simple a{
+	background-image: url(/example_module/img/Emotes-face-smile-big-icon.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	display: block;
+	height: 32px;
+	padding-top:10px;
+	text-indent: -6000px;
+	overflow: hidden;
+}
+.calendar .cell-number {
+	color: #000000;
+	text-align: left;
+}
+.calendar .add .cell-data{
+	text-align: center;
+	margin-top: 0px;
+}

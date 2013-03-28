@@ -1,4 +1,5 @@
 <?php
+	/*
 	$medal = "";
 	$consecWeeks = $achievements['SimpleHealthTestAchievement']['consec_healthy_weeks'];
 	if ($consecWeeks >= 12){ 
@@ -48,5 +49,7 @@
 		else $s = "";
 		echo $weekstogo . " more week". $s ." before you reach the " . $nextmedal . " medal! Keep up the good work!</p>";
 	} 
-	echo "<p>You can do it!</p>";
+	echo "<p>You can do it!</p>"; */
 ?>
+<h4>Why Am I doing this?</h4>
+<p>This module doesn't use the 'news' or 'medals' system</p>
