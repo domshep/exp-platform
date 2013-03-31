@@ -36,9 +36,10 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
 		echo $this->Html->script('/js/colorbox-master/jquery.colorbox.js'); // JQuery for Lightboxes
 		echo $this->Html->script('/js/qTip2-master/dist/jquery.qtip.js'); // Used for Calendar Pop Ups
+		echo $this->Html->script('fontsize.js');
+		echo $this->Html->script('platform.js');
 		echo $this->Html->css('/js/colorbox-master/example1/colorbox');
 		echo $this->Html->css('/js/qTip2-master/dist/jquery.qtip');
-		echo $this->Html->script('fontsize');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -78,15 +79,6 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 		</div>
 	</div>
 	<?php //echo $this->element('sql_dump'); ?>
-	<script type="text/javascript">
-		$(document).ready(function()
-		{
-			// Match all #calendar <A/> links with a title tag and use it as the content (default).
-			$('#calendar a[title]').qtip();
-		
-			//Examples of how to assign the ColorBox event to in-line elements
-			$(".info").colorbox({inline:true, width:"50%"});
-		});
-	</script>
+	
 </body>
 </html>
