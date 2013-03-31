@@ -28,7 +28,8 @@
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
-					array('alt' => 'Help?')
+					array('alt' => 'Help?',
+						'class' => 'info')
 				);
 			?>
 			</a></p>
@@ -62,12 +63,13 @@
 			?></td>
 		</tr>
 		<tr>
-			<td colspan="8"><label for="SimpleHealthTestWeeklyWhat_Worked">What worked for you this week?
+			<td colspan="8"><label for="SimpleHealthTestWeeklyWhat_Worked">What worked for me this week?
 			<a href="#whatworked" class="info" title="What is this?">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
-					array('alt' => 'What is this?')
+					array('alt' => 'What is this?',
+						'class' => 'info')
 				);
 			?>
 			</a></label>
@@ -99,10 +101,11 @@
 //-->
 
 </script>
-<!-- This contains the hidden content for inline calls * More Common PopUps are provided in default.ctp * -->
+<!-- This contains the hidden content for inline calls -->
 <div style='display:none'>
 	<div id='help' class='popup'>
-		<h3>Information: Help for the Example Module</h3>
-		<p>This is where you will display the information about this data entry page.</p>
+		<h3>Help for the Example Module</h3>
+		<p>This is where you can display extra information and suggestions for this data entry page.</p>
 	</div>
 </div>
+<?php echo $this->element('what_worked'); ?>

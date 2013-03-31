@@ -812,12 +812,26 @@ img.next, img.previous {
 	margin-right:1em;
 }
 
+img.info {
+	width:16px;
+	height:16px;
+}
 .popup{
 	padding:10px; 
 	background:#ffffff;
 }
+.popup h3 {
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	color: #BF1C2D;
+	font-size:1.3em;
+	background-image:url(/img/info-icon.png);
+	background-repeat:no-repeat no-repeat;
+	height:32px;
+	padding-left:40px;
+	margin-bottom:1em;
+}
 .popup li{
-	margin-left: 10px;
+	margin-left: 2em;
 }
 
 /* Why am I doing this? widget */
