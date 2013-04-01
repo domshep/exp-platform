@@ -7,7 +7,7 @@ echo $this->Html->css('/HealthyEatingModule/css/module.css');
 <p>Use this screen to quickly review your records on a month-by-month basis.
 <div class="calendar-holder">
 <?php 
-	echo $this->Calendar->calendar($year,$month,$records,$popups, '/healthy_eating_module/five_a_day/view_records','/healthy_eating_module/five_a_day/data_entry','5','green5','red5'); 
+	echo $this->Calendar->calendar($year,$month,$records,'/healthy_eating_module/five_a_day/view_records','/healthy_eating_module/five_a_day/data_entry','5','green5','red5'); 
 ?>
 </div>
 <div class="calendar-key">

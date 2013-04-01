@@ -185,10 +185,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$userId = $this->Auth->user('id');
 
   		// Calendar Related Items:
-  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month, false);
-  		$popupRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month, true);
+  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-  		$this->set('popups', $popupRecords);
   	}
   	
   	public function dashboard_achievements() {
@@ -221,10 +219,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$userId = $this->Auth->user('id');
   		
 		// Calendar Related Items:
-  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month, false);
-  		$popupRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month, true);
+  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-  		$this->set('popups', $popupRecords);
   	}
   	 
   	/**

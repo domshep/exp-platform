@@ -7,12 +7,12 @@
     $month – expects a month in english e.g. january
     $data – an array containing the data for each day of the month e.g.
 
-    $data[2] = ‘This is an entry for the 2nd day of the month’;
-    $data[24] = ‘A link for the 24th of the month‘;
+	$data[2]['entry'] = '2/10';
+    $data[2]['comment'] = ‘This is an entry for the 2nd day of the month’;
+    $data[24]['entry'] = '9/10';
+    $date[24]['comment'] = ‘A link for the 24th of the month‘;
 	
-	$popupdata[1] = 'The information to show in a pop up for 1st of month';
-
-    The data is any HTML you want – it is up to you to generate it yourself before you hand it to the calendar.
+    The data['entry'] is any HTML you want – it is up to you to generate it yourself before you hand it to the calendar.
 
     $base_url – the url to send the back / foward links on to i.e. the address of page (the calendar expects to be in a mod re-written situation e.g. www.flipflops.org/calendar/2008/june)
 	
@@ -29,7 +29,7 @@
     	}*/
 		
 		// year - month - data to show on date as an array - link for prev/next - link for date shown - pass rate - class for pass - class for fail
-		public function calendar($year = '', $month = '', $data = '', $popupdata = '', $base_url = '', $link_url = '', $pass = '', $passclass = '', $failclass = '')
+		public function calendar($year = '', $month = '', $data = '', $base_url = '', $link_url = '', $pass = '', $passclass = '', $failclass = '')
 		{
 			if ($passclass == "") $passclass = 'green';
 			if ($failclass == "") $failclass = 'red';
@@ -145,10 +145,10 @@
 					$cell = '&nbsp;';
 					$popup = '';
 					$popupfull = '';
-					if(isset($data[$day])) $cell = $data[$day];
-					if(isset($popupdata[$day])) $popupfull = $popupdata[$day];
+					if(isset($data[$day]['entry'])) $cell = $data[$day]['entry'];
+					if(isset($data[$day]['comment'])) $popupfull = $data[$day]['comment'];
 					$popup = $popupfull;
-					if (strlen($popup) > 50) $popup = substr($popupfull,0,50) . "...";
+					if (strlen($popup) > 100) $popup = substr($popupfull,0,100) . "...";
 					$class = '';
 					
 					// optional weekend and today classes
@@ -171,6 +171,7 @@
 						elseif ($caldate < $now){ 
 							$cell = "+"; // if the date is in the past show an "add" link.
 							$class = " class='add'";
+							$popup = "Click to add a record for this date";
 						}
 						else $cell = "&nbsp;"; // else show nothing
 						

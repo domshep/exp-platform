@@ -24,7 +24,7 @@ class ModuleHelperFunctions {
 	 * @param string $month
 	 * @return array
 	 */
-	public function getMonthlyCalendarEntries($model = null, $userId = null, $year = null, $month = null, $whatworked = false) {
+	public function getMonthlyCalendarEntries($model = null, $userId = null, $year = null, $month = null) {
 		// Use today's date if no date given.
 		if(is_null($month)) $month = gmdate("F");
 		if(is_null($year)) $year = gmdate("Y");
@@ -53,12 +53,14 @@ class ModuleHelperFunctions {
 				$weekDayDate = strtotime("2:00 " . $weeklyEntry[get_class($model)]['week_beginning']
 						. " +" . $weekDayNo . " day");
 				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
-					if ($whatworked == false) $records[date('j', $weekDayDate)] = $weeklyEntry[get_class($model)][$weekday]; // weekday entries
-					else
-					{
-						$whatworked = $weeklyEntry[get_class($model)]['what_worked'];
-						$records[date('j', $weekDayDate)] = $whatworked; // what worked?
+					$comment = "Daily entry: ".$weeklyEntry[get_class($model)][$weekday];
+					if(!empty($weeklyEntry[get_class($model)]['what_worked'])) {
+						$comment .= "<br />What worked for me this week: ".$weeklyEntry[get_class($model)]['what_worked'];
 					}
+					$records[date('j', $weekDayDate)] = array(
+							'entry' => $weeklyEntry[get_class($model)][$weekday],
+							'comment' => $comment
+					);
 				}
 			}
 		}

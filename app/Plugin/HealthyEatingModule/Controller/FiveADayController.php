@@ -180,10 +180,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$userId = $this->Auth->user('id');
 
   		// Calendar Related Items:
-  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month, false);
-  		$popupRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month, true);
+  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-  		$this->set('popups', $popupRecords);
   	}
   	
   	public function dashboard_achievements() {
@@ -217,10 +215,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$userId = $this->Auth->user('id');
 
   		// Calendar Related Items:
-  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month, false);
-  		$popupRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month, true);
+  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-  		$this->set('popups', $popupRecords);
   	}
   	
   	/**
