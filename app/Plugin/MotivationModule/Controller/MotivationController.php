@@ -1,6 +1,8 @@
 <?php
 class MotivationController extends MotivationModuleAppController implements ModulePlugin {
 	public $components = array('RequestHandler');
+
+	public $module_name = 'Why am I doing this?';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -38,7 +40,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	 * @return string
 	 */
  	public function _module_name() {
-  		return 'Why am I doing this?';
+  		return $this->module_name;
   	}
 
   	/**
@@ -106,13 +108,6 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	}
   	
   	/**
-  	 * Landing page when the module has been added to the user's dashboard.
-  	 */
-	public function module_added() {
-  		$this->redirect('screener');
-  	}
-	
-  	/**
   	 * 'Home page' for the module, when accessed by a logged-in user from their dashboard.
   	 *
   	 * Will usually contain feedback / charts on their achievements so far, along with the
@@ -122,30 +117,12 @@ class MotivationController extends MotivationModuleAppController implements Modu
   		$this->redirect('screener');
   	}
   	
-  	public function dashboard_achievements() {
-  		// Don't allow this method to be called directly from a URL
-  		if (empty($this->request->params['requested'])) {
-  			throw new ForbiddenException();
-  		}
-  	}
-
-  	/**
-  	 * 'View Records' shows any entries that have been made in the module this month, when accessed by a logged-in user from their dashboard.
-  	 */
-  	public function view_records($year = null,$month = null) {
-  		$this->redirect('screener');
-  	}
-  	 
   	/**
   	 * Handles the weekly data entry form for this module.
   	 * 
   	 * @param string $date the date for which this entry relates. If null, today's date will be used.
   	 */
 	public function data_entry($date = null) {
-  		$this->redirect('screener');
-  	}
-  
-  	public function review_progress() {
   		$this->redirect('screener');
   	}
 }

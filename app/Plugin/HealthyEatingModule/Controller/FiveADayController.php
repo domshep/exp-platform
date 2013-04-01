@@ -3,6 +3,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
     public $helpers = array('Calendar', 'Cache');
 	public $components = array('RequestHandler');
 	
+	public $module_name = 'Healthy Eating &ndash; &lsquo;5-a-day&rsquo;';
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('explore_module'); // Let anyone explore the module, whether they're logged in or not.
@@ -40,7 +42,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 * @return string
 	 */
  	public function _module_name() {
-  		return 'Healthy Eating &ndash; &lsquo;5-a-day&rsquo;';
+  		return $this->module_name;
   	}
   	
   	/**
@@ -256,9 +258,9 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 					$this->FiveADayAchievement->create();
 					$this->FiveADayAchievement->updateAchievements($this->User->data['User']['id']);
 					$this->FiveADayAchievement->save();
-					
-  					//TODO - redraw graphs? update milestones?
-  						
+
+					Cache::clear();
+						
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
   					return $this->redirect('module_dashboard');
   				} else {
@@ -313,11 +315,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
     		$this->set('FiveADayWeekly', $this->FiveADayWeekly->id = $id);
 		}	
   	}*/
-  
-  	public function review_progress() {
-  		return "This page will allow the logged-in user to review their progress against the module";
-  	}
-  	
+  	 
   	/**
   	 * Returns the set of monthly calendar entries for the given year and month, in a format ready to
   	 * pass to the CalendarHelper class.

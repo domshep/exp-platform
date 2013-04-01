@@ -6,6 +6,13 @@ interface ModulePlugin {
 	public function _module_name();
 	
 	/**
+	 * Returns the path to the icon for this module.
+	 *
+	 * @return string
+	 */
+	public function _module_icon_url();
+	
+	/**
 	 * Initial landing screen for finding out what the module is about. This is the first
 	 * page that a non-logged in user will see when they arrive in the module.
 	 */
@@ -32,24 +39,6 @@ interface ModulePlugin {
 	 * the form of a daily / weekly submission form, or a one-off survey.
 	 */
 	public function data_entry();
-	
-	/**
-	 * If you need the user to be able to edit this data it can be done here.
-	 */
-	//public function admin_edit_data();
-	
-	
-	/**
-	 * Initial landing screen for the review area for the module. Should provide options for
-	 * reviewing achievements.
-	 */
-	public function review_progress();
-	
-	/**
-	 * Displays the view block that will appear in the module dashboard 'achievements' widget
-	 * reviewing achievements. This will be unique to the user.
-	 */
-	public function dashboard_achievements();
 	
 	/**
 	 * Displays the view block that will appear in the module dashboard widget for those

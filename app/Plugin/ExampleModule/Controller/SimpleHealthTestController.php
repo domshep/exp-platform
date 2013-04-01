@@ -2,6 +2,8 @@
 class SimpleHealthTestController extends ExampleModuleAppController implements ModulePlugin {
 	public $helpers = array('Calendar', 'Cache');
 	public $components = array('RequestHandler');
+
+	public $module_name = 'Example module &ndash; simple health test';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -41,7 +43,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	 * @return string
 	 */
  	public function _module_name() {
-  		return 'Example module &ndash; simple health test';
+  		return $this->module_name;
   	}
 
   	/**
@@ -286,10 +288,6 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		}
   	}
   
-  	public function review_progress() {
-  		return "This page will allow the logged-in user to review their progress against the module";
-  	}
-  	
   	/**
   	 * Returns the set of monthly calendar entries for the given year and month, in a format ready to
   	 * pass to the CalendarHelper class.
