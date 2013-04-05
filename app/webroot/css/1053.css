@@ -40,6 +40,10 @@ a {
 	outline: 0;
 	font-weight: normal;
 }
+h3 a, .news h3 a:link{
+	font-weight: bold;
+	text-decoration: none;
+}
 a:hover {
 	text-decoration: underline; 
 }

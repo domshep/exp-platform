@@ -42,7 +42,11 @@
 		$mainnewswidget = $this->requestAction('/news/news_widget/limit:3');
 		if ($mainnewswidget != "") { ?>
 		<div class="news">
-		<h3>News and updates</h3>
+		<h3>
+			<?php 
+				echo $this->Html->link(__('News and Updates'), '/news/index', array('target' => '_self')); 
+			?>
+		</h3>
 		<?php
 			echo $mainnewswidget;
 		?>
@@ -85,13 +89,15 @@
 			} else {
 				foreach ($userModules as $module):
 					$widget = $this->requestAction($module['Module']['base_url'].'/dashboard_widget'); 
+					
+					$remove = '/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/i';
+					$modname = preg_replace($remove, '', $module['Module']['name']);
 					?>
 					<div class='module' id="<?php echo $module['Module']['name']; ?>">
-						<h3><?php echo $this->Html->image('/'.$module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));
-						?> <strong><?php echo $module['Module']['name']; ?></strong>&nbsp;</h3>
+						<h3><?php echo $this->Html->image('/'.$module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/'.$module['Module']['base_url'].'/module_dashboard'));
+						?> <strong><?php 
+							echo $this->Html->link(__($modname), '/'.$module['Module']['base_url'].'/module_dashboard',array('target' => '_self')); ?></strong>&nbsp;</h3>
 						<?php 
-							$remove = '/&(?:[a-z\d]+|#\d+|#x[a-f\d]+);/i';
-							$modname = preg_replace($remove, '', $module['Module']['name']);
 							echo $widget; 
 							echo $this->Html->link(__('My \'' . $modname . '\' dashboard'), '/'.$module['Module']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self')); 
 						?>

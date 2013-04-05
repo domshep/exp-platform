@@ -6,6 +6,43 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+DROP TABLE IF EXISTS `bmi_achievements`;
+CREATE TABLE IF NOT EXISTS `bmi_achievements` (
+  `user_id` int(11) NOT NULL,
+  `latest_bmi` double(5,2) NOT NULL default '0.00',
+  `change_since_start` int(11) NOT NULL default '0',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY  (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `bmi_screeners`;
+CREATE TABLE IF NOT EXISTS `bmi_screeners` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `height_cm` int(11) NOT NULL,
+  `start_weight_kg` int(11) NOT NULL,
+  `start_bmi` double(5,2) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `bmi_weekly`;
+CREATE TABLE IF NOT EXISTS `bmi_weekly` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `week_beginning` date NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `height_cm` int(11) default NULL,
+  `weight_kg` int(11) default NULL,
+  `bmi` double(5,2) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `what_worked` text,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `fiveaday_achievements`;
 CREATE TABLE IF NOT EXISTS `fiveaday_achievements` (
@@ -78,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 DROP TABLE IF EXISTS `module_users`;
 CREATE TABLE IF NOT EXISTS `module_users` (

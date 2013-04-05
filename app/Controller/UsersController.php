@@ -52,11 +52,11 @@ class UsersController extends AppController {
  */
 	public function admin_index() {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
+			$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-		$this->User->recursive = 0;
-		$this->set('users', $this->paginate());
-	}
+			$this->User->recursive = 0;
+			$this->set('users', $this->paginate());
+		}
 	}
 
 /**
@@ -242,3 +242,4 @@ class UsersController extends AppController {
 	
 	
 }
+?>

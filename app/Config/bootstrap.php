@@ -75,6 +75,7 @@ CakePlugin::load('MenuBuilder');
 CakePlugin::load('DebugKit');
 CakePlugin::load('ExampleModule');
 CakePlugin::Load('HealthyEatingModule');
+CakePlugin::Load('BmiModule');
 CakePlugin::Load('MotivationModule');
 
 /**
