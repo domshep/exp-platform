@@ -78,7 +78,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 			</div>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php //echo $this->element('sql_dump'); ?>
 	
 </body>
 </html>
