@@ -129,6 +129,8 @@ class BmiAchievement extends BmiModuleAppModel {
 		$query2 = "SELECT `weight_kg` FROM `bmi_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning` DESC LIMIT 1";
 		$latest_weight = $this->query($query2);
 		
+		if(empty($start_weight) || empty($latest_weight)) return 0;
+		
 		//echo $query . " - " . $query2 . "<br/>"; 
 		//echo $latest_weight . " - " . $start_weight;
 		if ($latest_weight[0]['bmi_weekly']['weight_kg'] != null and $start_weight[0]['bmi_screeners']['start_weight_kg'] != null){

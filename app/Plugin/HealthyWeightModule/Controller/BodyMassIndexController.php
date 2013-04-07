@@ -110,7 +110,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
 					// Weight is entered into the form
 					$this->Profile->create();
-					$this->Profile->set($this->Profile->findById($this->Auth->user('id')));
+					$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
 					$height_cm = $this->Profile->data['Profile']['height_cm'];
 					$gender = $this->Profile->data['Profile']['gender'];
 					$weight_kg = $this->request->data['BmiScreener']['start_weight_kg'];
@@ -144,7 +144,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
 					// Weight is entered into the form
 					$this->Profile->create();
-					$this->Profile->set($this->Profile->findById($this->Auth->user('id')));
+					$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
 					$height_cm = $this->Profile->data['Profile']['height_cm'];
 					$gender = $this->Profile->data['Profile']['gender'];
 					$weight_kg = $this->request->data['BmiScreener']['weight_kg'];
@@ -331,7 +331,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 		// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
 		// Weight is entered into the form
 		$this->Profile->create();
-		$this->Profile->set($this->Profile->findById($this->Auth->user('id')));
+		$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
 		$height_cm = $this->Profile->data['Profile']['height_cm'];
 		$gender = $this->Profile->data['Profile']['gender'];
   	
