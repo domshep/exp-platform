@@ -1,6 +1,7 @@
 <?php $this->extend('/Modules/module_template'); ?>
 <h2>Complete this screening tool to get your current BMI</h2>
-<br />
+<p>This screening tool provides a final BMI assessment. Please could you complete your weight information in (either in imperial or metric measure)</p>
+<p><a href="/healthy_weight_module/body_mass_index/explore_module">Find out more about BMI and healthy weight</a>.</p>
 <?php echo $this->Form->create('BmiScreener', array(
     'inputDefaults' => array(
         'label' => false
@@ -23,7 +24,7 @@
 </table>
 <?php 
 	$options = array(
-    	'label' => 'Calculate My BMI'
+    	'label' => 'Calculate my BMI'
 	);
 	echo $this->Form->end($options);
 ?>

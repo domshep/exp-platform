@@ -32,7 +32,7 @@
 		balanced diet and can help you maintain a healthy weight and keep your
 		heart healthy.</li>
 </ul>
-<p><?php echo $this->Html->image('/healthy_eating_module/img/five_a_day/Champions for Health char25.png', array('alt' => "Will Power - the Champions for Health mascot", 'escape' => false, 'class'=> 'left'));?>
+<p>
 It is important to remember that eating the recommended levels of
 	fruit and vegetables is a positive step forward and forms part of a
 	healthy balanced diet.</p>
