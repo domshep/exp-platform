@@ -36,7 +36,7 @@ input {
 }
 a {
 	text-decoration: none; 
-	color: #CF1E11; 
+	color: #2c5d97; 
 	outline: 0;
 	font-weight: normal;
 }
@@ -54,9 +54,6 @@ a:hover {
 	color: white; 
 	font-size : 14pt;
 	cursor: hand;
-}
-a:visited {
-	color: #2c5d97;
 }
 ul, li {
 	margin:0;

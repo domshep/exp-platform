@@ -1,8 +1,13 @@
 <?php
 $this->extend('/Modules/module_template');
-echo $this->Html->css('/BmiModule/css/module.css');
+echo $this->Html->css('/HealthyWeightModule/css/module.css');
 ?>
 <div class="modulesgrid">
+<?php 
+/**
+ * TODO: Temporarily commented out news feed
+ * 
+ * 
 <div class="news">
 			<h3>
 			<?php 
@@ -13,6 +18,8 @@ echo $this->Html->css('/BmiModule/css/module.css');
 				if ($newswidget != "") echo $newswidget;
 			?>
 </div>
+*/
+?>
 
 <div class="modules">
 	<div class="module">
@@ -22,7 +29,7 @@ echo $this->Html->css('/BmiModule/css/module.css');
 		<h4 class="graph-caption">My BMI over recent weeks</h4>
 		<p><?php 
 				echo $this->Html->image(
-					'/bmi_module/Bmi/minigraph', 
+					'/healthy_weight_module/body_mass_index/minigraph', 
 					array(
 						'alt' => 'My BMI over recent weeks',
 	    				'url' => array('action' => 'view_records'),
@@ -38,7 +45,7 @@ echo $this->Html->css('/BmiModule/css/module.css');
 						?>&nbsp;<strong><?php echo $this->Html->link(__('My month at a glance'), array('action' => 'view_records')); ?></strong>
 		</h3>
 		<?php 
-			echo $this->Calendar->calendar($year,$month,$records,'/bmi_module/Bmi/module_dashboard','/bmi_module/Bmi/data_entry','$passrate','green','red'); 
+			echo $this->Calendar->calendar($year,$month,$records,'/healthy_weight_module/body_mass_index/module_dashboard','/healthy_weight_module/body_mass_index/data_entry','$passrate','bmi','bmi'); 
 		?>
 		<p>
 		<?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button', 'style' => 'float:left;')); ?>

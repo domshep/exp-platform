@@ -1,7 +1,7 @@
 <h4 class="graph-caption">My BMI over recent weeks</h4>
 		<p><?php 
 				echo $this->Html->image(
-					'/bmi_module/Bmi/minigraph', 
+					'/healthy_weight_module/body_mass_index/minigraph', 
 					array(
 						'alt' => 'My BMI over recent weeks',
 	    				'url' => array('action' => 'view_records'),

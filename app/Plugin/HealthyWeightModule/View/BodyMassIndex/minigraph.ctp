@@ -16,7 +16,7 @@ $graph->xaxis->title->Set("Week beginning");
 $graph->xaxis->title->SetMargin(50);
 
 $graph->yaxis->title->SetFont(FF_FONT1, FS_BOLD, 10);
-$graph->yaxis->title->Set("BMI");
+$graph->yaxis->title->Set("Body Mass Index (BMI)");
 $graph->yaxis->title->SetMargin(20);
 
 // Force labels to only be displayed every 7 days
@@ -39,12 +39,14 @@ $lineplot->SetColor('blue');
 // Add the plot to the graph
 $graph->Add($lineplot);
 
-// Create the marker plot - 5 x 7 = 35 servings of fruit is the target to aim for
+/**
+// TODO: Create the marker plots for BMI
 $markerplot = new LinePlot(array(35,35),array($xdata[0],end($xdata)));
 $markerplot->SetColor('red');
 
 // Add the marker plot to the graph
 $graph->Add($markerplot);
+*/
 
 // Display the graph
 $graph->Stroke();

@@ -1,5 +1,5 @@
 <?php
-App::uses('BmiModuleAppModel', 'BmiModule.Model');
+App::uses('BmiModuleAppModel', 'HealthyWeightModule.Model');
 /**
  * BMIAchievement Model
  *

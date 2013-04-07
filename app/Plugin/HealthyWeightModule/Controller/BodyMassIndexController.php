@@ -1,9 +1,9 @@
 <?php
-class BmiController extends BmiModuleAppController implements ModulePlugin {
+class BodyMassIndexController extends HealthyWeightModuleAppController implements ModulePlugin {
     public $helpers = array('Calendar', 'Cache');
 	public $components = array('RequestHandler');
 	
-	public $module_name = 'Body Mass Index (BMI)';
+	public $module_name = 'Healthy Weight &ndash; Body Mass Index (BMI)';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -24,7 +24,7 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
 	}
 	
 	public function dashboard_news() {
-		$this->loadModel('BmiModule.BmiAchievement');
+		$this->loadModel('HealthyWeightModule.BmiAchievement');
 		// Don't allow this method to be called directly from a URL
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
@@ -51,7 +51,7 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   	 * @return string
   	 */
   	public function _module_icon_url() {
-  		return '/bmi_module/img/Bmi/icon.png';
+  		return '/healthy_weight_module/img/Bmi/icon.png';
   	}
 
   	/**
@@ -92,8 +92,8 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
 	 * database.
 	 */
 	public function screener() {
-  		$this->loadModel('BmiModule.BmiScreener');
-  		$this->loadModel('BmiModule.BmiAchievement');
+  		$this->loadModel('HealthyWeightModule.BmiScreener');
+  		$this->loadModel('HealthyWeightModule.BmiAchievement');
   		$this->loadModel('User');
   		$this->loadModel('Profile');
   		$this->loadModel('Module');
@@ -119,11 +119,11 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
 					$this->Profile->set($this->Profile->findById($this->Auth->user('id')));
 					$height_cm = $this->Profile->data['Profile']['height_cm'];
 					$gender = $this->Profile->data['Profile']['gender'];
-					$weight_kg = $this->request->data['BmiScreener']['bmi'];
+					$weight_kg = $this->request->data['BmiScreener']['start_weight_kg'];
 					
 					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
 					// and then save the screener data.
-					$bmi = $this->BmiScreener->calculateBMI($height_cm,($weight_kg*100));
+					$bmi = $this->BmiScreener->calculateBMI($height_cm,$weight_kg);
 					$this->BmiScreener->set('start_bmi', $bmi);
 					$this->BmiScreener->set('user_id', $this->User->data['User']['id']);
 					$this->BmiScreener->save();
@@ -186,8 +186,8 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   	 */
 	public function module_dashboard($year = null,$month = null) {
   		$helper = new ModuleHelperFunctions();
-  		$this->loadModel('BmiModule.BmiWeekly');
-		$this->loadModel('BmiModule.BmiAchievement');
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+		$this->loadModel('HealthyWeightModule.BmiAchievement');
   		$this->loadModel('User');
 
   		// Use today's date if no date given.
@@ -247,7 +247,7 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   	}
   	
   	public function dashboard_achievements() {
-  		$this->loadModel('BmiModule.BmiAchievement');
+  		$this->loadModel('HealthyWeightModule.BmiAchievement');
   	
   		// Don't allow this method to be called directly from a URL
   		if (empty($this->request->params['requested'])) {
@@ -265,7 +265,7 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   	 */
 	public function view_records($year = null,$month = null) {
   		$helper = new ModuleHelperFunctions();
-  		$this->loadModel('BmiModule.BmiWeekly');
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
 
   		// Use today's date if no date given.
   		if(is_null($month)) $month = gmdate("F");
@@ -273,12 +273,54 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   		$this->set('month', $month);
   		$this->set('year', $year);
   		
+  		$model = $this->BmiWeekly;
+		
+		$monthnum = gmdate('n', strtotime("2:00 1 ".$month. " ".$year));
+		$monthStartDate = gmmktime(2,0,0,$monthnum,1,$year);
+		$monthWeekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$monthStartDate));
+		
   		// Get the current user
   		$userId = $this->Auth->user('id');
-
+		
   		// Calendar Related Items:
-  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->BmiWeekly, $userId, $year, $month);
-  		$this->set('records', $monthlyRecords);
+		$allEntries = $model->find('all',array(
+				'conditions' => array(
+						'user_id' => $userId,
+						'week_beginning >=' => gmdate("Y-m-d",$monthWeekBeginning),
+						'week_beginning <=' => gmdate("Y-m-t",$monthStartDate)
+				),
+				'order' => array('week_beginning' => 'asc')
+		));
+		
+		$records = array();
+		$weekdayList = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+		
+		/* This one has just one entry per week, so we can't use the calendar helper */
+		foreach($allEntries as $key => $weeklyEntry) 
+		{
+			foreach($weekdayList as $weekDayNo => $weekday) {
+				$weekDayDate = strtotime("2:00 " . $weeklyEntry[get_class($model)]['week_beginning']
+						. " +" . $weekDayNo . " day");
+				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
+					$comment = "Weekly entry: ".$weeklyEntry[get_class($model)]['bmi'];
+					if(!empty($weeklyEntry[get_class($model)]['what_worked'])) {
+						$comment .= "<br />What worked for me this week: ".$weeklyEntry[get_class($model)]['what_worked'];
+					}
+					$records[date('j', $weekDayDate)] = array(
+							'entry' => $weeklyEntry[get_class($model)]['bmi'],
+							'comment' => $comment
+					);
+				}
+			}
+		}
+	
+		/* What is the ideal 'pass rate'? */
+		$idealbmi = (18.5 + 25) / 2; // ideal range?
+		
+		// TO DO: Need to compare to previous week's BMI and alter calendar table to allow pass/fail to differ depending on whether the person is above or below the ideal BMI.
+		
+		//$helper->getMonthlyCalendarEntries($this->BmiWeekly, $userId, $year, $month);
+  		$this->set('records', $records);
   	}
   	
   	/**
@@ -287,8 +329,8 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   	 * @param string $date the date for which this entry relates. If null, today's date will be used.
   	 */
   	public function data_entry($date = null) {
-  		$this->loadModel('BmiModule.BmiWeekly');
-		$this->loadModel('BmiModule.BmiAchievement');
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+		$this->loadModel('HealthyWeightModule.BmiAchievement');
   		$this->loadModel('User');
 		$this->loadModel('Profile');
 		
@@ -323,7 +365,6 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   		if ($this->request->is('post') || $this->request->is('put')) {
   			// The form has been submitted, so validate and then save.
 			$weight_kg = $this->request->data['BmiWeekly']['weight_kg'];
-			$weekBeginning = $this->request->data['BmiWeekly']['week_beginning'];
   				
   			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
   			$this->BmiWeekly->create();
@@ -332,7 +373,6 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   			$this->BmiWeekly->set('bmi', $bmi);
   			$this->BmiWeekly->set('weight_kg', $weight_kg);
   			$this->BmiWeekly->set('height_cm', $height_cm);
-  			$this->BmiWeekly->set('week_beginning', $weekBeginning);
   			$this->BmiWeekly->set('user_id', $this->User->data['User']['id']);
   	
   			if ($this->BmiWeekly->validates()) {
@@ -419,7 +459,7 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   	 * Returns the .png graphic for the run-chart that is displayed on the module dashboard.
   	 */
   	public function minigraph() {
-  		$this->loadModel('BmiModule.BmiWeekly');
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
   	
@@ -443,7 +483,7 @@ class BmiController extends BmiModuleAppController implements ModulePlugin {
   	
   		// Iterate through the entries and reformat them into separate arrays for the graph function.
   		foreach($lastThreeMonthEntries as $key => $weeklyEntry) {
-  			$ydata[] = $weeklyEntry['BmiWeekly']['total'];
+  			$ydata[] = $weeklyEntry['BmiWeekly']['bmi'];
   			$dates[] = strtotime($weeklyEntry['BmiWeekly']['week_beginning']);
   		}
   	
