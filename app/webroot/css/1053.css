@@ -873,3 +873,12 @@ img.info {
 	background-color:#FFFFFF;
 	margin-bottom:0px;
 }
+
+.nosmokeup{
+	background-color:#66CC99;
+	border-radius: 10px;
+}
+.smokeup{
+	background-color:#FF99CC;
+	border-radius: 10px;
+}

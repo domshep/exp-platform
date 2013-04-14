@@ -1,10 +1,10 @@
 <?php
-App::uses('HealthyEatingModuleAppModel', 'HealthyEatingModule.Model');
+App::uses('StopSmokingModuleAppModel', 'StopSmokingModule.Model');
 /**
- * FiveADayAchievement Model
+ * StopSmokingAchievement Model
  *
  */
-class FiveADayAchievement extends HealthyEatingModuleAppModel {
+class StopSmokingAchievement extends StopSmokingModuleAppModel {
 
 /**
  * Primary key field
@@ -12,7 +12,6 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
  * @var string
  */
 	public $primaryKey = 'user_id';
-	public $useTable = 'fiveaday_achievements';
 	
 	/**
 	 * belongsTo associations
@@ -33,8 +32,7 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 	 * Variable to indicate what a 'healthy day' score should be. Any daily score over this number
 	 * counts as a 'healthy day' for this example module.
 	 */
-	private $healthyScore = 5;
-	private $healthyWeekScore = 35;
+	private $healthyScore = 1;
 
 /**
  * Validation rules
@@ -72,16 +70,6 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'consec_healthy_weeks' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 	);
 	
 	/**
@@ -104,17 +92,61 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 	}
 	
 	/**
-	 * Returns the total number of healthy weeks recorded, where the given user has recorded a 'feeling healthy' score
+	 * Returns the total number of smoke free weeks recorded, where the given user has recorded 'smoke free'
 	 * every single day.
 	 * 
 	 * @param int $user_id
 	 */
 	private function totalHealthyWeeks($user_id) {
-		$total = $this->query("SELECT COUNT(*) AS `total` FROM `fiveaday_weekly` WHERE user_id = " . $user_id
+		$total = $this->query("SELECT COUNT(*) AS `total` FROM `stop_smoking_weekly` WHERE user_id = " . $user_id
 				. " AND ("
-				. " total >= " . $this->healthyWeekScore . ");"
+				. " monday >= " . $this->healthyScore
+				. " AND tuesday >= " . $this->healthyScore
+				. " AND wednesday >= " . $this->healthyScore
+				. " AND thursday >= " . $this->healthyScore
+				. " AND friday >= " . $this->healthyScore
+				. " AND saturday >= " . $this->healthyScore
+				. " AND sunday >= " . $this->healthyScore
+				. ");"
 				);
 		return $total[0][0]['total'];
+	}
+	
+	/**
+	 * Returns the number of consecutively healthy weeks.
+	 * If the run is interrupted the total resets to 0.
+	 * @param int $user_id
+	 * @return number
+	 */
+	private function totalWeeksHealthyConsec($user_id) 
+	{
+		$healthyWeeks = $this->query("SELECT `total`, `week_beginning`  FROM `stop_smoking_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning` ASC");
+		
+		if(empty($healthyWeeks)) return 0;
+	
+		$total = 0;
+		$previousWeek = "";
+	
+		foreach($healthyWeeks as $week) 
+		{
+			// Is there a gap between entries?
+			$thisweek = $week['stop_smoking_weekly'];
+			$weekBeginning = $thisweek['week_beginning'];
+			
+			if ($previousWeek != "")
+			{
+				$date = new DateTime($previousWeek);
+				$date->modify('+7 days');
+				if ($date->format('Y-m-d') != $weekBeginning) $total = 0; // the weeks are not consecutive - so reset the total.
+			}
+			
+			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
+			else $total = 0;
+			
+			$previousWeek = $weekBeginning;
+			//$total = $thisweek['total'];
+		}
+		return $total; // number of consecutive healthy weeks
 	}
 	
 	/**
@@ -124,7 +156,7 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 	 * @return number
 	 */
 	private function totalDaysHealthy($user_id) {
-		$containHealthyDays = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `fiveaday_weekly` WHERE user_id = " . $user_id
+		$containHealthyDays = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `stop_smoking_weekly` WHERE user_id = " . $user_id
 				. " AND ("
 				. " monday >= " . $this->healthyScore
 				. " OR tuesday >= " . $this->healthyScore
@@ -140,48 +172,13 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 		
 		$total = 0;
 		foreach($containHealthyDays as $week) {
-			foreach($week['fiveaday_weekly'] as $day) {
+			foreach($week['stop_smoking_weekly'] as $day) {
 				if ($day >= $this->healthyScore) {
 					$total++;
 				}
 			}
 		}
 		return $total;
-	}
-	
-	
-	/**
-	 * Returns the number of consecutively healthy weeks.
-	 * If the run is interrupted the total resets to 0.
-	 * @param int $user_id
-	 * @return number
-	 */
-	private function totalWeeksHealthyConsec($user_id) {
-		$healthyWeeks = $this->query("SELECT `total`,`week_beginning` FROM `fiveaday_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
-		
-		if(empty($healthyWeeks)) return 0;
-	
-		$total = 0;
-		$previousWeek = "";
-
-		foreach($healthyWeeks as $week) 
-		{
-			// Is there a gap between entries?
-			$weekBeginning = $week['week_beginning'];
-			if ($previousWeek != "")
-			{
-				$date = new DateTime($previousWeek);
-				$date->add(new DateInterval('P7D'));
-				if ($date != $weekBeginning) $total = 0; // the weeks are not consecutive - so reset the total.
-			}
-			
-			$thisweek = $week['fiveaday_weekly'];
-			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
-			else $total = 0;
-			
-			$previousWeek = $thisweek;
-		}
-		return $total; // number of consecutive healthy weeks
 	}
 	
 	/**
@@ -191,7 +188,7 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 	 * @return number
 	 */
 	private function healthyDaysLastWeek($user_id) {
-		$lastWeek = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `fiveaday_weekly` WHERE user_id = " . $user_id
+		$lastWeek = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `stop_smoking_weekly` WHERE user_id = " . $user_id
 				. " AND (week_beginning >= DATE_SUB(curdate(),INTERVAL 13 DAY)"
 				. " AND week_beginning < DATE_SUB(curdate(),INTERVAL 6 DAY));"
 		);
@@ -199,7 +196,7 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 		if(empty($lastWeek)) return 0;
 		
 		$total = 0;
-		foreach($lastWeek[0]['fiveaday_weekly'] as $day) {
+		foreach($lastWeek[0]['stop_smoking_weekly'] as $day) {
 			if ($day >= $this->healthyScore) {
 				$total++;
 			}

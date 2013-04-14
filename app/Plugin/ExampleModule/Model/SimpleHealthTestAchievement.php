@@ -119,15 +119,29 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 	 * @return number
 	 */
 	private function totalWeeksHealthyConsec($user_id) {
-		$healthyWeeks = $this->query("SELECT `total` FROM `simple_health_test_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
+		$healthyWeeks = $this->query("SELECT `total`,`week_beginning`  FROM `simple_health_test_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
 		
 		if(empty($healthyWeeks)) return 0;
 	
 		$total = 0;
-		foreach($healthyWeeks as $week) {
+		$previousWeek = "";
+
+		foreach($healthyWeeks as $week) 
+		{
+			// Is there a gap between entries?
+			$weekBeginning = $week['week_beginning'];
+			if ($previousWeek != "")
+			{
+				$date = new DateTime($previousWeek);
+				$date->add(new DateInterval('P7D'));
+				if ($date != $weekBeginning) $total = 0; // the weeks are not consecutive - so reset the total.
+			}
+			
 			$thisweek = $week['simple_health_test_weekly'];
 			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
 			else $total = 0;
+			
+			$previousWeek = $thisweek;
 		}
 		return $total; // number of consecutive healthy weeks
 	}

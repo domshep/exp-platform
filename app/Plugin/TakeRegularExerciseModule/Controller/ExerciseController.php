@@ -1,9 +1,9 @@
 <?php
-class BodyMassIndexController extends HealthyWeightModuleAppController implements ModulePlugin {
+class ExerciseController extends TakeRegularExerciseModuleAppController implements ModulePlugin {
     public $helpers = array('Calendar', 'Cache');
 	public $components = array('RequestHandler');
 	
-	public $module_name = 'Healthy Weight &ndash; Body Mass Index (BMI)';
+	public $module_name = 'Take Regular Exercise';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -24,19 +24,13 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 	}
 	
 	public function dashboard_news() {
-		$this->loadModel('HealthyWeightModule.BmiAchievement');
-		$this->loadModel('HealthyWeightModule.BmiScreener');
-		
+		$this->loadModel('TakeRegularExerciseModule.ExerciseAchievement');
 		// Don't allow this method to be called directly from a URL
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-  		$achievements = $this->BmiAchievement->findByUserId($this->Auth->user('id'));
+  		$achievements = $this->ExerciseAchievement->findByUserId($this->Auth->user('id'));
   		$this->set('achievements', $achievements);
-		
-		/* Load Screener */
-  		$screeners = $this->BmiScreener->findByUserId($this->Auth->user('id'));
-  		$this->set('screeners', $screeners);
 		
 		$this->set('message', "News from the " . $this->_module_name());
 		$this->render();
@@ -57,7 +51,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * @return string
   	 */
   	public function _module_icon_url() {
-  		return '/healthy_weight_module/img/Bmi/icon.png';
+  		return '/take_regular_exercise_module/img/exercise/icon.png';
   	}
 
   	/**
@@ -79,7 +73,13 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
  	 * dashboard.
  	 */
  	public function add_module() {
-  		return $this->redirect('screener');
+  		$this->loadModel('ModuleUser');
+		$this->loadModel('Module');
+		
+		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
+			$this->Auth->user('id'),
+			$this->Module->getModuleID($this->_module_name()));
+		$this->set('added_to_dashboard', $addedToDashboard);
  	}
   
 	/**
@@ -92,20 +92,19 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 	 * database.
 	 */
 	public function screener() {
-  		$this->loadModel('HealthyWeightModule.BmiScreener');
-  		$this->loadModel('HealthyWeightModule.BmiAchievement');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseScreener');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseAchievement');
   		$this->loadModel('User');
-  		$this->loadModel('Profile');
   		$this->loadModel('Module');
 	  	
 	  	if ($this->request->is('post')) {
 	  		// Get hold of the posted data
-			$this->BmiScreener->create();
-			$this->BmiScreener->set($this->request->data);
+			$this->ExerciseScreener->create();
+			$this->ExerciseScreener->set($this->request->data);
 			
-			if ($this->BmiScreener->validates()) {
+			if ($this->ExerciseScreener->validates()) {
 				// Validation passed
-				if(isset($this->request->data['BmiScreener']['bmi'])) {
+				if(isset($this->request->data['ExerciseScreener']['score'])) {
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
 					
@@ -113,25 +112,17 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					$this->User->create();
 					$this->User->set($this->User->findById($this->Auth->user('id')));
 					
-					// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
-					// Weight is entered into the form
-					$this->Profile->create();
-					$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
-					$height_cm = $this->Profile->data['Profile']['height_cm'];
-					$gender = $this->Profile->data['Profile']['gender'];
-					$weight_kg = $this->request->data['BmiScreener']['start_weight_kg'];
-					
 					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
 					// and then save the screener data.
-					$bmi = $this->BmiScreener->calculateBMI($height_cm,$weight_kg);
-					$this->BmiScreener->set('start_bmi', $bmi);
-					$this->BmiScreener->set('user_id', $this->User->data['User']['id']);
-					$this->BmiScreener->save();
+					$score = $this->ExerciseScreener->calculateScore();
+					$this->ExerciseScreener->set('score', $score);
+					$this->ExerciseScreener->set('user_id', $this->User->data['User']['id']);
+					$this->ExerciseScreener->save();
 					
 					// Calculate / initialise the achievement stats
-					$this->BmiAchievement->create();
-					$this->BmiAchievement->updateAchievements($this->User->data['User']['id'],$bmi);
-					$this->BmiAchievement->save();
+					$this->ExerciseAchievement->create();
+					$this->ExerciseAchievement->updateAchievements($this->User->data['User']['id']);
+					$this->ExerciseAchievement->save();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -146,27 +137,16 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					
 				} else {
 					// No score yet, so the user has only just submitted the original form.
-					
-					// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
-					// Weight is entered into the form
-					$this->Profile->create();
-					$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
-					$height_cm = $this->Profile->data['Profile']['height_cm'];
-					$gender = $this->Profile->data['Profile']['gender'];
-					$weight_kg = $this->request->data['BmiScreener']['weight_kg'];
-					
 					// Calculate the score, and then redirect the user to the final page.
-					$bmi = $this->BmiScreener->calculateBMI($height_cm,$weight_kg);
-					$this->set('bmi', $bmi);
-					$this->BmiScreener->set('bmi', $bmi);
-					$this->set('weight_kg', $weight_kg);
-					$this->set('height_cm', $height_cm);
-					$this->set($this->BmiScreener->data);
+					$score = $this->ExerciseScreener->calculateScore();
+					$this->set('score', $score);
+					$this->ExerciseScreener->set('score', "".$score);
+					$this->set($this->ExerciseScreener->data);
 					$this->render('score');
 				}
 			} else {
 				// Validation failed
-				$this->Session->setFlash(__('Your BMI could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
 			}
 		}
   	}
@@ -175,7 +155,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
 	public function module_added() {
-  		$this->set('message', "The BMI module has now been added to your dashboard.");
+  		$this->set('message', "The 'Take Regular Exercise' module has now been added to your dashboard.");
   	}
 	
   	/**
@@ -186,9 +166,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 */
 	public function module_dashboard($year = null,$month = null) {
   		$helper = new ModuleHelperFunctions();
-  		$this->loadModel('HealthyWeightModule.BmiWeekly');
-		$this->loadModel('HealthyWeightModule.BmiAchievement');
-		$this->loadModel('HealthyWeightModule.BmiScreener');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
+		$this->loadModel('TakeRegularExerciseModule.ExerciseAchievement');
   		$this->loadModel('User');
 
   		// Use today's date if no date given.
@@ -196,60 +175,24 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		if(is_null($year)) $year = gmdate("Y");
   		$this->set('month', $month);
   		$this->set('year', $year);
-		
-		$model = $this->BmiWeekly;
-		
-		$monthnum = gmdate('n', strtotime("2:00 1 ".$month. " ".$year));
-		$monthStartDate = gmmktime(2,0,0,$monthnum,1,$year);
-		$monthWeekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$monthStartDate));
-		
+  		
   		// Get the current user
   		$userId = $this->Auth->user('id');
-		
+
   		// Calendar Related Items:
-		$allEntries = $model->find('all',array(
-				'conditions' => array(
-						'user_id' => $userId,
-						'week_beginning >=' => gmdate("Y-m-d",$monthWeekBeginning),
-						'week_beginning <=' => gmdate("Y-m-t",$monthStartDate)
-				),
-				'order' => array('week_beginning' => 'asc')
-		));
-		
-		$records = array();
-		$weekdayList = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
-		
-		/* This one has just one entry per week, so we can't use the calendar helper */
-		foreach($allEntries as $key => $weeklyEntry) 
-		{
-			foreach($weekdayList as $weekDayNo => $weekday) {
-				$weekDayDate = strtotime("2:00 " . $weeklyEntry[get_class($model)]['week_beginning']
-						. " +" . $weekDayNo . " day");
-				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
-					$comment = "Weekly entry: ".$weeklyEntry[get_class($model)]['bmi'];
-					if(!empty($weeklyEntry[get_class($model)]['what_worked'])) {
-						$comment .= "<br />What worked for me this week: ".$weeklyEntry[get_class($model)]['what_worked'];
-					}
-					$records[date('j', $weekDayDate)] = array(
-							'entry' => $weeklyEntry[get_class($model)]['bmi'],
-							'comment' => $comment
-					);
-				}
-			}
-		}
-	
-  		$this->set('records', $records);
+  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->ExerciseWeekly, $userId, $year, $month);
+  		$this->set('records', $monthlyRecords);
   	}
   	
   	public function dashboard_achievements() {
-  		$this->loadModel('HealthyWeightModule.BmiAchievement');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseAchievement');
   	
   		// Don't allow this method to be called directly from a URL
   		if (empty($this->request->params['requested'])) {
   			throw new ForbiddenException();
   		}
   	
-  		$achievements = $this->BmiAchievement->findByUserId($this->Auth->user('id'));
+  		$achievements = $this->ExerciseAchievement->findByUserId($this->Auth->user('id'));
   		$this->set('achievements', $achievements);
   		$this->set('message', "Achievements from the " . $this->_module_name());
   		$this->render();
@@ -260,7 +203,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 */
 	public function view_records($year = null,$month = null) {
   		$helper = new ModuleHelperFunctions();
-  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
 
   		// Use today's date if no date given.
   		if(is_null($month)) $month = gmdate("F");
@@ -268,48 +211,12 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		$this->set('month', $month);
   		$this->set('year', $year);
   		
-  		$model = $this->BmiWeekly;
-		
-		$monthnum = gmdate('n', strtotime("2:00 1 ".$month. " ".$year));
-		$monthStartDate = gmmktime(2,0,0,$monthnum,1,$year);
-		$monthWeekBeginning = $helper->_getWeekBeginningDate(gmdate("Ymd",$monthStartDate));
-		
   		// Get the current user
   		$userId = $this->Auth->user('id');
-		
+
   		// Calendar Related Items:
-		$allEntries = $model->find('all',array(
-				'conditions' => array(
-						'user_id' => $userId,
-						'week_beginning >=' => gmdate("Y-m-d",$monthWeekBeginning),
-						'week_beginning <=' => gmdate("Y-m-t",$monthStartDate)
-				),
-				'order' => array('week_beginning' => 'asc')
-		));
-		
-		$records = array();
-		$weekdayList = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
-		
-		/* This one has just one entry per week, so we can't use the calendar helper */
-		foreach($allEntries as $key => $weeklyEntry) 
-		{
-			foreach($weekdayList as $weekDayNo => $weekday) {
-				$weekDayDate = strtotime("2:00 " . $weeklyEntry[get_class($model)]['week_beginning']
-						. " +" . $weekDayNo . " day");
-				if(date('n Y', $weekDayDate) == $monthnum . " " . $year) {
-					$comment = "Weekly entry: ".$weeklyEntry[get_class($model)]['bmi'];
-					if(!empty($weeklyEntry[get_class($model)]['what_worked'])) {
-						$comment .= "<br />What worked for me this week: ".$weeklyEntry[get_class($model)]['what_worked'];
-					}
-					$records[date('j', $weekDayDate)] = array(
-							'entry' => $weeklyEntry[get_class($model)]['bmi'],
-							'comment' => $comment
-					);
-				}
-			}
-		}
-	
-  		$this->set('records', $records);
+  		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->ExerciseWeekly, $userId, $year, $month);
+  		$this->set('records', $monthlyRecords);
   	}
   	
   	/**
@@ -318,17 +225,9 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * @param string $date the date for which this entry relates. If null, today's date will be used.
   	 */
   	public function data_entry($date = null) {
-  		$this->loadModel('HealthyWeightModule.BmiWeekly');
-		$this->loadModel('HealthyWeightModule.BmiAchievement');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
+		$this->loadModel('TakeRegularExerciseModule.ExerciseAchievement');
   		$this->loadModel('User');
-		$this->loadModel('Profile');
-		
-		// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
-		// Weight is entered into the form
-		$this->Profile->create();
-		$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
-		$height_cm = $this->Profile->data['Profile']['height_cm'];
-		$gender = $this->Profile->data['Profile']['gender'];
   	
   		// Use today's date if no date given.
   		if(is_null($date)) $date = gmdate("Ymd");
@@ -353,25 +252,22 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	
   		if ($this->request->is('post') || $this->request->is('put')) {
   			// The form has been submitted, so validate and then save.
-			$weight_kg = $this->request->data['BmiWeekly']['weight_kg'];
   				
   			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
-  			$this->BmiWeekly->create();
-  			$this->BmiWeekly->set($this->request->data);
-  			$bmi = $this->BmiWeekly->calculateBMI($height_cm, $weight_kg) ;
-  			$this->BmiWeekly->set('bmi', $bmi);
-  			$this->BmiWeekly->set('weight_kg', $weight_kg);
-  			$this->BmiWeekly->set('height_cm', $height_cm);
-  			$this->BmiWeekly->set('user_id', $this->User->data['User']['id']);
+  			$this->ExerciseWeekly->create();
+  			$this->ExerciseWeekly->set($this->request->data);
+  			$total = $this->ExerciseWeekly->calculateTotal();
+  			$this->ExerciseWeekly->set('total', $total);
+  			$this->ExerciseWeekly->set('user_id', $this->User->data['User']['id']);
   	
-  			if ($this->BmiWeekly->validates()) {
-  				$success = $this->BmiWeekly->save();
+  			if ($this->ExerciseWeekly->validates()) {
+  				$success = $this->ExerciseWeekly->save();
   	
   				if($success) {
 					//Re-calculate the achievement stats
-					$this->BmiAchievement->create();
-					$this->BmiAchievement->updateAchievements($this->User->data['User']['id'],$bmi);
-					$this->BmiAchievement->save();
+					$this->ExerciseAchievement->create();
+					$this->ExerciseAchievement->updateAchievements($this->User->data['User']['id']);
+					$this->ExerciseAchievement->save();
 
 					Cache::clear();
 						
@@ -388,40 +284,58 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   			// This is a new request for this form - display a blank or previous record
   				
   			// Is there a previous record for this date and user?
-  			$this->BmiWeekly->create();
-  			$previousEntry = $this->BmiWeekly->findByUserIdAndWeekBeginning(
+  			$this->ExerciseWeekly->create();
+  			$previousEntry = $this->ExerciseWeekly->findByUserIdAndWeekBeginning(
   					$this->User->data['User']['id'],
   					date("Y-m-d",$weekBeginning));
-  			
+  				
   			// If so, edit this entry instead of creating a new one...
-  			if(!empty($previousEntry)){
-				$this->request->data = $previousEntry;
-				// Get weight:
-				$kgs = $previousEntry['BmiWeekly']['weight_kg'];
-				$lbs = round($kgs * 2.20462,0);
-				$stones = 0;
-				while ($lbs >= 13)
-				{
-					$stones = $stones + 1;
-					$lbs = $lbs - 13;
-				}
-
-				$this->request->data['BmiWeekly']['weight_stones'] = $stones;
-				$this->request->data['BmiWeekly']['weight_lbs'] = $lbs;
-  			}
-		}
+  			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+  		}
   	}
 	
+	/*
+	public function admin_edit($id=null) {
+		// Load the User ID
+		$this->set('userID', $this->Auth->user('id'));
+		// Set the welcome message
+  		$this->set('message', "This is where you edit the data you have entered. In some modules you may wish to limit this. Data will only be editable for this module for a set period of time.");
+		// Load the Exercise Weekly Model
+  		$this->loadModel('TakeRegularExercise.ExerciseWeekly');
+		// If the ID exists
+		if (!$this->ExerciseWeekly->exists($id)) {
+			throw new NotFoundException(__('Invalid record'));
+		}
+		// If the page has been posted.
+		if ($this->request->is('post')) {
+			$this->ExerciseWeekly->create();
+			$this->ExerciseWeekly->set($this->request->data);
+			if ($this->ExerciseWeekly->validates()) {
+				$this->ExerciseWeekly->save();
+			} else {
+				// Validation failed
+				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
+				$this->render();
+			}
+		}
+		else // if not...
+		{
+			//$options = array('conditions' => array('TakeRegularExerciseModule.ExerciseWeekly.id' => $id));
+			//$this->request->data = $this->ExerciseWeekly->id = $id;//'first', $options);
+    		$this->set('ExerciseWeekly', $this->ExerciseWeekly->id = $id);
+		}	
+  	}*/
+  
   	/**
   	 * Returns the .png graphic for the run-chart that is displayed on the module dashboard.
   	 */
   	public function minigraph() {
-  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
   	
   		// Retrieve all the weekly entries between the start week and the last day of the month
-  		$lastThreeMonthEntries = $this->BmiWeekly->find('all',array(
+  		$lastThreeMonthEntries = $this->ExerciseWeekly->find('all',array(
   				'conditions' => array(
   						'user_id' => $this->Auth->user('id'),
   						'week_beginning >=' => date("Y-m-d", strtotime("-3 months")),
@@ -440,8 +354,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	
   		// Iterate through the entries and reformat them into separate arrays for the graph function.
   		foreach($lastThreeMonthEntries as $key => $weeklyEntry) {
-  			$ydata[] = $weeklyEntry['BmiWeekly']['bmi'];
-  			$dates[] = strtotime($weeklyEntry['BmiWeekly']['week_beginning']);
+  			$ydata[] = $weeklyEntry['ExerciseWeekly']['total'];
+  			$dates[] = strtotime($weeklyEntry['ExerciseWeekly']['week_beginning']);
   		}
   	
   		$this->set("graphData", $ydata);

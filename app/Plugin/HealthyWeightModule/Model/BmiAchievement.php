@@ -90,11 +90,13 @@ class BmiAchievement extends BmiModuleAppModel {
 	 * 
 	 * @param int $user_id
 	 */
-	public function updateAchievements($user_id,$latestBMI) {
-		//$healthyDaysLastWeek = $this->healthyDaysLastWeek($user_id);
-		//$totalDaysHealthy = $this->totalDaysHealthy($user_id);
-		//$healthyWeeks = $this->totalHealthyWeeks($user_id);
-		//$totalConsecWeeks = $this->totalWeeksHealthyConsec($user_id);
+	public function updateAchievements($user_id,$latestBMI) 
+	{
+		// Don't rely on the latest BMI - load it from the Weekly
+		$query = "SELECT `bmi` FROM `bmi_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning` DESC LIMIT 1";
+		$latest_bmi = $this->query($query);
+		$latestBMI = $latest_bmi[0]['bmi_weekly']['bmi'];
+		
 		$changeSinceStart = $this->changeSinceStart($user_id);
 		
 		$this->set('user_id', $user_id);
@@ -102,22 +104,7 @@ class BmiAchievement extends BmiModuleAppModel {
 		$this->set('change_since_start', $changeSinceStart);
 	}
 	
-	/**
-	 * Returns the total number of healthy weeks recorded, where the given user has recorded a 'feeling healthy' score
-	 * every single day.
-	 * 
-	 * @param int $user_id
-	 */
-	private function totalHealthyWeeks($user_id) {
-		/*$total = $this->query("SELECT COUNT(*) AS `total` FROM `bmi_weekly` WHERE user_id = " . $user_id
-				. " AND ("
-				. " total >= " . $this->healthyWeekScore . ");"
-				);
-		return $total[0][0]['total']; */
-	}
-	
 	/* Returns the total loss or gain in weight since the start */
-	
 	private function changeSinceStart($user_id) 
 	{
 		$difference = 0;
@@ -141,82 +128,5 @@ class BmiAchievement extends BmiModuleAppModel {
 		return $difference;
 	}
 	
-	/**
-	 * Returns the total number of days  where the given user has recorded a 'feeling healthy' score.
-	 * 
-	 * @param int $user_id
-	 * @return number
-	 */
-	private function totalDaysHealthy($user_id) {
-	/*
-		$containHealthyDays = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `bmi_weekly` WHERE user_id = " . $user_id
-				. " AND ("
-				. " monday >= " . $this->healthyScore
-				. " OR tuesday >= " . $this->healthyScore
-				. " OR wednesday >= " . $this->healthyScore
-				. " OR thursday >= " . $this->healthyScore
-				. " OR friday >= " . $this->healthyScore
-				. " OR saturday >= " . $this->healthyScore
-				. " OR sunday >= " . $this->healthyScore
-				. ");"
-				);
-		
-		if(empty($containHealthyDays)) return 0;
-		
-		$total = 0;
-		foreach($containHealthyDays as $week) {
-			foreach($week['bmi_weekly'] as $day) {
-				if ($day >= $this->healthyScore) {
-					$total++;
-				}
-			}
-		}
-		return $total; */
-	}
-	
-	
-	/**
-	 * Returns the number of consecutively healthy weeks.
-	 * If the run is interrupted the total resets to 0.
-	 * @param int $user_id
-	 * @return number
-	 */
-	private function totalWeeksHealthyConsec($user_id) {
-		/* $healthyWeeks = $this->query("SELECT `total` FROM `bmi_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
-		
-		if(empty($healthyWeeks)) return 0;
-	
-		$total = 0;
-		foreach($healthyWeeks as $week) {
-			$thisweek = $week['bmi_weekly'];
-			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
-			else $total = 0;
-		}
-		return $total; // number of consecutive healthy weeks */
-	}
-	
-	/**
-	 * Returns the total number of days in the last calendar week where the given user has recorded a 'feeling healthy' score.
-	 *
-	 * @param int $user_id
-	 * @return number
-	 */
-	private function healthyDaysLastWeek($user_id) {
-	/*
-		$lastWeek = $this->query("SELECT monday, tuesday, wednesday, thursday, friday, saturday, sunday FROM `bmi_weekly` WHERE user_id = " . $user_id
-				. " AND (week_beginning >= DATE_SUB(curdate(),INTERVAL 13 DAY)"
-				. " AND week_beginning < DATE_SUB(curdate(),INTERVAL 6 DAY));"
-		);
-		
-		if(empty($lastWeek)) return 0;
-		
-		$total = 0;
-		foreach($lastWeek[0]['bmi_weekly'] as $day) {
-			if ($day >= $this->healthyScore) {
-				$total++;
-			}
-		}
-		return $total; */
-	}
 }
 ?>
