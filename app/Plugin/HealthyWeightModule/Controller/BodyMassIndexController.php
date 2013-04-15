@@ -25,20 +25,18 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 	
 	public function dashboard_news() {
 		$this->loadModel('HealthyWeightModule.BmiAchievement');
-		$this->loadModel('HealthyWeightModule.BmiScreener');
 		
 		// Don't allow this method to be called directly from a URL
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-  		$achievements = $this->BmiAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
-		
-		/* Load Screener */
-  		$screeners = $this->BmiScreener->findByUserId($this->Auth->user('id'));
-  		$this->set('screeners', $screeners);
-		
-		$this->set('message', "News from the " . $this->_module_name());
+  		
+		// Get the current achievements
+		$this->BmiAchievement->create();
+		$this->BmiAchievement->set($this->BmiAchievement->findByUserId($this->Auth->user('id')));
+
+		$this->set('medal', $this->BmiAchievement->getMedal());
+		$this->set('consecutive_weeks', $this->BmiAchievement->data['BmiAchievement']['consec_healthy_weeks']);
 		$this->render();
 	}
   	
@@ -123,14 +121,14 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					
 					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
 					// and then save the screener data.
-					$bmi = $this->BmiScreener->calculateBMI($height_cm,$weight_kg);
+					$bmi = $this->calculateBMI($height_cm,$weight_kg);
 					$this->BmiScreener->set('start_bmi', $bmi);
 					$this->BmiScreener->set('user_id', $this->User->data['User']['id']);
 					$this->BmiScreener->save();
 					
 					// Calculate / initialise the achievement stats
 					$this->BmiAchievement->create();
-					$this->BmiAchievement->updateAchievements($this->User->data['User']['id'],$bmi);
+					$this->BmiAchievement->updateAchievements($this->User->data['User']['id']);
 					$this->BmiAchievement->save();
 					
 					// And then add the module to the user's dashboard
@@ -156,7 +154,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					$weight_kg = $this->request->data['BmiScreener']['weight_kg'];
 					
 					// Calculate the score, and then redirect the user to the final page.
-					$bmi = $this->BmiScreener->calculateBMI($height_cm,$weight_kg);
+					$bmi = $this->calculateBMI($height_cm,$weight_kg);
 					$this->set('bmi', $bmi);
 					$this->BmiScreener->set('bmi', $bmi);
 					$this->set('weight_kg', $weight_kg);
@@ -358,7 +356,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
   			$this->BmiWeekly->create();
   			$this->BmiWeekly->set($this->request->data);
-  			$bmi = $this->BmiWeekly->calculateBMI($height_cm, $weight_kg) ;
+  			$bmi = $this->calculateBMI($height_cm, $weight_kg) ;
   			$this->BmiWeekly->set('bmi', $bmi);
   			$this->BmiWeekly->set('weight_kg', $weight_kg);
   			$this->BmiWeekly->set('height_cm', $height_cm);
@@ -370,7 +368,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   				if($success) {
 					//Re-calculate the achievement stats
 					$this->BmiAchievement->create();
-					$this->BmiAchievement->updateAchievements($this->User->data['User']['id'],$bmi);
+					$this->BmiAchievement->updateAchievements($this->User->data['User']['id']);
 					$this->BmiAchievement->save();
 
 					Cache::clear();
@@ -446,6 +444,29 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	
   		$this->set("graphData", $ydata);
   		$this->set("dates",$dates);
+  	}
+  	
+  	/**
+  	 * Calculates the BMI for the given height and weight.
+  	 * 
+  	 * @param string $height_cm
+  	 * @param string $weight_kg
+  	 * @return number
+  	 */
+  	private function calculateBMI($height_cm=null, $weight_kg=null)
+  	{
+  		if(is_null($height_cm) || is_null($weight_kg)) {
+  			return 0;
+  		}
+  		
+  		// Calculate BMI
+  		$height_m = $height_cm / 100;
+  	
+  		if ($height_m == 0) $height_m = 1;
+  	
+  		$bmi = round($weight_kg / ($height_m * $height_m), 2);
+  	
+  		return $bmi;
   	}
 }
 ?>

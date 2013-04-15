@@ -68,18 +68,5 @@ class BmiWeekly extends AppModel {
 					)
 			)
 		);
-
-	public function calculateBMI($height_cm=null, $weight_kg=null) 
-	{
-		if ($height_cm == 0 or $height_cm == null) $height_cm = 100;
-		if ($weight_kg == 0 or $weight_kg == null) $weight_kg = 120;
-				
-		// Calculate BMI
-		$height_m = $height_cm / 100;
-		
-		$bmi = round((($weight_kg / $height_m) / $height_m),2); 
-		
-		return $bmi;
-	}
 }
 ?>

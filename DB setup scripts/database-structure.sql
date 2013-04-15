@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `bmi_achievements` (
   `user_id` int(11) NOT NULL,
   `latest_bmi` double(5,2) NOT NULL default '0.00',
   `change_since_start` int(11) NOT NULL default '0',
+  `consec_healthy_weeks` int(10) NOT NULL default '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY  (`user_id`)
@@ -26,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `bmi_screeners` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `user_id` (`user_id`)
+  UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `bmi_weekly`;
@@ -74,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `exercise_screeners` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `user_id` (`user_id`)
+  UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `exercise_weekly`;
@@ -133,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `fiveaday_screeners` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `fiveaday_weekly`;

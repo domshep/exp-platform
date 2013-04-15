@@ -1,107 +1,37 @@
 <?php
-	$medal = "";
-	/* Needed: Original BMI, Current BMI and 'ideal BMI' */
-	
-	/* What is the ideal 'pass rate'? */
-	$idealBMI = (18.5 + 25) / 2; // ideal BMI
-	
-	$latestBMI = $achievements['BmiAchievement']['latest_bmi'];
-	$startBMI = $screeners['BmiScreener']['start_bmi'];
-	
-	if ($startBMI > $idealBMI){ // reduce BMI
-		$lostgained = "lost";
-		$incdec = "decrease";
-		$reductionNeeded = $startBMI - $idealBMI;
-		$goals = $reductionNeeded / 3; 
-		$gold = $idealBMI;
-		$silver = $idealBMI + $goals;
-		$bronze = $idealBMI + ($goals * 2);
-		
-		if ($latestBMI <= $gold){ 
-			$medal = "Gold";
-			$nextmedal = "";
-			$changeNeededForNextMedal = 0; 
-			if ($latestBMI < $idealBMI) $message = "Your BMI is now under the target!";
-			else $message = "Well Done, You have achieved your target BMI exactly!";
-			$medialBMI = $gold;
-		}
-		elseif ($latestBMI <= $silver){
-	 		$medal = "Silver";
-			$changeNeededForNextMedal = $latestBMI - $gold;
-			$nextmedal = "Gold";
-			$medalBMI = $silver;
-		}
-		elseif ($latestBMI <= $bronze){ 
-			$medal = "Bronze";
-			$changeNeededForNextMedal = $latestBMI - $silver;
-			$nextmedal = "Silver";
-			$medalBMI = $bronze;
-		}
-		else
-		{
-			$medal = "";
-			$changeNeededForNextMedal = $latestBMI - $bronze;
-			$nextmedal = "Bronze";
-		}
-	}
-	else // increase BMI
-	{
-		$lostgained = "gained";
-		$incdec = "increase";
-		$increaseNeeded = $idealBMI - $startBMI;
-		$goals = $increaseNeeded / 3; 
-		$gold = $idealBMI;
-		$silver = $idealBMI - $goals;
-		$bronze = $idealBMI - ($goals * 2);
-		
-		if ($latestBMI >= $gold){ 
-		$medal = "Gold";
-		$nextmedal = "";
-			$changeNeededForNextMedal = 0; 
-			if ($latestBMI > $idealBMI) $message = "Your BMI is now over your target!";
-			else $message = "Well Done, You have achieved your target BMI exactly!";
-			$medalBMI = $gold;
-	}
-		elseif ($latestBMI >= $silver){
-	 	$medal = "Silver";
-			$changeNeededForNextMedal = $gold - $latestBMI;
-		$nextmedal = "Gold";
-			$medalBMI = $silver;
-	}
-		elseif ($consecWeeks >= $bronze){ 
-		$medal = "Bronze";
-			$changeNeededForNextMedal = $silver - $latestBMI;
-		$nextmedal = "Silver";
-			$medalBMI = $bronze;
-	}
-	else
-	{
-		$medal = "";
-			$changeNeededForNextMedal = $bronze - $latestBMI;
-		$nextmedal = "Bronze";
-	}
-	}
-	
-	
-	if ($medal == "") echo "<h4><strong>Keep it Up</strong></h4>";
-	else echo "<h4><strong>Congratulations, You have earned your ". $medal ." medal!</strong></h4>"; 
-	
-	if ($medal != "")
-	{
-		echo "<p>";
+	if($medal != "") {
+		?>
+		<div class="news">
+			<h3>
+			<?php 
+				echo $this->Html->link(__('News and Updates'), '/news/index', array('target' => '_self')); 
+			?></h3>
+		<h4><strong>Congratulations, You have earned your <?php echo $medal; ?> medal!</strong></h4>
+		<?php
 		echo $this->Html->image(
-			'Medal-'. $medal .'-icon.png',
-			array('alt' => $medal . ' Medal', 'align' => 'right')
+				'Medal-'. $medal .'-icon.png',
+				array('alt' => $medal . ' Medal', 'align' => 'left')
 		);
-		echo "You have achieved Your " . $medal . " Medal by achieving a BMI of " . round($medalBMI,2);
-		echo ".</p>"; 
+
+		if($medal == 'Bronze') {
+		?>
+			<p>Congratulations &ndash; you have achieved the bronze medal for maintaining your weight within the recommended healthy range over the last <?php echo $consecutive_weeks; ?> weeks.</p>
+		<?php 
+		} elseif ($medal == 'Silver') {
+		?>
+			<p>Congratulations and well done. You have achieved the silver medal for maintaining your weight within the recommended healthy range over the last <?php echo $consecutive_weeks; ?> weeks.</p>
+			<p>How are you feeling now? You should be feeling better and starting to notice some differences in your body and health!</p>
+			
+		<?php 
+		} elseif ($medal == 'Gold') {
+		?>
+			<p>Congratulations, you are a Healthy Weight champion and have achieved the gold medal which is fantastic. You have successfully maintained your weight within the healthy range over the last <?php echo $consecutive_weeks; ?> weeks.</p>
+			<p>This shows you have made a great effort to build some changes into your lifestyle. If you can maintain these changes, why not add another health module to your dashboard and make more positive changes?</p>
+			
+		<?php 
+		}
+		?>
+		</div>
+		<?php
 	}
-	else echo "<p>Your current BMI is ". $latestBMI . ".</p>";
-	
-	if ($nextmedal != "")
-	{ 
-		echo "<p>Just ". $incdec . " your BMI by another "; 
-		echo round($changeNeededForNextMedal,2) . " before you'll reach the " . $nextmedal . " medal! Keep up the good work!</p>";
-	} 
-	echo "<p>You can do it!</p>";
 ?>

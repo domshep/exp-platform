@@ -46,17 +46,5 @@ class BmiScreener extends AppModel {
 					)
 			)
 	);
-	
-	public function calculateBMI($height_cm=null, $weight_kg=null) 
-	{
-		// Calculate BMI
-		$height_m = $height_cm / 100;
-		
-		if ($height_m == 0) $height_m = 1;
-				
-		$bmi = round((($weight_kg / $height_m) / $height_m),2); 
-		
-		return $bmi;
-	}
 }
 ?>

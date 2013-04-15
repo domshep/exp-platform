@@ -1,10 +1,10 @@
 <?php
-App::uses('BmiModuleAppModel', 'HealthyWeightModule.Model');
+App::uses('AppModel', 'Model');
 /**
  * BMIAchievement Model
  *
  */
-class BmiAchievement extends BmiModuleAppModel {
+class BmiAchievement extends AppModel {
 
 /**
  * Primary key field
@@ -29,12 +29,19 @@ class BmiAchievement extends BmiModuleAppModel {
 			)
 	);
 	
+	public $hasMany = array(
+			'BmiWeekly' => array(
+					'className' => 'HealthyWeightModule.BmiWeekly',
+					'foreignKey' => 'user_id'
+			)
+	);
+	
 	/**
 	 * Variable to indicate what a 'healthy day' score should be. Any daily score over this number
 	 * counts as a 'healthy day' for this example module.
 	 */
-	private $healthyScore = 0;
-	private $healthyWeekScore = 0;
+	private $lowHealthyScore = 18.5;
+	private $highHealthyScore = 24.9;
 
 /**
  * Validation rules
@@ -90,18 +97,30 @@ class BmiAchievement extends BmiModuleAppModel {
 	 * 
 	 * @param int $user_id
 	 */
-	public function updateAchievements($user_id,$latestBMI) 
+	public function updateAchievements($user_id) 
 	{
 		// Don't rely on the latest BMI - load it from the Weekly
 		$query = "SELECT `bmi` FROM `bmi_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning` DESC LIMIT 1";
 		$latest_bmi = $this->query($query);
-		$latestBMI = $latest_bmi[0]['bmi_weekly']['bmi'];
+		
+		if(empty($latest_bmi)) {
+			// No weekly records, so use the BMI screener instead.
+			$query = "SELECT `start_bmi` FROM `bmi_screeners` WHERE user_id = " . $user_id;
+			$latest_bmi = $this->query($query);
+			debug($latest_bmi);
+			$latestBMI = $latest_bmi[0]['bmi_screeners']['start_bmi'];
+		} else {
+			// Use the latest weekly record.
+			$latestBMI = $latest_bmi[0]['bmi_weekly']['bmi'];
+		}
 		
 		$changeSinceStart = $this->changeSinceStart($user_id);
+		$totalConsecWeeks = $this->totalWeeksHealthyConsec($user_id);
 		
 		$this->set('user_id', $user_id);
 		$this->set('latest_bmi', $latestBMI);
 		$this->set('change_since_start', $changeSinceStart);
+		$this->set('consec_healthy_weeks', $totalConsecWeeks);
 	}
 	
 	/* Returns the total loss or gain in weight since the start */
@@ -128,5 +147,61 @@ class BmiAchievement extends BmiModuleAppModel {
 		return $difference;
 	}
 	
+	/**
+	 * Returns the total number of consecutive weekly records for the given user where there BMI is within the healthy range.
+	 * This routine works backwards from the last 'week beginning Monday' of the current date.
+	 *
+	 * @param string $user_id
+	 * @return number
+	 */
+	private function totalWeeksHealthyConsec($user_id = null) {
+		$helper = new ModuleHelperFunctions();
+		
+		$currentDate = date('Y-m-d',$helper->_getWeekBeginningDate(date('Y-m-d')));
+		$expectedWeek = date('Y-m-d',strtotime("last week " . $currentDate));
+	
+		// Retrieve all the weekly entries between the start week and the last day of the month
+		$this->BmiWeekly->create();
+		$healthyWeeks = $this->BmiWeekly->find('all',array(
+				'conditions' => array(
+						'user_id' => $user_id,
+						'bmi >=' => $this->lowHealthyScore,
+						'bmi <=' => $this->highHealthyScore,
+						'week_beginning <=' => $expectedWeek
+				),
+				'order' => array('week_beginning' => 'desc')
+		));
+	
+		$total = 0;
+	
+		foreach($healthyWeeks as $week)
+		{
+			$weekBeginning = $week['BmiWeekly']['week_beginning'];
+				
+			// Is there a gap between entries?
+			if ($expectedWeek != $weekBeginning) return $total; // the weeks are not consecutive - so return the total.
+				
+			$expectedWeek = date('Y-m-d',strtotime("last week " . $weekBeginning));
+			$total++;
+		}
+		return $total; // number of consecutive healthy weeks
+	}
+	
+	public function getMedal() {
+		$consecHealthyWeeks = $this->data['BmiAchievement']['consec_healthy_weeks'];
+		if ($consecHealthyWeeks >= 8){
+			return "Gold";
+		}
+		elseif ($consecHealthyWeeks >= 4){
+			return "Silver";
+		}
+		elseif ($consecHealthyWeeks >= 2){
+			return "Bronze";
+		}
+		else
+		{
+			return;
+		}
+	}
 }
 ?>
