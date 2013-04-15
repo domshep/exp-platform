@@ -3,16 +3,12 @@ $this->extend('/Modules/module_template');
 echo $this->Html->css('/take_regular_exercise/css/module.css');
 ?>
 <div class="modulesgrid">
-<div class="news">
-			<h3>
-			<?php 
-				echo $this->Html->link(__('News and Updates'), '/news/index', array('target' => '_self')); 
-			?></h3>
-			<?php 
-				$newswidget = $this->requestAction(array('action'=> 'dashboard_news')); 
-				if ($newswidget != "") echo $newswidget;
-			?>
-</div>
+
+<?php
+// News and updates widget - only display if there is news or updates!
+$newswidget = $this->requestAction(array('action'=> 'dashboard_news')); 
+if ($newswidget != "") echo $newswidget;
+?>
 
 <div class="modules">
 	<div class="module">

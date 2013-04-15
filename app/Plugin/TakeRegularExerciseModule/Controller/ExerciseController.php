@@ -29,10 +29,13 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-  		$achievements = $this->ExerciseAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
-		
-		$this->set('message', "News from the " . $this->_module_name());
+  		
+		// Get the current achievements
+		$this->ExerciseAchievement->create();
+		$this->ExerciseAchievement->set($this->ExerciseAchievement->findByUserId($this->Auth->user('id')));
+
+		$this->set('medal', $this->ExerciseAchievement->getMedal());
+		$this->set('consecutive_weeks', $this->ExerciseAchievement->data['ExerciseAchievement']['consec_healthy_weeks']);
 		$this->render();
 	}
   	

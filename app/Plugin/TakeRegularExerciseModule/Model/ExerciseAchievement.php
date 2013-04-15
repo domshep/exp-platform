@@ -1,10 +1,10 @@
 <?php
-App::uses('TakeRegularExerciseModuleAppModel', 'TakeRegularExerciseModule.Model');
+App::uses('AppModel', 'Model');
 /**
  * ExerciseAchievement Model
  *
  */
-class ExerciseAchievement extends TakeRegularExerciseModuleAppModel {
+class ExerciseAchievement extends AppModel {
 
 /**
  * Primary key field
@@ -26,6 +26,13 @@ class ExerciseAchievement extends TakeRegularExerciseModuleAppModel {
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
+			)
+	);
+
+	public $hasMany = array(
+			'ExerciseWeekly' => array(
+					'className' => 'TakeRegularExerciseModule.ExerciseWeekly',
+					'foreignKey' => 'user_id'
 			)
 	);
 	
@@ -91,10 +98,12 @@ class ExerciseAchievement extends TakeRegularExerciseModuleAppModel {
 	 * @param int $user_id
 	 */
 	public function updateAchievements($user_id) {
+		$helper = new ModuleHelperFunctions();
+		
 		$bestWeekSoFar = $this->bestWeekSoFar($user_id);
 		$totalMinutes = $this->totalMinutes($user_id);
 		$healthyWeeks = $this->totalHealthyWeeks($user_id);
-		$totalConsecWeeks = $this->totalWeeksHealthyConsec($user_id);
+		$totalConsecWeeks = $helper->totalWeeksHealthyConsec($this->ExerciseWeekly, $user_id, $this->healthyWeekScore);
 		
 		$this->set('user_id', $user_id);
 		$this->set('best_week_so_far', $bestWeekSoFar);
@@ -194,39 +203,22 @@ class ExerciseAchievement extends TakeRegularExerciseModuleAppModel {
 		return $bestweek; // number of minutes so far.
 	}
 	
-	/**
-	 * Returns the number of consecutively healthy weeks.
-	 * If the run is interrupted the total resets to 0.
-	 * @param int $user_id
-	 * @return number
-	 */
-	private function totalWeeksHealthyConsec($user_id) {
-		$healthyWeeks = $this->query("SELECT `total`,`week_beginning` FROM `exercise_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
-		
-		if(empty($healthyWeeks)) return 0;
-	
-		$total = 0;
-		$previousWeek = "";
 
-		foreach($healthyWeeks as $week) 
-		{
-			// Is there a gap between entries?
-			$thisweek = $week['exercise_weekly'];
-			$weekBeginning = $thisweek['week_beginning'];
-			
-			if ($previousWeek != "")
-			{
-				$date = new DateTime($previousWeek);
-				$date->modify('+7 days');
-				if ($date->format('Y-m-d') != $weekBeginning) $total = 0; // the weeks are not consecutive - so reset the total.
-			}
-			
-			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
-			else $total = 0;
-			
-			$previousWeek = $weekBeginning;
+	public function getMedal() {
+		$consecHealthyWeeks = $this->data['ExerciseAchievement']['consec_healthy_weeks'];
+		if ($consecHealthyWeeks >= 8){
+			return "Gold";
 		}
-		return $total; // number of consecutive healthy weeks
+		elseif ($consecHealthyWeeks >= 4){
+			return "Silver";
+		}
+		elseif ($consecHealthyWeeks >= 2){
+			return "Bronze";
+		}
+		else
+		{
+			return;
+		}
 	}
 }
 ?>
