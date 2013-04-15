@@ -1,10 +1,10 @@
 <?php
-App::uses('StopSmokingModuleAppModel', 'StopSmokingModule.Model');
+App::uses('AppModel', 'Model');
 /**
  * StopSmokingAchievement Model
  *
  */
-class StopSmokingAchievement extends StopSmokingModuleAppModel {
+class StopSmokingAchievement extends AppModel {
 
 /**
  * Primary key field
@@ -28,11 +28,19 @@ class StopSmokingAchievement extends StopSmokingModuleAppModel {
 			)
 	);
 	
+	public $hasMany = array(
+			'StopSmokingWeekly' => array(
+					'className' => 'StopSmokingModule.StopSmokingWeekly',
+					'foreignKey' => 'user_id'
+			)
+	);
+	
 	/**
 	 * Variable to indicate what a 'healthy day' score should be. Any daily score over this number
 	 * counts as a 'healthy day' for this example module.
 	 */
 	private $healthyScore = 1;
+	private $healthyWeekScore = 7;
 
 /**
  * Validation rules
@@ -79,10 +87,12 @@ class StopSmokingAchievement extends StopSmokingModuleAppModel {
 	 * @param int $user_id
 	 */
 	public function updateAchievements($user_id) {
+		$helper = new ModuleHelperFunctions();
+		
 		$healthyDaysLastWeek = $this->healthyDaysLastWeek($user_id);
 		$totalDaysHealthy = $this->totalDaysHealthy($user_id);
 		$healthyWeeks = $this->totalHealthyWeeks($user_id);
-		$totalConsecWeeks = $this->totalWeeksHealthyConsec($user_id);
+		$totalConsecWeeks = $helper->totalWeeksHealthyConsec($this->StopSmokingWeekly, $user_id, $this->healthyWeekScore);
 		
 		$this->set('user_id', $user_id);
 		$this->set('healthy_days_last_week', $healthyDaysLastWeek);
@@ -110,43 +120,6 @@ class StopSmokingAchievement extends StopSmokingModuleAppModel {
 				. ");"
 				);
 		return $total[0][0]['total'];
-	}
-	
-	/**
-	 * Returns the number of consecutively healthy weeks.
-	 * If the run is interrupted the total resets to 0.
-	 * @param int $user_id
-	 * @return number
-	 */
-	private function totalWeeksHealthyConsec($user_id) 
-	{
-		$healthyWeeks = $this->query("SELECT `total`, `week_beginning`  FROM `stop_smoking_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning` ASC");
-		
-		if(empty($healthyWeeks)) return 0;
-	
-		$total = 0;
-		$previousWeek = "";
-	
-		foreach($healthyWeeks as $week) 
-		{
-			// Is there a gap between entries?
-			$thisweek = $week['stop_smoking_weekly'];
-			$weekBeginning = $thisweek['week_beginning'];
-			
-			if ($previousWeek != "")
-			{
-				$date = new DateTime($previousWeek);
-				$date->modify('+7 days');
-				if ($date->format('Y-m-d') != $weekBeginning) $total = 0; // the weeks are not consecutive - so reset the total.
-			}
-			
-			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
-			else $total = 0;
-			
-			$previousWeek = $weekBeginning;
-			//$total = $thisweek['total'];
-		}
-		return $total; // number of consecutive healthy weeks
 	}
 	
 	/**
@@ -202,6 +175,24 @@ class StopSmokingAchievement extends StopSmokingModuleAppModel {
 			}
 		}
 		return $total;
+	}
+	
+
+	public function getMedal() {
+		$consecHealthyWeeks = $this->data['StopSmokingAchievement']['consec_healthy_weeks'];
+		if ($consecHealthyWeeks >= 8){
+			return "Gold";
+		}
+		elseif ($consecHealthyWeeks >= 4){
+			return "Silver";
+		}
+		elseif ($consecHealthyWeeks >= 2){
+			return "Bronze";
+		}
+		else
+		{
+			return;
+		}
 	}
 }
 ?>

@@ -30,10 +30,13 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-  		$achievements = $this->StopSmokingAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
-		
-		$this->set('message', "News from the " . $this->_module_name());
+  		
+		// Get the current achievements
+		$this->StopSmokingAchievement->create();
+		$this->StopSmokingAchievement->set($this->StopSmokingAchievement->findByUserId($this->Auth->user('id')));
+
+		$this->set('medal', $this->StopSmokingAchievement->getMedal());
+		$this->set('consecutive_weeks', $this->StopSmokingAchievement->data['StopSmokingAchievement']['consec_healthy_weeks']);
 		$this->render();
 	}
 
