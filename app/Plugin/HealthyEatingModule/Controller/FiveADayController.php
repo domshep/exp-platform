@@ -29,10 +29,13 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-  		$achievements = $this->FiveADayAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
 		
-		$this->set('message', "News from the " . $this->_module_name());
+		// Get the current achievements
+		$this->FiveADayAchievement->create();
+		$this->FiveADayAchievement->set($this->FiveADayAchievement->findByUserId($this->Auth->user('id')));
+
+		$this->set('medal', $this->FiveADayAchievement->getMedal());
+		$this->set('consecutive_weeks', $this->FiveADayAchievement->data['FiveADayAchievement']['consec_healthy_weeks']);
 		$this->render();
 	}
   	

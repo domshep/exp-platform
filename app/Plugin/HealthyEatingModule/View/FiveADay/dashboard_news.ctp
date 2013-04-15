@@ -1,52 +1,35 @@
 <?php
-	$medal = "";
-	$consecWeeks = $achievements['FiveADayAchievement']['consec_healthy_weeks'];
-	if ($consecWeeks >= 12){ 
-		$medal = "Gold";
-		$weekstogo = 0;
-		$nextmedal = "";
-	}
-	elseif ($consecWeeks >= 8){
-	 	$medal = "Silver";
-		$weekstogo = 12-$consecWeeks;
-		$nextmedal = "Gold";
-	}
-	elseif ($consecWeeks >= 4){ 
-		$medal = "Bronze";
-		$weekstogo = 8-$consecWeeks;
-		$nextmedal = "Silver";
-	}
-	else
-	{
-		$medal = "";
-		$weekstogo = 4-$consecWeeks;
-		$nextmedal = "Bronze";
-	}
-	
-	if ($medal == "") echo "<h4><strong>Keep it Up</strong></h4>";
-	else echo "<h4><strong>Congratulations, You have earned your ". $medal ." medal!</strong></h4>"; 
-	
-	if ($consecWeeks != 1) $s = "s";
-	else $s = "";
-	
-	if ($medal != "")
-	{
-		echo "<p>";
+	if($medal != "") {
+		?>
+		<div class="news">
+			<h3>
+			<?php 
+				echo $this->Html->link(__('News and Updates'), '/news/index', array('target' => '_self')); 
+			?></h3>
+		<h4><strong>Congratulations, You have earned your <?php echo $medal; ?> medal!</strong></h4>
+		<?php
 		echo $this->Html->image(
-			'Medal-'. $medal .'-icon.png',
-			array('alt' => $medal . ' Medal', 'align' => 'right')
+				'Medal-'. $medal .'-icon.png',
+				array('alt' => $medal . ' Medal', 'align' => 'left')
 		);
-		echo "You have achieved Your " . $medal . " Medal by eating an average of 5-a-day for " . $consecWeeks;
-		echo " week". $s . ".</p>"; 
+
+		if($medal == 'Bronze') {
+		?>
+			<p>Congratulations &ndash; you have achieved the bronze medal for successfully achieving your 5 or more different portions of fruit and vegetables over the last <?php echo $consecutive_weeks; ?> weeks.</p>
+		<?php 
+		} elseif ($medal == 'Silver') {
+		?>
+			<p>Congratulations and well done. You have achieved the silver medal for successfully achieving your 5 or more different portions of fruit and vegetables over the last <?php echo $consecutive_weeks; ?> weeks.</p>
+			<p>How are you feeling now? You should be feeling better and starting to notice some differences in your body and health!</p>
+		<?php 
+		} elseif ($medal == 'Gold') {
+		?>
+			<p>Congratulations, you are a Healthy Eating champion and have achieved the gold medal which is fantastic. You have successfully maintained your 5-a-day lifestyle over the the last <?php echo $consecutive_weeks; ?> weeks.</p>
+			<p>This shows you have made a great effort to build some changes into your lifestyle. If you can maintain these changes, why not add another health module to your dashboard and make more positive changes?</p>
+		<?php 
+		}
+		?>
+		</div>
+		<?php
 	}
-	else echo "<p>So far you have eaten 5-a-day for ". $consecWeeks . " week". $s .".</p>";
-	
-	if ($nextmedal != "")
-	{ 
-		echo "<p>Just "; 
-		if ($weekstogo != 1) $s = "s";
-		else $s = "";
-		echo $weekstogo . " more week". $s ." before you reach the " . $nextmedal . " medal! Keep up the good work!</p>";
-	} 
-	echo "<p>You can do it!</p>";
 ?>

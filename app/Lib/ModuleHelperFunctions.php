@@ -67,5 +67,44 @@ class ModuleHelperFunctions {
 	
 		return $records;
 	}
+	
+	/**
+	 * Returns the total number of consecutive weekly records for the given user and model which have a
+	 * 'total' score of greater than or equal to $healthyScore. This routine works backwards from the last 'week beginning
+	 * Monday' of the current date.
+	 *  
+	 * @param string $model
+	 * @param string $user_id
+	 * @param number $healthyScore
+	 * @return number
+	 */
+	public function totalWeeksHealthyConsec($model = null, $user_id = null, $healthyScore = 0) {
+		$currentDate = date('Y-m-d',$this->_getWeekBeginningDate(date('Y-m-d')));
+		$expectedWeek = date('Y-m-d',strtotime("last week " . $currentDate));
+		
+		// Retrieve all the weekly entries between the start week and the last day of the month
+		$healthyWeeks = $model->find('all',array(
+				'conditions' => array(
+						'user_id' => $user_id,
+						'total >=' => $healthyScore,
+						'week_beginning <=' => $expectedWeek
+				),
+				'order' => array('week_beginning' => 'desc')
+		));
+		
+		$total = 0;
+		
+		foreach($healthyWeeks as $week)
+		{
+			$weekBeginning = $week[get_class($model)]['week_beginning'];
+			
+			// Is there a gap between entries?
+			if ($expectedWeek != $weekBeginning) return $total; // the weeks are not consecutive - so return the total.
+			
+			$expectedWeek = date('Y-m-d',strtotime("last week " . $weekBeginning));
+			$total++;
+		}
+		return $total; // number of consecutive healthy weeks
+	}
 }
 ?>

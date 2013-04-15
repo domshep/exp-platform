@@ -1,10 +1,10 @@
 <?php
-App::uses('HealthyEatingModuleAppModel', 'HealthyEatingModule.Model');
+App::uses('AppModel', 'Model');
 /**
  * FiveADayAchievement Model
  *
  */
-class FiveADayAchievement extends HealthyEatingModuleAppModel {
+class FiveADayAchievement extends AppModel {
 
 /**
  * Primary key field
@@ -26,6 +26,13 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
+			)
+	);
+	
+	public $hasMany = array(
+			'FiveADayWeekly' => array(
+					'className' => 'HealthyEatingModule.FiveADayWeekly',
+					'foreignKey' => 'user_id'
 			)
 	);
 	
@@ -91,10 +98,12 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 	 * @param int $user_id
 	 */
 	public function updateAchievements($user_id) {
+		$helper = new ModuleHelperFunctions();
+		
 		$healthyDaysLastWeek = $this->healthyDaysLastWeek($user_id);
 		$totalDaysHealthy = $this->totalDaysHealthy($user_id);
 		$healthyWeeks = $this->totalHealthyWeeks($user_id);
-		$totalConsecWeeks = $this->totalWeeksHealthyConsec($user_id);
+		$totalConsecWeeks = $helper->totalWeeksHealthyConsec($this->FiveADayWeekly, $user_id, $this->healthyWeekScore);
 		
 		$this->set('user_id', $user_id);
 		$this->set('healthy_days_last_week', $healthyDaysLastWeek);
@@ -149,41 +158,6 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 		return $total;
 	}
 	
-	
-	/**
-	 * Returns the number of consecutively healthy weeks.
-	 * If the run is interrupted the total resets to 0.
-	 * @param int $user_id
-	 * @return number
-	 */
-	private function totalWeeksHealthyConsec($user_id) {
-		$healthyWeeks = $this->query("SELECT `total`,`week_beginning` FROM `fiveaday_weekly` WHERE user_id = " . $user_id . " ORDER BY `week_beginning`");
-		
-		if(empty($healthyWeeks)) return 0;
-	
-		$total = 0;
-		$previousWeek = "";
-
-		foreach($healthyWeeks as $week) 
-		{
-			// Is there a gap between entries?
-			$weekBeginning = $week['week_beginning'];
-			if ($previousWeek != "")
-			{
-				$date = new DateTime($previousWeek);
-				$date->add(new DateInterval('P7D'));
-				if ($date != $weekBeginning) $total = 0; // the weeks are not consecutive - so reset the total.
-			}
-			
-			$thisweek = $week['fiveaday_weekly'];
-			if ($thisweek['total'] >= ($this->healthyScore * 7)) $total++;
-			else $total = 0;
-			
-			$previousWeek = $thisweek;
-		}
-		return $total; // number of consecutive healthy weeks
-	}
-	
 	/**
 	 * Returns the total number of days in the last calendar week where the given user has recorded a 'feeling healthy' score.
 	 *
@@ -205,6 +179,23 @@ class FiveADayAchievement extends HealthyEatingModuleAppModel {
 			}
 		}
 		return $total;
+	}
+	
+	public function getMedal() {
+		$consecHealthyWeeks = $this->data['FiveADayAchievement']['consec_healthy_weeks'];
+		if ($consecHealthyWeeks >= 8){
+			return "Gold";
+		}
+		elseif ($consecHealthyWeeks >= 4){
+			return "Silver";
+		}
+		elseif ($consecHealthyWeeks >= 2){
+			return "Bronze";
+		}
+		else
+		{
+			return;
+		}
 	}
 }
 ?>
