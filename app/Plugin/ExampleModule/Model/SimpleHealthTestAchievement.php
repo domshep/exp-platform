@@ -1,10 +1,10 @@
 <?php
-App::uses('ExampleModuleAppModel', 'ExampleModule.Model');
+App::uses('AppModel', 'Model');
 /**
  * SimpleHealthTestAchievement Model
  *
  */
-class SimpleHealthTestAchievement extends ExampleModuleAppModel {
+class SimpleHealthTestAchievement extends AppModel {
 
 /**
  * Primary key field
@@ -28,11 +28,19 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 			)
 	);
 	
+	public $hasMany = array(
+			'SimpleHealthTestWeekly' => array(
+					'className' => 'ExampleModule.SimpleHealthTestWeekly',
+					'foreignKey' => 'user_id'
+			)
+	);
+	
 	/**
 	 * Variable to indicate what a 'healthy day' score should be. Any daily score over this number
 	 * counts as a 'healthy day' for this example module.
 	 */
 	private $healthyScore = 7;
+	private $healthyWeekScore = 49;
 
 /**
  * Validation rules
@@ -79,10 +87,12 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 	 * @param int $user_id
 	 */
 	public function updateAchievements($user_id) {
+		$helper = new ModuleHelperFunctions();
+		
 		$healthyDaysLastWeek = $this->healthyDaysLastWeek($user_id);
 		$totalDaysHealthy = $this->totalDaysHealthy($user_id);
 		$healthyWeeks = $this->totalHealthyWeeks($user_id);
-		$totalConsecWeeks = $this->totalWeeksHealthyConsec($user_id);
+		$totalConsecWeeks = $helper->totalWeeksHealthyConsec($this->SimpleHealthTestWeekly, $user_id, $this->healthyWeekScore);
 		
 		$this->set('user_id', $user_id);
 		$this->set('healthy_days_last_week', $healthyDaysLastWeek);
@@ -199,5 +209,23 @@ class SimpleHealthTestAchievement extends ExampleModuleAppModel {
 			}
 		}
 		return $total;
+	}
+	
+
+	public function getMedal() {
+		$consecHealthyWeeks = $this->data['SimpleHealthTestAchievement']['consec_healthy_weeks'];
+		if ($consecHealthyWeeks >= 8){
+			return "Gold";
+		}
+		elseif ($consecHealthyWeeks >= 4){
+			return "Silver";
+		}
+		elseif ($consecHealthyWeeks >= 2){
+			return "Bronze";
+		}
+		else
+		{
+			return;
+		}
 	}
 }

@@ -30,10 +30,13 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
 		}
-  		$achievements = $this->SimpleHealthTestAchievement->findByUserId($this->Auth->user('id'));
-  		$this->set('achievements', $achievements);
-		
-		$this->set('message', "News from the " . $this->_module_name());
+  		
+		// Get the current achievements
+		$this->SimpleHealthTestAchievement->create();
+		$this->SimpleHealthTestAchievement->set($this->SimpleHealthTestAchievement->findByUserId($this->Auth->user('id')));
+
+		$this->set('medal', $this->SimpleHealthTestAchievement->getMedal());
+		$this->set('consecutive_weeks', $this->SimpleHealthTestAchievement->data['SimpleHealthTestAchievement']['consec_healthy_weeks']);
 		$this->render();
 	}
 
