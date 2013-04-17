@@ -76,13 +76,7 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
  	 * dashboard.
  	 */
  	public function add_module() {
-  		$this->loadModel('ModuleUser');
-		$this->loadModel('Module');
-		
-		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
-			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
-		$this->set('added_to_dashboard', $addedToDashboard);
+  		return $this->redirect('screener');
  	}
   
 	/**

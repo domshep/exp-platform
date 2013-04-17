@@ -1,6 +1,8 @@
 <?php $this->extend('/Modules/module_template'); ?>
 <h2>Complete this screening tool to get some feedback on your current exercise</h2>
-<br />
+<p>This assessment helps measure how much physical activity you have been undertaking over the last <em style="font-weight:bold;font-style:italic;">7 days</em> in comparison to recommended levels</p>
+<p>Please complete the assessment for each type of exercise. If you <em style="font-weight:bold;font-style:italic;">have not</em> achieved any of a particular type of exercise within the last 7 days, select &lsquo;none&rsquo; and move down to the next exercise category.</p>
+<p>If you <em style="font-weight:bold;font-style:italic;">have</em> achieved some exercise within a particular exercise category, please select on how many days within the last week, and how many minutes on an average day.</p>
 <?php echo $this->Form->create('ExerciseScreener', array(
     'inputDefaults' => array(
         'label' => false
@@ -19,7 +21,7 @@
 		<td class="colgreen col2">
 			<?php 
 				echo $this->Form->input('vigorous_days', array(
-    				'options' => array(0 => 'Never', 1 => '1 day', 2 => '2 days', 3 => '3 days', 4 => '4 days', 5 => '5 days', 
+    				'options' => array(0 => 'None', 1 => '1 day', 2 => '2 days', 3 => '3 days', 4 => '4 days', 5 => '5 days', 
 					6 => '6 days', 7 => '7 days'), 'empty' => '(choose one)'
 				));?>
 		</td>
@@ -33,7 +35,7 @@
 		<td class="colgreen col2">
 			<?php 
 				echo $this->Form->input('moderate_days', array(
-    				'options' => array(0 => 'Never', 1 => '1 day', 2 => '2 days', 3 => '3 days', 4 => '4 days', 5 => '5 days', 
+    				'options' => array(0 => 'None', 1 => '1 day', 2 => '2 days', 3 => '3 days', 4 => '4 days', 5 => '5 days', 
 					6 => '6 days', 7 => '7 days'), 'empty' => '(choose one)'
 				));
 			?>
@@ -48,7 +50,7 @@
 		<td class="colgreen col2">
 			<?php 
 				echo $this->Form->input('walking_days', array(
-    				'options' => array(0 => 'Never', 1 => '1 day', 2 => '2 days', 3 => '3 days', 4 => '4 days', 5 => '5 days', 
+    				'options' => array(0 => 'None', 1 => '1 day', 2 => '2 days', 3 => '3 days', 4 => '4 days', 5 => '5 days', 
 					6 => '6 days', 7 => '7 days'), 'empty' => '(choose one)'
 				));
 			?>
@@ -70,3 +72,29 @@
 	);
 	echo $this->Form->end($options);
 ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#ExerciseScreenerVigorousDays').change(function() {
+		if(this.value == 0) {
+			$('#ExerciseScreenerVigorousMins').val("0").hide();
+		} else {
+			$('#ExerciseScreenerVigorousMins').show();
+		}
+	});
+	$('#ExerciseScreenerModerateDays').change(function() {
+		if(this.value == 0) {
+			$('#ExerciseScreenerModerateMins').val("0").hide();
+		} else {
+			$('#ExerciseScreenerModerateMins').show();
+		}
+	});
+	$('#ExerciseScreenerWalkingDays').change(function() {
+		if(this.value == 0) {
+			$('#ExerciseScreenerWalkingMins').val("0").hide();
+		} else {
+			$('#ExerciseScreenerWalkingMins').show();
+		}
+	});
+});
+</script>
