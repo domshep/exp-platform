@@ -98,7 +98,7 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 	  		// Get hold of the posted data
 			$this->ExerciseScreener->create();
 			$this->ExerciseScreener->set($this->request->data);
-			
+
 			if ($this->ExerciseScreener->validates()) {
 				// Validation passed
 				if(isset($this->request->data['ExerciseScreener']['score'])) {
@@ -111,7 +111,7 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 					
 					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
 					// and then save the screener data.
-					$score = $this->ExerciseScreener->calculateScore();
+					$score = $this->ExerciseScreener->calculateMETScore();
 					$this->ExerciseScreener->set('score', $score);
 					$this->ExerciseScreener->set('user_id', $this->User->data['User']['id']);
 					$this->ExerciseScreener->save();
@@ -134,10 +134,13 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 					
 				} else {
 					// No score yet, so the user has only just submitted the original form.
-					// Calculate the score, and then redirect the user to the final page.
-					$score = $this->ExerciseScreener->calculateScore();
+					// Calculate the score and feedback, and then redirect the user to the final page.
+					$score = $this->ExerciseScreener->calculateMETScore();
 					$this->set('score', $score);
 					$this->ExerciseScreener->set('score', "".$score);
+					$feedback = $this->ExerciseScreener->getFeedbackLevel();
+					$this->set('feedback', $feedback);
+					$this->ExerciseScreener->set('feedback', $feedback);
 					$this->set($this->ExerciseScreener->data);
 					$this->render('score');
 				}

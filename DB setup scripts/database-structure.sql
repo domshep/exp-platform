@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS `bmi_screeners` (
   `start_bmi` double(5,2) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `user_id` (`user_id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `bmi_weekly`;
@@ -69,8 +68,7 @@ CREATE TABLE IF NOT EXISTS `drinking_screeners` (
   `score` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `user_id` (`user_id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `drinking_weekly`;
@@ -109,21 +107,18 @@ DROP TABLE IF EXISTS `exercise_screeners`;
 CREATE TABLE IF NOT EXISTS `exercise_screeners` (
   `id` int(11) NOT NULL auto_increment,
   `user_id` int(11) NOT NULL,
-  `vigorous_never` int(1) NOT NULL default '0',
   `vigorous_days` int(11) NOT NULL default '0',
   `vigorous_mins` int(11) NOT NULL default '0',
-  `moderate_never` int(1) NOT NULL default '0',
   `moderate_days` int(11) NOT NULL default '0',
   `moderate_mins` int(11) NOT NULL default '0',
-  `walking_never` int(1) NOT NULL default '0',
   `walking_days` int(11) NOT NULL default '0',
   `walking_mins` int(11) NOT NULL default '0',
   `sedentary_mins` int(11) NOT NULL default '0',
   `score` int(11) NOT NULL,
+  `feedback` varchar(10) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `user_id` (`user_id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `exercise_weekly`;
@@ -181,8 +176,7 @@ CREATE TABLE IF NOT EXISTS `fiveaday_screeners` (
   `score` int(11) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `fiveaday_weekly`;
