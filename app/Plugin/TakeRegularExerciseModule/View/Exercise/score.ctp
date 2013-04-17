@@ -5,7 +5,7 @@
     <?php if($score < 35) {?>
 	<p>[TO DO: Failure Message ]</p>
     <?php } else {?>
-	<p>[TO DO: Pass Message ]</p>
+	<p>[TO DO: Pass Message ]
     <?php }?>
     
     <?php echo $this->Form->create('FiveADayScreener', array(

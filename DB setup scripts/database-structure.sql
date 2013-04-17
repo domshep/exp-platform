@@ -45,6 +45,54 @@ CREATE TABLE IF NOT EXISTS `bmi_weekly` (
   UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
+DROP TABLE IF EXISTS `drinking_achievements`;
+CREATE TABLE IF NOT EXISTS `drinking_achievements` (
+  `user_id` int(11) NOT NULL,
+  `total_sensible_days` int(11) NOT NULL default '0',
+  `total_excess_days` int(11) NOT NULL default '0',
+  `total_binge_days` int(11) NOT NULL default '0',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `consec_healthy_weeks` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `drinking_screeners`;
+CREATE TABLE IF NOT EXISTS `drinking_screeners` (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `gender` varchar(1) NOT NULL,
+  `how_often` int(11) NOT NULL default '0',
+  `how_much` int(11) NOT NULL default '0',
+  `binges` int(11) NOT NULL default '0',
+  `score` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `drinking_weekly`;
+CREATE TABLE IF NOT EXISTS `drinking_weekly` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `week_beginning` date NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `monday` int(11) default NULL,
+  `tuesday` int(11) default NULL,
+  `wednesday` int(11) default NULL,
+  `thursday` int(11) default NULL,
+  `friday` int(11) default NULL,
+  `saturday` int(11) default NULL,
+  `sunday` int(11) default NULL,
+  `total` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `what_worked` text,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `exercise_achievements`;
 CREATE TABLE IF NOT EXISTS `exercise_achievements` (
   `user_id` int(11) NOT NULL,

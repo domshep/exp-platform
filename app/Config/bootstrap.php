@@ -79,6 +79,7 @@ CakePlugin::Load('HealthyWeightModule');
 CakePlugin::Load('StopSmokingModule');
 CakePlugin::Load('MotivationModule');
 CakePlugin::Load('TakeRegularExerciseModule');
+CakePlugin::Load('DrinkSafelyModule');
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
