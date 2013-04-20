@@ -1,8 +1,8 @@
 <?php $this->extend('/Modules/module_template');?>
 <h2>Your feedback</h2>
 <?php if ($feedback == "HIGH") {?>
-<p>Congratulations, based on your responses you exceeded the recommended
-	weekly levels of exercise over the last 7 days. Keep up the good work.</p>
+<h3>Congratulations, based on your responses you exceeded the recommended
+	weekly levels of exercise over the last 7 days. Keep up the good work.</h3>
 <p>By continuing to achieve the recommended guidelines of physical
 	activity you can lower the risk of suffering from coronary heart
 	disease and strokes by 35%, as well as helping to protect against
@@ -13,9 +13,9 @@
 		associated with taking regular exercise</a>
 </p>
 <?php } elseif ($feedback == "MODERATE") {?>
-<p>Your responses indicate you have taken some exercise this week and
+<h3>Your responses indicate you have taken some exercise this week and
 	were close to achieving the recommended weekly levels of exercise. This
-	classes you in the moderate category of physical activity.</p>
+	classes you in the moderate category of physical activity.</h3>
 <p>With just a little bit more you can exceed the recommended levels of
 	physical activity.</p>
 <p>Achieving the recommended levels of physical activity can help you
@@ -26,8 +26,8 @@
 		associated with taking regular exercise</a>
 </p>
 <?php } else {?>
-<p>Your responses indicate that you have not taken much exercise in the
-	last 7 days and are classed in the low activity category.</p>
+<h3>Your responses indicate that you have not taken much exercise in the
+	last 7 days and are classed in the low activity category.</h3>
 <p>Did you know, this places you at greater risk from a range of
 	diseases including coronary heart disease, stroke and type 2 diabetes
 	and can make it more difficult to maintain a healthy weight.</p>

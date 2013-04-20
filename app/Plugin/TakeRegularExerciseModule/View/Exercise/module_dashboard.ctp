@@ -15,7 +15,7 @@ if ($newswidget != "") echo $newswidget;
 		<h3><?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Piechart icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
 						?>&nbsp;<strong><?php echo $this->Html->link(__('My progress over time'), array('action' => 'view_records')); ?></strong>
 		</h3>
-		<h4 class="graph-caption">My Exercise over recent weeks</h4>
+		<h4 class="graph-caption">My exercise over recent weeks</h4>
 		<p><?php 
 				echo $this->Html->image(
 					'/take_regular_exercise_module/exercise/minigraph', 
@@ -40,7 +40,7 @@ if ($newswidget != "") echo $newswidget;
 	</div>
 	<div class="module">
 		<h3><?php echo $this->Html->image('/img/Actions-rating-icon.png', array('alt' => "Star icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
-						?>&nbsp;<strong><?php echo $this->Html->link(__('My Exercise achievements'), array('action' => 'view_records')); ?></strong>
+						?>&nbsp;<strong><?php echo $this->Html->link(__('My exercise achievements'), array('action' => 'view_records')); ?></strong>
 		</h3>
 		<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 	</div>
