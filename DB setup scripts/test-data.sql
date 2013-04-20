@@ -11,7 +11,7 @@ INSERT INTO `modules` (`id`, `name`, `version`, `type`, `parent_id`, `base_url`,
 (2, 'Healthy Weight &ndash; Body Mass Index (BMI)', '1', 'dashboard', 0, 'healthy_weight_module/body_mass_index', 'healthy_weight_module/img/Bmi/icon.png', '2013-04-02 00:00:00', '2013-04-02 00:00:00'),
 (3, 'Why am I doing this?', '1', 'widget', 0, 'motivation_module/motivation', 'motivation_module/img/icon.png', '2013-03-27 10:57:37', '2013-03-27 10:58:20'),
 (4, 'Stop Smoking', '1', 'dashboard', 0, 'stop_smoking_module/stop_smoking', 'stop_smoking_module/img/icon.png', '2013-04-11 00:00:00', '2013-04-11 00:00:00'),
-(5, 'Take Regular Exercise', '1', 'dashboard', 0, 'take_regular_exercise_module/exercise', 'take_regular_exercise_module/img/exercise/icon.png', '2013-04-11 10:57:37', '2013-04-11 10:58:20'),
+(5, 'Take Regular Exercise', '1', 'dashboard', 0, 'take_regular_exercise_module/exercise', 'take_regular_exercise_module/img/icon.png', '2013-04-11 10:57:37', '2013-04-11 10:58:20'),
 (6, 'Drink Safely', '1', 'dashboard', 0, 'drink_safely_module/drinking', 'drink_safely_module/img/drinking/icon.png', '2013-04-16 00:00:00', '2013-04-16 00:00:00'),
 (7, 'Example module &ndash; simple health test', '1', 'dashboard', 0, 'example_module/simple_health_test', 'example_module/img/icon.png', '2013-02-22 23:38:26', '2013-02-22 23:38:26');
 

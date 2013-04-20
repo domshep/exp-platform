@@ -55,7 +55,7 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   	 * @return string
   	 */
   	public function _module_icon_url() {
-  		return '/take_regular_exercise_module/img/exercise/icon.png';
+  		return '/take_regular_exercise_module/img/icon.png';
   	}
 
   	/**
@@ -246,6 +246,11 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   		$this->set('userID', $this->User->data['User']['id']);
   	
   		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Was cancel clicked?
+  			if (isset($this->request->data['cancel'])) {
+  				return $this->redirect('module_dashboard');
+  			}
+  			
   			// The form has been submitted, so validate and then save.
   				
   			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
