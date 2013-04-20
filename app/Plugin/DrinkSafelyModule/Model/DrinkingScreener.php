@@ -56,19 +56,11 @@ class DrinkingScreener extends AppModel {
 	public function calculateScore() 
 	{
 		$howoften = $this->data['DrinkingScreener']['how_often'];
-		if ($howoften == 0) $frequency = 0; // never
-		elseif ($howoften == 1) $frequency = 1; // once a month
-		elseif ($howoften == 2) $frequency = 6; // 2-4 times a month
-		elseif ($howoften == 3) $frequency = 12; // 2-3 times a week
-		else $frequency = 18; // 4+ times a week
-		
 		$howmany = $this->data['DrinkingScreener']['how_many'];
-		$score = $frequency * $howmany; // how many per month on average
+		$binge = $this->data['DrinkingScreener']['binge'];
+		$score = $howoften + $howmany + $binge; 
 		
-		//$binge = $this->data['DrinkingScreener']['binge'];
-		//$score = $units * ($binge+1);
-		
-		return $score; // how many in a month...
+		return $score;
 	}
 }
 ?>

@@ -156,6 +156,14 @@ th a.asc:after {
 th a.desc:after {
 	content: ' ⇡';
 }
+table caption{
+	text-align: left; 
+	font-weight: bold; 
+	font-size: 1.2em; 
+	margin-left: 5px;
+	color: #325A8A;
+	margin-bottom: 5px;
+}
 table tr td {
 	padding: 6px;
 	text-align: left;

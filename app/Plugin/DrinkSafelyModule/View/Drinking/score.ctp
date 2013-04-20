@@ -1,28 +1,61 @@
-<?php $this->extend('/Modules/module_template');?>
 	<?php 
-		if ($gender == "F"){ 
-			$genderString = "women";
-			$passrate = 15 * 4; // month
-			$numforgender = 6;
-		}
-		else {
-			$genderString = "men";
-			$passrate = 20 * 4; // month
-			$numforgender = 8;
-		}
-	?>
+	$this->extend('/Modules/module_template');?>
     <h2>Your score is: <?php echo $score;?></h2>
-    <p>TODO: NEED SCORE CALCULATIONS AND MESSAGES FOR THIS MODULE</p>
-    <?php if($score > $passrate) {?>
-	<p>[TO DO: Failure Message ]</p>
+    <?php if($score <= 4) {?>
+	<h3>Congratulations: You are a sensible drinker</h3>
+	<table>
+		<tr>
+			<th>Category</th>
+			<th>Men</th>
+			<th>Women</th>
+		</tr>
+		<tr>
+			<td>Sensible Drinking (recommended limit)</td>
+			<td>Not more than 3-4 units per day</td>
+			<td>Not more than 2-3 units per day</td>
+		</tr>
+	</table>
+	<p><q>Sensible drinking is drinking in a way that is unlikely to cause yourself or others significant risk of harm”</q>
+	<em>Department of health (2007)</em></p>
+    <?php } elseif ($score <= 7) {?>
+	<h3>You may be classed a hazardous drinker</h3>
+	<table>
+		<tr>
+			<th>Category</th>
+			<th>Men</th>
+			<th>Women</th>
+		</tr>
+		<tr>
+			<td>Hazardous Drinking</td>
+			<td>22-50 units per week</td>
+			<td>13-35 units per week</td>
+		</tr>
+	</table>
+	<p><q>Hazardous drinking is defined as a pattern of drinking that increases the risk of harm to the user</q>
+	<em>World Health Organisation (2008)</em><br/>
+	<q>It may also be seen as regularly exceeding daily and weekly limits</q>
+	<em>NHS (2010)</em></p>
+    <?php } elseif ($score <= 9) {?>
+	<h3>You may be classed a Harmful Drinker</h3>
+	<table>
+		<tr>
+			<th>Category</th>
+			<th>Men</th>
+			<th>Women</th>
+		</tr>
+		<tr>
+			<td>Harmful Drinking</td>
+			<td>Above 50 units per week</td>
+			<td>Above 35 units per week</td>
+		</tr>
+	</table>
+	<p><q>Harmful drinking is a pattern of substance use that is causing damage to health. The damage may be physical or mental</q>
+	<em>World Health Organisation (2008)</em></p>
     <?php } else {?>
-	<p>[TO DO: Pass Message ]
+	<h3>You should contact your GP</h3>
+	<p>This is the highest band possible. We suggest that you have a chat with your GP about how much you are drinking but you can still follow the tips, advice and information pages to help you cut down...</p>
     <?php }
 	
-	if ($binge > 0){
-		?><p><strong>Warning</strong>: For <?php echo $genderString; ?>, consuming more than <?php echo $numforgender; ?> units on any one occassion is classified as binge drinking and is harmful to your health.</p><?php
-	}
-    
 	echo $this->Form->create('DrinkingScreener', array(
     	'inputDefaults' => array(
         'label' => false

@@ -41,13 +41,17 @@ class StopSmokingScreener extends AppModel {
      		)
 	);
 	
-	public function calculateScore() {
-		if($this->data['StopSmokingScreener']['smokes']=='Y') {
-			$smokes = 1;
-		} else {
-			$smokes = 0;
-		}
-		return $smokes;
+	public function calculateScore() 
+	{
+		$smokes = $this->data['StopSmokingScreener']['smokes'];
+		$first_cig = $this->data['StopSmokingScreener']['first_cig'];
+		$diff_not_smoking = $this->data['StopSmokingScreener']['diff_not_smoking'];
+		$most_hate = $this->data['StopSmokingScreener']['most_hate'];
+		$more_morning = $this->data['StopSmokingScreener']['more_morning'];
+		$smoke_in_bed = $this->data['StopSmokingScreener']['smoke_in_bed'];
+		$score = $first_cig + $diff_not_smoking + $most_hate + $more_morning + $smoke_in_bed;
+		
+		return $score;
 	}
 }
 

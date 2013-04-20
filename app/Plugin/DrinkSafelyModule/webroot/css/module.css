@@ -1,29 +1,33 @@
-/*Five A Day Calendar*/
+/*Safe Drinking Calendar*/
 
-.calendar .red5 a{
+.calendar .badbeer a{
 	height: 26px;
 	/*background-color:#FF0000;*/
-	background-image: url(/healthy_eating_module/img/five_a_day/apple-core.png);
+	background-image: url(/drink_safely_module/img/drinking/beer-battered.png);
 	background-repeat: no-repeat;
 	background-position: center top;
 	display: block;
 	padding-top: 10px;
+	text-indent: -6000px;
+	overflow: hidden;
 }
-.calendar .red5, .calendar .red5 a:link, .calendar .red5 a:visited{
+.calendar .badbeer, .calendar .badbeer a:link, .calendar .badbeer a:visited{
 	color:#000000;
 	text-align: center;
 }
-.calendar .green5, .calendar .green5 a:link, .calendar .green5 a:visited{
+.calendar .goodbeer, .calendar .goodbeer a:link, .calendar .goodbeer a:visited{
 	color:#ffffff;
 	text-align: center;
 }
-.calendar .green5 a{
-	background-image: url(/healthy_eating_module/img/five_a_day/apple-full.png);
+.calendar .goodbeer a{
+	background-image: url(/drink_safely_module/img/drinking/beer-icon.png);
 	background-repeat: no-repeat;
 	background-position: center top;
 	display: block;
 	height: 32px;
 	padding-top:10px;
+	text-indent: -6000px;
+	overflow: hidden;
 }
 .calendar .cell-number {
 	color: #000000;
@@ -34,15 +38,15 @@
 	margin-top: 0px;
 }
 
-/* Five a Day Form */
-#fiveadayweekly{
+/* Drinking Form */
+#drinkingweekly{
 	width: 630px;
 	float: left;
 }
-#fiveadayweekly th{
+#drinkingweekly th{
 	width: 90px;
 }
-#fiveadayweekly input[type=text]{
+#drinkingweekly input[type=text]{
 	width: 20px;
 	padding: 10px;
 }

@@ -28,7 +28,7 @@
 		<td class="colgreen col2">
 			<?php 
 				echo $this->Form->input('how_many', array(
-    				'options' => array(1 => '0 - 2 units', 3 => '3 - 4 units', 6 => '5 - 6 units', 8 => '7 - 9 units', 10 => '10 or more units', 'empty' => '(choose one)'),'style'=>'width: 200px;'
+    				'options' => array(0 => '0 - 2 units', 1 => '3 - 4 units', 2 => '5 - 6 units', 3 => '7 - 9 units', 4 => '10 or more units', 'empty' => '(choose one)'),'style'=>'width: 200px;'
 				));
 			?>
 		</td>

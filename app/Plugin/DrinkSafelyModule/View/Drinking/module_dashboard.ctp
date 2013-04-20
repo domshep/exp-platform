@@ -18,7 +18,7 @@ if ($newswidget != "") echo $newswidget;
 		<h4 class="graph-caption">My Units over recent weeks</h4>
 		<p><?php 
 				echo $this->Html->image(
-					'/take_regular_exercise_module/exercise/minigraph', 
+					'/drink_safely_module/drinking/minigraph', 
 					array(
 						'alt' => 'My Units over recent weeks',
 	    				'url' => array('action' => 'view_records'),
@@ -36,7 +36,7 @@ if ($newswidget != "") echo $newswidget;
 		<?php 
 			if ($gender == "F") $safelimit = 4;
 			else $safelimit = 5; 
-			echo $this->Calendar->calendar($year,$month,$records,'/drink_safely_module/drinking/module_dashboard','/drink_safely_module/drinking/data_entry',$safelimit,'red','green'); ?>
+			echo $this->Calendar->calendar($year,$month,$records,'/drink_safely_module/drinking/module_dashboard','/drink_safely_module/drinking/data_entry',$safelimit,'badbeer','goodbeer'); ?>
 		<p>
 		<?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button', 'style' => 'float:left;')); ?>
 		<?php echo $this->Html->link(__('View my monthly records'), array('action' => 'view_records'),array('class' => 'button', 'style' => 'float:right;clear:none;')); ?></p>
