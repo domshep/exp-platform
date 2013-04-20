@@ -17,66 +17,46 @@
 	lot of muscle may have a BMI above the healthy range e.g. Professional
 	rugby players may have an &lsquo;obese&rsquo; BMI despite having very little body
 	fat. However this will not apply to most people.</p>
-<table style="width:40%;border:1px solid gray;margin-left:auto;margin-right:auto;">
+<table class="infotable" style="width:40%;">
 	<tbody>
 		<tr>
-			<td width="50%" bgcolor="#bf1e2e">
-				<p align="center">
-					<font color="#ffffff"><strong>BMI Score</strong></font>
-				</p>
+			<th class="center" width="50%">
+				BMI Score
+			</th>
+			<th class="center" width="50%">
+				Classification
+			</th>
+		</tr>
+		<tr>
+			<td class="center">
+				<strong>Below 18.5</strong>
 			</td>
-			<td width="50%" bgcolor="#bf1e2e">
-				<p align="center">
-					<font color="#ffffff"><strong>Classification</strong></font>
-				</p>
+			<td class="center">
+				<strong>Underweight</strong>
 			</td>
 		</tr>
 		<tr>
-			<td width="50%" bgcolor="#f3d6d9">
-				<p align="center">
-					<strong>Below 18.5</strong>
-				</p>
+			<td class="center">
+				<strong>18.5 - 24.9</strong>
 			</td>
-			<td width="50%" bgcolor="#f3d6d9">
-				<p align="center">
-					<strong>Underweight</strong>
-				</p>
+			<td class="center">
+				<strong>Healthy weight</strong>
 			</td>
 		</tr>
 		<tr>
-			<td width="50%" bgcolor="#fcf5f6">
-				<p align="center">
-					<strong>18.5 - 24.9</strong>
-				</p>
+			<td class="center">
+				<strong>25 - 29.9</strong>
 			</td>
-			<td width="50%" bgcolor="#fcf5f6">
-				<p align="center">
-					<strong>Healthy weight</strong>
-				</p>
+			<td class="center">
+				<strong>Overweight</strong>
 			</td>
 		</tr>
 		<tr>
-			<td width="50%" bgcolor="#f3d6d9">
-				<p align="center">
-					<strong>25 - 29.9</strong>
-				</p>
+			<td class="center">
+				<strong>30+</strong>
 			</td>
-			<td width="50%" bgcolor="#f3d6d9">
-				<p align="center">
-					<strong>Overweight</strong>
-				</p>
-			</td>
-		</tr>
-		<tr>
-			<td width="50%" bgcolor="#fcf5f6">
-				<p align="center">
-					<strong>30+</strong>
-				</p>
-			</td>
-			<td width="50%" bgcolor="#fcf5f6">
-				<p align="center">
-					<strong>Obese</strong>
-				</p>
+			<td class="center">
+				<strong>Obese</strong>
 			</td>
 		</tr>
 	</tbody>

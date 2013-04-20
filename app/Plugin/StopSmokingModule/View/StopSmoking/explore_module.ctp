@@ -2,13 +2,13 @@
 <h2><?php  echo $message; ?></h2>
 <h3><img alt="Chained to Cigarettes" src="/stop_smoking_module/img/chainedtocigarettes.png" align="right" height="119" width="166"/>Quitting smoking equals better health&nbsp;</h3>
 <p>How you will improve your health by quitting smoking....</p>  
-<table>
+<table class="infotable" style="width:90%;">
 	<caption>Your immediate health benefits:</caption>
 	<tr>
 		<th>Duration</th>
 		<th>Affect</th>
 	<tr>              
-		<td width="25%">After&nbsp;8 hours:</td>
+		<td width="20%">After&nbsp;8 hours:</td>
 		<td>Nicotine and carbon monoxide levels in your blood reduce by half. Oxygen levels return to normal.</td>
 	</tr>          
 	<tr>
@@ -25,14 +25,14 @@
 	</tr>      
 </table>
 <p>&nbsp;</p>
-<table>
+<table class="infotable" style="width:90%;">
 	<caption>Your longer-term health benefits:</caption>
 	<tr>
 		<th>Duration</th>
 		<th>Affect</th>
 	</tr>
 	<tr>              
-		<td width="25%">After 2-12 weeks:</td>              
+		<td width="20%">After 2-12 weeks:</td>              
 		<td>Your blood circulation improves.</td>          
 	</tr>          
 	<tr>              

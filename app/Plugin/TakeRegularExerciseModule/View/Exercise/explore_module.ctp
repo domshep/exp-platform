@@ -2,27 +2,27 @@
 <h2>The right amount of exercise equals better health</h2>
 <p>Being active is great for your health. Here are some ways you can
 	improve your health if you increase your activity levels.</p>
-<table style="width:80%;border:1px solid black;">
+<table class="infotable" style="width:80%;">
 	<tbody>
 		<tr>
-			<td bgcolor="#f4e9e9" valign="top" width="50%"><strong>Increasing
-					exercise can help improve your physical health by...</strong></td>
-			<td bgcolor="#f4e9e9" valign="top"><strong>Increasing exercise can
-					help improve your mental health &amp; wellbeing by...</strong>
-			</td>
+			<th style="width:50%;">Increasing
+					exercise can help improve your physical health by...</th>
+			<th style="width:50%;">Increasing exercise can
+					help improve your mental health &amp; wellbeing by...
+			</th>
 		</tr>
 		<tr>
 			<td>Reducing the risk of coronary heart disease and strokes by up to
 				35%</td>
-			<td valign="top">Lowering your risk of suffering anxiety</td>
+			<td>Lowering your risk of suffering anxiety</td>
 		</tr>
 		<tr>
 			<td>Reducing the risk of colon cancer by up to 50%</td>
-			<td valign="top">Reducing the risk of dementia by up to 30%</td>
+			<td>Reducing the risk of dementia by up to 30%</td>
 		</tr>
 		<tr>
 			<td>Reducing the risk of breast cancer by up to 20%</td>
-			<td valign="top">Improving your self-confidence and self-esteem</td>
+			<td>Improving your self-confidence and self-esteem</td>
 		</tr>
 		<tr>
 			<td>Reducing the risk of early death by up to 30%</td>

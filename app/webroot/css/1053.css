@@ -41,7 +41,7 @@ a {
 	text-decoration: none; 
 	color: #2c5d97; 
 	outline: 0;
-	font-weight: normal;
+	font-weight: bold;
 }
 h3 a, .news h3 a:link{
 	font-weight: bold;
@@ -104,6 +104,9 @@ img.right {
 }
 .latesttweets a:hover, #countdowntextdays a:hover, div#breadcrumb a:hover, #footer a, #footer a:hover {
 	text-decoration: underline;
+}
+.center {
+	text-align:center;
 }
 
 /* Page structure */
@@ -744,6 +747,28 @@ img.next, img.previous {
 .quiztable .col4{
 	width:75px;
 	padding:0.5em;
+}
+
+/* Information table */
+.infotable {
+	border:1px solid gray;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#ffffff;
+	color:#000000;
+}
+.infotable th {
+	background-color:#bf1e2e;
+	color:#ffffff;
+	border:0px solid gray;
+	font-weight:bold;
+	padding:1em;
+}
+.infotable tr:nth-child(odd) {
+	background-color:#fcf5f6;
+}
+.infotable tr:nth-child(even) {
+	background-color:#f3d6d9;
 }
 
 /* calendar */
