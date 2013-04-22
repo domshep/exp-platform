@@ -249,6 +249,11 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$this->set('userID', $this->User->data['User']['id']);
   	
   		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Was cancel clicked?
+  			if (isset($this->request->data['cancel'])) {
+  				return $this->redirect('module_dashboard');
+  			}
+  			
   			// The form has been submitted, so validate and then save.
   				
   			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
@@ -299,6 +304,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
+  		$this->disableCache();
   	
   		// Retrieve all the weekly entries between the start week and the last day of the month
   		$lastThreeMonthEntries = $this->FiveADayWeekly->find('all',array(
@@ -312,7 +318,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		
   		// Need at least three weeks of entries to display a chart...
   		if(count($lastThreeMonthEntries) < 3) {
-  			return $this->redirect('/img/not-enough-data-chart.png');
+  			$this->response->file('/webroot/img/not-enough-data-chart.png');
+  			return $this->response;
   		}
   	
   		$ydata = array();

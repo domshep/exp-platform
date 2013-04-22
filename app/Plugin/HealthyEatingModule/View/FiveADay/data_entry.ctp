@@ -72,7 +72,10 @@
 			</a></label><?php echo $this->Form->textarea('FiveADayWeekly.what_worked',array('label'=>'false', 'cols'=>'35', 'rows'=>'5')); ?></td>
 		</tr>
 	</table>
-<p><?php echo $this->Form->end(__('Submit')); ?></p>
+	<div class="submit">
+         <?php echo $this->Form->submit(__('Cancel (without saving changes)', true), array('name' => 'cancel','div' => false, 'id' =>'cancel')); ?>
+         <?php echo $this->Form->submit(__('Submit', true), array('name' => 'ok', 'div' => false, 'id' =>'submit')); ?>
+	</div>
 </div>
 <script type="text/javascript">
 jQuery(".weekly-total input").bind("keyup", function() {
