@@ -41,7 +41,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'veg_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),
@@ -53,7 +53,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'salad_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),
@@ -65,7 +65,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'whole_fruit_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),
@@ -77,7 +77,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'medium_fruit_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),
@@ -89,7 +89,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'small_fruit_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),
@@ -101,7 +101,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'tinned_fruit_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),
@@ -113,7 +113,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'dried_fruit_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),
@@ -125,7 +125,7 @@ class FiveADayScreener extends AppModel {
 			),
 			'fruit_juice_no' => array(
 					'valid' => array(
-						'rule'    => array('range', 0, 6),
+						'rule'    => array('range', -1, 6),
 						'message' => 'Please select how many portions of this food type you normally eat/drink in a sitting',
 					)
 			),

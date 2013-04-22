@@ -11,6 +11,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	}
 	
 	public function beforeRender() {
+		parent::beforeRender();
 		$this->set('module_name', $this->_module_name());
 		$this->set('module_icon_url', $this->_module_icon_url());
 	}
@@ -96,7 +97,6 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 */
 	public function screener() {
   		$this->loadModel('HealthyEatingModule.FiveADayScreener');
-  		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
@@ -121,11 +121,6 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 					$this->FiveADayScreener->set('score', $score);
 					$this->FiveADayScreener->set('user_id', $this->User->data['User']['id']);
 					$this->FiveADayScreener->save();
-					
-					// Calculate / initialise the achievement stats
-					$this->FiveADayAchievement->create();
-					$this->FiveADayAchievement->updateAchievements($this->User->data['User']['id']);
-					$this->FiveADayAchievement->save();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -297,38 +292,6 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		}
   	}
 	
-	/*
-	public function admin_edit($id=null) {
-		// Load the User ID
-		$this->set('userID', $this->Auth->user('id'));
-		// Set the welcome message
-  		$this->set('message', "This is where you edit the data you have entered. In some modules you may wish to limit this. Data will only be editable for this module for a set period of time.");
-		// Load the FiveADay Weekly Model
-  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
-		// If the ID exists
-		if (!$this->FiveADayWeekly->exists($id)) {
-			throw new NotFoundException(__('Invalid record'));
-		}
-		// If the page has been posted.
-		if ($this->request->is('post')) {
-			$this->FiveADayWeekly->create();
-			$this->FiveADayWeekly->set($this->request->data);
-			if ($this->FiveADayWeekly->validates()) {
-				$this->FiveADayWeekly->save();
-			} else {
-				// Validation failed
-				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
-				$this->render();
-			}
-		}
-		else // if not...
-		{
-			//$options = array('conditions' => array('HealthyEatingModule.FiveADayWeekly.id' => $id));
-			//$this->request->data = $this->FiveADayWeekly->id = $id;//'first', $options);
-    		$this->set('FiveADayWeekly', $this->FiveADayWeekly->id = $id);
-		}	
-  	}*/
-  
   	/**
   	 * Returns the .png graphic for the run-chart that is displayed on the module dashboard.
   	 */

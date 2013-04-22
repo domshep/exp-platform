@@ -10,7 +10,5 @@
 </ul>
 <br />
 <p>If you did not have any of a particular foodtype category in the last 7 days, please select &lsquo;never&rsquo;. Report the amount eaten or drunk by yourself, and not your family or household.</p>
-<p>To help you complete the assessment, a worked example is included below.</p>
-<p><a href="http://www.championsforhealth.wales.nhs.uk/recommended-fruit-and-vegetable-portion-" target="eatingassessment">Get some help working out what counts as a fruit and vegetable portion</a></p>
-<p><img src="/example_module/img/example_form.gif" width="782" height="127"></p>
+<p><a href="http://www.championsforhealth.wales.nhs.uk/recommended-fruit-and-vegetable-portion-" target="eatingassessment">Get some help working out what counts as a fruit and vegetable portion</a>.</p>
 <p><?php echo $this->Html->link('Take the test >', 'screener', array('class' => 'button action', 'target' => '_self')); ?></p>

@@ -1,51 +1,69 @@
 <?php $this->extend('/Modules/module_template');?>
+<h2>Your feedback</h2>
+<h3>
+	Your score is
+	<?php echo $score;?>
+</h3>
+<?php if($score < 35) {?>
+<p>
+	Did you know that your score indicates that you have eaten
+	<?php echo round(($score/35)*100,0) ?>% of your recommended 5 daily portions of fruit and vegetable over the
+	past 7 days?
+</p>
 
-    <h2>Your score is <?php echo $score;?></h2>
-    <p>TODO: NEED SCORE CALCULATIONS AND MESSAGES FOR THIS MODULE</p>
-    <?php if($score < 35) {?>
-    <p>Were you aware that this score indicates that you have eaten less than half (40%) of your recommended 5-a-day fruit and vegetable  intake?</p>
+<?php } else {?>
+<p>Congratulations and well done. This score indicates you have eaten
+	the equivalent of your recommended 5-a-day fruit and vegetable intake
+	over the last month. Keep up the good work.</p>
 
-<p>This makes it more difficult to maintain a healthy weight and places you are greater risk from a range of diseases including coronary heart disease, stroke and type 2 diabetes.</p>
+<?php }?>
 
-<p>It is important to remember that eating recommended levels of fruit and vegetables only forms part of a healthy balanced diet.</p>
+<p>By eating your recommended daily portions of fruit and vegetables you
+	can reduce the risk of a range of diseases including coronary heart
+	disease and stroke, and can make it easier to maintain a healthy
+	weight.</p>
 
-    <?php } else {?>
-    <p>Congratulations and well done. This score indicates you have eaten the equivalent of your recommended 5-a-day fruit and vegetable intake over the last month. Keep up the good work.</p>
+<p>It is important to remember that eating the recommended levels of
+	fruit and vegetables is a positive step forward and forms part of a
+	healthy balanced diet.</p>
 
-<p>It is important to remember that eating recommended levels of fruit and vegetables only forms part of a healthy balanced diet.</p>
+<p>
+	<a href="http://www.nhs.uk/Livewell/Goodfood/Pages/Healthyeating.aspx" target="eathealthily">Find
+		out more about healthy balanced diets here</a>.
+</p>
 
-    <?php }?>
-    
-    <p><a href="http://www.nhs.uk/Livewell/Goodfood/Pages/Healthyeating.aspx ">Click here for more information on what makes a balanced diet</a></p>
-    
+<p>You can add the &lsquo;Healthy Eating &ndash; 5-a-day&rsquo; module
+	to your personal dashboard to monitor and track your 5-a-day to help
+	you make and maintain more changes.</p>
 
-    <?php echo $this->Form->create('FiveADayScreener', array(
-    'inputDefaults' => array(
+<?php echo $this->Form->create('FiveADayScreener', array(
+		'inputDefaults' => array(
         'label' => false
     )));
-    
-    echo $this->Form->hidden('veg_often');
-    echo $this->Form->hidden('veg_no');
-    echo $this->Form->hidden('salad_often');
-    echo $this->Form->hidden('salad_no');
-    echo $this->Form->hidden('whole_fruit_often');
-    echo $this->Form->hidden('whole_fruit_no');
-    echo $this->Form->hidden('medium_fruit_often');
-    echo $this->Form->hidden('medium_fruit_no');
-    echo $this->Form->hidden('small_fruit_often');
-    echo $this->Form->hidden('small_fruit_no');
-    echo $this->Form->hidden('tinned_fruit_often');
-    echo $this->Form->hidden('tinned_fruit_no');
-    echo $this->Form->hidden('dried_fruit_often');
-    echo $this->Form->hidden('dried_fruit_no');
-    echo $this->Form->hidden('fruit_juice_often');
-    echo $this->Form->hidden('fruit_juice_no');
-    echo $this->Form->hidden('FiveADayScreener.score', array('value'=>$score));
-    
-    
-    
+
+echo $this->Form->hidden('veg_often');
+echo $this->Form->hidden('veg_no');
+echo $this->Form->hidden('salad_often');
+echo $this->Form->hidden('salad_no');
+echo $this->Form->hidden('whole_fruit_often');
+echo $this->Form->hidden('whole_fruit_no');
+echo $this->Form->hidden('medium_fruit_often');
+echo $this->Form->hidden('medium_fruit_no');
+echo $this->Form->hidden('small_fruit_often');
+echo $this->Form->hidden('small_fruit_no');
+echo $this->Form->hidden('tinned_fruit_often');
+echo $this->Form->hidden('tinned_fruit_no');
+echo $this->Form->hidden('dried_fruit_often');
+echo $this->Form->hidden('dried_fruit_no');
+echo $this->Form->hidden('fruit_juice_often');
+echo $this->Form->hidden('fruit_juice_no');
+echo $this->Form->hidden('FiveADayScreener.score', array('value'=>$score));
+
+
+
 $options = array(
-    'label' => 'Add the healthy eating module to my dashboard'
+    'label' => 'Add the &lsquo;Healthy Eating - 5-a-day&rsquo; module to my dashboard',
+	'escape' => false
 );
 
 echo $this->Form->end($options);
