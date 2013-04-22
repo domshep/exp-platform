@@ -417,6 +417,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		$this->loadModel('HealthyWeightModule.BmiWeekly');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
+  		$this->disableCache();
   	
   		// Retrieve all the weekly entries between the start week and the last day of the month
   		$lastThreeMonthEntries = $this->BmiWeekly->find('all',array(
@@ -430,7 +431,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		
   		// Need at least three weeks of entries to display a chart...
   		if(count($lastThreeMonthEntries) < 3) {
-  			return $this->redirect('/img/not-enough-data-chart.png');
+  			$this->response->file('/webroot/img/not-enough-data-chart.png');
+  			return $this->response;
   		}
   	
   		$ydata = array();

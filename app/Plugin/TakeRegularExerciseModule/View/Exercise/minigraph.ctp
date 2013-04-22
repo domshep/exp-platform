@@ -9,7 +9,7 @@ $xdata = $dates;
 
 // Create the graph. These two calls are always required
 $graph = new Graph(434,475);
-$graph->SetScale('datlin',min($ydata)-10,max($ydata) + 10, min($xdata),max($xdata));
+$graph->SetScale('datlin',min(array_merge($ydata, array(150)))-10,max(array_merge($ydata, array(150))) + 10, min($xdata),max($xdata));
 $graph->img->SetAntiAliasing(false); 
 
 $graph->xaxis->title->SetFont(FF_FONT1, FS_BOLD, 10);
@@ -28,7 +28,7 @@ $graph->xaxis->scale->SetDateFormat('d M Y');
 
 // Slightly larger than normal margins at the bottom to have room for
 // the x-axis labels
-$graph->SetMargin(70,20,20,300);
+$graph->SetMargin(70,20,20,150);
 
 // Set the angle for the labels to 90 degrees
 $graph->xaxis->SetLabelAngle(45);
@@ -66,5 +66,6 @@ $graph->legend->SetShadow('gray@0.4',2);
 $graph->legend->SetColumns(1);
 
 // Display the graph
+$graph->graph_theme=null;
 $graph->Stroke();
 ?>
