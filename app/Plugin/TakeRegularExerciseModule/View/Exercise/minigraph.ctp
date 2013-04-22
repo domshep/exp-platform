@@ -9,7 +9,7 @@ $xdata = $dates;
 
 // Create the graph. These two calls are always required
 $graph = new Graph(434,475);
-$graph->SetScale('datlin',min($ydata)-10,max($ydata) + 10);
+$graph->SetScale('datlin',min($ydata)-10,max($ydata) + 10, min($xdata),max($xdata));
 $graph->img->SetAntiAliasing(false); 
 
 $graph->xaxis->title->SetFont(FF_FONT1, FS_BOLD, 10);
@@ -54,7 +54,7 @@ $markerplot->SetColor('red');
 
 // Add the marker plot to the graph
 $graph->Add($markerplot);
-$markerplot->SetWeight(5);
+$markerplot->SetWeight(3);
 
 // Set the legends for the plots
 $lineplot->SetLegend('Your recorded minutes of exercise');
