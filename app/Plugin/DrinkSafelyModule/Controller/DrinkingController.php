@@ -11,6 +11,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 	}
 	
 	public function beforeRender() {
+		parent::beforeRender();
 		$this->set('module_name', $this->_module_name());
 		$this->set('module_icon_url', $this->_module_icon_url());
 	}
@@ -96,7 +97,6 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 	 */
 	public function screener() {
   		$this->loadModel('DrinkSafelyModule.DrinkingScreener');
-  		$this->loadModel('DrinkSafelyModule.DrinkingAchievement');
   		$this->loadModel('Profile');
   		$this->loadModel('User');
   		$this->loadModel('Module');
@@ -128,11 +128,6 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 					$this->DrinkingScreener->set('score', $score);
 					$this->DrinkingScreener->set('user_id', $this->User->data['User']['id']);
 					$this->DrinkingScreener->save();
-					
-					// Calculate / initialise the achievement stats
-					$this->DrinkingAchievement->create();
-					$this->DrinkingAchievement->updateAchievements($this->User->data['User']['id'],$gender);
-					$this->DrinkingAchievement->save();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -338,38 +333,6 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		}
   	}
 	
-	/*
-	public function admin_edit($id=null) {
-		// Load the User ID
-		$this->set('userID', $this->Auth->user('id'));
-		// Set the welcome message
-  		$this->set('message', "This is where you edit the data you have entered. In some modules you may wish to limit this. Data will only be editable for this module for a set period of time.");
-		// Load the Drinking Weekly Model
-  		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
-		// If the ID exists
-		if (!$this->DrinkingWeekly->exists($id)) {
-			throw new NotFoundException(__('Invalid record'));
-		}
-		// If the page has been posted.
-		if ($this->request->is('post')) {
-			$this->DrinkingWeekly->create();
-			$this->DrinkingWeekly->set($this->request->data);
-			if ($this->DrinkingWeekly->validates()) {
-				$this->DrinkingWeekly->save();
-			} else {
-				// Validation failed
-				$this->Session->setFlash(__('Your entry could not be saved? See the error messages below. Please, try again.'));
-				$this->render();
-			}
-		}
-		else // if not...
-		{
-			//$options = array('conditions' => array('DrinkSafelyModule.DrinkingWeekly.id' => $id));
-			//$this->request->data = $this->DrinkingWeekly->id = $id;//'first', $options);
-    		$this->set('ExerciseWeekly', $this->DrinkingWeekly->id = $id);
-		}	
-  	}*/
-  
   	/**
   	 * Returns the .png graphic for the run-chart that is displayed on the module dashboard.
   	 */

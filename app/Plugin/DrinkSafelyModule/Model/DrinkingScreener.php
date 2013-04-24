@@ -33,22 +33,22 @@ class DrinkingScreener extends AppModel {
 	);
 	
 	public $validate = array(
-			'sensible_days' => array(
+			'how_often' => array(
 					'valid' => array(
-							'rule' => array('range', -1, 1001),
-							'message' => 'Please enter how many days you had less than the recommended number of units.',
+							'rule' => array('range', -1, 5),
+							'message' => 'Please enter how often you have a drink containing alcohol.',
 					)
 			),
-			'excess_mins' => array(
+			'how_many' => array(
 					'valid' => array(
 						'rule'    => array('range', -1, 1001),
-						'message' => 'Please enter how many days you had more than the recommended number of units.',
+						'message' => 'Please enter how many units of alcohol you drink on a typical drinking day.',
 					)
 			)
-			,'binge_days' => array(
+			,'binge' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 1001),
-							'message' => 'Please enter how many days you had more than 6 or 8 units.',
+							'message' => 'Please enter how many days you had more than the recommended number of units.',
 					)
 			)
 	);

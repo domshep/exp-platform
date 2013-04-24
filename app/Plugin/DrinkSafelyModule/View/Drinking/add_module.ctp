@@ -8,7 +8,7 @@
   	<li><strong>Both:</strong> At least 2 alcohol-free days per week</li>
 </ul>
 <p>It's simple to get started cutting down your drinking straight away. Why not try...</p> 
-<table>
+<table class="infotable" style="width:80%;">
 	<tr>
 		<th>Swapping your usual for...</th> 	
 		<th>Different ways to relax...</th>
