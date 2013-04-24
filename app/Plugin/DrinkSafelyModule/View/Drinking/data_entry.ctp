@@ -24,7 +24,7 @@
 		);
 	}?></h2>
 	<p>How many units of alcohol did you manage this week? Enter 0 if you didn't drink any that day.
-			<a href="#portion" class="info" title="How much is as a Unit of Alcohol?">
+			<a href="#units" class="info" title="Click for more information on what counts as a unit of alcohol">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
@@ -33,6 +33,8 @@
 				);
 			?>
 			</a></p>
+	<p>For further help to calculate your alcohol units, use the unit calculator on <a href="http://www.drinkwisewales.org.uk" target="_blank">Drinkwise Wales</a>.</p>
+			
 <?php echo $this->Form->create('DrinkSafelyModule.DrinkingWeekly') ?>
 	<table class="weekly-total">
 		<tr>
@@ -60,8 +62,8 @@
 			?></td>
 		</tr>
 		<tr>
-			<td colspan="8"><label for="ExerciseWeeklyWhat_Worked">What worked for me this week?
-			<a href="#whatworked" class="info" title="What is this?">
+			<td colspan="8"><label for="DrinkingWeeklyWhat_Worked">What worked for me this week?
+			<a href="#whatworked" class="info" title="Click for more information on the 'What worked for me?' box">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
@@ -72,7 +74,10 @@
 			</a></label><?php echo $this->Form->textarea('DrinkingWeekly.what_worked',array('label'=>'false', 'cols'=>'35', 'rows'=>'5')); ?></td>
 		</tr>
 	</table>
-<p><?php echo $this->Form->end(__('Submit')); ?></p>
+	<div class="submit">
+         <?php echo $this->Form->submit(__('Cancel (without saving changes)', true), array('name' => 'cancel','div' => false, 'id' =>'cancel')); ?>
+         <?php echo $this->Form->submit(__('Submit', true), array('name' => 'ok', 'div' => false, 'id' =>'submit')); ?>
+	</div>
 </div>
 <script type="text/javascript">
 jQuery(".weekly-total input").bind("keyup", function() {
@@ -98,9 +103,13 @@ jQuery(".weekly-total input").bind("keyup", function() {
 
 <!-- This contains the hidden content for inline calls -->
 <div style='display:none'>
-	<div id='portion' class='popup'>
-		<h3>How much is a unit of Alcohol?</h3>
-		<p>TO DO: How much is a unit of alcohol</p>
-	</div>
+	<div id='units' class='popup'>
+		<h3>How many units are in your drinks?</h3>
+		<p><strong>Have you ever thought....&ldquo;I only have a couple of drinks a night &ndash; what&rsquo;s the big deal&rdquo;?</strong></p>
+		<p>Understanding what a unit of alcohol is can be confusing, working out how many are in your drink can be even worse. Take a look at this chart to help give an idea of how many units you are drinking, and use the tools below to get a more exact figure.</p> 
+		<p><img height="336" alt="" width="572" src="/drink_safely_module/img/drinkschart.png" style="width:572px;margin-left:auto;margin-right:auto;display:block;"/></p>
+		<p>Find out how many units you had the last time you had a drink using the <a title="click to go to the drinks checker on the Change4Life Wales website [external website - opens in new window]" href="http://change4lifewales.org.uk/adults/alcohol/drinks-checker/?lang=en" target="_blank"><strong>Change4Life Wales drinks checker.&nbsp;</strong></a></p>
+		<p>Find out whether you are <a title="click to use the alcohol calculator on the NHS Choices website [external website - opens in new window]" href="http://www.nhs.uk/Tools/Pages/Alcoholcalculator.aspx" target="_blank"><strong>drinking within the sensible levels by using this assessment </strong></a>from NHS Choices.&nbsp;</p>
+    </div>
 </div>
 <?php echo $this->element('what_worked'); ?>

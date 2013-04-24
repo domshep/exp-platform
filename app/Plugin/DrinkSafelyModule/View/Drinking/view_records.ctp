@@ -10,7 +10,7 @@ echo $this->Html->css('/drink_safely_module/css/module.css');
 	if ($gender == "F") $safelimit = 3;
 	else $safelimit = 4;
 	
-	echo $this->Calendar->calendar($year,$month,$records,'/drink_safely_module/exercise/view_records','/drink_safely_module/exercise/data_entry',$safelimit,'badbeer','goodbeer'); 
+	echo $this->Calendar->calendar($year,$month,$records,'/drink_safely_module/drinking/view_records','/drink_safely_module/drinking/data_entry',$safelimit,'badbeer','goodbeer'); 
 ?>
 </div>
 <div class="calendar-key">

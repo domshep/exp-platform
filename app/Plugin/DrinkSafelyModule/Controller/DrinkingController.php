@@ -290,6 +290,11 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		$this->set('gender', $gender);
   	
   		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Was cancel clicked?
+  			if (isset($this->request->data['cancel'])) {
+  				return $this->redirect('module_dashboard');
+  			}
+  			
   			// The form has been submitted, so validate and then save.
   				
   			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
