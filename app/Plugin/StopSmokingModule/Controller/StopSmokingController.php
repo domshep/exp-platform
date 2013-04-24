@@ -11,6 +11,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 	}
 	
 	public function beforeRender() {
+		parent::beforeRender();
 		$this->set('module_name', $this->_module_name());
 		$this->set('module_icon_url', $this->_module_icon_url());
 	}
@@ -79,13 +80,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
  	 * dashboard.
  	 */
  	public function add_module() {
- 		$this->loadModel('ModuleUser');
- 		$this->loadModel('Module');
- 		
-		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
-			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
-		$this->set('added_to_dashboard', $addedToDashboard);
+  		return $this->redirect('screener');
  	}
   
 	/**

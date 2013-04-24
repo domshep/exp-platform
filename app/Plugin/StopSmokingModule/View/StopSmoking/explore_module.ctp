@@ -1,7 +1,6 @@
 <?php $this->extend('/Modules/module_template');?>
-<h2><?php  echo $message; ?></h2>
-<h3><img alt="Chained to Cigarettes" src="/stop_smoking_module/img/chainedtocigarettes.png" align="right" height="119" width="166"/>Quitting smoking equals better health&nbsp;</h3>
-<p>How you will improve your health by quitting smoking....</p>  
+<h2>How you will improve your health by quitting smoking...</h2>
+<h3><img alt="Chained to Cigarettes" src="/stop_smoking_module/img/chainedtocigarettes.png" align="right" height="80" style="float:right;" />Quitting smoking equals better health&nbsp;</h3> 
 <table class="infotable" style="width:90%;">
 	<caption>Your immediate health benefits:</caption>
 	<tr>

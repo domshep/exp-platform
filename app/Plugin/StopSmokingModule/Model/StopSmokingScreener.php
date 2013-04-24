@@ -42,37 +42,37 @@ class StopSmokingScreener extends AppModel {
 			'how_many' => array(
          		'allowedChoice' => array(
              		'rule'    => array('inList', array('0', '1', '2', '3')),
-             		'message' => 'Please select one of the options.'
+             		'message' => 'Please enter how many cigarettes per day you smoke.'
          		)
      		),
 			'first_cig' => array(
          		'allowedChoice' => array(
              		'rule'    => array('inList', array('1', '2', '3')),
-             		'message' => 'Please select one of the options.'
+             		'message' => 'Please enter how soon you smoke your first cigarette.'
          		)
      		),
 			'diff_non_smoking' => array(
          		'allowedChoice' => array(
              		'rule'    => array('inList', array('0', '1')),
-             		'message' => 'Please select one of the options.'
+             		'message' => 'Please state whether you find it difficult to stop smoking in non-smoking areas.'
          		)
      		),
 			'most_hate' => array(
          		'allowedChoice' => array(
              		'rule'    => array('inList', array('0', '1')),
-             		'message' => 'Please select one of the options.'
+             		'message' => 'Please choose which cigarette you would most hate to give up.'
          		)
      		),
 			'more_morning' => array(
          		'allowedChoice' => array(
              		'rule'    => array('inList', array('0', '1')),
-             		'message' => 'Please select one of the options.'
+             		'message' => 'Please state whether you smoke more frequently just after waking up.'
          		)
      		),
 			'smoke_in_bed' => array(
          		'allowedChoice' => array(
              		'rule'    => array('inList', array('0', '1')),
-             		'message' => 'Please select one of the options.'
+             		'message' => 'Please state whether you smoke when ill in bed.'
          		)
      		)
 	);

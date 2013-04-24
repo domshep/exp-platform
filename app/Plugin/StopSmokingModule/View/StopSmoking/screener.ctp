@@ -1,5 +1,5 @@
 <?php $this->extend('/Modules/module_template');?>
-<h3>Complete this screening tool to get some feedback on your current health</h3>
+<h2>This assessment helps assess the nicotine dependence of current smokers</h2>
 <br/>
 <?php 
 	echo $this->Form->create('StopSmokingScreener');
@@ -15,12 +15,13 @@
 	);
 ?>
 	<div id="welldone">
-		<p>Congratulations and well done. You have not smoked within the last 4 weeks and are classed as smoke-free</p>
-		<p><a href="/users/dashboard">Click here to return to your dashboard</a> and select another health topic</p>
+		<p>Congratulations and well done. You have not smoked within the last 4 weeks and are classed as smoke-free.</p>
+		<p><a href="/users/dashboard">Click here to return to your dashboard</a> and select another health topic.</p>
 	</div>
 	<div id="smoker">
 		<p>You indicated you have smoked within the last 4 weeks. Were you aware that smokers spend over &pound;2,000 per year smoking 20 cigarettes a day?</p>
 		<p><strong>Each cigarette causes an estimated 11 minutes reduction in your life expectancy!!</strong></p>
+		<p>Please answer the following questions to assess your current nicotine dependence.</p>
 		<table>
 			<tr>
 				<th>Question</th>
@@ -49,7 +50,7 @@
 				<td>Do you find it difficult to stop smoking in non-smoking areas?</td>
 				<td><?php
 		echo $this->Form->input('diff_non_smoking', array(
-    		'options' => array('1'=> 'Yes','0'=>'No'),
+    		'options' => array('0'=>'No','1'=> 'Yes'),
     		'empty' => '(choose one)',
     		'label' => false
 		)); ?>
@@ -69,17 +70,17 @@
 				<td>Do you smoke more frequently in the first hours after waking than during the rest of the day?</td>
 				<td><?php
 		echo $this->Form->input('more_morning', array(
-    		'options' => array('1'=> 'Yes','0'=>'No'),
+    		'options' => array('0'=>'No', '1'=> 'Yes'),
     		'empty' => '(choose one)',
     		'label' => false
 		)); ?>
 		</td>
 			</tr>
 			<tr>
-				<td>Do you smoke if you are so ill that you are in bed most of the day?</td>
+				<td>If you are in bed all day due to illness, do you smoke?</td>
 				<td><?php
 		echo $this->Form->input('smoke_in_bed', array(
-    		'options' => array('1'=> 'Yes','0'=>'No'),
+    		'options' => array('0'=>'No', '1'=> 'Yes'),
     'empty' => '(choose one)',
     		'label' => false
 		)); ?></td>
@@ -95,9 +96,16 @@ $options = array(
 	<!--
 	jQuery('body').ready(function()
 	{
-		$('#welldone').hide();
-		$('#smoker').hide();
-		$('input[type=submit]').hide();
+		if ($('.smoke').val() == "Y")
+		{
+			$('#smoker').show();
+			$('input[type=submit]').show();
+			$('#welldone').hide();
+		} else {
+			$('#welldone').hide();
+			$('#smoker').hide();
+			$('input[type=submit]').hide();
+		}
 	});
 
 	jQuery('.smoke').bind("change", function() 
