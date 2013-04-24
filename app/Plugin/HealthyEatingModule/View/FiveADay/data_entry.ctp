@@ -24,7 +24,7 @@
 		);
 	}?></h2>
 	<p>How many portions of different fruit and vegetables did you eat this week? Enter 0 if you haven't eaten any portions of fruit or vegetables that day.
-			<a href="#portion" class="info" title="How much is a portion?">
+			<a href="#portion" class="info" title="Click for more information on portion sizes">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
@@ -61,7 +61,7 @@
 		</tr>
 		<tr>
 			<td colspan="8"><label for="FiveADayWeeklyWhat_Worked">What worked for me this week?
-			<a href="#whatworked" class="info" title="What is this?">
+			<a href="#whatworked" class="info" title="Click for more information on the 'What worked for me?' box">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
