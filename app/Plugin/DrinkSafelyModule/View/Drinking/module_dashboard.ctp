@@ -15,7 +15,7 @@ if ($newswidget != "") echo $newswidget;
 		<h3><?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Piechart icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
 						?>&nbsp;<strong><?php echo $this->Html->link(__('My progress over time'), array('action' => 'view_records')); ?></strong>
 		</h3>
-		<h4 class="graph-caption">My Units over recent weeks</h4>
+		<h4 class="graph-caption">My alcohol units over recent weeks</h4>
 		<p><?php 
 				echo $this->Html->image(
 					'/drink_safely_module/drinking/minigraph', 
@@ -43,7 +43,7 @@ if ($newswidget != "") echo $newswidget;
 	</div>
 	<div class="module">
 		<h3><?php echo $this->Html->image('/img/Actions-rating-icon.png', array('alt' => "Star icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
-						?>&nbsp;<strong><?php echo $this->Html->link(__('My Safe Drinking achievements'), array('action' => 'view_records')); ?></strong>
+						?>&nbsp;<strong><?php echo $this->Html->link(__('My safe drinking totaliser'), array('action' => 'view_records')); ?></strong>
 		</h3>
 		<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 	</div>

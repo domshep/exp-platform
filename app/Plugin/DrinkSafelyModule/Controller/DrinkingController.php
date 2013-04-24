@@ -97,14 +97,15 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 	 */
 	public function screener() {
   		$this->loadModel('DrinkSafelyModule.DrinkingScreener');
-  		$this->loadModel('Profile');
   		$this->loadModel('User');
   		$this->loadModel('Module');
-	
-		$this->Profile->create();
-		$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
-		$gender = $this->Profile->data['Profile']['gender']; // required for calculations
-			
+		
+  		// Get the current user
+  		$this->User->create();
+  		$this->User->set($this->User->findById($this->Auth->user('id')));
+  		
+  		// Get the gender
+  		$gender = $this->User->data['Profile']['gender'];
   		$this->set('gender', $gender);
 	  	
 	  	if ($this->request->is('post')) {
@@ -117,10 +118,6 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 				if(isset($this->request->data['DrinkingScreener']['score'])) {
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
-					
-					// Get the current user
-					$this->User->create();
-					$this->User->set($this->User->findById($this->Auth->user('id')));
 					
 					// Re-calculate the score, and apply the user id (don't just rely on submitted form)
 					// and then save the screener data.
@@ -184,7 +181,6 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
 		$this->loadModel('DrinkSafelyModule.DrinkingAchievement');
   		$this->loadModel('User');
- 		$this->loadModel('Profile');
 
   		// Use today's date if no date given.
   		if(is_null($month)) $month = gmdate("F");
@@ -193,15 +189,14 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		$this->set('year', $year);
   		
   		// Get the current user
-  		$userId = $this->Auth->user('id');
-		
-		// Get the gender
-		$this->Profile->create();
-		$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
-		$gender = $this->Profile->data['Profile']['gender']; // required for calculations
-			
+  		$this->User->create();
+  		$this->User->set($this->User->findById($this->Auth->user('id')));
+  		$userId = $this->User->data['User']['id'];
+  		
+  		// Get the gender
+  		$gender = $this->User->data['Profile']['gender'];
   		$this->set('gender', $gender);
-
+  		
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->DrinkingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
@@ -225,13 +220,15 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   	 * 'View Records' shows any entries that have been made in the module this month, when accessed by a logged-in user from their dashboard.
   	 */
 	public function view_records($year = null,$month = null) {
-		$this->loadModel('Profile');
+		$this->loadModel('User');
 		
-		$this->Profile->create();
-		$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
-		$gender = $this->Profile->data['Profile']['gender']; // required for calculations
-			
-  		$this->set('gender', $gender);
+		// Get the current user
+		$this->User->create();
+		$this->User->set($this->User->findById($this->Auth->user('id')));
+		
+		// Get the gender
+		$gender = $this->User->data['Profile']['gender'];
+		$this->set('gender', $gender);
 		
   		$helper = new ModuleHelperFunctions();
   		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
@@ -259,7 +256,6 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
 		$this->loadModel('DrinkSafelyModule.DrinkingAchievement');
   		$this->loadModel('User');
- 		$this->loadModel('Profile');
   	 	
   		// Use today's date if no date given.
   		if(is_null($date)) $date = gmdate("Ymd");
@@ -276,16 +272,14 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		if(time() > $nextWeek){
   			$this->set('nextWeek', $nextWeek);
   		}
-  	
+  		
   		// Get the current user
   		$this->User->create();
   		$this->User->set($this->User->findById($this->Auth->user('id')));
   		$this->set('userID', $this->User->data['User']['id']);
 		
 		// Get the gender
-		$this->Profile->create();
-		$this->Profile->set($this->Profile->findByUserId($this->Auth->user('id')));
-		$gender = $this->Profile->data['Profile']['gender']; // required for calculations
+		$gender = $this->User->data['Profile']['gender'];
 			
   		$this->set('gender', $gender);
   	
@@ -343,8 +337,10 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   	 */
   	public function minigraph() {
   		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
+  		$this->loadModel('User');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
+  		$this->disableCache();
   	
   		// Retrieve all the weekly entries between the start week and the last day of the month
   		$lastThreeMonthEntries = $this->DrinkingWeekly->find('all',array(
@@ -355,10 +351,11 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   				),
   				'order' => array('week_beginning' => 'asc')
   		));
-  		
+
   		// Need at least three weeks of entries to display a chart...
   		if(count($lastThreeMonthEntries) < 3) {
-  			return $this->redirect('/img/not-enough-data-chart.png');
+  			$this->response->file('/webroot/img/not-enough-data-chart.png');
+  			return $this->response;
   		}
   	
   		$ydata = array();
@@ -372,6 +369,15 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   	
   		$this->set("graphData", $ydata);
   		$this->set("dates",$dates);
+  		
+  		// Get the current user
+  		$this->User->create();
+  		$this->User->set($this->User->findById($this->Auth->user('id')));
+		
+		// Get the gender
+		$gender = $this->User->data['Profile']['gender'];
+			
+  		$this->set('gender', $gender);
   	}
 }
 ?>
