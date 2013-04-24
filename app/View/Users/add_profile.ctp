@@ -40,69 +40,19 @@
 
 jQuery(".feet").bind("blur", function() 
 {
-	getMetricHeight();
+	getMetricHeight(parseFloat($(".feet").val()), parseFloat($(".inches").val()));
 });
 
 jQuery(".inches").bind("blur", function() 
 {
-    getMetricHeight();
+	getMetricHeight(parseFloat($(".feet").val()), parseFloat($(".inches").val()));
 });
 
 jQuery(".cms").bind("blur", function() {
-    getImperialHeight();
+    getImperialHeight(parseFloat($(".cms").val()));
 });
 
 jQuery("body").ready(function() {
-    getImperialHeight();
+    getImperialHeight(parseFloat($(".cms").val()));
 });
-
-function getImperialHeight()
-{
-	var cms = parseFloat($(".cms").val());
-	var feet = parseFloat($(".feet").val());
-    var inches = parseFloat($(".inches").val());
-    
-    if(isNaN(cms)) cms = 0;
-	
-	if (cms > 0){
-		var newinches = Math.round((cms * 0.393701),2);
-		var newfeet = Math.floor(newinches / 12);
-		newinches = (newinches - (newfeet*12));
-		$(".feet").val(newfeet);
-		$(".inches").val(newinches);
-	}
-}
-
-function getMetricHeight()
-{
-	var feet = parseFloat($(".feet").val());
-    var inches = parseFloat($(".inches").val());
-    
-	var cms = parseFloat($(".cms").val());
-	
-    if(isNaN(feet)) feet = 0;
-	if(isNaN(inches)) inches = 0;
-	
-	if (feet > -1 && inches > -1){
-		var newcm = Math.round(((feet * 12) + inches) * 2.54,0);
-		$(".cms").val(newcm);
-	}
-	
-	if (inches >= 12){
-		var newfeet = ($(".feet").val()* 1) + 1;
-		var newinches = ($(".inches").val()* 1) - 12;
-		while (newinches >= 12)
-		{
-			var newfeet = newfeet + 1;
-			var newinches = newinches - 12;
-		}
-		$(".feet").val(newfeet);
-		$(".inches").val(newinches);
-	}
-	if (inches < 0){
-		$(".inches").val(0);
-	}
-	
-}
-
 </script>
