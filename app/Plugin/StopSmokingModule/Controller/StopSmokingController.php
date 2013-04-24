@@ -146,9 +146,11 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 				} else {
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
-					$smokes = $this->StopSmokingScreener->calculateScore();
+					$score = $this->StopSmokingScreener->calculateScore();
+					$smokes = $this->data['StopSmokingScreener']['smokes'];
+					$this->set('score', $score);
 					$this->set('smokes', $smokes);
-					$this->StopSmokingScreener->set('smokes', $smokes);
+					$this->StopSmokingScreener->set('score', $score);
 					$this->set($this->StopSmokingScreener->data);
 					$this->render('score');
 				}

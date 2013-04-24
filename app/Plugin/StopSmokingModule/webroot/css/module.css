@@ -1,8 +1,8 @@
-/*Simple Health Test Calendar*/
+/*Stop Smoking Calendar*/
 
 .calendar .red-simple a{
 	height: 32px;
-	background-image: url(/example_module/img/Emotes-face-sad-icon.png);
+	background-image: url(/stop_smoking_module/img/smoking-face.png);
 	background-repeat: no-repeat;
 	background-position: center top;
 	display: block;
@@ -19,7 +19,7 @@
 	text-align: center;
 }
 .calendar .green-simple a{
-	background-image: url(/example_module/img/Emotes-face-smile-big-icon.png);
+	background-image: url(/stop_smoking_module/img/smiley-face.png);
 	background-repeat: no-repeat;
 	background-position: center top;
 	display: block;

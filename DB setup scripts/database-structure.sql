@@ -325,11 +325,11 @@ CREATE TABLE IF NOT EXISTS `stop_smoking_screeners` (
   `diff_non_smoking` int(1) NOT NULL default '0',
   `most_hate` int(1) NOT NULL default '0',
   `more_morning` int(1) NOT NULL default '0',
-  `smoke_in-bed` int(1) NOT NULL default '0',
+  `smoke_in_bed` int(1) NOT NULL default '0',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `stop_smoking_weekly`;
 CREATE TABLE IF NOT EXISTS `stop_smoking_weekly` (

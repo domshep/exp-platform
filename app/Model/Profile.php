@@ -49,8 +49,8 @@ class Profile extends AppModel {
 					'message' => 'Please enter your height in cm'
 			),
 			'mobile_no' => array(
-					'rule' => array('phone','/^([0-9]{1}[0-9]{9})$/'),
-					'message' => 'Please enter a valid mobile number (ten digits, no spaces), or leave blank',
+					'rule' => array('phone','/^([0-9]{11})$/','gb'),
+					'message' => 'Please enter a valid mobile number (eleven digits, no spaces), or leave blank. All UK mobile phones begin with \'07\'. Please omit the international phone code (+44)',
 					'allowEmpty' => true
 			),
 			'date_of_birth' => array(

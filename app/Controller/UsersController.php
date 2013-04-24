@@ -14,6 +14,7 @@ class UsersController extends AppController {
 	
 	public function admin_login() {
 		return $this->redirect($this->Auth->redirect('users/login'));
+		$this->set('title_for_layout', 'Admin: Log In'); 
 	}
 	
 	public function login() {
@@ -28,6 +29,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('Invalid email address or password, try again'));
 			}
 		}
+		$this->set('title_for_layout', 'Log In'); 
 	}
 	
 	public function logout() {
@@ -56,6 +58,7 @@ class UsersController extends AppController {
 		} else {
 			$this->User->recursive = 0;
 			$this->set('users', $this->paginate());
+			$this->set('title_for_layout', 'Admin'); 
 		}
 	}
 
@@ -72,6 +75,7 @@ class UsersController extends AppController {
 		}
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
+		$this->set('title_for_layout', 'View My Details'); 
 	}
 
 	
@@ -84,6 +88,7 @@ class UsersController extends AppController {
 			}
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->set('user', $this->User->find('first', $options));
+			$this->set('title_for_layout', 'Admin: View User Details'); 
 		}
 	}
 /**
@@ -104,6 +109,7 @@ class UsersController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
+			$this->set('title_for_layout', 'Admin: Add New User'); 
 		}
 	}
 	}
@@ -124,6 +130,7 @@ class UsersController extends AppController {
 			} else {
 				$this->Session->setFlash(__('There was a problem with your registration. Please, try again.'));
 			}
+			$this->set('title_for_layout', 'Registration'); 
 		}
 	}
 
@@ -145,6 +152,7 @@ class UsersController extends AppController {
 				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 				$this->request->data = $this->User->find('first', $options);
 			}
+			$this->set('title_for_layout', 'Admin: Edit User Profile'); 
 		}
 	}
 
@@ -163,6 +171,7 @@ class UsersController extends AppController {
 			}
 			$this->Session->setFlash(__('User was not deleted'));
 			$this->redirect(array('action' => 'index'));
+			$this->set('title_for_layout', 'Admin: Delete User'); 
 		}
 	}
 	
@@ -180,10 +189,12 @@ class UsersController extends AppController {
 			));
 		}
 		$this->set('userModules', $userModules);
+		$this->set('title_for_layout', 'My Challenge Dashboard'); 
 	}
 	
 	public function viewProfile() {
 		$this->set('user', $this->User->findById($this->Auth->user('id')));
+		$this->set('title_for_layout', 'My Profile'); 
 	}
 	
 	public function addProfile() {
@@ -209,6 +220,7 @@ class UsersController extends AppController {
 		} else {
 			$this->request->data = $currentUser;
 		}
+		$this->set('title_for_layout', 'Set Up My Profile'); 
 	}
 	
 	public function editProfile() {
@@ -238,6 +250,8 @@ class UsersController extends AppController {
 		} else {
 			$this->request->data = $this->User->findById($this->Auth->user('id'));
 		}
+		
+		$this->set('title_for_layout', 'Edit My Profile'); 
 	}
 	
 	

@@ -21,6 +21,7 @@ class NewsController extends AppController {
 		$this->News->recursive = 0;
 		$this->set('news', $this->paginate());
 		//$this->redirect($this->Auth->redirect('users/dashboard'));
+		$this->set('title_for_layout', 'News'); 
 	}
 	
 	 public function news_widget() {
@@ -37,6 +38,7 @@ class NewsController extends AppController {
 			$this->News->recursive = 0;
 			$this->set('news', $this->paginate());
 			//$this->redirect($this->Auth->redirect('users/dashboard'));
+			$this->set('title_for_layout', 'Admin: News'); 
 		}
 	}
 	
@@ -53,6 +55,9 @@ class NewsController extends AppController {
 		}
 		//$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('news', $this->News->find('first'));
+		$news =  $this->News->find('first');
+		$title = $news['News']['headline'];
+		$this->set('title_for_layout', 'News: ' . $title);
 	}
 
 	public function admin_view($id = null) {
@@ -64,6 +69,9 @@ class NewsController extends AppController {
 			}
 			//$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->set('news', $this->News->find('first'));
+			$news =  $this->News->find('first');
+			$title = $news['News']['headline'];
+			$this->set('title_for_layout', 'News: ' . $title);
 		}
 	}
 	/**
@@ -84,6 +92,7 @@ class NewsController extends AppController {
 					$this->Session->setFlash(__('The news could not be saved. Please, try again.'));
 				}
 			}
+			$this->set('title_for_layout', 'Admin: Add News');
 		}
 	}
 	
@@ -105,6 +114,7 @@ class NewsController extends AppController {
 				//$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 				$this->request->data = $this->News->find('first');
 			}
+			$this->set('title_for_layout', 'Admin: Edit News');
 		}
 	}
 
@@ -123,6 +133,8 @@ class NewsController extends AppController {
 			}
 			$this->Session->setFlash(__('The News was not deleted'));
 			$this->redirect(array('action' => 'index'));
+			
+			$this->set('title_for_layout', 'Admin: Delete News');
 		}
 	}
 }

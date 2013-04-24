@@ -13,8 +13,7 @@ class ProfilesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Profile->recursive = 0;
-		$this->set('profiles', $this->paginate());
+		$this->redirect($this->Auth->redirect('users/viewProfile'));
 	}
 
 	public function admin_index() {
@@ -24,6 +23,7 @@ class ProfilesController extends AppController {
 			$this->Profile->recursive = 0;
 			$this->set('profiles', $this->paginate());
 		}
+		$this->set('title_for_layout', 'Admin: Profiles');
 	}
 
 /**
@@ -34,11 +34,7 @@ class ProfilesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->Profile->exists($id)) {
-			throw new NotFoundException(__('Invalid profile'));
-		}
-		$options = array('conditions' => array('Profile.' . $this->Profile->primaryKey => $id));
-		$this->set('profile', $this->Profile->find('first', $options));
+		$this->redirect($this->Auth->redirect('users/viewProfile'));
 	}
 
 	public function admin_view($id = null) {
@@ -50,6 +46,10 @@ class ProfilesController extends AppController {
 			}
 			$options = array('conditions' => array('Profile.' . $this->Profile->primaryKey => $id));
 			$this->set('profile', $this->Profile->find('first', $options));
+			
+			$profile =  $this->Profile->find('first',$options);
+			$title = $profile['Profile']['name'];
+			$this->set('title_for_layout', 'Admin: View Profile: ' . $title);
 		}
 	}
 /**
@@ -72,10 +72,12 @@ class ProfilesController extends AppController {
 			}
 			$users = $this->Profile->User->find('list');
 			$this->set(compact('users'));
+			
+			$this->set('title_for_layout', 'Admin: Add New Profile ');
 		}
 	}
 	
-	public function add() {
+	/*public function add() {
 		if ($this->request->is('post')) {
 			$this->Profile->create();
 			if ($this->Profile->save($this->request->data)) {
@@ -87,16 +89,17 @@ class ProfilesController extends AppController {
 		}
 		$users = $this->Profile->User->find('list');
 		$this->set(compact('users'));
-	}
+	}*/
 
 /**
+			
  * edit method
  *
  * @throws NotFoundException
  * @param string $id
  * @return void
  */
-	public function edit($id = null) {
+	/*public function edit($id = null) {
 		if (!$this->Profile->exists($id)) {
 			throw new NotFoundException(__('Invalid profile'));
 		}
@@ -113,7 +116,7 @@ class ProfilesController extends AppController {
 		}
 		$users = $this->Profile->User->find('list');
 		$this->set(compact('users'));
-	}
+	}*/
 
 	public function admin_edit($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
@@ -135,6 +138,9 @@ class ProfilesController extends AppController {
 			}
 			$users = $this->Profile->User->find('list');
 			$this->set(compact('users'));
+			
+			$this->set('title_for_layout', 'Admin: Edit Profile');
+			
 		}
 	}
 
@@ -146,7 +152,7 @@ class ProfilesController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	/*public function delete($id = null) {
 		$this->Profile->id = $id;
 		if (!$this->Profile->exists()) {
 			throw new NotFoundException(__('Invalid profile'));
@@ -158,7 +164,7 @@ class ProfilesController extends AppController {
 		}
 		$this->Session->setFlash(__('Profile was not deleted'));
 		$this->redirect(array('action' => 'index'));
-	}
+	}*/
 	
 	public function admin_delete($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
@@ -175,6 +181,8 @@ class ProfilesController extends AppController {
 			}
 			$this->Session->setFlash(__('Profile was not deleted'));
 			$this->redirect(array('action' => 'index'));
+			
+			$this->set('title_for_layout', 'Admin: Delete Profile');
 		}
 	}
 }
