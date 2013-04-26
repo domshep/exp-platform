@@ -26,4 +26,43 @@ class Module extends AppModel {
 		}
 		return $module['Module']['id'];
 	}
+	
+	
+	/**
+	 * Returns the total number of active modules
+	 * 
+	 * @param int $user_id
+	 */
+	public function totalActiveModules() {
+		$conditions = array('conditions'=>array('active'=>'1','type'=>'dashboard'));
+		$total = $this->find('all',$conditions);
+		return sizeof($total);
+	}
+	
+	/**
+	 * Returns the total number of weekly entries for all active modules
+	 * 
+	 * @param int $user_id
+	 */
+	public function totalWeeklyEntries() {
+		$conditions = array('conditions'=>array('active'=>'1','type'=>'dashboard'));
+		$modules = $this->find('all',$conditions);
+		$numModules = sizeof($modules);
+		$total = 0;
+		
+		foreach($modules as $module){
+			// get the module prefix
+			$prefix = $module['Module']['table_prefix'];
+			$weeklytable = $prefix . "_weekly";
+			if(sizeof($this->query("SHOW TABLES LIKE '".$weeklytable."'"))==1)
+			{
+				// load the number of weekly entries
+				$weekly = $this->query("SELECT * FROM `".$weeklytable."`");
+				$totalWeekly = sizeof($weekly);
+				// add to total
+				$total = $total + $totalWeekly;
+			} // else the table does not exist.
+		}
+		return $total;
+	}
 }

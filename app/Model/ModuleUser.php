@@ -37,4 +37,15 @@ class ModuleUser extends AppModel
 		$moduleexists = $this->find('first', $options);
 		return !empty($moduleexists);
 	}
+	
+	
+	/**
+	 * Returns the total number of module instances
+	 * 
+	 * @param int $user_id
+	 */
+	public function totalModuleInstances() {
+		$total = $this->find('all');
+		return sizeof($total);
+	}
 }

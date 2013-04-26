@@ -208,10 +208,12 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `parent_id` int(11) unsigned NOT NULL,
   `base_url` varchar(75) NOT NULL,
   `icon_url` varchar(100) NOT NULL,
+  `table_prefix` varchar(35) NOT NULL,
+  `active` int(1) NOT NULL default '1',
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 DROP TABLE IF EXISTS `module_users`;
 CREATE TABLE IF NOT EXISTS `module_users` (

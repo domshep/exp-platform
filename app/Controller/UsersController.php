@@ -192,6 +192,43 @@ class UsersController extends AppController {
 		$this->set('title_for_layout', 'My Challenge Dashboard'); 
 	}
 	
+	public function admin_dashboard() {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			$this->loadModel('User');
+			$this->loadModel('Module');
+			$this->loadModel('ModuleUser');
+			
+			// Load the numbers of users
+			$totalUsers = $this->User->totalUsers();
+			$totalAdminUsers = $this->User->totalAdminUsers();
+			$this->set('totalUsers', $totalUsers);
+			$this->set('totalAdminUsers', $totalAdminUsers);
+		
+			// Get current user
+			$currentUser = $this->User->findById($this->Auth->user('id'));
+			
+			// Load the numbers of active modules 
+			$totalModules = $this->Module->totalActiveModules();
+			$totalModuleInstances = $this->ModuleUser->totalModuleInstances();
+			$this->set('totalModules', $totalModules);
+			$this->set('totalModuleInstances', $totalModuleInstances);
+			
+			$totalWeeklyEntries = $this->Module->totalWeeklyEntries();
+			$this->set('totalWeeklyEntries', $totalWeeklyEntries);
+			/*$userModules = array();
+			
+			foreach($currentUser['ModuleUser'] as $module) {
+				$userModules[] = $this->Module->find('first', array(
+					'conditions' => array('Module.id' => $module['module_id'])
+				));
+			}
+			$this->set('userModules', $userModules);*/
+			$this->set('title_for_layout', 'Admin Panel'); 
+		}
+	}
+	
 	public function viewProfile() {
 		$this->set('user', $this->User->findById($this->Auth->user('id')));
 		$this->set('title_for_layout', 'My Profile'); 

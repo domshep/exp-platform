@@ -165,7 +165,7 @@ class ModulesController extends AppController {
 			if (!$this->Module->exists()) {
 				throw new NotFoundException(__('Invalid module'));
 			}
-			$this->request->onlyAllow('post', 'delete');
+			//$this->request->onlyAllow('module', 'delete');
 			if ($this->Module->delete()) {
 				$this->Session->setFlash(__('Module deleted'));
 				$this->redirect(array('action' => 'index'));
