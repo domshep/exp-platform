@@ -22,32 +22,25 @@
 				)
 		);
 	}?></h2>
-	<p>Please enter your average weight for this week.
-			<a href="#portion" class="info" title="How much is a portion?">
-			<?php 
-				echo $this->Html->image(
-					'info-icon.png', 
-					array('alt' => 'How much is a portion?',
-						'class' => 'info')
-				);
-			?>
-			</a></p>
+	<p>Please enter your average weight for this week.</p>
 <?php echo $this->Form->create('BMI.BMIWeekly') ?>
 	<table class="weekly-total">
 		<tr>
-			<th>Stone / Pounds</th>
 			<th>Kilograms</th>
+			<th style="width:2em;font-style:italic;">or</th>
+			<th>Stone / Pounds</th>
 		</tr>
 		<tr>
+			<td><?php echo $this->Form->input('BmiWeekly.weight_kg', array('label'=>'Kgs', 'class'=>'kgs')); ?></td>
+			<td>&nbsp;</td>
 			<td><?php 
 				echo $this->Form->input('BmiWeekly.weight_stones', array('label'=>'Stone', 'class'=>'stones')); 
 				echo $this->Form->input('BmiWeekly.weight_lbs', array('label'=>'Pounds', 'class'=>'lbs')); 
 			?></td>
-			<td><?php echo $this->Form->input('BmiWeekly.weight_kg', array('label'=>'Kgs', 'class'=>'kgs')); ?></td>
 		</tr>
 		<tr>
 			<td colspan="8"><label for="BmiWeeklyWhat_Worked">What worked for me this week?
-			<a href="#whatworked" class="info" title="What is this?">
+			<a href="#whatworked" class="info" title="Click for more information on the 'What worked for me?' box">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
@@ -62,85 +55,31 @@
 			echo $this->Form->textarea('BmiWeekly.what_worked',array('label'=>'false', 'cols'=>'35', 'rows'=>'5')); ?></td>
 		</tr>
 	</table>
-<p><?php echo $this->Form->end(__('Submit')); ?></p>
+	<div class="submit">
+         <?php echo $this->Form->submit(__('Cancel (without saving changes)', true), array('name' => 'cancel','div' => false, 'id' =>'cancel')); ?>
+         <?php echo $this->Form->submit(__('Submit', true), array('name' => 'ok', 'div' => false, 'id' =>'submit')); ?>
+	</div>
 </div>
 <script type="text/javascript">
-
 jQuery(".stones").bind("blur", function() 
 {
-    var $tr = $(this).closest("tr");
-	var stones = parseFloat($tr.find(".stones").val());
-    var lbs = parseFloat($tr.find(".lbs").val());
-    
-	var kgs = parseFloat($tr.find(".kgs").val());
-	
-    if(isNaN(stones)) stones = 0;
-	if(isNaN(lbs)) lbs = 0;
-	
-	if (stones > 0 && lbs > 0){
-		var newkg = Math.round(((stones * 13) + lbs) * 0.453592,0);
-		$tr.find(".kgs").val(newkg);
-	}
+	getMetricWeight(parseFloat($(".stones").val()), parseFloat($(".lbs").val()));
 });
 
 jQuery(".lbs").bind("blur", function() 
 {
-    var $tr = $(this).closest("tr");
-	var stones = parseFloat($tr.find(".stones").val());
-    var lbs = parseFloat($tr.find(".lbs").val());
-    
-	var kgs = parseFloat($tr.find(".kgs").val());
-	
-    if(isNaN(stones)) stones = 0;
-	if(isNaN(lbs)) lbs = 0;
-	
-	if (stones > -1 && lbs > -1){
-		var newkg = Math.round(((stones * 13) + lbs) * 0.453592,0);
-		$tr.find(".kgs").val(newkg);
-	}
-	
-	if (lbs >= 13){
-		var newstones = ($tr.find(".stones").val()* 1) + 1;
-		var newlbs = ($tr.find(".lbs").val()* 1) - 13;
-		while (newlbs >= 13)
-		{
-			var newstones = newstones + 1;
-			var newlbs = newlbs - 13;
-		}
-		$tr.find(".stones").val(newstones);
-		$tr.find(".lbs").val(newlbs);
-	}
-	if (lbs < 0){
-		$tr.find(".lbs").val(0);
-	}
-	
+	getMetricWeight(parseFloat($(".stones").val()), parseFloat($(".lbs").val()));
 });
 
 jQuery(".kgs").bind("blur", function() {
-    
-    var $tr = $(this).closest("tr");
-	var kgs = parseFloat($tr.find(".kgs").val());
-	var stones = parseFloat($tr.find(".stones").val());
-    var lbs = parseFloat($tr.find(".lbs").val());
-    
-    if(isNaN(kgs)) kgs = 0;
-	
-	if (kgs > 0){
-		var newlbs = Math.round((kgs * 2.20462),2);
-		var newstones = Math.floor(newlbs / 13);
-		newlbs = (newlbs - (newstones*13));
-		$tr.find(".lbs").val(newlbs);
-		$tr.find(".stones").val(newstones);
-	}
+	getImperialWeight(parseFloat($(".kgs").val()));
+});
+
+jQuery("body").ready(function() {
+    var imperial = getImperialWeight(parseFloat($(".kgs").val()));
 });
 </script>
 
 
 <!-- This contains the hidden content for inline calls -->
-<div style='display:none'>
-	<div id='portion' class='popup'>
-		<h3><img src='/bmi_module/img/bmi/5-a-dayportionposter.png' alt="Healthy Eating Poster" style="float:right; margin-left: 10px;" />How much is a portion?</h3>
-		<p>INSERT BMI Info</p>
-	</div>
-</div>
 <?php echo $this->element('what_worked'); ?>

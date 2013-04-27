@@ -50,3 +50,46 @@ function getMetricHeight(feet, inches)
 	}
 	
 }
+
+function getImperialWeight(kgs)
+{
+	if(isNaN(kgs)) kgs = 0;
+	
+	if (kgs > 0){
+		var newlbs = kgs * 2.20462;
+		var newstones = Math.floor(newlbs / 14);
+		newlbs = (newlbs - (newstones*14));
+		newlbs = Math.floor(newlbs * 2) / 2;
+		$(".lbs").val(newlbs);
+		$(".stones").val(newstones);
+	}
+}
+
+
+function getMetricWeight(stones, lbs)
+{
+    if(isNaN(stones)) stones = 0;
+	if(isNaN(lbs)) lbs = 0;
+	
+	if (stones > -1 && lbs > -1){
+		var newkgs = ((stones * 14) + lbs) / 2.20462;
+		newkgs = Math.round(newkgs * 10)/10;
+		$(".kgs").val(newkgs);
+	}
+	
+	if (lbs >= 14){
+		var newstone = ($(".stones").val()* 1) + 1;
+		var newlbs = ($(".lbs").val()* 1) - 14;
+		while (newlbs >= 14)
+		{
+			newstone = newstone + 1;
+			newlbs = newlbs - 14;
+		}
+		$(".stones").val(newstone);
+		$(".lbs").val(newlbs);
+	}
+	if (lbs < 0){
+		$(".lbs").val(0);
+	}
+	
+}
