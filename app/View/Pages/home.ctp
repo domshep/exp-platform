@@ -1,8 +1,8 @@
 <div>
-	<h1>Experimental Platform for Health Promotion - version 0.2</h1>
+	<h1>Experimental Platform for Health Promotion - version 0.3</h1>
 	<p>This web-tool is an under-development 'experimental platform', intended to provide a platform for the preliminary development
 	and testing of interactive health topic modules.</p>
-	<p><strong>Please note that this version continues to be an 'alpha' release. Although a lot of the functionality is now in place for the "expected user journey", you will experience bugs and problems if you travel too far from the beaten track... This release is intended primarily for early feedback on the website.</strong>
+	<p><strong>Please note that this version continues to be an 'alpha' release. Although a lot of the functionality is now in place for the "expected user journey", you will experience bugs and problems if you travel too far from the beaten track... This release is intended primarily for early feedback on the website, and any data you record may be deleted by future releases.</strong>
 	<p>The initial platform has been based on the website developed for NHS Wales' <a href="http://www.championsforhealth.wales.nhs.uk">Champions for Health</a> campaign.</p>
 	<p>It is expected that further health topic modules will be developed in the future, but the ones
 	that are currently available via this test deployment are listed below.</p>

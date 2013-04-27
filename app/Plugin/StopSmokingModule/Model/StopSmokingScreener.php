@@ -79,7 +79,6 @@ class StopSmokingScreener extends AppModel {
 	
 	public function calculateScore() 
 	{
-		$smokes = $this->data['StopSmokingScreener']['smokes'];
 		$how_many = $this->data['StopSmokingScreener']['how_many'];
 		$first_cig = $this->data['StopSmokingScreener']['first_cig'];
 		$diff_not_smoking = $this->data['StopSmokingScreener']['diff_non_smoking'];

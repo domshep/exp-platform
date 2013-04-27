@@ -15,12 +15,11 @@ INSERT INTO `modules` (`id`, `name`, `version`, `type`, `parent_id`, `base_url`,
 (6, 'Drink Safely', '1', 'dashboard', 0, 'drink_safely_module/drinking', 'drink_safely_module/img/drinking/icon.png', 'drinking', 1, '2013-04-16 00:00:00', '2013-04-16 00:00:00'),
 (7, 'Example module &ndash; simple health test', '1', 'dashboard', 0, 'example_module/simple_health_test', 'example_module/img/icon.png', 'simple_health_test', 1, '2013-02-22 23:38:26', '2013-02-22 23:38:26');
 
-INSERT INTO `news` (`id`, `headline`, `article`, `created`, `modified`) VALUES
-(1, 'Brief Interventions Training Programme', 0x46696e64206f757420686f7720796f752063616e20736861726520796f757220616368696576656d656e747320616e64206d6f746976617465206f74686572732062792074616b696e67207061727420696e2074686520e2809c427269656620496e74657276656e74696f6e7320547261696e696e672050726f6772616d6d65e2809d2e, '2013-03-14 18:37:06', '2013-03-16 08:10:37');
-
 INSERT INTO `profile` (`id`, `user_id`, `name`, `gender`, `date_of_birth`, `height_cm`, `post_code`, `mobile_no`, `created`, `modified`) VALUES
 (1, 1, 'Andy', 'M', '1974-03-01', 170, 'CF14 9XX', '0747999999', '2013-03-02 09:45:04', '2013-03-07 15:26:41'),
-(2, 2, 'Dave Burton', 'M', '1980-03-08', 170, 'CF14 9XX', NULL, '2013-03-08 11:26:53', '2013-03-08 11:26:55');
+(2, 2, 'Dave Burton', 'M', '1980-03-08', 170, 'CF14 9XX', NULL, '2013-03-08 11:26:53', '2013-03-08 11:26:55'),
+(3, 4, 'Test User', 'M', '1995-04-27', 178, '', '', '2013-04-27 10:40:41', '2013-04-27 10:41:48'),
+(4, 3, 'Test Admin', 'F', '1960-09-09', 165, '', '', '2013-04-27 10:43:29', '2013-04-27 10:43:29');
 
 INSERT INTO `users` (`id`, `email`, `password`, `role`, `created`, `modified`) VALUES
 (1, 'andy@itsallnice-digital.co.uk', '27bf973165c423667ae19848570a56a28f9c4567', 'super-admin', '2013-02-22 22:46:20', '2013-03-07 15:26:41'),

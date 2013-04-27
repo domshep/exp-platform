@@ -107,7 +107,6 @@ class BmiAchievement extends AppModel {
 			// No weekly records, so use the BMI screener instead.
 			$query = "SELECT `start_bmi` FROM `bmi_screeners` WHERE user_id = " . $user_id;
 			$latest_bmi = $this->query($query);
-			debug($latest_bmi);
 			$latestBMI = $latest_bmi[0]['bmi_screeners']['start_bmi'];
 		} else {
 			// Use the latest weekly record.

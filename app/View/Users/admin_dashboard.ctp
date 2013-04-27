@@ -50,7 +50,7 @@
 				?> <strong><?php echo $this->Html->link("Progress", '/admin/modules/progress',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
 				<p>Number of Weekly Records Created: <?php echo $totalWeeklyEntries; ?></p>
 				<?php 
-					echo $this->Html->link(__('View and Access Progress Data'), '/admin/modules/progress_list',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+					// echo $this->Html->link(__('View and Access Progress Data'), '/admin/modules/progress_list',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 				?>
 		</div>
 	</div>
