@@ -94,7 +94,6 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 	 */
 	public function screener() {
   		$this->loadModel('StopSmokingModule.StopSmokingScreener');
-  		$this->loadModel('StopSmokingModule.StopSmokingAchievement');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
@@ -119,13 +118,6 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 					$this->StopSmokingScreener->set('score', $score);
 					$this->StopSmokingScreener->set('user_id', $this->User->data['User']['id']);
 					$this->StopSmokingScreener->save();
-					
-					// Calculate / initialise the achievement stats
-					$this->StopSmokingAchievement->create();
-					$this->StopSmokingAchievement->updateAchievements($this->User->data['User']['id']);
-					$this->StopSmokingAchievement->save();
-					
-					Cache::clear();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -160,7 +152,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
 	public function module_added() {
-  		$this->set('message', "The Stop Smoking has now been added to your dashboard.");
+  		
   	}
 	
   	/**
@@ -255,6 +247,11 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 		$this->set('userID', $this->User->data['User']['id']);
 		
 		if ($this->request->is('post') || $this->request->is('put')) {
+			// Was cancel clicked?
+			if (isset($this->request->data['cancel'])) {
+				return $this->redirect('module_dashboard');
+			}
+			
 			// The form has been submitted, so validate and then save.
 			
 			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
@@ -305,6 +302,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
+  		$this->disableCache();
   		
   		// Retrieve all the weekly entries between the start week and the last day of the month
   		$lastThreeMonthEntries = $this->StopSmokingWeekly->find('all',array(
@@ -315,10 +313,11 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   				),
   				'order' => array('week_beginning' => 'asc')
   		));
-  		
+
   		// Need at least three weeks of entries to display a chart...
   		if(count($lastThreeMonthEntries) < 3) {
-  			return $this->redirect('/img/not-enough-data-chart.png');
+  			$this->response->file('/webroot/img/not-enough-data-chart.png');
+  			return $this->response;
   		}
   		
   		$ydata = array();

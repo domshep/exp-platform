@@ -1,9 +1,9 @@
-<h4 class="graph-caption">My &lsquo;Stop Smoking&rsquo; scores over recent weeks</h4>
+<h4 class="graph-caption">My smoke free days over recent weeks</h4>
 		<p><?php 
 				echo $this->Html->image(
 					'/stop_smoking_module/stop_smoking/minigraph', 
 					array(
-						'alt' => 'My &lsquo;smoke free days&rsquo; scores over recent weeks',
+						'alt' => 'My smoke free days over recent weeks',
 	    				'url' => array('action' => 'view_records'),
 						'class' => 'mini-graph'
 					)

@@ -15,12 +15,12 @@ if ($newswidget != "") echo $newswidget;
 		<h3><?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Piechart icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
 						?>&nbsp;<strong><?php echo $this->Html->link(__('My progress over time'), array('action' => 'view_records')); ?></strong>
 		</h3>
-		<h4 class="graph-caption">My &lsquo;Smoke Free&rsquo; days over recent weeks</h4>
+		<h4 class="graph-caption">My smoke free days over recent weeks</h4>
 		<p><?php 
 				echo $this->Html->image(
 					'/stop_smoking_module/stop_smoking/minigraph', 
 					array(
-						'alt' => 'My &lsquo;Stop Smoking&rsquo; days over recent weeks',
+						'alt' => 'My smoke free days over recent weeks',
 	    				'url' => array('action' => 'view_records'),
 						'class' => 'mini-graph'
 					)
@@ -40,7 +40,7 @@ if ($newswidget != "") echo $newswidget;
 	</div>
 	<div class="module">
 		<h3><?php echo $this->Html->image('/img/Actions-rating-icon.png', array('alt' => "Star icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=>array('action' => 'view_records')));
-						?>&nbsp;<strong><?php echo $this->Html->link(__('My achievements'), array('action' => 'view_records')); ?></strong>
+						?>&nbsp;<strong><?php echo $this->Html->link(__('My stop smoking achievements'), array('action' => 'view_records')); ?></strong>
 		</h3>
 		<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 	</div>
