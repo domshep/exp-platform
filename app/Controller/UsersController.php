@@ -23,7 +23,7 @@ class UsersController extends AppController {
 				if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 					$this->redirect($this->Auth->redirect(array('action'=>'dashboard')));
 				} else {
-					$this->redirect($this->Auth->redirect('admin/users/index'));
+					$this->redirect($this->Auth->redirect('admin/users/dashboard'));
 				}
 			} else {
 				$this->Session->setFlash(__('Invalid email address or password, try again'));
