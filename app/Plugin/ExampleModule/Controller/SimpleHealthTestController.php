@@ -99,7 +99,6 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	 */
 	public function screener() {
   		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
-  		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
@@ -124,13 +123,6 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					$this->SimpleHealthTestScreener->set('score', $score);
 					$this->SimpleHealthTestScreener->set('user_id', $this->User->data['User']['id']);
 					$this->SimpleHealthTestScreener->save();
-					
-					// Calculate / initialise the achievement stats
-					$this->SimpleHealthTestAchievement->create();
-					$this->SimpleHealthTestAchievement->updateAchievements($this->User->data['User']['id']);
-					$this->SimpleHealthTestAchievement->save();
-					
-					Cache::clear();
 					
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
@@ -258,6 +250,11 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		$this->set('userID', $this->User->data['User']['id']);
 		
 		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Was cancel clicked?
+  			if (isset($this->request->data['cancel'])) {
+  				return $this->redirect('module_dashboard');
+  			}
+  			
 			// The form has been submitted, so validate and then save.
 			
 			// Re-calculate the total, and apply the user id (don't just rely on submitted form).
@@ -308,6 +305,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
   		$this->layout = 'ajax';
   		$this->RequestHandler->respondAs('png');
+  		$this->disableCache();
   		
   		// Retrieve all the weekly entries between the start week and the last day of the month
   		$lastThreeMonthEntries = $this->SimpleHealthTestWeekly->find('all',array(
@@ -318,10 +316,11 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   				),
   				'order' => array('week_beginning' => 'asc')
   		));
-  		
+
   		// Need at least three weeks of entries to display a chart...
   		if(count($lastThreeMonthEntries) < 3) {
-  			return $this->redirect('/img/not-enough-data-chart.png');
+  			$this->response->file('/webroot/img/not-enough-data-chart.png');
+  			return $this->response;
   		}
   		
   		$ydata = array();

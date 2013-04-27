@@ -24,11 +24,11 @@
 		);
 	}?></h2>
 	<p>How healthy have you felt each day this week? Give yourself a score out of 10...
-			<a href="#help" class="info" title="Help?">
+			<a href="#help" class="info" title="Click for more information">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
-					array('alt' => 'Help?',
+					array('alt' => 'Click for more information',
 						'class' => 'info')
 				);
 			?>
@@ -64,7 +64,7 @@
 		</tr>
 		<tr>
 			<td colspan="8"><label for="SimpleHealthTestWeeklyWhat_Worked">What worked for me this week?
-			<a href="#whatworked" class="info" title="What is this?">
+			<a href="#whatworked" class="info" title="Click for more information on the 'What worked for me?' box">
 			<?php 
 				echo $this->Html->image(
 					'info-icon.png', 
@@ -76,7 +76,10 @@
 			<?php echo $this->Form->textarea('SimpleHealthTestWeekly.what_worked',array('label'=>'false', 'cols'=>'35', 'rows'=>'5')); ?></td>
 		</tr>
 	</table>
-<p><?php echo $this->Form->end(__('Submit')); ?></p>
+	<div class="submit">
+         <?php echo $this->Form->submit(__('Cancel (without saving changes)', true), array('name' => 'cancel','div' => false, 'id' =>'cancel')); ?>
+         <?php echo $this->Form->submit(__('Submit', true), array('name' => 'ok', 'div' => false, 'id' =>'submit')); ?>
+	</div>
 </div>
 <script type="text/javascript">
 <!--
