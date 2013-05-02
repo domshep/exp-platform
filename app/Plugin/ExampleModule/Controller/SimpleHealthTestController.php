@@ -72,6 +72,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		$this->set('added_to_dashboard', $addedToDashboard);
 		
   		$this->set('message', "This is just an example module, while we work on the module interface");
+		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
  	}
 
  	/**
@@ -86,6 +87,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			$this->Auth->user('id'),
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
+		$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
  	}
   
 	/**
@@ -102,14 +104,17 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
-	  	if ($this->request->is('post')) {
+	  	if ($this->request->is('post')) 
+		{
 	  		// Get hold of the posted data
 			$this->SimpleHealthTestScreener->create();
 			$this->SimpleHealthTestScreener->set($this->request->data);
 			
-			if ($this->SimpleHealthTestScreener->validates()) {
+			if ($this->SimpleHealthTestScreener->validates()) 
+			{
 				// Validation passed
-				if(isset($this->request->data['SimpleHealthTestScreener']['score'])) {
+				if(isset($this->request->data['SimpleHealthTestScreener']['score'])) 
+				{
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
 					
@@ -129,25 +134,39 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 							$this->User->data['User']['id'],
 							$this->Module->getModuleID($this->_module_name())
 					);
-					if($success) {
-						return $this->redirect('module_added');
-					} else {
-						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
-					}
 					
-				} else {
+					if($success) 
+					{
+						return $this->redirect('module_added');
+					} 
+					else 
+					{
+						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
+						$this->set('title_for_layout', '`' . $this->_module_name() . '` could not be added');
+					}
+					}
+				else 
+				{
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
 					$score = $this->SimpleHealthTestScreener->calculateScore();
 					$this->set('score', $score);
 					$this->SimpleHealthTestScreener->set('score', $score);
 					$this->set($this->SimpleHealthTestScreener->data);
+					$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` Score');
 					$this->render('score');
 				}
-			} else {
+			} 
+			else 
+			{
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
 			}
+			}
+		else
+		{
+			$this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
 		}
   	}
   	
@@ -156,6 +175,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 */
 	public function module_added() {
   		$this->set('message', "The test module has now been added to your dashboard.");
+		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` Module has been added');
   	}
 	
   	/**
@@ -182,6 +202,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -216,6 +237,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` monthly records for ' . ucfirst($month) . ' ' . $year);
   	}
   	 
   	/**
@@ -223,7 +245,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * 
   	 * @param string $date the date for which this entry relates. If null, today's date will be used.
   	 */
-	public function data_entry($date = null) {
+	public function data_entry($date = null) 
+	{
 		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
 		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
 		$this->loadModel('User');
@@ -249,7 +272,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		$this->User->set($this->User->findById($this->Auth->user('id')));
 		$this->set('userID', $this->User->data['User']['id']);
 		
-		if ($this->request->is('post') || $this->request->is('put')) {
+		if ($this->request->is('post') || $this->request->is('put')) 
+		{
   			// Was cancel clicked?
   			if (isset($this->request->data['cancel'])) {
   				return $this->redirect('module_dashboard');
@@ -264,10 +288,12 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			$this->SimpleHealthTestWeekly->set('total', $total);
 			$this->SimpleHealthTestWeekly->set('user_id', $this->User->data['User']['id']);
 
-			if ($this->SimpleHealthTestWeekly->validates()) {
+			if ($this->SimpleHealthTestWeekly->validates()) 
+			{
 				$success = $this->SimpleHealthTestWeekly->save();
 				
-				if($success) {
+				if($success) 
+				{
 					//Re-calculate the achievement stats
 					$this->SimpleHealthTestAchievement->create();
 					$this->SimpleHealthTestAchievement->updateAchievements($this->User->data['User']['id']);
@@ -277,14 +303,20 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
 					return $this->redirect('module_dashboard');
-				} else {
+				} 
+				else 
+				{
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
+					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 				}
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
+				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
-		} else {
+		} 
+		else 
+		{
 			// This is a new request for this form - display a blank or previous record
 			
 			// Is there a previous record for this date and user?
@@ -294,7 +326,15 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					date("Y-m-d",$weekBeginning));
 			
 			// If so, edit this entry instead of creating a new one...
-			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+			if(!empty($previousEntry))
+			{ 
+				$this->request->data = $previousEntry;
+				$this->set('title_for_layout', 'Edit My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+			}
+			else
+			{
+				$this->set('title_for_layout', 'Add My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+			}
 		}
   	}
   

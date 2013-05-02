@@ -83,7 +83,10 @@ class MotivationController extends MotivationModuleAppController implements Modu
   		$this->loadModel('User');
   		$this->loadModel('Module');
 		
-	  	if ($this->request->is('post') || $this->request->is('put')) {
+		$this->set('title_for_layout', $this->_module_name());
+		
+	  	if ($this->request->is('post') || $this->request->is('put')) 
+		{
 	  		$this->MotivationScreener->create();
 	  		$this->MotivationScreener->set($this->request->data);
 	  		
@@ -91,13 +94,18 @@ class MotivationController extends MotivationModuleAppController implements Modu
 			$currentUser = $this->User->findById($this->Auth->user('id'));
 			$this->MotivationScreener->set('user_id', $currentUser['User']['id']);
 			
-			if ($this->MotivationScreener->save($this->request->data)) {
+			if ($this->MotivationScreener->save($this->request->data)) 
+			{
 				$this->Session->setFlash(__('Your reason has been updated'));
 				$this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'full_base' => true, 'plugin' => false));
-			} else {
+			} 
+			else 
+			{
 				$this->Session->setFlash(__('Sorry, something went wrong and we could not save your reason. Please try again.'));
 			}
-		} else {
+		} 
+		else 
+		{
 			// It hasn't been posted so we are either adding a new entry or editing the form:
 			$this->MotivationScreener->create();
 			$previousEntry = $this->MotivationScreener->find('first',array('user_id'=>'$userId'));

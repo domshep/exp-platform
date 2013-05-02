@@ -70,6 +70,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 			$this->Auth->user('id'),
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
+		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
  	}
 
  	/**
@@ -84,6 +85,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 			$this->Auth->user('id'),
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
+		$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
  	}
   
 	/**
@@ -95,19 +97,23 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 * then the post will contain a score, and the screener submission will be saved to the
 	 * database.
 	 */
-	public function screener() {
+	public function screener() 
+	{
   		$this->loadModel('HealthyEatingModule.FiveADayScreener');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
-	  	if ($this->request->is('post')) {
+	  	if ($this->request->is('post')) 
+		{
 	  		// Get hold of the posted data
 			$this->FiveADayScreener->create();
 			$this->FiveADayScreener->set($this->request->data);
 			
-			if ($this->FiveADayScreener->validates()) {
+			if ($this->FiveADayScreener->validates()) 
+			{
 				// Validation passed
-				if(isset($this->request->data['FiveADayScreener']['score'])) {
+				if(isset($this->request->data['FiveADayScreener']['score'])) 
+				{
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
 					
@@ -127,33 +133,42 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 							$this->User->data['User']['id'],
 							$this->Module->getModuleID($this->_module_name())
 					);
-					if($success) {
-						return $this->redirect('module_added');
-					} else {
+					if($success) return $this->redirect('module_added');
+					else 
+					{
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
+						$this->set('title_for_layout', 'The `' . $this->_module_name() . '` module could not be added');
 					}
-					
-				} else {
+				} 
+				else 
+				{
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
 					$score = $this->FiveADayScreener->calculateScore();
 					$this->set('score', $score);
 					$this->FiveADayScreener->set('score', "".$score);
 					$this->set($this->FiveADayScreener->data);
+					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Score');
 					$this->render('score');
 				}
-			} else {
+			} 
+			else 
+			{
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
 			}
 		}
+		else $this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
   	}
   	
   	/**
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
-	public function module_added() {
+	public function module_added() 
+	{
   		$this->set('message', "The healthy eating module has now been added to your dashboard.");
+  		$this->set('title_for_layout', '`' . $this->_module_name() . '` has been Added');
   	}
 	
   	/**
@@ -180,6 +195,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -215,6 +231,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . ucwords($this->_module_name()) . '` records for ' . ucwords($month) . ' ' . $year);
   	}
   	
   	/**
@@ -278,10 +295,12 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   					return $this->redirect('module_dashboard');
   				} else {
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
+					$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   				}
   			} else {
   				// Validation failed
   				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
+				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   			}
   		} else {
   			// This is a new request for this form - display a blank or previous record
@@ -293,7 +312,11 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   					date("Y-m-d",$weekBeginning));
   				
   			// If so, edit this entry instead of creating a new one...
-  			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+  			if(!empty($previousEntry)){ 
+				$this->request->data = $previousEntry;
+				$this->set('title_for_layout', 'Edit my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+  			}
+			else $this->set('title_for_layout', 'Add my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   		}
   	}
 	

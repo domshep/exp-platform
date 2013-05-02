@@ -70,6 +70,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 			$this->Auth->user('id'),
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
+		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
  	}
 
  	/**
@@ -96,14 +97,17 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		$this->loadModel('Profile');
   		$this->loadModel('Module');
 	  	
-	  	if ($this->request->is('post')) {
+	  	if ($this->request->is('post')) 
+		{
 	  		// Get hold of the posted data
 			$this->BmiScreener->create();
 			$this->BmiScreener->set($this->request->data);
 			
-			if ($this->BmiScreener->validates()) {
+			if ($this->BmiScreener->validates()) 
+			{
 				// Validation passed
-				if(isset($this->request->data['BmiScreener']['bmi'])) {
+				if(isset($this->request->data['BmiScreener']['bmi'])) 
+				{
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
 					
@@ -136,13 +140,15 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 							$this->User->data['User']['id'],
 							$this->Module->getModuleID($this->_module_name())
 					);
-					if($success) {
-						return $this->redirect('module_added');
-					} else {
+					if($success)return $this->redirect('module_added');
+					else 
+					{
+						$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
 					}
-					
-				} else {
+				} 
+				else 
+				{
 					// No score yet, so the user has only just submitted the original form.
 					
 					// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
@@ -160,12 +166,20 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					$this->set('weight_kg', $weight_kg);
 					$this->set('height_cm', $height_cm);
 					$this->set($this->BmiScreener->data);
+					$this->set('title_for_layout', 'My BMI');
 					$this->render('score');
 				}
-			} else {
+			} 
+			else 
+			{
 				// Validation failed
 				$this->Session->setFlash(__('Your BMI could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->set('title_for_layout', 'Calculate My BMI');
 			}
+		}
+		else
+		{
+			$this->set('title_for_layout', 'Calculate My BMI');
 		}
   	}
   	
@@ -174,6 +188,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 */
 	public function module_added() {
   		$this->set('message', "The BMI module has now been added to your dashboard.");
+		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` Module has been added');
   	}
 	
   	/**
@@ -237,6 +252,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 		}
 	
   		$this->set('records', $records);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -308,6 +324,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 		}
 	
   		$this->set('records', $records);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . ucwords($month) . ' ' . $year);
   	}
   	
   	/**
@@ -349,7 +366,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		$this->User->set($this->User->findById($this->Auth->user('id')));
   		$this->set('userID', $this->User->data['User']['id']);
   	
-  		if ($this->request->is('post') || $this->request->is('put')) {
+  		if ($this->request->is('post') || $this->request->is('put')) 
+		{
   			// The form has been submitted, so validate and then save.
 			$weight_kg = $this->request->data['BmiWeekly']['weight_kg'];
   				
@@ -362,10 +380,12 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   			$this->BmiWeekly->set('height_cm', $height_cm);
   			$this->BmiWeekly->set('user_id', $this->User->data['User']['id']);
   	
-  			if ($this->BmiWeekly->validates()) {
+  			if ($this->BmiWeekly->validates()) 
+			{
   				$success = $this->BmiWeekly->save();
   	
-  				if($success) {
+  				if($success) 
+				{
 					//Re-calculate the achievement stats
 					$this->BmiAchievement->create();
 					$this->BmiAchievement->updateAchievements($this->User->data['User']['id']);
@@ -375,12 +395,16 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 						
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
   					return $this->redirect('module_dashboard');
-  				} else {
+  				} 
+				else 
+				{
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
+					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   				}
   			} else {
   				// Validation failed
   				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
+				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   			}
   		} else {
   			// This is a new request for this form - display a blank or previous record
@@ -406,7 +430,9 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 
 				$this->request->data['BmiWeekly']['weight_stones'] = $stones;
 				$this->request->data['BmiWeekly']['weight_lbs'] = $lbs;
+				$this->set('title_for_layout', 'Edit my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   			}
+			else $this->set('title_for_layout', 'Add my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
 		}
   	}
 	

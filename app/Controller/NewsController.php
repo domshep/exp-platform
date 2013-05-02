@@ -20,7 +20,6 @@ class NewsController extends AppController {
 	 public function index() {
 		$this->News->recursive = 0;
 		$this->set('news', $this->paginate());
-		//$this->redirect($this->Auth->redirect('users/dashboard'));
 		$this->set('title_for_layout', 'News'); 
 	}
 	
@@ -28,7 +27,6 @@ class NewsController extends AppController {
 	 	$news = $this->News->find('all', array('order' => 'News.created DESC', 'limit' => 3));
         $this->set('news', $news);
 		$this->render();
-		//$this->redirect($this->Auth->redirect('users/dashboard'));
 	}
 	
 	public function admin_index() {
@@ -37,8 +35,7 @@ class NewsController extends AppController {
 		} else {
 			$this->News->recursive = 0;
 			$this->set('news', $this->paginate());
-			//$this->redirect($this->Auth->redirect('users/dashboard'));
-			$this->set('title_for_layout', 'Admin: News'); 
+			$this->set('title_for_layout', 'News Admin'); 
 		}
 	}
 	
@@ -71,7 +68,7 @@ class NewsController extends AppController {
 			$this->set('news', $this->News->find('first'));
 			$news =  $this->News->find('first');
 			$title = $news['News']['headline'];
-			$this->set('title_for_layout', 'News: ' . $title);
+			$this->set('title_for_layout', 'News Admin: ' . $title);
 		}
 	}
 	/**
@@ -92,7 +89,7 @@ class NewsController extends AppController {
 					$this->Session->setFlash(__('The news could not be saved. Please, try again.'));
 				}
 			}
-			$this->set('title_for_layout', 'Admin: Add News');
+			$this->set('title_for_layout', 'News Admin: Add News');
 		}
 	}
 	
@@ -114,7 +111,7 @@ class NewsController extends AppController {
 				//$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 				$this->request->data = $this->News->find('first');
 			}
-			$this->set('title_for_layout', 'Admin: Edit News');
+			$this->set('title_for_layout', 'News Admin: Edit News');
 		}
 	}
 
@@ -134,7 +131,7 @@ class NewsController extends AppController {
 			$this->Session->setFlash(__('The News was not deleted'));
 			$this->redirect(array('action' => 'index'));
 			
-			$this->set('title_for_layout', 'Admin: Delete News');
+			$this->set('title_for_layout', 'News Admin: Delete News');
 		}
 	}
 }

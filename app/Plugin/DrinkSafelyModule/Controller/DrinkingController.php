@@ -70,6 +70,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 			$this->Auth->user('id'),
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
+		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
  	}
 
  	/**
@@ -84,6 +85,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 			$this->Auth->user('id'),
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
+		$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
  	}
   
 	/**
@@ -108,14 +110,17 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		$gender = $this->User->data['Profile']['gender'];
   		$this->set('gender', $gender);
 	  	
-	  	if ($this->request->is('post')) {
+	  	if ($this->request->is('post')) 
+		{
 	  		// Get hold of the posted data
 			$this->DrinkingScreener->create();
 			$this->DrinkingScreener->set($this->request->data);
 			
-			if ($this->DrinkingScreener->validates()) {
+			if ($this->DrinkingScreener->validates()) 
+			{
 				// Validation passed
-				if(isset($this->request->data['DrinkingScreener']['score'])) {
+				if(isset($this->request->data['DrinkingScreener']['score'])) 
+				{
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
 					
@@ -131,13 +136,19 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 							$this->User->data['User']['id'],
 							$this->Module->getModuleID($this->_module_name())
 					);
-					if($success) {
+					if($success) 
+					{
 						return $this->redirect('module_added');
-					} else {
+					} 
+					else 
+					{
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
+						$this->set('title_for_layout', '`' . $this->_module_name() . '` Could not be added');
 					}
 					
-				} else {
+				} 
+				else 
+				{
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
 					$score = $this->DrinkingScreener->calculateScore();
@@ -154,12 +165,20 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 					$this->set('how_many', $how_many);
 					$this->DrinkingScreener->set('score', "".$score);
 					$this->set($this->DrinkingScreener->data);
+					$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` Score');
 					$this->render('score');
 				}
-			} else {
+			} 
+			else 
+			{
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->set('title_for_layout', '`' . $this->_module_name() . '` Test');
 			}
+			}
+		else
+		{
+			$this->set('title_for_layout', '`' . $this->_module_name() . '` Test');
 		}
   	}
   	
@@ -168,6 +187,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   	 */
 	public function module_added() {
   		$this->set('message', "The 'Drink Safely' module has now been added to your dashboard.");
+		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` module has been added');
   	}
 	
   	/**
@@ -200,6 +220,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->DrinkingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -245,6 +266,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->DrinkingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Monthly Records for ' . $month . ' ' . $year);
   	}
   	
   	/**
@@ -318,6 +340,8 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   				// Validation failed
   				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
   			}
+			
+			$this->set('title_for_layout', 'Edit My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
   		} else {
   			// This is a new request for this form - display a blank or previous record
   				
@@ -328,7 +352,14 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   					date("Y-m-d",$weekBeginning));
   				
   			// If so, edit this entry instead of creating a new one...
-  			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+  			if(!empty($previousEntry)){ 
+				$this->request->data = $previousEntry;
+				$this->set('title_for_layout', 'Edit My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+			}
+			else
+			{
+				$this->set('title_for_layout', 'Add My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+			}
   		}
   	}
 	

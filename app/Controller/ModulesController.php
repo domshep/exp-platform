@@ -19,8 +19,13 @@ class ModulesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Module->recursive = 0;
-		$this->set('modules', $this->paginate());
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			$this->redirect($this->Auth->redirect('admin/modules/index'));
+		}
+		/*$this->Module->recursive = 0;
+		$this->set('modules', $this->paginate()); */
 	}
 
 	public function admin_index() {
@@ -29,6 +34,7 @@ class ModulesController extends AppController {
 		} else {
 			$this->Module->recursive = 0;
 			$this->set('modules', $this->paginate());
+			$this->set('title_for_layout', 'Module Admin'); 
 		}
 	}
 /**
@@ -39,22 +45,34 @@ class ModulesController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
+			else $this->redirect($this->Auth->redirect('admin/modules/view/'.$id));
+		}
+		/*
 		if (!$this->Module->exists($id)) {
 			throw new NotFoundException(__('Invalid module'));
 		}
 		$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
-		$this->set('module', $this->Module->find('first', $options));
+		$this->set('module', $this->Module->find('first', $options)); */
 	}
 
 	public function admin_view($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-			if (!$this->Module->exists($id)) {
+			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
+			else 
+			{
+				/*if (!$this->Module->exists($id)) {
 				throw new NotFoundException(__('Invalid module'));
-			}
+				}*/
 			$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
 			$this->set('module', $this->Module->find('first', $options));
+				$this->set('title_for_layout', 'View Module'); 
+			}
 		}
 	}
 /**
@@ -66,6 +84,7 @@ class ModulesController extends AppController {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
+			$this->set('title_for_layout', 'Add New Module'); 
 			if ($this->request->is('post')) {
 				$this->Module->create();
 				if ($this->Module->save($this->request->data)) {
@@ -79,7 +98,12 @@ class ModulesController extends AppController {
 	}
 	
 	public function add() {
-		if ($this->request->is('post')) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			$this->redirect($this->Auth->redirect('admin/modules/add'));
+		}
+		/*if ($this->request->is('post')) {
 			$this->Module->create();
 			if ($this->Module->save($this->request->data)) {
 				$this->Session->setFlash(__('The module has been saved'));
@@ -87,7 +111,7 @@ class ModulesController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
 			}
-		}
+		}*/
 	}
 
 /**
@@ -115,11 +139,18 @@ class ModulesController extends AppController {
 				$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
 				$this->request->data = $this->Module->find('first', $options);
 			}
+			$this->set('title_for_layout', 'Edit Module'); 
 		}
 	}
 	
 	public function edit($id = null) {
-		if (!$this->Module->exists($id)) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
+			else $this->redirect($this->Auth->redirect('admin/modules/edit/'.$id));
+		}
+		/*if (!$this->Module->exists($id)) {
 			throw new NotFoundException(__('Invalid module'));
 		}
 		if ($this->request->is('post') || $this->request->is('put')) {
@@ -132,7 +163,7 @@ class ModulesController extends AppController {
 		} else {
 			$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
 			$this->request->data = $this->Module->find('first', $options);
-		}
+		}*/
 	}
 
 /**
@@ -144,6 +175,13 @@ class ModulesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
+			else $this->redirect($this->Auth->redirect('admin/modules/delete/'.$id));
+		}
+		/*
 		$this->Module->id = $id;
 		if (!$this->Module->exists()) {
 			throw new NotFoundException(__('Invalid module'));
@@ -154,7 +192,7 @@ class ModulesController extends AppController {
 			$this->redirect(array('action' => 'index'));
 		}
 		$this->Session->setFlash(__('Module was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$this->redirect(array('action' => 'index'));*/
 	}
 	
 	public function admin_delete($id = null) {
@@ -164,6 +202,7 @@ class ModulesController extends AppController {
 			$this->Module->id = $id;
 			if (!$this->Module->exists()) {
 				throw new NotFoundException(__('Invalid module'));
+				$this->set('title_for_layout', 'Module Not Found');
 			}
 			//$this->request->onlyAllow('module', 'delete');
 			if ($this->Module->delete()) {
@@ -178,7 +217,6 @@ class ModulesController extends AppController {
 	/**
 	 * Get a list of all available modules.
 	 * 
-	 * TODO: Current returns ALL modules, will need to tweak the search to find only those that can be explored.
 	 */
 	public function list_all_explorable_modules() {
 		// Don't allow this method to be called directly from a URL
@@ -187,7 +225,7 @@ class ModulesController extends AppController {
 		}
 		
 		$this->Module->recursive = 0;
-		return $this->Module->findAllByType('dashboard');
+		return $this->Module->findAllByTypeAndActive('dashboard','1');
 	}
 	
 }

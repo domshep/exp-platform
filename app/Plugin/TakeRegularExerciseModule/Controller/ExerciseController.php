@@ -70,6 +70,7 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 			$this->Auth->user('id'),
 			$this->Module->getModuleID($this->_module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
+		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
  	}
 
  	/**
@@ -94,14 +95,17 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
-	  	if ($this->request->is('post')) {
+	  	if ($this->request->is('post')) 
+		{
 	  		// Get hold of the posted data
 			$this->ExerciseScreener->create();
 			$this->ExerciseScreener->set($this->request->data);
 
-			if ($this->ExerciseScreener->validates()) {
+			if ($this->ExerciseScreener->validates()) 
+			{
 				// Validation passed
-				if(isset($this->request->data['ExerciseScreener']['score'])) {
+				if(isset($this->request->data['ExerciseScreener']['score'])) 
+				{
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
 					
@@ -121,13 +125,15 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 							$this->User->data['User']['id'],
 							$this->Module->getModuleID($this->_module_name())
 					);
-					if($success) {
-						return $this->redirect('module_added');
-					} else {
+					if($success) return $this->redirect('module_added');
+					else {
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
+						$this->set('title_for_layout', 'The `' . $this->_module_name() . '` Module could not be added');
 					}
 					
-				} else {
+				} 
+				else 
+				{
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score and feedback, and then redirect the user to the final page.
 					$score = $this->ExerciseScreener->calculateMETScore();
@@ -137,20 +143,25 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 					$this->set('feedback', $feedback);
 					$this->ExerciseScreener->set('feedback', $feedback);
 					$this->set($this->ExerciseScreener->data);
+					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Feedback');
 					$this->render('score');
 				}
-			} else {
+			} 
+			else 
+			{
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->set('title_for_layout', 'The `' . $this->_module_name() . '` Test');
 			}
 		}
+		else $this->set('title_for_layout', 'The `' . $this->_module_name() . '` Test');
   	}
   	
   	/**
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
 	public function module_added() {
-		
+		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` Module has been added');
   	}
 	
   	/**
@@ -177,6 +188,7 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->ExerciseWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -212,6 +224,7 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->ExerciseWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for '. $month . ' ' . $year);
   	}
   	
   	/**
@@ -245,7 +258,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   		$this->User->set($this->User->findById($this->Auth->user('id')));
   		$this->set('userID', $this->User->data['User']['id']);
   	
-  		if ($this->request->is('post') || $this->request->is('put')) {
+  		if ($this->request->is('post') || $this->request->is('put')) 
+		{
   			// Was cancel clicked?
   			if (isset($this->request->data['cancel'])) {
   				return $this->redirect('module_dashboard');
@@ -260,10 +274,12 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   			$this->ExerciseWeekly->set('total', $total);
   			$this->ExerciseWeekly->set('user_id', $this->User->data['User']['id']);
   	
-  			if ($this->ExerciseWeekly->validates()) {
+  			if ($this->ExerciseWeekly->validates()) 
+			{
   				$success = $this->ExerciseWeekly->save();
   	
-  				if($success) {
+  				if($success) 
+				{
 					//Re-calculate the achievement stats
 					$this->ExerciseAchievement->create();
 					$this->ExerciseAchievement->updateAchievements($this->User->data['User']['id']);
@@ -273,12 +289,16 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 						
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
   					return $this->redirect('module_dashboard');
-  				} else {
+  				} 
+				else 
+				{
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
+					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for '. date('d-m-Y',$weekBeginning));
   				}
   			} else {
   				// Validation failed
   				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
+				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: '. date('d-m-Y',$weekBeginning));
   			}
   		} else {
   			// This is a new request for this form - display a blank or previous record
@@ -290,7 +310,12 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   					date("Y-m-d",$weekBeginning));
   				
   			// If so, edit this entry instead of creating a new one...
-  			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+  			if(!empty($previousEntry))
+			{ 
+				$this->request->data = $previousEntry;
+				$this->set('title_for_layout', 'Edit my `' . $this->_module_name() . '` record for: '. date('d-m-Y',$weekBeginning));
+			}
+			else $this->set('title_for_layout', 'Add my `' . $this->_module_name() . '` record for: '. date('d-m-Y',$weekBeginning));
   		}
   	}
 	
@@ -314,7 +339,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   		));
   		
   		// Need at least three weeks of entries to display a chart...
-  		if(count($lastThreeMonthEntries) < 3) {
+  		if(count($lastThreeMonthEntries) < 3) 
+		{
   			$this->response->file('/webroot/img/not-enough-data-chart.png');
   			return $this->response;
   		}

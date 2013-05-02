@@ -53,6 +53,23 @@
 					// echo $this->Html->link(__('View and Access Progress Data'), '/admin/modules/progress_list',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 				?>
 		</div>
+		
+		<div class='module' id="news">
+			<h3><?php 
+				$viewNewsURL = "/news/view/" . $latestNews['News']['id'];
+				echo $this->Html->image('/img/test-tube.png', array('alt' => "News icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/news/index'));
+				?> <strong><?php echo $this->Html->link("News", '/admin/news/index',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
+				<p>Number of News Articles: <?php echo $totalNews; ?></p>
+				<?php 
+				if ($totalNews > 0) 
+				{ 
+					echo "<p>Latest News Article:"; 
+					echo $this->Html->link($latestNews['News']['headline'],$viewNewsURL,array('target' => '_self','escape' => false)); 
+					echo "</p>"; 
+				} 
+				echo $this->Html->link(__('News Admin'), '/admin/news/index',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+				?>
+		</div>
 	</div>
 </div>
 <p style="clear:both;">&nbsp;</p>

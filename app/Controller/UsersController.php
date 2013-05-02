@@ -197,6 +197,7 @@ class UsersController extends AppController {
 			$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
 			$this->loadModel('User');
+			$this->loadModel('News');
 			$this->loadModel('Module');
 			$this->loadModel('ModuleUser');
 			
@@ -215,16 +216,16 @@ class UsersController extends AppController {
 			$this->set('totalModules', $totalModules);
 			$this->set('totalModuleInstances', $totalModuleInstances);
 			
+			// Load the total number of active Modules
 			$totalWeeklyEntries = $this->Module->totalWeeklyEntries();
 			$this->set('totalWeeklyEntries', $totalWeeklyEntries);
-			/*$userModules = array();
 			
-			foreach($currentUser['ModuleUser'] as $module) {
-				$userModules[] = $this->Module->find('first', array(
-					'conditions' => array('Module.id' => $module['module_id'])
-				));
-			}
-			$this->set('userModules', $userModules);*/
+			// Load News Information
+			$totalNews = $this->News->totalNewsArticles();
+			$latestNews = $this->News->getLatestNews();
+			$this->set('totalNews', $totalNews);
+			$this->set('latestNews', $latestNews);
+			
 			$this->set('title_for_layout', 'Admin Panel'); 
 		}
 	}

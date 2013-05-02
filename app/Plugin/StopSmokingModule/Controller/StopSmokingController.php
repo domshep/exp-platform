@@ -73,6 +73,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 		$this->set('added_to_dashboard', $addedToDashboard);
 		
   		$this->set('message', "This is the Stop Smoking module.");
+		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
  	}
 
  	/**
@@ -92,19 +93,23 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 	 * then the post will contain a score, and the screener submission will be saved to the
 	 * database.
 	 */
-	public function screener() {
+	public function screener() 
+	{
   		$this->loadModel('StopSmokingModule.StopSmokingScreener');
   		$this->loadModel('User');
   		$this->loadModel('Module');
 	  	
-	  	if ($this->request->is('post')) {
+	  	if ($this->request->is('post')) 
+		{
 	  		// Get hold of the posted data
 			$this->StopSmokingScreener->create();
 			$this->StopSmokingScreener->set($this->request->data);
 			
-			if ($this->StopSmokingScreener->validates()) {
+			if ($this->StopSmokingScreener->validates()) 
+			{
 				// Validation passed
-				if(isset($this->request->data['StopSmokingScreener']['smoker'])) {
+				if(isset($this->request->data['StopSmokingScreener']['smoker'])) 
+				{
 					// The submitted data contained a 'score' so they must have already completed
 					// the test and have now asked for the module to be added to their dashboard.
 					
@@ -124,13 +129,15 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 							$this->User->data['User']['id'],
 							$this->Module->getModuleID($this->_module_name())
 					);
-					if($success) {
-						return $this->redirect('module_added');
-					} else {
+					if($success) return $this->redirect('module_added');
+					else {
 						$this->Session->setFlash(__('The Stop Smoking module could not be added to your dashboard - Is it already on there?'));
+						$this->set('title_for_layout', 'The `' . $this->_module_name() . '` could not be added.');
 					}
 					
-				} else {
+				} 
+				else 
+				{
 					// No score yet, so the user has only just submitted the original form.
 					// Calculate the score, and then redirect the user to the final page.
 					$score = $this->StopSmokingScreener->calculateScore();
@@ -139,20 +146,23 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 					$this->set('smokes', $smokes);
 					$this->StopSmokingScreener->set('score', $score);
 					$this->set($this->StopSmokingScreener->data);
+					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Score');
 					$this->render('score');
 				}
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
+				$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` score could not be calculated');
 			}
 		}
+		else $this->set('title_for_layout', 'Calculate my `' . $this->_module_name() . '` Score');
   	}
   	
   	/**
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
 	public function module_added() {
-  		
+  		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` module has been added');
   	}
 	
   	/**
@@ -179,6 +189,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->StopSmokingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -213,6 +224,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->StopSmokingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
+		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for ' . ucwords($month) . ' ' . $year);
   	}
   	 
   	/**
@@ -246,11 +258,10 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 		$this->User->set($this->User->findById($this->Auth->user('id')));
 		$this->set('userID', $this->User->data['User']['id']);
 		
-		if ($this->request->is('post') || $this->request->is('put')) {
+		if ($this->request->is('post') || $this->request->is('put')) 
+		{
 			// Was cancel clicked?
-			if (isset($this->request->data['cancel'])) {
-				return $this->redirect('module_dashboard');
-			}
+			if (isset($this->request->data['cancel'])) return $this->redirect('module_dashboard');
 			
 			// The form has been submitted, so validate and then save.
 			
@@ -261,10 +272,12 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 			$this->StopSmokingWeekly->set('total', $total);
 			$this->StopSmokingWeekly->set('user_id', $this->User->data['User']['id']);
 
-			if ($this->StopSmokingWeekly->validates()) {
+			if ($this->StopSmokingWeekly->validates()) 
+			{
 				$success = $this->StopSmokingWeekly->save();
 				
-				if($success) {
+				if($success) 
+				{
 					//Re-calculate the achievement stats
 					$this->StopSmokingAchievement->create();
 					$this->StopSmokingAchievement->updateAchievements($this->User->data['User']['id']);
@@ -274,12 +287,16 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 					
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
 					return $this->redirect('module_dashboard');
-				} else {
+				} 
+				else 
+				{
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
+					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 				}
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
+				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
 		} else {
 			// This is a new request for this form - display a blank or previous record
@@ -291,7 +308,11 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 					date("Y-m-d",$weekBeginning));
 			
 			// If so, edit this entry instead of creating a new one...
-			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+			if(!empty($previousEntry)){ 
+				$this->request->data = $previousEntry;
+				$this->set('title_for_layout', 'Edit my `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+			}
+			else $this->set('title_for_layout', 'Add my `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 		}
   	}
   
