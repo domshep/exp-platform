@@ -6,12 +6,18 @@ interface ModulePlugin {
 	public function _module_name();
 	
 	/**
+	 * Returns the base URL to this module.
+	 *
+	 * @return string
+	 */
+	public function _module_base_url();
+	
+	/**
 	 * Returns the path to the icon for this module.
 	 *
 	 * @return string
 	 */
 	public function _module_icon_url();
-	
 	
 	/**
 	 * Default index function for the module.

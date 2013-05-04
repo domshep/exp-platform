@@ -4,6 +4,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 	public $components = array('RequestHandler');
 
 	public $module_name = 'Stop Smoking';
+	public $base_url = 'stop_smoking_module/stop_smoking';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -69,6 +70,15 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   		return $this->module_name;
   	}
 
+  	/**
+  	 * Returns the base URL for this module.
+  	 *
+  	 * @return string
+  	 */
+  	public function _module_base_url() {
+  		return $this->base_url;
+  	}
+  	
   	/**
   	 * Returns the path to the icon for this module.
   	 *

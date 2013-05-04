@@ -4,6 +4,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 	public $components = array('RequestHandler');
 	
 	public $module_name = 'Drink Safely';
+	public $base_url = 'drink_safely_module/drinking';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -67,7 +68,16 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
  	public function _module_name() {
   		return $this->module_name;
   	}
-  	
+
+  	/**
+  	 * Returns the base URL for this module.
+  	 *
+  	 * @return string
+  	 */
+  	public function _module_base_url() {
+  		return $this->base_url;
+  	}
+  	 
   	/**
   	 * Returns the path to the icon for this module.
   	 * 

@@ -3,6 +3,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	public $components = array('RequestHandler');
 
 	public $module_name = 'Why am I doing this?';
+	public $base_url = 'motivation_module/motivation';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -60,6 +61,15 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	 */
  	public function _module_name() {
   		return $this->module_name;
+  	}
+  	
+  	/**
+  	 * Returns the base URL for this module.
+  	 *
+  	 * @return string
+  	 */
+  	public function _module_base_url() {
+  		return $this->base_url;
   	}
 
   	/**

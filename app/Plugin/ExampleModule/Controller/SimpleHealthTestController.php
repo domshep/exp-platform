@@ -4,6 +4,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	public $components = array('RequestHandler');
 
 	public $module_name = 'Example module &ndash; simple health test';
+	public $base_url = 'example_module/simple_health_test';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -67,7 +68,16 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
  	public function _module_name() {
   		return $this->module_name;
   	}
-
+  	
+  	/**
+  	 * Returns the base URL for this module.
+  	 *
+  	 * @return string
+  	 */
+  	public function _module_base_url() {
+  		return $this->base_url;
+  	}
+  	
   	/**
   	 * Returns the path to the icon for this module.
   	 *

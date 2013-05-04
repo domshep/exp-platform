@@ -4,6 +4,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	public $components = array('RequestHandler');
 	
 	public $module_name = 'Healthy Eating &ndash; &lsquo;5-a-day&rsquo;';
+	public $base_url = 'healthy_eating_module/five_a_day';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -66,6 +67,15 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 */
  	public function _module_name() {
   		return $this->module_name;
+  	}
+
+  	/**
+  	 * Returns the base URL for this module.
+  	 *
+  	 * @return string
+  	 */
+  	public function _module_base_url() {
+  		return $this->base_url;
   	}
   	
   	/**

@@ -4,6 +4,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 	public $components = array('RequestHandler');
 	
 	public $module_name = 'Healthy Weight &ndash; Body Mass Index (BMI)';
+	public $base_url = 'healthy_weight_module/body_mass_index';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -67,7 +68,16 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
  	public function _module_name() {
   		return $this->module_name;
   	}
-  	
+
+  	/**
+  	 * Returns the base URL for this module.
+  	 *
+  	 * @return string
+  	 */
+  	public function _module_base_url() {
+  		return $this->base_url;
+  	}
+  	 
   	/**
   	 * Returns the path to the icon for this module.
   	 * 
