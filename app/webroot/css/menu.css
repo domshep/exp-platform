@@ -39,28 +39,31 @@ way to fit your requirements.
 	height:20px; 
 	line-height:20px; 
 	float:none;
-	background-color:#000000;
+	background-color:#325A8A;
 	font-size: 12px;
 }
 
 #main-menu li:hover {
 	position: relative;
 	z-index: 300;
-	background-color: #ffffff;
-	color: #000000;
+	background-color: #FFC709;
+	color: #325A8A;
 }
 #main-menu a:hover {
 	z-index:300; 
 	color:#ffffff;
-	background-color:#FFFFFF;
+	background-color:#FFC709;
 }
 
 #main-menu :hover ul {
 	display: block;
-	background-color: #000000;
+	background-color: #325A8A;
 	left:0; 
 	top:28px;
 	padding:5px;
+	-moz-box-shadow: 5px 5px 5px #888;
+	-webkit-box-shadow: 5px 5px 5px #888;
+	box-shadow: 5px 5px 5px #888;
 }
 /* another hack for IE5.5 and IE6 */
 #main-menu a:hover ul {
@@ -90,7 +93,7 @@ way to fit your requirements.
 /* show path followed */
 #main-menu li:hover > a {
 	text-decoration:none; 
-	color:#000000;
+	color:#325A8A;
 	font-weight: bold;
 	border-radius: 5px;
 }

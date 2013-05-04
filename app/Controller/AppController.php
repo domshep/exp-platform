@@ -65,7 +65,7 @@ class AppController extends Controller {
 								'title' => 'Home',
 								'url' => '/',
 						),
-						array(
+						'explore-menu' => array(
 								'title' => 'Explore Modules',
 								'url' => '#'
 						),
@@ -116,16 +116,16 @@ class AppController extends Controller {
 				),
 		);
 		
+		// Populate the Explore Modules menu
 		$this->loadModel('Modules');
-		$modules = $this->Modules->find('all'); // ,array('conditions'=>array('active'=>'yes'))
-		$i=0;
+		$modules = $this->Modules->findAllByTypeAndActive('dashboard','1');
+		$children = array();
 		foreach ($modules as $module):
-			$children[$i] = array('title'=>$module['Modules']['name'],'url'=>'/' . $module['Modules']['base_url'] . '/explore_module');
-			$i++;
+			$children[] = array('title'=>$module['Modules']['name'],'url'=>'/' . $module['Modules']['base_url'] . '/explore_module');
 		endforeach;
 		
 		if (count($children) != 0){ 
-			$menu['main-menu'][1]['children'] = $children;
+			$menu['main-menu']['explore-menu']['children'] = $children;
 		}
 		
 		// For default settings name must be menu
