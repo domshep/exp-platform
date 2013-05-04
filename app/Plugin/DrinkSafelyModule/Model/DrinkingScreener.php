@@ -41,13 +41,13 @@ class DrinkingScreener extends AppModel {
 			),
 			'how_many' => array(
 					'valid' => array(
-						'rule'    => array('range', -1, 1001),
+						'rule'    => array('range', -1, 5),
 						'message' => 'Please enter how many units of alcohol you drink on a typical drinking day.',
 					)
 			)
 			,'binge' => array(
 					'valid' => array(
-							'rule' => array('range', -1, 1001),
+							'rule' => array('range', -1, 5),
 							'message' => 'Please enter how many days you had more than the recommended number of units.',
 					)
 			)

@@ -35,13 +35,13 @@ class BmiScreener extends AppModel {
 	public $validate = array(
 			'height_cm' => array(
 					'valid' => array(
-							'rule' => array('range', 100, 200),
-							'message' => 'Please enter your height. This should be between 100cm (55 inches) and 200cm (79 inches)',
+							'rule' => array('range', 99, 201),
+							'message' => 'Please enter your height. This should be between 100cm (39 inches) and 200cm (79 inches)',
 					)
 			),
 			'weight_kg' => array(
 					'valid' => array(
-						'rule'    => array('range', 30, 130),
+						'rule'    => array('range', 29, 131),
 						'message' => 'Please enter your current weight. This should be between 30kg (70lbs) and 130kg (290lbs)',
 					)
 			)

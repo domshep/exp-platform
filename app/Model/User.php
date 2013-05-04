@@ -1,5 +1,6 @@
 <?php
 App::uses('AuthComponent', 'Controller/Component');
+App::uses('CakeEmail', 'Network/Email');
 
 class User extends AppModel {
 	public $hasOne = 'Profile';
@@ -82,6 +83,45 @@ class User extends AppModel {
 	public function totalAdminUsers() {
 		$total = $this->find('all', array('conditions'=>array('OR'=>array('role'=>array('super-admin','admin')))));
 		return sizeof($total);
+	}
+	
+	/**
+	 * Generate and Set New Random Password. 
+	 * Returns new password
+	 * 
+	 * @param varchar $email
+	 */
+	public function setRandomPassword() 
+	{
+		$alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789@&*^%!?";
+    	$pass = array(); //remember to declare $pass as an array
+    	$alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    	
+		for ($i = 0; $i < 8; $i++) {
+        	$n = rand(0, $alphaLength);
+       		$pass[] = $alphabet[$n];
+   		}
+   		
+		$newpassword = implode($pass); //turn the array into a string
+		$this->set(array('password' => $newpassword));			
+		$this->save();
+		return $newpassword;
+	}
+	
+	/**
+	 * Send Password by email. 
+	 * 
+	 * @param varchar $email
+	 */
+	public function sendPasswordEmail($toEmail,$toName,$fromEmail,$fromName,$sitename,$password) 
+	{
+		$Email = new CakeEmail('default');
+		$Email->emailFormat('html')
+			->to(array($toEmail => $toName))
+			->subject($sitename . ': Your New Password')
+			->send('<html><body><p>Dear '.$toName.'</p><p>You recently requested that we send you a password because you had forgotten it.<p>Your new password is: <strong>'.$password.'</strong></p><p>If you didn\'t request this password, please respond to this email as soon as possible.</p><p>Sincerely,</p><p>The '.$sitename.' Team</p></body>');
+		
+		return "true";
 	}
 }
 ?>

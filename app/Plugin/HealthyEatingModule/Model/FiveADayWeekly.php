@@ -105,7 +105,7 @@ class FiveADayWeekly extends AppModel {
 			,'total' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 71),
-							'message' => 'Something has gone wrong. The total is not a valid figure',
+							'message' => 'Something has gone wrong. The total should be between 0 and 70.',
 					)
 			)
 		);

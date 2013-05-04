@@ -9,7 +9,7 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('register'); // Let new users register themselves
+		$this->Auth->allow('register','password_reminder'); // Let new users register themselves
 	}
 	
 	public function admin_login() {
@@ -30,6 +30,37 @@ class UsersController extends AppController {
 			}
 		}
 		$this->set('title_for_layout', 'Log In'); 
+	}
+	
+	public function password_reminder() {
+		if ($this->request->is('post')) 
+		{
+			// TO DO: VALIDATE EMAIL, SEND NEW PASSWORD
+			if ($this->request->data['UserPass']['email'] != null) { // if email has been entered
+				
+				$email = $this->request->data['UserPass']['email'];
+				$user = $this->User->find('first',array('conditions'=>array('email' => $email)));
+				
+				if (count($user) == 0) {
+        			$this->Session->setFlash(__('The email address entered was not recognised.'));
+    			}
+				else 
+				{
+					$userID = $user['User']['id'];
+					$userName = $user['Profile']['name'];
+					$this->User->id=$userID;
+					$newpassword = $this->User->setRandomPassword();
+					$this->User->sendPasswordEmail($email,$userName,'info@doivedesigns.co.uk','Experimental Platform for Health Promotion','Experimental Platform for Health Promotion',$newpassword);
+					$this->Session->setFlash(__('Your Password has been reset. You have been sent a new password by email'));
+					$this->redirect($this->Auth->redirect('admin/users/login'));
+				} 
+			}
+			else 
+			{
+				$this->Session->setFlash(__('Please enter an email address'));
+			}
+		}
+		$this->set('title_for_layout', 'Forgot My Password'); 
 	}
 	
 	public function logout() {

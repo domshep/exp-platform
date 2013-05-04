@@ -56,49 +56,49 @@ class ExerciseWeekly extends AppModel {
 			'monday' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 301),
-							'message' => 'Please enter a number between 0 and 300 for the minutes you spent exercising on Monday',
+							'message' => 'Please enter a number between 0 and 300 minutes',
 							'allowEmpty' => true,
 					)
 			),
 			'tuesday' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 301),
-							'message' => 'Please enter a number between 0 and 300 for the minutes you spent exercising on Tuesday',
+							'message' => 'Please enter a number between 0 and 300 minutes',
 							'allowEmpty' => true,
 					)
 			),
 			'wednesday' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 301),
-							'message' => 'Please enter a number between 0 and 300 for the minutes you spent exercising on Wednesday',
+							'message' => 'Please enter a number between 0 and 300 minutes',
 							'allowEmpty' => true,
 					)
 			),
 			'thursday' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 301),
-							'message' => 'Please enter a number between 0 and 300 for the minutes you spent exercising on Thursday',
+							'message' => 'Please enter a number between 0 and 300 minutes',
 							'allowEmpty' => true,
 					)
 			),
 			'friday' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 301),
-							'message' => 'Please enter a number between 0 and 300 for the minutes spent exercising on Friday',
+							'message' => 'Please enter a number between 0 and 300 minutes',
 							'allowEmpty' => true,
 					)
 			)
 			,'saturday' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 301),
-							'message' => 'Please enter a number between 0 and 300 for the minutes spent exercising on Saturday',
+							'message' => 'Please enter a number between 0 and 300 minutes',
 							'allowEmpty' => true,
 					)
 			)
 			,'sunday' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 301),
-							'message' => 'Please enter a number between 0 and 300 for the minutes spent exercising on Sunday',
+							'message' => 'Please enter a number between 0 and 300 minutes',
 							'allowEmpty' => true,
 					)
 			)

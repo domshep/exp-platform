@@ -32,6 +32,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('1053');
+		echo $this->Html->css('menu');
 		echo $this->Html->script('http://code.jquery.com/jquery-latest.min.js');
 		echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js');
 		echo $this->Html->script('/js/colorbox-master/jquery.colorbox.js'); // JQuery for Lightboxes

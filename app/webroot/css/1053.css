@@ -309,7 +309,6 @@ div#breadcrumb a {
 	background-color: #325A8A; 
 	width: 960px;
 	min-height:28px; 
-	height:auto!important; 
 	height:28px; 
 	margin-left: 0; 
 	clear: left; 
@@ -347,10 +346,10 @@ div#breadcrumb a {
 	border: none;
 }
 #main-menu li ul {
-	position: absolute; 
+	/*position: absolute; 
 	width: 10em; 
 	left: -999em;
-	z-index: 9999;
+	z-index: 9999;*/
 }
 #main-menu a:hover, #main-menu li.sfhover ul { 
 	left: auto; 

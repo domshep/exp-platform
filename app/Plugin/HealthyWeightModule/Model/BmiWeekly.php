@@ -55,15 +55,15 @@ class BmiWeekly extends AppModel {
 			),
 			'weight_kg' => array(
 					'valid' => array(
-							'rule' => array('range', 10, 200),
-							'message' => 'Please enter a number between 10kg and 200kg for your current weight.',
+							'rule' => array('range', 29, 131),
+							'message' => 'Please enter a number between 30kg (70lbs) and 130kg (290lbs) for your current weight.',
 							'allowEmpty' => true,
 					)
 			),
 			'height_cms' => array(
 					'valid' => array(
-							'rule' => array('range', 10, 200),
-							'message' => 'Please enter a number between 10cm and 200cm for your current height',
+							'rule' => array('range', 99, 201),
+							'message' => 'Please enter a number between 100cm (39 inches) and 200cm (79 inches) for your current height',
 							'allowEmpty' => true,
 					)
 			)

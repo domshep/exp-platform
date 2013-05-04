@@ -5,6 +5,7 @@
 # Prevent sensitive data from ending up in your repo
 /app/config/database.php
 /app/config/core.php
+/app/config/email.php
  
 # prevent temporary files from ending up in our repo
 */tmp/cache/*

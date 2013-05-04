@@ -42,8 +42,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'monday' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 11),
+				'message' => 'Please enter a number between 0 and 10',
 				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -52,8 +52,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'tuesday' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 11),
+				'message' => 'Please enter a number between 0 and 10',
 				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -62,8 +62,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'wednesday' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 11),
+				'message' => 'Please enter a number between 0 and 10',
 				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -72,8 +72,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'thursday' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 11),
+				'message' => 'Please enter a number between 0 and 10',
 				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -82,8 +82,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'friday' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 11),
+				'message' => 'Please enter a number between 0 and 10',
 				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -92,8 +92,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'saturday' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 11),
+				'message' => 'Please enter a number between 0 and 10',
 				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -102,8 +102,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'sunday' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 11),
+				'message' => 'Please enter a number between 0 and 10',
 				'allowEmpty' => true,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -112,8 +112,8 @@ class SimpleHealthTestWeekly extends ExampleModuleAppModel {
 		),
 		'total' => array(
 			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
+				'rule' => array('range', -1, 71),
+				'message' => 'The total should be a number between 0 and 70',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule

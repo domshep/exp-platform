@@ -36,43 +36,43 @@ class ExerciseScreener extends AppModel {
 			'vigorous_days' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 8),
-							'message' => 'Please enter how many days you have done vigorous physical exercise during the past 7 days. Or click the "No exercise activity" box',
+							'message' => 'Please select a number between 0 and 7 days',
 					)
 			),
 			'vigorous_mins' => array(
 					'valid' => array(
-						'rule'    => array('range', -1, 300),
-						'message' => 'Please enter how many minutes of exercise of vigorous physical exercise you have done each day this week on average.',
+						'rule'    => array('range', -1, 301),
+						'message' => 'Please enter a number between 0 and 300 minutes',
 					)
 			)
 			,'moderate_days' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 8),
-							'message' => 'Please enter how many days you have done moderate physical exercise during the past 7 days. Or click the "No exercise activity" box',
+							'message' => 'Please select a number between 0 and 7 days',
 					)
 			),
 			'moderate_mins' => array(
 					'valid' => array(
-						'rule'    => array('range', -1, 300),
-						'message' => 'Please enter how many minutes of moderate physical exercise you have done each day this week on average.',
+						'rule'    => array('range', -1, 301),
+						'message' => 'Please enter a number between 0 and 300 minutes',
 					)
 			)
 			,'walking_days' => array(
 					'valid' => array(
 							'rule' => array('range', -1, 8),
-							'message' => 'Please enter how many days you have done walking activities during the past 7 days. Or click the "No exercise activity" box',
+							'message' => 'Please select a number between 0 and 7 days',
 					)
 			),
 			'walking_mins' => array(
 					'valid' => array(
-						'rule'    => array('range', -1, 300),
-						'message' => 'Please enter how many minutes of walking activities you have done each day this week on average.',
+						'rule'    => array('range', -1, 301),
+						'message' => 'Please enter a number between 0 and 300 minutes',
 					)
 			),
 			'sedentary_mins' => array(
 					'valid' => array(
-						'rule'    => array('range', -1, 300),
-						'message' => 'Please enter how many minutes of sedentary exercise have done each day this week on average.',
+						'rule'    => array('range', -1, 301),
+						'message' => 'Please enter a number between 0 and 300 minutes',
 					)
 			)
 	);
