@@ -1,25 +1,28 @@
+<div class="module-title">
+	<h1><?php echo $this->Html->image('/img/Apps-system-users-icon.png', array('alt' => "Admin Panel icon", 'escape' => false, 'class'=> 'icon'));?>
+Admin Panel - Users</h1>
+	</div>
 <div class="users index">
-	<h2><?php echo __('Users'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table>
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('role'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
+			<th>No. of modules</th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
-	<?php foreach ($users as $user): ?>
+	<?php foreach ($users as $viewuser): ?>
 	<tr>
-		<td><?php echo h($user['User']['id']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['role']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['created']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['modified']); ?>&nbsp;</td>
+		<td><?php echo h($viewuser['User']['id']); ?>&nbsp;</td>
+		<td><?php echo h($viewuser['User']['email']); ?>&nbsp;</td>
+		<td><?php echo h($viewuser['User']['role']); ?>&nbsp;</td>
+		<td><?php echo h($viewuser['User']['created']); ?>&nbsp;</td>
+		<td><?php echo h(count($viewuser['ModuleUser'])); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), null, __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $viewuser['User']['id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $viewuser['User']['id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $viewuser['User']['id']), null, __('Are you sure you want to delete user #%s?', $viewuser['User']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -41,10 +44,7 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('Register'), '/users/register'); ?></li>
-		<li><?php echo $this->Html->link(__('User Profiles'), '/admin/profiles/index'); ?></li>
-		<li><?php echo $this->Html->link(__('List Modules'), '/admin/modules/index'); ?></li>
-		<li><?php echo $this->Html->link(__('News Admin'), '/admin/news/'); ?></li>
+		<li><?php echo $this->Html->link(__('New user'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>

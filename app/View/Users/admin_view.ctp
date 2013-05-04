@@ -1,34 +1,54 @@
+<h1>View user</h1>
 <div class="users view">
-<h2><?php  echo __('User'); ?></h2>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
-			<?php echo h($user['User']['id']); ?>
+			<?php echo h($viewuser['User']['id']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Name'); ?></dt>
+		<dd>
+			<?php echo h($viewuser['Profile']['name']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Email'); ?></dt>
 		<dd>
-			<?php echo h($user['User']['email']); ?>
+			<?php echo h($viewuser['User']['email']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Password'); ?></dt>
+		<dt><?php echo __('Gender'); ?></dt>
 		<dd>
-			<?php echo h($user['User']['password']); ?>
+			<?php echo h($viewuser['Profile']['gender']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Role'); ?></dt>
+		<dt><?php echo __('Date of Birth'); ?></dt>
 		<dd>
-			<?php echo h($user['User']['role']); ?>
+			<?php echo h($viewuser['Profile']['date_of_birth']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Created'); ?></dt>
+		<dt><?php echo __('Height (cm)'); ?></dt>
 		<dd>
-			<?php echo h($user['User']['created']); ?>
+			<?php echo h($viewuser['Profile']['height_cm']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Modified'); ?></dt>
+		<dt><?php echo __('Post Code'); ?></dt>
 		<dd>
-			<?php echo h($user['User']['modified']); ?>
+			<?php echo h($viewuser['Profile']['post_code']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Mobile No'); ?></dt>
+		<dd>
+			<?php echo h($viewuser['Profile']['mobile_no']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Registered'); ?></dt>
+		<dd>
+			<?php echo h($viewuser['User']['created']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('No. of Modules'); ?></dt>
+		<dd>
+			<?php echo h(count($viewuser['ModuleUser'])); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -36,9 +56,9 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit User'), array('action' => 'edit', $user['User']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete User'), array('action' => 'delete', $user['User']['id']), null, __('Are you sure you want to delete # %s?', $user['User']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('Edit user'), array('action' => 'edit', $viewuser['User']['id'])); ?> </li>
+		<li><?php echo $this->Form->postLink(__('Delete user'), array('action' => 'delete', $viewuser['User']['id']), null, __('Are you sure you want to delete user #%s?', $viewuser['User']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('List users'), array('action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>

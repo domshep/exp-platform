@@ -85,8 +85,6 @@ class UsersController extends AppController {
  * @return void
  */
 	public function index() {
-		//$this->User->recursive = 0;
-		//$this->set('users', $this->paginate());
 		$this->redirect($this->Auth->redirect('users/dashboard'));
 	}
 
@@ -99,41 +97,33 @@ class UsersController extends AppController {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 			$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-			$this->User->recursive = 0;
+			$this->User->recursive = 1;
 			$this->set('users', $this->paginate());
 			$this->set('title_for_layout', 'Admin'); 
 		}
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->User->exists($id)) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('user', $this->User->find('first', $options));
-		$this->set('title_for_layout', 'View My Details'); 
-	}
-
-	
+	/**
+	 * Allows an administrator to view the user profile for the given user.
+	 * 
+	 * @param string $id the user id to view
+	 * @throws NotFoundException If no matching user is found
+	 */
 	public function admin_view($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-			if (!$this->User->exists($id)) {
+			$viewuser = $this->User->findById($id);
+				
+			if (empty($viewuser)) {
 				throw new NotFoundException(__('Invalid user'));
 			}
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->set('user', $this->User->find('first', $options));
+			
+			$this->set('viewuser', $this->User->findById($id));
 			$this->set('title_for_layout', 'Admin: View User Details'); 
 		}
 	}
+	
 /**
  * add method
  *
@@ -144,17 +134,18 @@ class UsersController extends AppController {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+			if ($this->request->is('post')) {
+				$this->User->create();
+				if ($this->User->saveAssociated($this->request->data)) {
+					$this->Session->setFlash(__('The user has been saved'));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				} 
 			}
-			$this->set('title_for_layout', 'Admin: Add New User'); 
+
+			$this->set('title_for_layout', 'Admin: Add New User');
 		}
-	}
 	}
 	
 	/**
@@ -181,19 +172,35 @@ class UsersController extends AppController {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-			if (!$this->User->exists($id)) {
-				throw new NotFoundException(__('Invalid user'));
-			}
 			if ($this->request->is('post') || $this->request->is('put')) {
-				if ($this->User->save($this->request->data)) {
-					$this->Session->setFlash(__('The user has been saved'));
-					$this->redirect(array('action' => 'index'));
+				// Was cancel clicked?
+				if (isset($this->request->data['cancel'])) {
+					$this->redirect(array('action' => 'view',$id));
+				}
+				
+				// Get user id from the URL, rather than from form
+				$this->request->data['User']['id'] = $id;
+				$this->request->data['Profile']['user_id'] = $id;
+				$this->request->data['Profile']['id'] = $id;
+				
+				// Has password changed?
+				if (!empty($this->request->data['User']['new_password'])) {
+					if($this->request->data['User']['new_password'] != $this->request->data['User']['repeat_password']) {
+						$this->Session->setFlash(__('Your passwords did not match. Please, try again.'));
+						return;
+					} else {
+						$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+					}
+				}
+					
+				if ($this->User->saveAssociated($this->request->data)) {
+					$this->Session->setFlash(__('The user&rsquo;s profile has been updated.'));
+					$this->redirect(array('action' => 'view',$id));
 				} else {
-					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+					$this->Session->setFlash(__('The user&rsquo;s profile could not be saved. Please, try again.'));
 				}
 			} else {
-				$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-				$this->request->data = $this->User->find('first', $options);
+				$this->request->data = $this->User->findById($id);
 			}
 			$this->set('title_for_layout', 'Admin: Edit User Profile'); 
 		}

@@ -18,17 +18,22 @@
  */
 ?>
 <div class="modulesgrid">
-	<h1>Admin Panel</h1>
+	<div class="module-title">
+	<h1><?php echo $this->Html->image('/img/Categories-applications-system-icon.png', array('alt' => "Admin Panel icon", 'escape' => false, 'class'=> 'icon'));?>
+Admin Panel</h1>
+	</div>
+	<div class="module-content">
+	<div class="modulesgrid">
 	<div class="modules">
 		<div class='module' id="users">
 			<h3><?php 
 				echo $this->Html->image('/img/Apps-system-users-icon.png', array('alt' => "Users icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/users'));
 				?> <strong><?php echo $this->Html->link("Users", '/admin/users',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
-				<p>Number of Users: <?php echo $totalUsers; ?></p>
-				<p>Number of Admin Users: <?php echo $totalAdminUsers; ?></p>
+				<p><strong>Number of registered users:</strong> <?php echo $totalUsers; ?></p>
+				<p><strong>Number of admin users:</strong> <?php echo $totalAdminUsers; ?></p>
 				<?php 
-					echo $this->Html->link(__('Add New User'), '/admin/users/add',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
-					echo $this->Html->link(__('View and Export User List'), '/admin/users/index',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+					echo $this->Html->link(__('Add new user'), '/admin/users/add',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+					echo $this->Html->link(__('View and export user list'), '/admin/users',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 				?>
 		</div>
 		
@@ -71,6 +76,8 @@
 				echo $this->Html->link(__('News Admin'), '/admin/news/index',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 				?>
 		</div>
+	</div>
+	</div>
 	</div>
 </div>
 <p style="clear:both;">&nbsp;</p>
