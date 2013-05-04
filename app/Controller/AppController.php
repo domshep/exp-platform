@@ -80,7 +80,7 @@ class AppController extends Controller {
 						),
 						array(
 								'title' => 'Admin Panel',
-								'url' => '/admin/users/dashboard',
+								'url' => '/admin_panel',
                     			'permissions' => array('admin','super-admin'),
 						),
 						array(
