@@ -8,5 +8,5 @@
     ?>
     </fieldset>
 <?php echo $this->Form->end(__('Login')); ?>
-<p><?php echo $this->Html->link('Register a new account', '/users/register'); ?> | <?php echo $this->Html->link('Forgot Your Password?', '/users/password_reminder'); ?></p>
+<p><?php echo $this->Html->link('Register a new account', '/users/register'); ?> | <?php echo $this->Html->link('Forgot your password?', '/users/password_reminder'); ?></p>
 </div>

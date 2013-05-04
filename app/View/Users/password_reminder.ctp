@@ -6,6 +6,6 @@
         <legend><?php echo __('Please enter your email address'); ?></legend>
         <?php echo $this->Form->input('email'); ?>
     </fieldset>
-<?php echo $this->Form->end(__('PasswordReminder')); ?>
+<?php echo $this->Form->end(__('Send me a new password')); ?>
 <p><?php echo $this->Html->link('Register a new account', '/users/register'); ?> | <?php echo $this->Html->link('Log In', '/users/login'); ?></p>
 </div>

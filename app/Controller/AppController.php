@@ -34,6 +34,8 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
 	var $helpers = array('MenuBuilder.MenuBuilder' => array('authField' => 'role'));
 	
+	var $siteName = "Experimental Platform for Health Promotion";
+	
 	public $components = array(
 			'Session',
 			'Auth' => array(

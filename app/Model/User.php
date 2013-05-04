@@ -107,21 +107,5 @@ class User extends AppModel {
 		$this->save();
 		return $newpassword;
 	}
-	
-	/**
-	 * Send Password by email. 
-	 * 
-	 * @param varchar $email
-	 */
-	public function sendPasswordEmail($toEmail,$toName,$fromEmail,$fromName,$sitename,$password) 
-	{
-		$Email = new CakeEmail('default');
-		$Email->emailFormat('html')
-			->to(array($toEmail => $toName))
-			->subject($sitename . ': Your New Password')
-			->send('<html><body><p>Dear '.$toName.'</p><p>You recently requested that we send you a password because you had forgotten it.<p>Your new password is: <strong>'.$password.'</strong></p><p>If you didn\'t request this password, please respond to this email as soon as possible.</p><p>Sincerely,</p><p>The '.$sitename.' Team</p></body>');
-		
-		return "true";
-	}
 }
 ?>

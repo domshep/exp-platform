@@ -32,10 +32,12 @@ class UsersController extends AppController {
 		$this->set('title_for_layout', 'Log In'); 
 	}
 	
+	/**
+	 * Allows the visitor to request a new password, by entering their email address.
+	 */
 	public function password_reminder() {
 		if ($this->request->is('post')) 
 		{
-			// TO DO: VALIDATE EMAIL, SEND NEW PASSWORD
 			if ($this->request->data['UserPass']['email'] != null) { // if email has been entered
 				
 				$email = $this->request->data['UserPass']['email'];
@@ -48,10 +50,20 @@ class UsersController extends AppController {
 				{
 					$userID = $user['User']['id'];
 					$userName = $user['Profile']['name'];
-					$this->User->id=$userID;
+					
 					$newpassword = $this->User->setRandomPassword();
-					$this->User->sendPasswordEmail($email,$userName,'info@doivedesigns.co.uk','Experimental Platform for Health Promotion','Experimental Platform for Health Promotion',$newpassword);
-					$this->Session->setFlash(__('Your Password has been reset. You have been sent a new password by email'));
+					
+					$Email = new CakeEmail('default');
+					$Email->template('forgotPassword', 'default')
+					->emailFormat('both')
+					->to($email)
+					->subject($this->siteName.' : Your New Password');
+					
+					$Email->viewVars(array('userName' => $userName, 'password' => $newpassword, 'siteName' => $this->siteName));
+					
+					$Email->send();
+					
+					$this->Session->setFlash(__('Your password has been reset. You have been sent the new password by email.'));
 					$this->redirect($this->Auth->redirect('admin/users/login'));
 				} 
 			}
