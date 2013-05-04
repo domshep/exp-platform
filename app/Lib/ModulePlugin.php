@@ -12,6 +12,16 @@ interface ModulePlugin {
 	 */
 	public function _module_icon_url();
 	
+	
+	/**
+	 * Default index function for the module.
+	 * 
+	 * If the module is on the user's dashboard, then they should be automatically redirected to the module dashboard.
+	 * Otherwise, they should be redirected to the 'explore_module' view.
+	 */
+	public function index();
+	
+	
 	/**
 	 * Initial landing screen for finding out what the module is about. This is the first
 	 * page that a non-logged in user will see when they arrive in the module.

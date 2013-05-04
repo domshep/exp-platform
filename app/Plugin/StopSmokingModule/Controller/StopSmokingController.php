@@ -15,6 +15,25 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 		$this->set('module_name', $this->_module_name());
 		$this->set('module_icon_url', $this->_module_icon_url());
 	}
+
+	/**
+	 * Default index function for the module. If the module is on the user's dashboard, then they are
+	 * automatically redirected to the module dashboard. Otherwise, they're redirected to the 'explore_module' view.
+	 */
+	public function index() {
+		$this->loadModel('ModuleUser');
+		$this->loadModel('Module');
+			
+		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
+				$this->Auth->user('id'),
+				$this->Module->getModuleID($this->_module_name()));
+	
+		if($addedToDashboard) {
+			return $this->redirect('module_dashboard');
+		} else {
+			return $this->redirect('explore_module');
+		}
+	}
 	
 	public function dashboard_widget() {
 		// Don't allow this method to be called directly from a URL
