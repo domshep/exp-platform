@@ -97,8 +97,11 @@ class ProfilesController extends AppController {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 			$this->redirect($this->Auth->redirect('users/dashboard'));
 			} else {
-			if ($id == null) $this->redirect($this->Auth->redirect('admin/profiles/index')
-			else $this->redirect($this->Auth->redirect('admin/profiles/edit/'.$id));
+				if ($id == null) {
+					$this->redirect($this->Auth->redirect('admin/profiles/index'));
+				} else {
+					$this->redirect($this->Auth->redirect('admin/profiles/edit/'.$id));
+				}
 			}
 		}
 
@@ -140,10 +143,13 @@ class ProfilesController extends AppController {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 			$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-			if ($id == null) $this->redirect($this->Auth->redirect('admin/profiles/index')
-			else $this->redirect($this->Auth->redirect('admin/profiles/delete/'.$id));
+			if ($id == null) {
+				$this->redirect($this->Auth->redirect('admin/profiles/index'));
+			} else {
+				$this->redirect($this->Auth->redirect('admin/profiles/delete/'.$id));
+			}
 		}
-		}
+	}
 	
 	public function admin_delete($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin

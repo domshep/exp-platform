@@ -11,6 +11,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	}
 	
 	public function beforeRender() {
+		parent::beforeRender();
 		$this->set('module_name', $this->_module_name());
 		$this->set('module_icon_url', $this->_module_icon_url());
 	}
