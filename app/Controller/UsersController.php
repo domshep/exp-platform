@@ -304,7 +304,13 @@ class UsersController extends AppController {
 		$this->set('title_for_layout', 'Edit My Profile'); 
 	}
 	
+	/**
+	 * Exports a full set of user data, including profile information and modules that have been added to the
+	 * user's dashboard.
+	 */
 	public function admin_full_export() {
+		$this->loadModel('Module');
+		
 		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large
 		$this->layout = 'ajax';
 		
@@ -320,10 +326,11 @@ class UsersController extends AppController {
 		// The column headings of your .csv file
 		$header_row = array("User ID", "Email", "Role", "Name", "Gender", "Date of birth", "Height (CM)", "Post code", "Mobile no", "Registered");
 		
-		//TODO: need to get list of modules and ids from module table
+		$moduleList = $this->Module->findAllByType('dashboard');
+		
 		// Add module list to header
-		for ($i = 1; $i <= 7; $i++) {
-    		$header_row[] = "Module ". $i;
+		foreach($moduleList as $module) {
+			$header_row[] = $module['Module']['name'];
 		}
 		
 		fputcsv($csv_file,$header_row,',','"');
@@ -345,9 +352,11 @@ class UsersController extends AppController {
 					$result['User']['created']
 			);
 			
+			$helper = new ModuleHelperFunctions();
+			
 			// Add module list to data
-			for ($i = 1; $i <= 7; $i++) {
-				if($this->search($result['ModuleUser'], 'module_id', $i)) {
+			foreach($moduleList as $module) {
+				if($helper->search($result['ModuleUser'], 'module_id', $module['Module']['id'])) {
 					$row[] = 'Y';
 				} else {
 					$row[] = 'N';
@@ -358,23 +367,66 @@ class UsersController extends AppController {
 		}
 		
 		fclose($csv_file);
+		$this->render('export');
 	}
 	
-	function search($array, $key, $value)
-	{
-		$results = array();
+	/**
+	 * Exports a set of user data, containing just the essentials for sending an email or SMS message.
+	 */
+	public function admin_comms_export() {
+		$this->loadModel('Module');
 	
-		if (is_array($array))
-		{
-			if (isset($array[$key]) && $array[$key] == $value)
-				$results[] = $array;
+		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large
+		$this->layout = 'ajax';
 	
-			foreach ($array as $subarray)
-				$results = array_merge($results, $this->search($subarray, $key, $value));
+		//create a file
+		$filename = "comms_export_".date("Y.m.d").".csv";
+		$csv_file = fopen('php://output', 'w');
+	
+		header('Content-type: application/csv');
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
+	
+		$results = $this->User->find('all', array());
+	
+		// The column headings of your .csv file
+		$header_row = array("User ID", "Name", "Email", "Mobile no");
+	
+		$moduleList = $this->Module->findAllByType('dashboard');
+	
+		// Add module list to header
+		foreach($moduleList as $module) {
+			$header_row[] = $module['Module']['name'];
 		}
 	
-		return $results;
-	}
+		fputcsv($csv_file,$header_row,',','"');
 	
+		// Each iteration of this while loop will be a row in your .csv file where each field corresponds to the heading of the column
+		foreach($results as $result)
+		{
+			// Array indexes correspond to the field names in your db table(s)
+			$row = array(
+					$result['User']['id'],
+					$result['Profile']['name'],
+					$result['User']['email'],
+					$result['Profile']['mobile_no'],
+			);
+				
+			$helper = new ModuleHelperFunctions();
+				
+			// Add module list to data
+			foreach($moduleList as $module) {
+				if($helper->search($result['ModuleUser'], 'module_id', $module['Module']['id'])) {
+					$row[] = 'Y';
+				} else {
+					$row[] = 'N';
+				}
+			}
+	
+			fputcsv($csv_file,$row,',','"');
+		}
+	
+		fclose($csv_file);
+		$this->render('export');
+	}
 }
 ?>
