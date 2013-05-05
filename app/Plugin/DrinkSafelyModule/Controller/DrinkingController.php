@@ -439,5 +439,22 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 			
   		$this->set('gender', $gender);
   	}
+  	
+  	/**
+  	 * Returns the total number of weekly data records that have been recorded by this module.
+  	 * 
+  	 * @throws ForbiddenException
+  	 * @return number
+  	 */
+  	public function total_data_records() {
+  		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		
+  		return $this->DrinkingWeekly->find('count');
+  	}
 }
 ?>

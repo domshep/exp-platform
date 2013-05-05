@@ -18,6 +18,16 @@ Admin Panel</h1>
 				?>
 		</div>
 		
+		<div class='module' id="health">
+			<h3><?php 
+				echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Health data icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/modules/health_data'));
+				?> <strong><?php echo $this->Html->link("Health data", '/admin/modules/health_data',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
+				<p><strong>Number of data records submitted:</strong> <?php echo $totalDataRecords; ?></p>
+				<?php 
+					echo $this->Html->link(__('View and export health data'), '/admin/modules/health_data',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+				?>
+		</div>
+		
 		<div class='module' id="mods">
 			<h3><?php 
 				echo $this->Html->image('/img/test-tube.png', array('alt' => "Users icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/modules'));
@@ -26,17 +36,7 @@ Admin Panel</h1>
 				<p><strong>Number of modules added to user dashboards:</strong> <?php echo $totalModuleInstances; ?></p>
 				<?php 
 					echo $this->Html->link(__('Activate Module'), '/admin/modules/add',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
-					echo $this->Html->link(__('View Module List'), '/admin/modules/index',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
-				?>
-		</div>
-		
-		<div class='module' id="progress">
-			<h3><?php 
-				echo $this->Html->image('/img/test-tube.png', array('alt' => "Progress icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/modules/progress'));
-				?> <strong><?php echo $this->Html->link("Progress", '/admin/modules/progress',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
-				<p>Number of Weekly Records Created: <?php echo $totalWeeklyEntries; ?></p>
-				<?php 
-					// echo $this->Html->link(__('View and Access Progress Data'), '/admin/modules/progress_list',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+					echo $this->Html->link(__('View Module List'), '/admin/modules',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 				?>
 		</div>
 		

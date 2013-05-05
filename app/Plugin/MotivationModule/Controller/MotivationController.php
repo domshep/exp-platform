@@ -163,5 +163,22 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	public function data_entry($date = null) {
   		$this->redirect('screener');
   	}
+  	
+  	/**
+  	 * Returns the total number of screener data records that have been recorded by this module.
+  	 * 
+  	 * @throws ForbiddenException
+  	 * @return number
+  	 */
+  	public function total_data_records() {
+  		$this->loadModel('MotivationModule.MotivationScreener');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		
+  		return $this->MotivationScreener->find('count');
+  	}
 }
 ?>

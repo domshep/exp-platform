@@ -526,5 +526,22 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	
   		return $bmi;
   	}
+  	
+  	/**
+  	 * Returns the total number of weekly data records that have been recorded by this module.
+  	 * 
+  	 * @throws ForbiddenException
+  	 * @return number
+  	 */
+  	public function total_data_records() {
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		
+  		return $this->BmiWeekly->find('count');
+  	}
 }
 ?>

@@ -382,5 +382,22 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   		$this->set("graphData", $ydata);
   		$this->set("dates",$dates);
   	}
+  	
+  	/**
+  	 * Returns the total number of weekly data records that have been recorded by this module.
+  	 * 
+  	 * @throws ForbiddenException
+  	 * @return number
+  	 */
+  	public function total_data_records() {
+  		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		
+  		return $this->StopSmokingWeekly->find('count');
+  	}
 }
 ?>

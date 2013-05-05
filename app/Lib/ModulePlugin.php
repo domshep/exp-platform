@@ -68,5 +68,13 @@ interface ModulePlugin {
 	 * Displays any news / updates / information from this module in the user's news feed.
 	 */
 	public function dashboard_news();
+	
+	/**
+	 * Returns the total number of data records that have been recorded by this module.
+	 *
+	 * @throws ForbiddenException
+	 * @return number
+	 */
+	public function total_data_records();
 }
 ?>

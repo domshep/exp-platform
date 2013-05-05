@@ -32,9 +32,13 @@ class AdminPanelController extends AppController {
 		$this->set('activeModules', $activeModules);
 		$this->set('totalModuleInstances', $totalModuleInstances);
 		
-		// Load the total number of active Modules
-		$totalWeeklyEntries = $this->Module->totalWeeklyEntries();
-		$this->set('totalWeeklyEntries', $totalWeeklyEntries);
+		// Retrieve the total number of data records
+		$totalDataRecords = 0;
+		foreach ($activeModules as $module) {
+			$totalDataRecords = $totalDataRecords + $this->requestAction($module['Module']['base_url'].'/total_data_records');
+		}
+		
+		$this->set('totalDataRecords', $totalDataRecords);
 		
 		// Load News Information
 		$totalNews = $this->News->totalNewsArticles();
@@ -43,6 +47,6 @@ class AdminPanelController extends AppController {
 		$this->set('latestNews', $latestNews);
 		
 		$this->set('title_for_layout', 'Admin Panel'); 
-	}	
+	}
 }
 ?>
