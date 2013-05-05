@@ -119,7 +119,22 @@ class UsersController extends AppController {
 				throw new NotFoundException(__('Invalid user'));
 			}
 			
+			$helper = new ModuleHelperFunctions();
+			$this->loadModel('Module');
+			
+			$moduleList = $this->Module->findAllByType('dashboard');
+			$userModules = array();
+				
+			// Add module list to data
+			foreach($moduleList as $module) {
+				if($helper->search($viewuser['ModuleUser'], 'module_id', $module['Module']['id'])) {
+					$userModules[] = $module['Module']['name'];
+				}
+			}
+			
 			$this->set('viewuser', $this->User->findById($id));
+			$this->set('userModules', $userModules);
+			
 			$this->set('title_for_layout', 'Admin: View User Details'); 
 		}
 	}

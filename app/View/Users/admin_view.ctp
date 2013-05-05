@@ -46,9 +46,11 @@
 			<?php echo h($viewuser['User']['created']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('No. of Modules'); ?></dt>
+		<dt><?php echo __('Modules'); ?></dt>
 		<dd>
-			<?php echo h(count($viewuser['ModuleUser'])); ?>
+			<?php foreach($userModules as $module) {
+				echo h($module)."<br />";
+			}?>
 			&nbsp;
 		</dd>
 	</dl>
