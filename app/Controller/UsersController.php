@@ -304,6 +304,77 @@ class UsersController extends AppController {
 		$this->set('title_for_layout', 'Edit My Profile'); 
 	}
 	
+	public function admin_full_export() {
+		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large
+		$this->layout = 'ajax';
+		
+		//create a file
+		$filename = "user_export_".date("Y.m.d").".csv";
+		$csv_file = fopen('php://output', 'w');
+		
+		header('Content-type: application/csv');
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
+		
+		$results = $this->User->find('all', array());
+		
+		// The column headings of your .csv file
+		$header_row = array("User ID", "Email", "Role", "Name", "Gender", "Date of birth", "Height (CM)", "Post code", "Mobile no", "Registered");
+		
+		//TODO: need to get list of modules and ids from module table
+		// Add module list to header
+		for ($i = 1; $i <= 7; $i++) {
+    		$header_row[] = "Module ". $i;
+		}
+		
+		fputcsv($csv_file,$header_row,',','"');
+		
+		// Each iteration of this while loop will be a row in your .csv file where each field corresponds to the heading of the column
+		foreach($results as $result)
+		{
+			// Array indexes correspond to the field names in your db table(s)
+			$row = array(
+					$result['User']['id'],
+					$result['User']['email'],
+					$result['User']['role'],
+					$result['Profile']['name'],
+					$result['Profile']['gender'],
+					$result['Profile']['date_of_birth'],
+					$result['Profile']['height_cm'],
+					$result['Profile']['post_code'],
+					$result['Profile']['mobile_no'],
+					$result['User']['created']
+			);
+			
+			// Add module list to data
+			for ($i = 1; $i <= 7; $i++) {
+				if($this->search($result['ModuleUser'], 'module_id', $i)) {
+					$row[] = 'Y';
+				} else {
+					$row[] = 'N';
+				}
+			}
+		
+			fputcsv($csv_file,$row,',','"');
+		}
+		
+		fclose($csv_file);
+	}
+	
+	function search($array, $key, $value)
+	{
+		$results = array();
+	
+		if (is_array($array))
+		{
+			if (isset($array[$key]) && $array[$key] == $value)
+				$results[] = $array;
+	
+			foreach ($array as $subarray)
+				$results = array_merge($results, $this->search($subarray, $key, $value));
+		}
+	
+		return $results;
+	}
 	
 }
 ?>
