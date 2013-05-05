@@ -1,22 +1,3 @@
-<?php
-/**
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Pages
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-?>
 <div class="modulesgrid">
 	<div class="module-title">
 	<h1><?php echo $this->Html->image('/img/Categories-applications-system-icon.png', array('alt' => "Admin Panel icon", 'escape' => false, 'class'=> 'icon'));?>
@@ -41,8 +22,8 @@ Admin Panel</h1>
 			<h3><?php 
 				echo $this->Html->image('/img/test-tube.png', array('alt' => "Users icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/modules'));
 				?> <strong><?php echo $this->Html->link("Modules", '/admin/modules',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
-				<p>Number of Active Modules: <?php echo $totalModules; ?></p>
-				<p>Number of Module Sign Ups: <?php echo $totalModuleInstances; ?></p>
+				<p><strong>Number of active dashboard modules:</strong> <?php echo count($activeModules); ?></p>
+				<p><strong>Number of modules added to user dashboards:</strong> <?php echo $totalModuleInstances; ?></p>
 				<?php 
 					echo $this->Html->link(__('Activate Module'), '/admin/modules/add',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 					echo $this->Html->link(__('View Module List'), '/admin/modules/index',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 

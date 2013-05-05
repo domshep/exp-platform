@@ -27,18 +27,6 @@ class Module extends AppModel {
 		return $module['Module']['id'];
 	}
 	
-	
-	/**
-	 * Returns the total number of active modules
-	 * 
-	 * @param int $user_id
-	 */
-	public function totalActiveModules() {
-		$conditions = array('conditions'=>array('active'=>'1','type'=>'dashboard'));
-		$total = $this->find('all',$conditions);
-		return sizeof($total);
-	}
-	
 	/**
 	 * Returns the total number of weekly entries for all active modules
 	 * 
