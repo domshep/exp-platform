@@ -1,4 +1,7 @@
-<h1>View user</h1>
+<div class="module-title">
+	<h1><?php echo $this->Html->image('/img/Apps-system-users-icon.png', array('alt' => "Admin Panel icon", 'escape' => false, 'class'=> 'icon'));?>
+Admin Panel - View User</h1>
+</div>
 <div class="users view">
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>

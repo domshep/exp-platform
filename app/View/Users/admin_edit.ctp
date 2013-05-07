@@ -1,4 +1,7 @@
-<h1>Edit user</h1>
+<div class="module-title">
+	<h1><?php echo $this->Html->image('/img/Apps-system-users-icon.png', array('alt' => "Admin Panel User icon", 'escape' => false, 'class'=> 'icon'));?>
+Admin Panel - Edit User</h1>
+</div>
 <div class="users form">
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>

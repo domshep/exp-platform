@@ -1,7 +1,10 @@
+<div class="module-title">
+	<h1><?php echo $this->Html->image('/img/Apps-system-users-icon.png', array('alt' => "Admin Panel User icon", 'escape' => false, 'class'=> 'icon'));?>
+Admin Panel - New User</h1>
+</div>
 <div class="users form">
 <?php echo $this->Form->create('User'); ?>
 	<fieldset>
-		<legend><?php echo __('Add User'); ?></legend>
 	<?php
 		echo $this->Form->input('email');
 		echo $this->Form->input('password');

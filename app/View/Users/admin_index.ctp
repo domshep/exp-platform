@@ -1,7 +1,7 @@
 <div class="module-title">
 	<h1><?php echo $this->Html->image('/img/Apps-system-users-icon.png', array('alt' => "Admin Panel icon", 'escape' => false, 'class'=> 'icon'));?>
 Admin Panel - Users</h1>
-	</div>
+</div>
 <div class="users index">
 	<table>
 	<tr>
