@@ -1,4 +1,3 @@
-<?php $this->extend('/Modules/module_template'); ?>
 <h2>Module data view / export</h2>
 <div class="modules view">
 	<dl>
@@ -27,42 +26,13 @@
 			<?php echo $weeklyRecords; ?>
 			&nbsp;
 		</dd>
-		<hr />
-		<dt><?php echo __('Height (cm)'); ?></dt>
-		<dd>
-			<?php echo h($viewuser['Profile']['height_cm']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Post Code'); ?></dt>
-		<dd>
-			<?php echo h($viewuser['Profile']['post_code']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Mobile No'); ?></dt>
-		<dd>
-			<?php echo h($viewuser['Profile']['mobile_no']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Registered'); ?></dt>
-		<dd>
-			<?php echo h($viewuser['User']['created']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Modules'); ?></dt>
-		<dd>
-			<?php foreach($userModules as $module) {
-				echo h($module)."<br />";
-			}?>
-			&nbsp;
-		</dd>
 	</dl>
 </div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit user'), array('action' => 'edit', $viewuser['User']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete user'), array('action' => 'delete', $viewuser['User']['id']), null, __('Are you sure you want to delete user #%s?', $viewuser['User']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List users'), array('action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('Export screeners'), array('action' => 'export_screeners')); ?> </li>
+		<li><?php echo $this->Html->link(__('Export weekly'), array('action' => 'export_weekly')); ?> </li>
 		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>

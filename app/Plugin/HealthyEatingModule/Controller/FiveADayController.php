@@ -409,17 +409,28 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 */
   	public function admin_module_data() {
   		$this->loadModel('Module');
+  		$this->loadModel('HealthyEatingModule.FiveADayScreener');
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
   		
-  		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-  			$this->redirect($this->Auth->redirect('users/dashboard'));
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
   		}
-  		
   		$module = $this->Module->findByName($this->module_name);
+
   		if(empty($module)) {
   			throw new NotFoundException("The health module could not be found in the database");
   		}
   		
   		$this->set('module',$module);
+  		
+  		$screeners = $this->FiveADayScreener->find('count');
+  		$this->set('screeners',$screeners);
+  		
+  		$weeklyRecords = $this->FiveADayWeekly->find('count');
+  		$this->set('weeklyRecords',$weeklyRecords);
+  		
+  		$this->render();
   	}
 }
 ?>

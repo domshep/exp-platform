@@ -48,5 +48,20 @@ class AdminPanelController extends AppController {
 		
 		$this->set('title_for_layout', 'Admin Panel'); 
 	}
+	
+	public function module_data($moduleId = null) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		}
+		
+		$this->loadModel('Module');
+		
+		$module = $this->Module->findById($moduleId);
+		
+		if(empty($module)) {
+			throw new NotFoundException("The module with id ".$moduleId." was not found");
+		}
+		$this->set('module', $module);
+	}
 }
 ?>

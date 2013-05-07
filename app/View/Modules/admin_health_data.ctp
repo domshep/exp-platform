@@ -1,5 +1,5 @@
 <div class="module-title">
-	<h1><?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Admin Panel - Health Data icon", 'escape' => false, 'class'=> 'icon'));?>
+	<h1><?php echo $this->Html->image('/img/Categories-applications-system-icon.png', array('alt' => "Admin Panel - Health Data icon", 'escape' => false, 'class'=> 'icon'));?>
 Admin Panel - Health Data</h1>
 	</div>
 <div class="modules index">
@@ -24,7 +24,7 @@ Admin Panel - Health Data</h1>
 				echo count($module['ModuleUser']); 
 			}?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View data'), '/admin/' . $module['Module']['base_url'] . '/module_data'); ?>
+			<?php echo $this->Html->link(__('View module data'), '/admin_panel/module_data/'. $module['Module']['id']); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -46,7 +46,6 @@ Admin Panel - Health Data</h1>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Export data'), array('action' => 'export_data')); ?></li>
 		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>
