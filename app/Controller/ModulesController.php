@@ -24,8 +24,6 @@ class ModulesController extends AppController {
 		} else {
 			$this->redirect($this->Auth->redirect('admin/modules/index'));
 		}
-		/*$this->Module->recursive = 0;
-		$this->set('modules', $this->paginate()); */
 	}
 
 	public function admin_index() {
@@ -35,6 +33,17 @@ class ModulesController extends AppController {
 			$this->Module->recursive = 0;
 			$this->set('modules', $this->paginate());
 			$this->set('title_for_layout', 'Module Admin'); 
+		}
+	}
+	
+
+	public function admin_health_data() {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			$this->Module->recursive = 1;
+			$this->set('modules', $this->paginate());
+			$this->set('title_for_layout', 'Admin Panel - Health Data');
 		}
 	}
 /**
