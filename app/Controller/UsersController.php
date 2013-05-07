@@ -382,7 +382,7 @@ class UsersController extends AppController {
 		}
 		
 		fclose($csv_file);
-		$this->render('export');
+		$this->render('/AdminPanel/export');
 	}
 	
 	/**
@@ -441,7 +441,7 @@ class UsersController extends AppController {
 		}
 	
 		fclose($csv_file);
-		$this->render('export');
+		$this->render('/AdminPanel/export');
 	}
 }
 ?>

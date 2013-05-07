@@ -1,4 +1,3 @@
-<h2>Module data view / export</h2>
 <div class="modules view">
 	<dl>
 		<dt><?php echo __('Module name'); ?></dt>
