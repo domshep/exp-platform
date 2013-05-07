@@ -145,5 +145,44 @@ class AppController extends Controller {
 		// Default deny
 		return false;
 	}
+	
+
+	/**
+	 * Helper function for exporting data from the database as a CSV file.
+	 * @param unknown $model
+	 * @param unknown $userId
+	 * @param unknown $year
+	 * @param unknown $month
+	 */
+	protected function exportCSVFile($model = null, $filename = null, $headerRow = null, $dataFields = null) {
+		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large
+		$this->layout = 'ajax';
+	
+		//create a file
+		$csv_file = fopen('php://output', 'w');
+	
+		header('Content-type: application/csv');
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
+	
+		$results = $model->find('all', array());
+
+		fputcsv($csv_file,$headerRow,',','"');
+	
+		// Each iteration of this while loop will be a row in your .csv file where each field corresponds to the heading of the column
+		foreach($results as $result)
+		{
+			// Array indexes correspond to the field names in your db table(s)
+			$row = array();
+			
+			foreach($dataFields as $dataField) {
+				$row[] = $result[get_class($model)][$dataField];
+			}
+
+			fputcsv($csv_file,$row,',','"');
+		}
+	
+		fclose($csv_file);
+		$this->render('/AdminPanel/export');
+	}
 }
 ?>
