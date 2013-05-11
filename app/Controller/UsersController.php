@@ -40,8 +40,8 @@ class UsersController extends AppController {
 		{
 			if ($this->request->data['UserPass']['email'] != null) { // if email has been entered
 				
-				$email = $this->request->data['UserPass']['email'];
-				$user = $this->User->find('first',array('conditions'=>array('email' => $email)));
+				$emailAddress = $this->request->data['UserPass']['email'];
+				$user = $this->User->find('first',array('conditions'=>array('email' => $emailAddress)));
 				
 				if (count($user) == 0) {
         			$this->Session->setFlash(__('The email address entered was not recognised.'));
@@ -51,12 +51,13 @@ class UsersController extends AppController {
 					$userID = $user['User']['id'];
 					$userName = $user['Profile']['name'];
 					
+					$this->User->set('id', $userID);
 					$newpassword = $this->User->setRandomPassword();
 					
 					$Email = new CakeEmail('default');
 					$Email->template('forgotPassword', 'default')
 					->emailFormat('both')
-					->to($email)
+					->to($emailAddress)
 					->subject($this->siteName.' : Your New Password');
 					
 					$Email->viewVars(array('userName' => $userName, 'password' => $newpassword, 'siteName' => $this->siteName));
@@ -278,22 +279,21 @@ class UsersController extends AppController {
 			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
 			
 			if ($this->User->saveAssociated($this->request->data)) {
-				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
-				
 				$userName = $this->request->data['Profile']['name'];
-				$email = $currentUser['User']['email'];
+				$emailAddress = $currentUser['User']['email'];
 				
 				// Send the registration email.
 				$Email = new CakeEmail('default');
 				$Email->template('registration', 'default')
 				->emailFormat('both')
-				->to($email)
+				->to($emailAddress)
 				->subject($this->siteName.' : Welcome');
 					
 				$Email->viewVars(array('userName' => $userName, 'siteName' => $this->siteName));
 					
 				$Email->send();
 				
+				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
 				$this->redirect(array('action' => 'dashboard'));
 			} else {
 				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
