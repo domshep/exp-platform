@@ -403,5 +403,101 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   		
   		return $this->ExerciseWeekly->find('count');
   	}
+	
+	
+  	/**
+  	 * Admin panel view.
+  	 */
+  	public function admin_module_data() {
+  		$this->loadModel('Module');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseScreener');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		$module = $this->Module->findByName($this->module_name);
+
+  		if(empty($module)) {
+  			throw new NotFoundException("The " . $this->module_name . " could not be found in the database");
+  		}
+  		
+  		$this->set('module',$module);
+  		
+  		$screeners = $this->ExerciseScreener->find('count');
+  		$this->set('screeners',$screeners);
+  		
+  		$weeklyRecords = $this->ExerciseWeekly->find('count');
+  		$this->set('weeklyRecords',$weeklyRecords);
+  		
+  		$this->render();
+  	}
+  	
+  	/**
+  	 * Exports a full set of screener data.
+  	 */
+  	public function admin_export_screeners() {
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseScreener');
+  		
+  		$filename = "exercise_screener_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("User ID",
+  				"Vigorous Days", "Vigourous Minutes",
+  				"Moderate Days", "Moderate Minutes",
+  				"Walking Days", "Walking Minutes",
+  				"Sedentary Minutes",
+				"Score",
+  				"Feedback",
+  				"Created",
+  				"Modified");
+  		
+  		$dataFields = array("user_id",
+  				"vigorous_days", "vigorous_mins",
+  				"moderate_days", "moderate_mins",
+  				"walking_days", "walking_mins",
+  				"sedentary_mins",
+				"score",
+				"feedback",
+  				"created",
+  				"modified");
+  		
+  		$this->exportCSVFile($this->ExerciseScreener, $filename, $headerRow, $dataFields);
+  	}
+  	
+  	/**
+  	 * Exports a full set of weekly data.
+  	 */
+  	public function admin_export_weekly() {
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
+  		
+  		$filename = "exercise_weekly_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("Week beginning",
+  				"User ID",
+  				"Monday",
+  				"Tuesday",
+  				"Wednesday",
+  				"Thursday",
+  				"Friday",
+  				"Saturday",
+  				"Sunday",
+  				"Total",
+  				"What worked");
+  		
+  		$dataFields = array("week_beginning",
+  				"user_id",
+  				"monday",
+  				"tuesday",
+  				"wednesday",
+  				"thursday",
+  				"friday",
+  				"saturday",
+  				"sunday",
+  				"total",
+  				"what_worked");
+
+  		$this->exportCSVFile($this->ExerciseWeekly, $filename, $headerRow, $dataFields);
+  	}
 }
 ?>

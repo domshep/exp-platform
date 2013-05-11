@@ -543,5 +543,83 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		
   		return $this->BmiWeekly->find('count');
   	}
+	
+	
+  	/**
+  	 * Admin panel view.
+  	 */
+  	public function admin_module_data() {
+  		$this->loadModel('Module');
+  		$this->loadModel('HealthyWeightModule.BmiScreener');
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		$module = $this->Module->findByName($this->module_name);
+
+  		if(empty($module)) {
+  			throw new NotFoundException("The " . $this->module_name . " module could not be found in the database");
+  		}
+  		
+  		$this->set('module',$module);
+  		
+  		$screeners = $this->BmiScreener->find('count');
+  		$this->set('screeners',$screeners);
+  		
+  		$weeklyRecords = $this->BmiWeekly->find('count');
+  		$this->set('weeklyRecords',$weeklyRecords);
+  		
+  		$this->render();
+  	}
+  	
+  	/**
+  	 * Exports a full set of screener data.
+  	 */
+  	public function admin_export_screeners() {
+  		$this->loadModel('HealthyWeightModule.BmiScreener');
+  		
+  		$filename = "body_mass_index_screener_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("User ID",
+  				"Height (cm)", "Start Weight (kg)",
+  				"Start BMI",
+  				"Created",
+  				"Modified");
+  		
+  		$dataFields = array("user_id",
+  				"height_cm", "start_weight_kg",
+  				"start_bmi",
+  				"created",
+  				"modified");
+  		
+  		$this->exportCSVFile($this->BmiScreener, $filename, $headerRow, $dataFields);
+  	}
+  	
+  	/**
+  	 * Exports a full set of weekly data.
+  	 */
+  	public function admin_export_weekly() {
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+  		
+  		$filename = "body_mass_index_weekly_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("Week beginning",
+  				"User ID",
+  				"Height (cm)",
+  				"Weight (kg)",
+  				"BMI",
+  				"What worked");
+  		
+  		$dataFields = array("week_beginning",
+  				"user_id",
+  				"height_cm",
+  				"weight_kg",
+  				"bmi",
+  				"what_worked");
+
+  		$this->exportCSVFile($this->BmiWeekly, $filename, $headerRow, $dataFields);
+  	}
 }
 ?>

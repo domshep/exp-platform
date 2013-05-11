@@ -5,16 +5,17 @@ App::uses('AppController', 'Controller');
  */
 class AdminPanelController extends AppController {
 	
-/**
- * index method
- *
- * @return void
- */
+	/**
+ 	* index method. Load information required for the admin panel.
+ 	*
+ 	* @return void
+ 	*/
 	public function index() {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 			$this->redirect($this->Auth->redirect('users/dashboard'));
 		}
 		
+		// Load the required Models
 		$this->loadModel('User');
 		$this->loadModel('News');
 		$this->loadModel('Module');
@@ -37,7 +38,6 @@ class AdminPanelController extends AppController {
 		foreach ($activeModules as $module) {
 			$totalDataRecords = $totalDataRecords + $this->requestAction($module['Module']['base_url'].'/total_data_records');
 		}
-		
 		$this->set('totalDataRecords', $totalDataRecords);
 		
 		// Load News Information
@@ -49,13 +49,20 @@ class AdminPanelController extends AppController {
 		$this->set('title_for_layout', 'Admin Panel'); 
 	}
 	
+	/**
+ 	* module data. Finds the "admin_module_data" function from the module and displays it
+ 	* @param unknown $moduleId
+ 	* @return void
+	* If module not found throws not found exception.
+ 	*/
 	public function module_data($moduleId = null) {
+		// redirect to module dashboard if not admin.
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 			$this->redirect($this->Auth->redirect('users/dashboard'));
 		}
 		
+		// Load the Module
 		$this->loadModel('Module');
-		
 		$module = $this->Module->findById($moduleId);
 		
 		if(empty($module)) {

@@ -399,5 +399,99 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   		
   		return $this->StopSmokingWeekly->find('count');
   	}
+	
+	
+  	/**
+  	 * Admin panel view.
+  	 */
+  	public function admin_module_data() {
+  		$this->loadModel('Module');
+  		$this->loadModel('StopSmokingModule.StopSmokingScreener');
+  		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		$module = $this->Module->findByName($this->module_name);
+
+  		if(empty($module)) {
+  			throw new NotFoundException("The " . $this->module_name . " module could not be found in the database");
+  		}
+  		
+  		$this->set('module',$module);
+  		
+  		$screeners = $this->StopSmokingScreener->find('count');
+  		$this->set('screeners',$screeners);
+  		
+  		$weeklyRecords = $this->StopSmokingWeekly->find('count');
+  		$this->set('weeklyRecords',$weeklyRecords);
+  		
+  		$this->render();
+  	}
+  	
+  	/**
+  	 * Exports a full set of screener data.
+  	 */
+  	public function admin_export_screeners() {
+  		$this->loadModel('StopSmokingModule.StopSmokingScreener');
+  		
+  		$filename = "stop_smoking_screener_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("User ID",
+  				"Smoker", "How Many",
+  				"First Cigarette", "Difficulty Non Smoking",
+  				"Most Hate to Give Up","Smokes More in Morning",
+				"Smoke in bed when ill",
+				"Score",
+  				"Created",
+  				"Modified");
+  		
+  		$dataFields = array("user_id",
+  				"smoker", "how_many",
+  				"first_cig", "diff_non_smoking",
+  				"most_hate", "more_morning",
+				"smoke_in_bed",
+  				"score",
+  				"created",
+  				"modified");
+  		
+  		$this->exportCSVFile($this->StopSmokingScreener, $filename, $headerRow, $dataFields);
+  	}
+  	
+  	/**
+  	 * Exports a full set of weekly data.
+  	 */
+  	public function admin_export_weekly() {
+  		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
+  		
+  		$filename = "stop_smoking_weekly_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("Week beginning",
+  				"User ID",
+  				"Monday",
+  				"Tuesday",
+  				"Wednesday",
+  				"Thursday",
+  				"Friday",
+  				"Saturday",
+  				"Sunday",
+  				"Total",
+  				"What worked");
+  		
+  		$dataFields = array("week_beginning",
+  				"user_id",
+  				"monday",
+  				"tuesday",
+  				"wednesday",
+  				"thursday",
+  				"friday",
+  				"saturday",
+  				"sunday",
+  				"total",
+  				"what_worked");
+
+  		$this->exportCSVFile($this->StopSmokingWeekly, $filename, $headerRow, $dataFields);
+  	}
 }
 ?>

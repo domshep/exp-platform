@@ -456,5 +456,95 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		
   		return $this->DrinkingWeekly->find('count');
   	}
+	
+	
+  	/**
+  	 * Admin panel view.
+  	 */
+  	public function admin_module_data() {
+  		$this->loadModel('Module');
+  		$this->loadModel('DrinkSafelyModule.DrinkingScreener');
+  		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		$module = $this->Module->findByName($this->module_name);
+
+  		if(empty($module)) {
+  			throw new NotFoundException("The drinking module could not be found in the database");
+  		}
+  		
+  		$this->set('module',$module);
+  		
+  		$screeners = $this->DrinkingScreener->find('count');
+  		$this->set('screeners',$screeners);
+  		
+  		$weeklyRecords = $this->DrinkingWeekly->find('count');
+  		$this->set('weeklyRecords',$weeklyRecords);
+  		
+  		$this->render();
+  	}
+  	
+  	/**
+  	 * Exports a full set of screener data.
+  	 */
+  	public function admin_export_screeners() {
+  		$this->loadModel('DrinkSafelyModule.DrinkingScreener');
+  		
+  		$filename = "drink_safely_screener_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("User ID",
+  				"Gender", "How Often",
+  				"How Many", "Binge",
+  				"Score",
+  				"Created",
+  				"Modified");
+  		
+  		$dataFields = array("user_id",
+  				"gender", "how_often",
+  				"how_many", "binge",
+  				"score",
+  				"created",
+  				"modified");
+  		
+  		$this->exportCSVFile($this->DrinkingScreener, $filename, $headerRow, $dataFields);
+  	}
+  	
+  	/**
+  	 * Exports a full set of weekly data.
+  	 */
+  	public function admin_export_weekly() {
+  		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
+  		
+  		$filename = "drink_safely_weekly_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("Week beginning",
+  				"User ID",
+  				"Monday",
+  				"Tuesday",
+  				"Wednesday",
+  				"Thursday",
+  				"Friday",
+  				"Saturday",
+  				"Sunday",
+  				"Total",
+  				"What worked");
+  		
+  		$dataFields = array("week_beginning",
+  				"user_id",
+  				"monday",
+  				"tuesday",
+  				"wednesday",
+  				"thursday",
+  				"friday",
+  				"saturday",
+  				"sunday",
+  				"total",
+  				"what_worked");
+
+  		$this->exportCSVFile($this->DrinkingWeekly, $filename, $headerRow, $dataFields);
+  	}
 }
 ?>

@@ -32,10 +32,13 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	// Load the Menu Builder Plugin
 	var $helpers = array('MenuBuilder.MenuBuilder' => array('authField' => 'role'));
 	
+	// Set the Site Name
 	var $siteName = "Experimental Platform for Health Promotion";
 	
+	// Set commonly used components
 	public $components = array(
 			'Session',
 			'Auth' => array(
@@ -48,9 +51,15 @@ class AppController extends Controller {
 			)
 	);
 	
+	/**
+ 	* beforeFilter method
+ 	*
+ 	* @return void
+ 	*/
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
+		// Allow access to index, view, register and log out
 		$this->Auth->allow('index', 'view', 'register', 'logout');
 		
 		$user = $this->Auth->user();
@@ -62,7 +71,7 @@ class AppController extends Controller {
 		
 		$role = $this->Auth->user('role');
 		
-		// Define your menu
+		// Define the main and footer menus
 		$menu = array(
 				'main-menu' => array(
 						array(
@@ -103,11 +112,11 @@ class AppController extends Controller {
 				'footer-menu' => array(
 						array(
 								'title' => 'Accessibility',
-								'url' => '#',
+								'url' => '/pages/accessibility',
 						),
 						array(
 								'title' => 'Terms of Use',
-								'url' => '#',
+								'url' => '/pages/terms-of-use',
 						),
 						array(
 								'title' => 'Back to Top',
@@ -115,7 +124,7 @@ class AppController extends Controller {
 						),
 						array(
 								'title' => 'Privacy Statement',
-								'url' => '#',
+								'url' => '/pages/privacy-statement',
 						),
 				),
 		);
@@ -132,10 +141,31 @@ class AppController extends Controller {
 			$menu['main-menu']['explore-menu']['children'] = $children;
 		}
 		
+		// Populate the Dashboard menu
+		$this->loadModel('ModuleUsers');
+		$userModules = $this->ModuleUsers->findAllByUser_id($this->Auth->user('id'));
+		$userModuleChildren = array();
+		foreach ($userModules as $userModule):
+			$modules = $this->Modules->findAllById($userModule['ModuleUsers']['module_id']);
+			$userModuleChildren[] = array('title'=>$modules[0]['Modules']['name'],'url'=>'/' . $modules[0]['Modules']['base_url'] . '/module_dashboard');
+		endforeach;
+		
+		$userModuleChildren[] = array('title'=>"My Profile",'url'=>'/users/viewProfile');
+		
+		if (count($userModuleChildren) != 0){ 
+			$menu['main-menu']['dashboard-menu']['children'] = $userModuleChildren;
+		}
+		
 		// For default settings name must be menu
 		$this->set(compact('menu'));
 	}
 	
+	/**
+ 	* isAuthorised method
+ 	* Check whether the given used is authorised.
+ 	* @param unknown $user
+	* @return true or false.
+ 	*/
 	public function isAuthorized($user) {
 		// Admin can access every action
 		if (isset($user['role']) && $user['role'] === 'super-admin') {

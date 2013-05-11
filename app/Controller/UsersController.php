@@ -175,6 +175,7 @@ class UsersController extends AppController {
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('Welcome! Your login details have been recorded.'));
 				$this->Auth->login();
+				
 				$this->redirect(array('action'=>'addProfile'));
 			} else {
 				$this->Session->setFlash(__('There was a problem with your registration. Please, try again.'));
@@ -278,6 +279,21 @@ class UsersController extends AppController {
 			
 			if ($this->User->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
+				
+				$userName = $this->request->data['Profile']['name'];
+				$email = $currentUser['User']['email'];
+				
+				// Send the registration email.
+				$Email = new CakeEmail('default');
+				$Email->template('registration', 'default')
+				->emailFormat('both')
+				->to($email)
+				->subject($this->siteName.' : Welcome');
+					
+				$Email->viewVars(array('userName' => $userName, 'siteName' => $this->siteName));
+					
+				$Email->send();
+				
 				$this->redirect(array('action' => 'dashboard'));
 			} else {
 				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));

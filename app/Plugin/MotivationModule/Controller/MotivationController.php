@@ -180,5 +180,52 @@ class MotivationController extends MotivationModuleAppController implements Modu
   		
   		return $this->MotivationScreener->find('count');
   	}
+	
+	
+  	/**
+  	 * Admin panel view.
+  	 */
+  	public function admin_module_data() {
+  		$this->loadModel('Module');
+  		$this->loadModel('MotivationModule.MotivationScreener');
+  		
+  		// Don't allow this method to be called directly from a URL
+  		if (empty($this->request->params['requested'])) {
+  			throw new ForbiddenException();
+  		}
+  		$module = $this->Module->findByName($this->module_name);
+
+  		if(empty($module)) {
+  			throw new NotFoundException("The " . $this->module_name . " could not be found in the database");
+  		}
+  		
+  		$this->set('module',$module);
+  		
+  		$screeners = $this->MotivationScreener->find('count');
+  		$this->set('screeners',$screeners);
+  		
+  		$this->render();
+  	}
+  	
+  	/**
+  	 * Exports a full set of screener data.
+  	 */
+  	public function admin_export_screeners() {
+  		$this->loadModel('MotivationModule.MotivationScreener');
+  		
+  		$filename = "motivation_screener_export_".date("Y.m.d").".csv";
+  		
+  		$headerRow = array("User ID",
+				"Reason",
+  				"Created",
+  				"Modified");
+  		
+  		$dataFields = array("user_id",
+  				"reason",
+  				"created",
+  				"modified");
+  		
+  		$this->exportCSVFile($this->MotivationScreener, $filename, $headerRow, $dataFields);
+  	}
 }
 ?>
