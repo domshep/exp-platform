@@ -71,93 +71,106 @@ class AppController extends Controller {
 		
 		$role = $this->Auth->user('role');
 		
-		// Define the main and footer menus
-		$menu = array(
-				'main-menu' => array(
-						array(
-								'title' => 'Home',
-								'url' => '/',
-						),
-						'explore-menu' => array(
-								'title' => 'Explore Modules',
-								'url' => '#'
-						),
-						'dashboard-menu' => array(
-								'title' => 'My Dashboard',
-								'url' => '/users/dashboard',
-								'permissions' => array('user','admin','super-admin'),
-						),
-						array(
-								'title' => 'Admin Panel',
-								'url' => '/admin_panel',
-                    			'permissions' => array('admin','super-admin'),
-						),
-						array(
-								'title' => 'Log Out',
-								'url' => '/users/logout',
-                    			'permissions' => array('user','admin','super-admin'),
-						),
-						// Only non-logged in users can see this
-               		 	array(
-                    			'title' => 'Login',
-                    			'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'login'),
-                    			'permissions' => array(''),
-                		),
-						array(
-								'title' => 'Register',
-								'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'register'),
-								'permissions' => array(''),
-						),
-				),
-				'footer-menu' => array(
-						array(
-								'title' => 'Accessibility',
-								'url' => '/pages/accessibility',
-						),
-						array(
-								'title' => 'Terms of Use',
-								'url' => '/pages/terms_of_use',
-						),
-						array(
-								'title' => 'Privacy Statement',
-								'url' => '/pages/privacy_statement',
-						),
-						array(
-								'title' => 'Back to Top',
-								'url' => '#',
-						),
-				),
-		);
-		
-		// Populate the Explore Modules menu
-		$this->loadModel('Modules');
-		$modules = $this->Modules->findAllByTypeAndActive('dashboard','1');
-		$children = array();
-		foreach ($modules as $module):
-			$children[] = array('title'=>$module['Modules']['name'],'url'=>'/' . $module['Modules']['base_url'] . '/explore_module');
-		endforeach;
-		
-		if (count($children) != 0){ 
-			$menu['main-menu']['explore-menu']['children'] = $children;
+		// Define the main and footer menus - only needs to be done the once, not when requestAction calls are processed.		
+		if (empty($this->request->params['requested'])) {
+			$menu = array(
+					'main-menu' => array(
+							array(
+									'title' => 'Home',
+									'url' => '/',
+							),
+							'explore-menu' => array(
+									'title' => 'Explore Modules',
+									'url' => '#'
+							),
+							'dashboard-menu' => array(
+									'title' => 'My Dashboard',
+									'url' => '/users/dashboard',
+									'permissions' => array('user','admin','super-admin'),
+							),
+							array(
+									'title' => 'Admin Panel',
+									'url' => '/admin_panel',
+	                    			'permissions' => array('admin','super-admin'),
+							),
+							array(
+									'title' => 'Log Out',
+									'url' => '/users/logout',
+	                    			'permissions' => array('user','admin','super-admin'),
+							),
+							// Only non-logged in users can see this
+	               		 	array(
+	                    			'title' => 'Login',
+	                    			'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'login'),
+	                    			'permissions' => array(''),
+	                		),
+							array(
+									'title' => 'Register',
+									'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'register'),
+									'permissions' => array(''),
+							),
+					),
+					'footer-menu' => array(
+							array(
+									'title' => 'Accessibility',
+									'url' => '/pages/accessibility',
+							),
+							array(
+									'title' => 'Terms of Use',
+									'url' => '/pages/terms_of_use',
+							),
+							array(
+									'title' => 'Privacy Statement',
+									'url' => '/pages/privacy_statement',
+							),
+							array(
+									'title' => 'Back to Top',
+									'url' => '#',
+							),
+					),
+			);
+			
+			// Populate the Explore Modules menu
+			$this->loadModel('Modules');
+			$modules = $this->Modules->findAllByTypeAndActive('dashboard','1');
+			$children = array();
+			foreach ($modules as $module):
+				$children[] = array('title'=>$module['Modules']['name'],'url'=>'/' . $module['Modules']['base_url'] . '/explore_module');
+			endforeach;
+			
+			if (count($children) != 0){ 
+				$menu['main-menu']['explore-menu']['children'] = $children;
+			}
+			
+			// Populate the Dashboard menu if a user is logged in
+			if(!is_null($this->Auth->user())) {
+				$this->loadModel('ModuleUsers');
+				$options['joins'] = array(
+						array('table' => 'module_users',
+								'alias' => 'ModuleUsers',
+								'type' => 'INNER',
+								'conditions' => array(
+										'ModuleUsers.module_id = Modules.id'
+								)
+						)
+				);
+				$option['conditions'] = array('ModuleUsers.user_id'=>$this->Auth->user('id'));
+				$userModules = $this->Modules->find('all', $options);
+				$userModuleChildren = array();
+				foreach ($userModules as $userModule):
+					$userModuleChildren[] = array('title'=>$userModule['Modules']['name'],'url'=>'/' . $userModule['Modules']['base_url'] . '/module_dashboard');
+				endforeach;
+			
+				$userModuleChildren[] = array('title'=>"My Profile",'url'=>'/users/viewProfile');
+			
+				if (count($userModuleChildren) != 0){ 
+					$menu['main-menu']['dashboard-menu']['children'] = $userModuleChildren;
+				}
+			}
+			
+			// For default settings name must be menu
+			$this->set(compact('menu'));
 		}
-		
-		// Populate the Dashboard menu
-		$this->loadModel('ModuleUsers');
-		$userModules = $this->ModuleUsers->findAllByUser_id($this->Auth->user('id'));
-		$userModuleChildren = array();
-		foreach ($userModules as $userModule):
-			$modules = $this->Modules->findAllById($userModule['ModuleUsers']['module_id']);
-			$userModuleChildren[] = array('title'=>$modules[0]['Modules']['name'],'url'=>'/' . $modules[0]['Modules']['base_url'] . '/module_dashboard');
-		endforeach;
-		
-		$userModuleChildren[] = array('title'=>"My Profile",'url'=>'/users/viewProfile');
-		
-		if (count($userModuleChildren) != 0){ 
-			$menu['main-menu']['dashboard-menu']['children'] = $userModuleChildren;
-		}
-		
-		// For default settings name must be menu
-		$this->set(compact('menu'));
 	}
 	
 	/**

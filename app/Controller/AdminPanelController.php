@@ -22,7 +22,7 @@ class AdminPanelController extends AppController {
 		$this->loadModel('ModuleUser');
 		
 		// Load the numbers of users
-		$totalUsers = $this->User->totalUsers();
+		$totalUsers = $this->User->find('count');
 		$totalAdminUsers = $this->User->totalAdminUsers();
 		$this->set('totalUsers', $totalUsers);
 		$this->set('totalAdminUsers', $totalAdminUsers);
@@ -41,7 +41,7 @@ class AdminPanelController extends AppController {
 		$this->set('totalDataRecords', $totalDataRecords);
 		
 		// Load News Information
-		$totalNews = $this->News->totalNewsArticles();
+		$totalNews = $this->News->find('count');
 		$latestNews = $this->News->getLatestNews();
 		$this->set('totalNews', $totalNews);
 		$this->set('latestNews', $latestNews);

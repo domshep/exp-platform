@@ -66,25 +66,18 @@ class User extends AppModel {
 		return true;
 	}
 	
-	
-	/**
-	 * Returns the total number of users registered on the website (including admin)
-	 * 
-	 * @param int $user_id
-	 */
-	public function totalUsers() {
-		$total = $this->find('all');
-		return sizeof($total);
-	}
-	
 	/**
 	 * Returns the total number of admin users registered on the website (including super admin)
 	 * 
 	 * @param int $user_id
 	 */
 	public function totalAdminUsers() {
-		$total = $this->find('all', array('conditions'=>array('OR'=>array('role'=>array('super-admin','admin')))));
-		return sizeof($total);
+		//$total = $this->find('all', array('conditions'=>array('OR'=>array('role'=>array('super-admin','admin')))));
+
+		$total = $this->find('count', array(
+				'conditions'=>array('OR'=>array('role'=>array('super-admin','admin')))
+		));
+		return $total;
 	}
 	
 	/**
