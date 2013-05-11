@@ -116,15 +116,15 @@ class AppController extends Controller {
 						),
 						array(
 								'title' => 'Terms of Use',
-								'url' => '/pages/terms-of-use',
+								'url' => '/pages/terms_of_use',
+						),
+						array(
+								'title' => 'Privacy Statement',
+								'url' => '/pages/privacy_statement',
 						),
 						array(
 								'title' => 'Back to Top',
 								'url' => '#',
-						),
-						array(
-								'title' => 'Privacy Statement',
-								'url' => '/pages/privacy-statement',
 						),
 				),
 		);
