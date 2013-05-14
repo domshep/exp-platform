@@ -31,11 +31,11 @@
 			<th>Stone / Pounds</th>
 		</tr>
 		<tr>
-			<td><?php echo $this->Form->input('BmiWeekly.weight_kg', array('label'=>'Kgs', 'class'=>'kgs')); ?></td>
+			<td><?php echo $this->Form->input('BmiWeekly.weight_kg', array('label'=>'Kgs', 'class'=>'kgs', 'step' => 'any')); ?></td>
 			<td>&nbsp;</td>
 			<td><?php 
 				echo $this->Form->input('BmiWeekly.weight_stones', array('label'=>'Stone', 'class'=>'stones')); 
-				echo $this->Form->input('BmiWeekly.weight_lbs', array('label'=>'Pounds', 'class'=>'lbs')); 
+				echo $this->Form->input('BmiWeekly.weight_lbs', array('label'=>'Pounds', 'class'=>'lbs', 'step' => 'any')); 
 			?></td>
 		</tr>
 		<tr>
