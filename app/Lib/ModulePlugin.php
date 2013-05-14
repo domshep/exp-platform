@@ -76,5 +76,10 @@ interface ModulePlugin {
 	 * @return number
 	 */
 	public function total_data_records();
+	
+	/**
+	 * Displays the 'Health data' module view for the admin panel.
+	 */
+	public function admin_module_data();
 }
 ?>
