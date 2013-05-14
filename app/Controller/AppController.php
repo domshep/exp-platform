@@ -81,7 +81,7 @@ class AppController extends Controller {
 							),
 							'explore-menu' => array(
 									'title' => 'Explore Modules',
-									'url' => '#'
+									'url' => '/pages/explore_modules'
 							),
 							'dashboard-menu' => array(
 									'title' => 'My Dashboard',
@@ -92,6 +92,28 @@ class AppController extends Controller {
 									'title' => 'Admin Panel',
 									'url' => '/admin_panel',
 	                    			'permissions' => array('admin','super-admin'),
+									'children' => array(
+											array(
+												'title' => 'Users',
+												'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'index', 'admin' => 'true'),
+												'permissions' => array('admin','super-admin'),
+											),
+											array(
+												'title' => 'Health Data',
+												'url' => array('plugin' => false, 'controller' => 'modules', 'action' => 'health_data', 'admin' => 'true'),
+												'permissions' => array('admin','super-admin'),
+											),
+											array(
+												'title' => 'Modules',
+												'url' => array('plugin' => false, 'controller' => 'modules', 'action' => 'index', 'admin' => 'true'),
+												'permissions' => array('admin','super-admin'),
+											),
+											array(
+												'title' => 'News',
+												'url' => array('plugin' => false, 'controller' => 'news', 'action' => 'index', 'admin' => 'true'),
+												'permissions' => array('admin','super-admin'),
+											),
+									),
 							),
 							array(
 									'title' => 'Log Out',
