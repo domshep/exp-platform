@@ -50,7 +50,7 @@
 					6 => '6 days', 7 => '7 days'), 'empty' => '(choose one)'
 				));?>
 		</td>
-		<td class="colpeach col3"><?php echo $this->Form->input('vigorous_mins',array('label'=>false, 'style'=>'width:30px;')); ?>
+		<td class="colpeach col3"><?php echo $this->Form->input('vigorous_mins',array('label'=>false, 'style'=>'width:4em;')); ?>
 		</td>
 	</tr>
 	<tr>
@@ -74,7 +74,7 @@
 				));
 			?>
 		</td>
-		<td class="colpeach col3"><?php echo $this->Form->input('moderate_mins',array('label'=>false, 'style'=>'width:30px;')); ?>
+		<td class="colpeach col3"><?php echo $this->Form->input('moderate_mins',array('label'=>false, 'style'=>'width:4em;')); ?>
 		</td>
 	</tr>
 	<tr>
@@ -98,7 +98,7 @@
 				));
 			?>
 		</td>
-		<td class="colpeach col3"><?php echo $this->Form->input('walking_mins',array('label'=>false, 'style'=>'width:30px;')); ?>
+		<td class="colpeach col3"><?php echo $this->Form->input('walking_mins',array('label'=>false, 'style'=>'width:4em;')); ?>
 		</td>
 	</tr>
 	<tr>
@@ -115,7 +115,7 @@
 			</a>:
 		</strong> How much time did you spend sitting on a weekday?</td>
 		<td class="colgreen col2">&nbsp;</td>
-		<td class="colpeach col3"><?php echo $this->Form->input('sedentary_mins',array('label'=>false, 'style'=>'width:30px;')); ?>
+		<td class="colpeach col3"><?php echo $this->Form->input('sedentary_mins',array('label'=>false, 'style'=>'width:4em;')); ?>
 		</td>
 	</tr>
 </table>
