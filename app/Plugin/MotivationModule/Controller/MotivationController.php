@@ -215,10 +215,10 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	/**
   	 * Exports a full set of screener data.
   	 */
-  	public function admin_export_screeners() {
+  	public function admin_export_reasons() {
   		$this->loadModel('MotivationModule.MotivationScreener');
   		
-  		$filename = "motivation_screener_export_".date("Y.m.d").".csv";
+  		$filename = "motivation_reasons_export_".date("Y.m.d").".csv";
   		
   		$headerRow = array("User ID",
 				"Reason",

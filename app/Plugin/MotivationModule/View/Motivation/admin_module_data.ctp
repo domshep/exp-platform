@@ -25,7 +25,7 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Export screeners'), array('action' => 'export_screeners')); ?> </li>
+		<li><?php echo $this->Html->link(__('Export reasons'), array('action' => 'export_reasons')); ?> </li>
 		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>
