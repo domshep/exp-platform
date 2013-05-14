@@ -115,13 +115,14 @@ class MotivationController extends MotivationModuleAppController implements Modu
 		
 		$this->set('title_for_layout', $this->_module_name());
 		
+		// Get user id from current user session, rather than from form
+		$currentUser = $this->User->findById($this->Auth->user('id'));
+		
 	  	if ($this->request->is('post') || $this->request->is('put')) 
 		{
 	  		$this->MotivationScreener->create();
 	  		$this->MotivationScreener->set($this->request->data);
 	  		
-			// Get user id from current user session, rather than from form
-			$currentUser = $this->User->findById($this->Auth->user('id'));
 			$this->MotivationScreener->set('user_id', $currentUser['User']['id']);
 			
 			if ($this->MotivationScreener->save($this->request->data)) 
@@ -138,10 +139,14 @@ class MotivationController extends MotivationModuleAppController implements Modu
 		{
 			// It hasn't been posted so we are either adding a new entry or editing the form:
 			$this->MotivationScreener->create();
-			$previousEntry = $this->MotivationScreener->find('first',array('user_id'=>'$userId'));
-			
+			$previousEntry = $this->MotivationScreener->findByUserId($this->Auth->user('id'));
+
 			// If so, edit this entry instead of creating a new one...
-			if(!empty($previousEntry)) $this->request->data = $previousEntry;
+			if(!empty($previousEntry)){
+				$this->request->data = $previousEntry;
+			} else {
+				$this->request->data = $this->MotivationScreener->data;
+			}
 		}
   	}
   	
