@@ -171,7 +171,10 @@ class AppController extends Controller {
 								)
 						)
 				);
-				$options['conditions'] = array('ModuleUsers.user_id'=>$this->Auth->user('id'));
+				$options['conditions'] = array(
+						'ModuleUsers.user_id'=>$this->Auth->user('id'),
+						'Modules.active' => true
+				);
 				$userModules = $this->Modules->find('all', $options);
 				$userModuleChildren = array();
 				foreach ($userModules as $userModule):

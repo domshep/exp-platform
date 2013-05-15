@@ -36,6 +36,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	}
 	
 	public function dashboard_widget() {
+		$this->loadModel('Module');
 		$this->loadModel('MotivationModule.MotivationScreener');
 		 
 		// Don't allow this method to be called directly from a URL
@@ -43,8 +44,19 @@ class MotivationController extends MotivationModuleAppController implements Modu
 			throw new ForbiddenException();
 		}
 		
-		$motivation = $this->MotivationScreener->findByUserId($this->Auth->user('id'));
+		// Check this module is installed and activated - if not, just return a blank
+		$module = $this->Module->findByName($this->module_name);
+		$active = true;
+		if(empty($module)) {
+			$active = false;
+			$motivate = null;
+		} else {
+			$active = $module['Module']['active'];
+			$motivation = $this->MotivationScreener->findByUserId($this->Auth->user('id'));
+		}
+		
 		$this->set('motivation', $motivation);
+		$this->set('activated', $active);
 		$this->render();
 	}
 	

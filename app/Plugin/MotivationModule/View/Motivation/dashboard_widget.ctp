@@ -1,6 +1,6 @@
 <?php
-if(is_null($user['User']['role'])) {
-	// User not logged in, so currently display nothing
+if(is_null($user['User']['role']) || !$activated) {
+	// User not logged in or the module is not active, so display nothing
 } else {
 ?>
 <h2>Why am I doing this?</h2>

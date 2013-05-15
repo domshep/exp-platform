@@ -89,15 +89,15 @@
 			<?php
 			} else {
 				foreach ($userModules as $module):
-					$widget = $this->requestAction($module['Module']['base_url'].'/dashboard_widget'); 
+					$widget = $this->requestAction($module['Modules']['base_url'].'/dashboard_widget'); 
 					?>
-					<div class='module' id="<?php echo $module['Module']['name']; ?>">
-						<h3><?php echo $this->Html->image('/'.$module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/'.$module['Module']['base_url'].'/module_dashboard'));
+					<div class='module' id="<?php echo $module['Modules']['name']; ?>">
+						<h3><?php echo $this->Html->image('/'.$module['Modules']['icon_url'], array('alt' => "&lsquo;".$module['Modules']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/'.$module['Modules']['base_url'].'/module_dashboard'));
 						?> <strong><?php 
-							echo $this->Html->link($module['Module']['name'], '/'.$module['Module']['base_url'].'/module_dashboard',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
+							echo $this->Html->link($module['Modules']['name'], '/'.$module['Modules']['base_url'].'/module_dashboard',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
 						<?php 
 							echo $widget; 
-							echo $this->Html->link(__('My \'' . $module['Module']['name'] . '\' dashboard'), '/'.$module['Module']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+							echo $this->Html->link(__('My \'' . $module['Modules']['name'] . '\' dashboard'), '/'.$module['Modules']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 						?>
 					</div>
 				<?php endforeach;

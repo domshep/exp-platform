@@ -244,17 +244,24 @@ class UsersController extends AppController {
 	
 	public function dashboard() {
 		$this->loadModel('Module');
+		$this->loadModel('ModuleUsers');
 		
-		// Get list of modules selected by the user
-		$currentUser = $this->User->findById($this->Auth->user('id'));
+		// Get list of active modules selected by the user
+		$options['joins'] = array(
+				array('table' => 'module_users',
+						'alias' => 'ModuleUsers',
+						'type' => 'INNER',
+						'conditions' => array(
+								'ModuleUsers.module_id = Modules.id'
+						)
+				)
+		);
+		$options['conditions'] = array(
+				'ModuleUsers.user_id'=>$this->Auth->user('id'),
+				'Modules.active' => true
+				);
+		$userModules = $this->Modules->find('all', $options);
 		
-		$userModules = array();
-		
-		foreach($currentUser['ModuleUser'] as $module) {
-			$userModules[] = $this->Module->find('first', array(
-					'conditions' => array('Module.id' => $module['module_id'])
-			));
-		}
 		$this->set('userModules', $userModules);
 		$this->set('title_for_layout', 'My Challenge Dashboard'); 
 	}

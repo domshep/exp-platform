@@ -47,21 +47,6 @@ class ModulesController extends AppController {
 	}
 	
 	/**
-	* view module method
- 	* Redirects to admin view if admin, else redirects to user dashboard
- 	* @param string $id
- 	* @return void
-	*/
-	public function view($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
-			else $this->redirect($this->Auth->redirect('admin/modules/view/'.$id));
-		}
-	}
-	
-	/**
 	* admin view module method
  	* If admin, loads module information or module list, else redirects to user dashboard.
 	* @param string $id
@@ -103,7 +88,6 @@ class ModulesController extends AppController {
 			}
 		}
 	}
-	
 	
 	/**
 	* add module redirection script
@@ -186,6 +170,37 @@ class ModulesController extends AppController {
 			}
 			$this->Session->setFlash(__('Module was not deleted'));
 			$this->redirect(array('action' => 'index'));
+		}
+	}
+	
+	/**
+	 * admin activate method
+	 * Activate or deactivate a module, if admin.
+	 * @throws NotFoundException
+	 * @throws MethodNotAllowedException
+	 * @param string $id
+	 * @return void
+	 */
+	public function admin_activate($id = null, $active = true) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			$this->Module->id = $id;
+			if (!$this->Module->exists()) {
+				throw new NotFoundException(__('Invalid module'));
+				$this->set('title_for_layout', 'Module Not Found');
+			}
+			$this->Module->set('active', $active);
+			if ($this->Module->save()) {
+				if($active) {
+					$this->Session->setFlash(__('Module activated'));
+				} else {
+					$this->Session->setFlash(__('Module de-activated'));
+				}
+				$this->redirect(array('action' => 'index', 'admin' => 'true'));
+			}
+			$this->Session->setFlash(__('Module was not updated'));
+			$this->redirect(array('action' => 'index', 'admin' => 'true'));
 		}
 	}
 	

@@ -19,7 +19,7 @@ Admin Panel - Modules</h1>
 		<td><?php echo $module['Module']['name']; ?>&nbsp;</td>
 		<td><?php echo h($module['Module']['version']); ?>&nbsp;</td>
 		<td><?php echo h($module['Module']['type']); ?>&nbsp;</td>
-		<td><?php if($module['Module']['active']== 1) {
+		<td><?php if($module['Module']['active']) {
 				echo 'Y';
 		}else {
 				echo 'N';
@@ -32,7 +32,12 @@ Admin Panel - Modules</h1>
 			}?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('Health data'), '/admin_panel/health_data/'. $module['Module']['id']); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $module['Module']['id'])); ?>
+			<?php
+			if($module['Module']['active']) {
+				echo $this->Form->postLink(__('De-activate'), array('action' => 'activate', $module['Module']['id'], 0), null, __('Are you sure you want to de-activate module # %s?', $module['Module']['id']));
+			} else {
+				echo $this->Html->link(__('Activate'), array('action' => 'activate', $module['Module']['id'], 1));
+			}?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $module['Module']['id']), null, __('Are you sure you want to delete # %s?', $module['Module']['id'])); ?>
 		</td>
 	</tr>
