@@ -40,24 +40,9 @@ class ModulesController extends AppController {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 			$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-			$this->Module->recursive = 0;
-			$this->set('modules', $this->paginate());
-			$this->set('title_for_layout', 'Module Admin'); 
-		}
-	}
-	
-	/**
- 	* Admin Health Data method
- 	* If admin, load list of modules with health data links, else redirect to user dashboard.
-	* @return void.
- 	*/
-	public function admin_health_data() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
 			$this->Module->recursive = 1;
 			$this->set('modules', $this->paginate());
-			$this->set('title_for_layout', 'Admin Panel - Health Data');
+			$this->set('title_for_layout', 'Admin Panel - Modules'); 
 		}
 	}
 	
@@ -162,21 +147,6 @@ class ModulesController extends AppController {
 		}
 	}
 	
-	/**
-	 * edit module redirect method
-	 * Redirects to admin_edit or user dashboard.
-	 * @param string $id
-	 * @return void
-	 */
-	public function edit($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
-			else $this->redirect($this->Auth->redirect('admin/modules/edit/'.$id));
-		}
-	}
-
 	/**
 	 * delete redirect method
 	 * Redirects to admin_delete, or redirects to user dashboard

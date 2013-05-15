@@ -99,12 +99,7 @@ class AppController extends Controller {
 												'permissions' => array('admin','super-admin'),
 											),
 											array(
-												'title' => 'Health Data',
-												'url' => array('plugin' => false, 'controller' => 'modules', 'action' => 'health_data', 'admin' => 'true'),
-												'permissions' => array('admin','super-admin'),
-											),
-											array(
-												'title' => 'Modules',
+												'title' => 'Modules / Health Data',
 												'url' => array('plugin' => false, 'controller' => 'modules', 'action' => 'index', 'admin' => 'true'),
 												'permissions' => array('admin','super-admin'),
 											),

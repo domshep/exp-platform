@@ -1,26 +1,39 @@
+<div class="module-title">
+	<h1><?php echo $this->Html->image('/img/Actions-view-list-icons-icon.png', array('alt' => "Admin Panel - Modules icon", 'escape' => false, 'class'=> 'icon'));?>
+Admin Panel - Modules</h1>
+</div>
 <div class="modules index">
-	<h2><?php echo __('Modules'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table>
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('version'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
-			<th><?php echo $this->Paginator->sort('parent_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('active'); ?></th>
+			<th><?php echo __('No. of users'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($modules as $module): ?>
 	<tr>
 		<td><?php echo h($module['Module']['id']); ?>&nbsp;</td>
-		<td><?php echo h($module['Module']['name']); ?>&nbsp;</td>
+		<td><?php echo $module['Module']['name']; ?>&nbsp;</td>
 		<td><?php echo h($module['Module']['version']); ?>&nbsp;</td>
 		<td><?php echo h($module['Module']['type']); ?>&nbsp;</td>
-		<td><?php echo h($module['Module']['parent_id']); ?>&nbsp;</td>
+		<td><?php if($module['Module']['active']== 1) {
+				echo 'Y';
+		}else {
+				echo 'N';
+		}?>&nbsp;</td>
+		<td>
+			<?php if ($module['Module']['type']!="dashboard") {
+				echo "N/A";
+			} else {
+				echo count($module['ModuleUser']); 
+			}?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $module['Module']['id'])); ?>
+			<?php echo $this->Html->link(__('Health data'), '/admin_panel/health_data/'. $module['Module']['id']); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $module['Module']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $module['Module']['id']), null, __('Are you sure you want to delete # %s?', $module['Module']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Test module output'), '/' . $module['Module']['name'] . '_module/tests/test_view'); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

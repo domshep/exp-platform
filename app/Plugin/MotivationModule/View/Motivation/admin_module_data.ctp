@@ -10,11 +10,14 @@
 			<?php echo h($module['Module']['type']); ?>
 			&nbsp;
 		</dd>
-		<!--<dt><?php echo __('No. of users'); ?></dt>
+		<dt><?php echo __('Active'); ?></dt>
 		<dd>
-			<?php echo count($module['ModuleUser']); ?>
-			&nbsp;
-		</dd>-->
+			<?php if($module['Module']['active']== 1) {
+				echo 'Y';
+		}else {
+				echo 'N';
+		}?>&nbsp;
+		</dd>
 		<dt><?php echo __('No. of records'); ?></dt>
 		<dd>
 			<?php echo $screeners; ?>

@@ -18,22 +18,13 @@ Admin Panel</h1>
 				?>
 		</div>
 		
-		<div class='module' id="health">
-			<h3><?php 
-				echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Health data icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/modules/health_data'));
-				?> <strong><?php echo $this->Html->link("Health data", '/admin/modules/health_data',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
-				<p><strong>Number of data records submitted:</strong> <?php echo $totalDataRecords; ?></p>
-				<?php 
-					echo $this->Html->link(__('View and export health data'), '/admin/modules/health_data',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
-				?>
-		</div>
-		
 		<div class='module' id="mods">
 			<h3><?php 
-				echo $this->Html->image('/img/test-tube.png', array('alt' => "Users icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/modules'));
+				echo $this->Html->image('/img/Actions-view-list-icons-icon.png', array('alt' => "Modules icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/modules'));
 				?> <strong><?php echo $this->Html->link("Modules", '/admin/modules',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
 				<p><strong>Number of active dashboard modules:</strong> <?php echo count($activeModules); ?></p>
 				<p><strong>Number of modules added to user dashboards:</strong> <?php echo $totalModuleInstances; ?></p>
+				<p><strong>Number of health data records submitted:</strong> <?php echo $totalDataRecords; ?></p>
 				<?php 
 					echo $this->Html->link(__('Activate Module'), '/admin/modules/add',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 					echo $this->Html->link(__('View Module List'), '/admin/modules',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 

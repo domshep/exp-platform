@@ -50,12 +50,12 @@ class AdminPanelController extends AppController {
 	}
 	
 	/**
- 	* module data. Finds the "admin_module_data" function from the module and displays it
+ 	* Finds the "admin_module_data" function from the module and displays it
  	* @param unknown $moduleId
  	* @return void
 	* If module not found throws not found exception.
  	*/
-	public function module_data($moduleId = null) {
+	public function health_data($moduleId = null) {
 		// redirect to module dashboard if not admin.
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 			$this->redirect($this->Auth->redirect('users/dashboard'));
