@@ -504,5 +504,18 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 
   		$this->exportCSVFile($this->FiveADayWeekly, $filename, $headerRow, $dataFields);
   	}
+  	
+  	/**
+  	 * Tidies up database in preparation for the module to be deleted from the website.
+  	 */
+  	public function admin_delete_module() {
+  		$this->loadModel('HealthyEatingModule.FiveADayScreener');
+  		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
+  		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
+  		
+  		$this->FiveADayScreener->query("DROP TABLE `fiveaday_screeners`");
+  		$this->FiveADayWeekly->query("DROP TABLE `fiveaday_weekly`");
+  		$this->FiveADayAchievement->query("DROP TABLE `fiveaday_achievements`");
+  	}
 }
 ?>

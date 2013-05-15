@@ -34,11 +34,11 @@ Admin Panel - Modules</h1>
 			<?php echo $this->Html->link(__('Health data'), '/admin_panel/health_data/'. $module['Module']['id']); ?>
 			<?php
 			if($module['Module']['active']) {
-				echo $this->Form->postLink(__('De-activate'), array('action' => 'activate', $module['Module']['id'], 0), null, __('Are you sure you want to de-activate module # %s?', $module['Module']['id']));
+				echo $this->Form->postLink(__('De-activate'), array('action' => 'activate', $module['Module']['id'], 0), null, __('Are you sure you want to de-activate module #%s?', $module['Module']['id']));
 			} else {
 				echo $this->Html->link(__('Activate'), array('action' => 'activate', $module['Module']['id'], 1));
+				echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $module['Module']['id']), null, __('Are you sure you want to delete module #%s? All health data will also be deleted...', $module['Module']['id']));
 			}?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $module['Module']['id']), null, __('Are you sure you want to delete # %s?', $module['Module']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

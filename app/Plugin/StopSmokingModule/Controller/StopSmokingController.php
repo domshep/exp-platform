@@ -493,5 +493,18 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 
   		$this->exportCSVFile($this->StopSmokingWeekly, $filename, $headerRow, $dataFields);
   	}
+  	
+  	/**
+  	 * Tidies up database in preparation for the module to be deleted from the website.
+  	 */
+  	public function admin_delete_module() {
+  		$this->loadModel('StopSmokingModule.StopSmokingScreener');
+  		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
+  		$this->loadModel('StopSmokingModule.StopSmokingAchievement');
+  		
+  		$this->StopSmokingScreener->query("DROP TABLE `stop_smoking_screeners`");
+  		$this->StopSmokingWeekly->query("DROP TABLE `stop_smoking_weekly`");
+  		$this->StopSmokingAchievement->query("DROP TABLE `stop_smoking_achievements`");
+  	}
 }
 ?>

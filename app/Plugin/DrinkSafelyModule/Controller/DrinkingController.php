@@ -546,5 +546,18 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 
   		$this->exportCSVFile($this->DrinkingWeekly, $filename, $headerRow, $dataFields);
   	}
+  	
+  	/**
+  	 * Tidies up database in preparation for the module to be deleted from the website.
+  	 */
+  	public function admin_delete_module() {
+  		$this->loadModel('DrinkSafelyModule.DrinkingScreener');
+  		$this->loadModel('DrinkSafelyModule.DrinkingWeekly');
+  		$this->loadModel('DrinkSafelyModule.DrinkingAchievement');
+  		
+  		$this->DrinkingScreener->query("DROP TABLE `drinking_screeners`");
+  		$this->DrinkingWeekly->query("DROP TABLE `drinking_weekly`");
+  		$this->DrinkingAchievement->query("DROP TABLE `drinking_achievements`");
+  	}
 }
 ?>

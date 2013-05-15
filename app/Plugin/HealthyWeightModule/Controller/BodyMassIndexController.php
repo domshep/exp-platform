@@ -621,5 +621,18 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 
   		$this->exportCSVFile($this->BmiWeekly, $filename, $headerRow, $dataFields);
   	}
+  	
+  	/**
+  	 * Tidies up database in preparation for the module to be deleted from the website.
+  	 */
+  	public function admin_delete_module() {
+  		$this->loadModel('HealthyWeightModule.BmiScreener');
+  		$this->loadModel('HealthyWeightModule.BmiWeekly');
+  		$this->loadModel('HealthyWeightModule.BmiAchievement');
+  		
+  		$this->BmiScreener->query("DROP TABLE `bmi_screeners`");
+  		$this->BmiWeekly->query("DROP TABLE `bmi_weekly`");
+  		$this->BmiAchievement->query("DROP TABLE `bmi_achievements`");
+  	}
 }
 ?>

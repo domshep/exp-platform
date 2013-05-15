@@ -510,5 +510,18 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 
   		$this->exportCSVFile($this->SimpleHealthTestWeekly, $filename, $headerRow, $dataFields);
   	}
+  	
+  	/**
+  	 * Tidies up database in preparation for the module to be deleted from the website.
+  	 */
+  	public function admin_delete_module() {
+  		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
+  		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
+  		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
+  		
+  		$this->SimpleHealthTestScreener->query("DROP TABLE `simple_health_test_screeners`");
+  		$this->SimpleHealthTestWeekly->query("DROP TABLE `simple_health_test_weekly`");
+  		$this->SimpleHealthTestAchievement->query("DROP TABLE `simple_health_test_achievements`");
+  	}
 }
 ?>

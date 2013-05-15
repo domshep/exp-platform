@@ -49,7 +49,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
 		$active = true;
 		if(empty($module)) {
 			$active = false;
-			$motivate = null;
+			$motivation = null;
 		} else {
 			$active = $module['Module']['active'];
 			$motivation = $this->MotivationScreener->findByUserId($this->Auth->user('id'));
@@ -243,6 +243,15 @@ class MotivationController extends MotivationModuleAppController implements Modu
   				"modified");
   		
   		$this->exportCSVFile($this->MotivationScreener, $filename, $headerRow, $dataFields);
+  	}
+  	
+  	/**
+  	 * Tidies up database in preparation for the module to be deleted from the website.
+  	 */
+  	public function admin_delete_module() {
+  		$this->loadModel('MotivationModule.MotivationScreener');
+  		
+  		$this->MotivationScreener->query("DROP TABLE `motivation_screeners`");
   	}
 }
 ?>

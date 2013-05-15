@@ -132,21 +132,6 @@ class ModulesController extends AppController {
 	}
 	
 	/**
-	 * delete redirect method
-	 * Redirects to admin_delete, or redirects to user dashboard
-	 * @param string $id
-	 * @return void
-	 */
-	public function delete($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
-			else $this->redirect($this->Auth->redirect('admin/modules/delete/'.$id));
-		}
-	}
-	
-	/**
 	 * admin delete method
 	 * Delete a module, if admin.
 	 * @throws NotFoundException
@@ -154,22 +139,33 @@ class ModulesController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-	public function admin_delete($id = null) {
+	public function admin_delete($moduleId = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
 		} else {
-			$this->Module->id = $id;
-			if (!$this->Module->exists()) {
-				throw new NotFoundException(__('Invalid module'));
+			$this->loadModel('Module');
+			$module = $this->Module->findById($moduleId);
+			
+			if(empty($module)) {
+				throw new NotFoundException("The module with id ".$moduleId." was not found");
 				$this->set('title_for_layout', 'Module Not Found');
 			}
-			//$this->request->onlyAllow('module', 'delete');
+			
+			// Delete the module-user links
+			$this->loadModel('ModuleUser');
+			$this->ModuleUser->deleteAll(array('ModuleUser.module_id' => $module['Module']['id']), false);
+			
+			// Delete the associated health data
+			$this->requestAction('/admin/'.$module['Module']['base_url'].'/delete_module');
+			
+			// Delete the module data itself
+			$this->Module->id = $module['Module']['id'];
 			if ($this->Module->delete()) {
 				$this->Session->setFlash(__('Module deleted'));
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'index', 'admin' => 'true'));
 			}
 			$this->Session->setFlash(__('Module was not deleted'));
-			$this->redirect(array('action' => 'index'));
+			$this->redirect(array('action' => 'index', 'admin' => 'true'));
 		}
 	}
 	

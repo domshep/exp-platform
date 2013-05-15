@@ -81,5 +81,10 @@ interface ModulePlugin {
 	 * Displays the 'Health data' module view for the admin panel.
 	 */
 	public function admin_module_data();
+	
+	/**
+	 * Tidies up database in preparation for the module to be deleted from the website.
+	 */
+	public function admin_delete_module();
 }
 ?>

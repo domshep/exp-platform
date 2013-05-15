@@ -499,5 +499,18 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 
   		$this->exportCSVFile($this->ExerciseWeekly, $filename, $headerRow, $dataFields);
   	}
+  	
+  	/**
+  	 * Tidies up database in preparation for the module to be deleted from the website.
+  	 */
+  	public function admin_delete_module() {
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseScreener');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
+  		$this->loadModel('TakeRegularExerciseModule.ExerciseAchievement');
+  		
+  		$this->ExerciseScreener->query("DROP TABLE `exercise_screeners`");
+  		$this->ExerciseWeekly->query("DROP TABLE `exercise_weekly`");
+  		$this->ExerciseAchievement->query("DROP TABLE `exercise_achievements`");
+  	}
 }
 ?>
