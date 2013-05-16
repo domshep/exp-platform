@@ -75,33 +75,34 @@ class ModulesController extends AppController {
  	public function admin_add() {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->set('title_for_layout', 'Add New Module'); 
-			if ($this->request->is('post')) {
-				$this->Module->create();
-				if ($this->Module->save($this->request->data)) {
-					$this->Session->setFlash(__('The module has been saved'));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
+		}
+		
+		$pluginList = CakePlugin::loaded();
+		
+		$helper = new ModuleHelperFunctions();
+		$moduleList = $this->Module->find('all');
+		$healthModuleList = array();
+		
+		// Add module list to data
+		foreach($pluginList as $plugin) {
+			$controllerList = App::objects($plugin.'.Controller');
+			foreach($controllerList as $controller) {
+				$controllerName = str_replace ( "Controller" , "" , $controller );
+				App::import('Controller', $plugin.'.'.$controllerName);
+				if(in_array( "ModulePlugin", class_implements($controller)) && !$helper->search($moduleList, 'module_name', $plugin.'.'.$controllerName)) {
+					$healthModuleList[] = array(
+							"plugin" => $plugin,
+							"controller" => $controller,
+							"controllerName" => $controllerName
+					);
 				}
 			}
 		}
+		
+		$this->set('healthModuleList', $healthModuleList);
+		$this->set('title_for_layout', 'Add New Module');
 	}
 	
-	/**
-	* add module redirection script
- 	* Redirects users accidentally omitting the "admin" folder. If not admin, redirects to user dashboard.
- 	* @return void
-	*/
-	public function add() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->redirect($this->Auth->redirect('admin/modules/add'));
-		}
-	}
-
 	/**
 	 * admin edit method
 	 * Edit an existing module. Redirects if not Admin.

@@ -60,6 +60,7 @@ Admin Panel - Modules</h1>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('New Module'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Add module'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>

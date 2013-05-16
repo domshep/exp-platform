@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `parent_id` int(11) unsigned NOT NULL,
   `base_url` varchar(75) NOT NULL,
   `icon_url` varchar(100) NOT NULL,
-  `table_prefix` varchar(35) NOT NULL,
+  `module_name` varchar(100) NOT NULL,
   `active` int(1) NOT NULL default '1',
   `created` datetime default NULL,
   `modified` datetime default NULL,
