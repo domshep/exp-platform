@@ -5,8 +5,8 @@ Admin Panel - Add Module</h1>
 <div class="modules form">
 <?php 
 if(empty($healthModuleList)) { ?>
-	<h2>There are no health module plugins installed on this server that can be added to the site.</h2>
-	<p>Please extract the new health module into the /app/Plugin directory and then try again.</p>
+	<h2>No health module plugins were found on this server that could be added to the website.</h2>
+	<p>First install the new health module into the Plugin directory and then try again.</p>
 <?php } else {?>
 
 	<table class="module-list">
@@ -20,7 +20,7 @@ if(empty($healthModuleList)) { ?>
 							</td>
 							<td style="height:40px;vertical-align:middle;">
 							<?php
-							echo $this->Html->link(Inflector::humanize(Inflector::underscore($module['controllerName'])), array('plugin' => Inflector::underscore($module['plugin']), 'controller' => Inflector::underscore($module['controllerName']), 'action' => 'explore_module', 'admin' => false), array('target' => '_self', 'escape' => false));
+							echo $this->Html->link(Inflector::humanize(Inflector::underscore($module['plugin'])." - ".Inflector::underscore($module['controllerName'])), array('plugin' => Inflector::underscore($module['plugin']), 'controller' => Inflector::underscore($module['controllerName']), 'action' => 'explore_module', 'admin' => false), array('target' => '_self', 'escape' => false));
 							
 							?>&nbsp;</td>
 						</tr>
