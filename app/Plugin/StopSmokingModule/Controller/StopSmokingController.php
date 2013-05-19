@@ -13,8 +13,8 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 	
 	public function beforeRender() {
 		parent::beforeRender();
-		$this->set('module_name', $this->_module_name());
-		$this->set('module_icon_url', $this->_module_icon_url());
+		$this->set('module_name', $this->module_name());
+		$this->set('module_icon_url', $this->module_icon_url());
 	}
 
 	/**
@@ -27,7 +27,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 			
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 				$this->Auth->user('id'),
-				$this->Module->getModuleID($this->_module_name()));
+				$this->Module->getModuleID($this->module_name()));
 	
 		if($addedToDashboard) {
 			return $this->redirect('module_dashboard');
@@ -66,8 +66,17 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 	 * 
 	 * @return string
 	 */
- 	public function _module_name() {
+ 	public function module_name() {
   		return $this->module_name;
+  	}
+
+  	/**
+  	 * Returns the type of module (e.g. dashboard, widget, survey).
+  	 *
+  	 * @return string
+  	 */
+  	public function module_type() {
+  		return 'dashboard';
   	}
 
   	/**
@@ -75,7 +84,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 *
   	 * @return string
   	 */
-  	public function _module_base_url() {
+  	public function module_base_url() {
   		return $this->base_url;
   	}
   	
@@ -84,7 +93,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 *
   	 * @return string
   	 */
-  	public function _module_icon_url() {
+  	public function module_icon_url() {
   		return '/stop_smoking_module/img/icon.png';
   	}
   	
@@ -98,11 +107,11 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
  		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
 		
   		$this->set('message', "This is the Stop Smoking module.");
-		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Explore the `' . $this->module_name() . '` Module');
  	}
 
  	/**
@@ -156,12 +165,12 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
 							$this->User->data['User']['id'],
-							$this->Module->getModuleID($this->_module_name())
+							$this->Module->getModuleID($this->module_name())
 					);
 					if($success) return $this->redirect('module_added');
 					else {
 						$this->Session->setFlash(__('The Stop Smoking module could not be added to your dashboard - Is it already on there?'));
-						$this->set('title_for_layout', 'The `' . $this->_module_name() . '` could not be added.');
+						$this->set('title_for_layout', 'The `' . $this->module_name() . '` could not be added.');
 					}
 					
 				} 
@@ -175,23 +184,23 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 					$this->set('smokes', $smokes);
 					$this->StopSmokingScreener->set('score', $score);
 					$this->set($this->StopSmokingScreener->data);
-					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Score');
+					$this->set('title_for_layout', 'My `' . $this->module_name() . '` Score');
 					$this->render('score');
 				}
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
-				$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` score could not be calculated');
+				$this->set('title_for_layout', 'Your `' . $this->module_name() . '` score could not be calculated');
 			}
 		}
-		else $this->set('title_for_layout', 'Calculate my `' . $this->_module_name() . '` Score');
+		else $this->set('title_for_layout', 'Calculate my `' . $this->module_name() . '` Score');
   	}
   	
   	/**
   	 * Landing page when the module has been added to the user's dashboard.
   	 */
 	public function module_added() {
-  		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` module has been added');
+  		$this->set('title_for_layout', 'The `' . $this->module_name() . '` module has been added');
   	}
 	
   	/**
@@ -218,7 +227,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->StopSmokingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -253,7 +262,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->StopSmokingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for ' . ucwords($month) . ' ' . $year);
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` records for ' . ucwords($month) . ' ' . $year);
   	}
   	 
   	/**
@@ -320,12 +329,12 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 				else 
 				{
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
-					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+					$this->set('title_for_layout', 'My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 				}
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
-				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
 		} else {
 			// This is a new request for this form - display a blank or previous record
@@ -339,9 +348,9 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 			// If so, edit this entry instead of creating a new one...
 			if(!empty($previousEntry)){ 
 				$this->request->data = $previousEntry;
-				$this->set('title_for_layout', 'Edit my `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'Edit my `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
-			else $this->set('title_for_layout', 'Add my `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+			else $this->set('title_for_layout', 'Add my `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 		}
   	}
   
@@ -505,6 +514,67 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   		$this->StopSmokingScreener->query("DROP TABLE `stop_smoking_screeners`");
   		$this->StopSmokingWeekly->query("DROP TABLE `stop_smoking_weekly`");
   		$this->StopSmokingAchievement->query("DROP TABLE `stop_smoking_achievements`");
+  	}
+  	
+  	/**
+  	 * Returns the SQL necessary to create and set up the module for use.
+  	 * 
+  	 * @return array of SQL commands to execute
+  	 */
+  	public function admin_install_sql() {
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `stop_smoking_achievements`;
+			CREATE TABLE IF NOT EXISTS `stop_smoking_achievements` (
+			  `user_id` int(11) NOT NULL,
+			  `healthy_days_last_week` int(11) NOT NULL default '0',
+			  `total_days_healthy` int(11) NOT NULL default '0',
+			  `total_full_weeks_healthy` int(11) NOT NULL default '0',
+			  `consec_healthy_weeks` int(10) NOT NULL default '0',
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`user_id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `stop_smoking_screeners`;
+			CREATE TABLE IF NOT EXISTS `stop_smoking_screeners` (
+			  `id` int(11) NOT NULL auto_increment,
+			  `user_id` int(11) NOT NULL,
+			  `smoker` varchar(1) NOT NULL,
+			  `how_many` int(1) NOT NULL,
+			  `first_cig` int(1) NOT NULL,
+			  `diff_non_smoking` int(1) NOT NULL,
+			  `most_hate` int(1) NOT NULL,
+			  `more_morning` int(1) NOT NULL,
+			  `smoke_in_bed` int(1) NOT NULL,
+			  `score` int(11) NOT NULL,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`)
+			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `stop_smoking_weekly`;
+			CREATE TABLE IF NOT EXISTS `stop_smoking_weekly` (
+			  `id` int(10) unsigned NOT NULL auto_increment,
+			  `week_beginning` date NOT NULL,
+			  `user_id` int(11) NOT NULL,
+			  `monday` int(1) default '0',
+			  `tuesday` int(1) default '0',
+			  `wednesday` int(1) default '0',
+			  `thursday` int(1) default '0',
+			  `friday` int(1) default '0',
+			  `saturday` int(1) default '0',
+			  `sunday` int(1) default '0',
+			  `total` int(1) NOT NULL,
+			  `what_worked` text,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`),
+			  UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
+			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		return $installSQL;
   	}
 }
 ?>

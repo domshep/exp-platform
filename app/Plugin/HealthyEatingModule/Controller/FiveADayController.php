@@ -13,8 +13,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	
 	public function beforeRender() {
 		parent::beforeRender();
-		$this->set('module_name', $this->_module_name());
-		$this->set('module_icon_url', $this->_module_icon_url());
+		$this->set('module_name', $this->module_name());
+		$this->set('module_icon_url', $this->module_icon_url());
 	}
 
 	/**
@@ -27,7 +27,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 			
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 				$this->Auth->user('id'),
-				$this->Module->getModuleID($this->_module_name()));
+				$this->Module->getModuleID($this->module_name()));
 	
 		if($addedToDashboard) {
 			return $this->redirect('module_dashboard');
@@ -65,8 +65,17 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	 * 
 	 * @return string
 	 */
- 	public function _module_name() {
+ 	public function module_name() {
   		return $this->module_name;
+  	}
+
+  	/**
+  	 * Returns the type of module (e.g. dashboard, widget, survey).
+  	 *
+  	 * @return string
+  	 */
+  	public function module_type() {
+  		return 'dashboard';
   	}
 
   	/**
@@ -74,7 +83,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 *
   	 * @return string
   	 */
-  	public function _module_base_url() {
+  	public function module_base_url() {
   		return $this->base_url;
   	}
   	
@@ -83,7 +92,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * 
   	 * @return string
   	 */
-  	public function _module_icon_url() {
+  	public function module_icon_url() {
   		return '/healthy_eating_module/img/five_a_day/icon.png';
   	}
 
@@ -97,9 +106,9 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
-		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Explore the `' . $this->module_name() . '` Module');
  	}
 
  	/**
@@ -112,9 +121,9 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
-		$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Add the `' . $this->module_name() . '` Module');
  	}
   
 	/**
@@ -160,13 +169,13 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
 							$this->User->data['User']['id'],
-							$this->Module->getModuleID($this->_module_name())
+							$this->Module->getModuleID($this->module_name())
 					);
 					if($success) return $this->redirect('module_added');
 					else 
 					{
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
-						$this->set('title_for_layout', 'The `' . $this->_module_name() . '` module could not be added');
+						$this->set('title_for_layout', 'The `' . $this->module_name() . '` module could not be added');
 					}
 				} 
 				else 
@@ -177,7 +186,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 					$this->set('score', $score);
 					$this->FiveADayScreener->set('score', "".$score);
 					$this->set($this->FiveADayScreener->data);
-					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Score');
+					$this->set('title_for_layout', 'My `' . $this->module_name() . '` Score');
 					$this->render('score');
 				}
 			} 
@@ -185,10 +194,10 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 			{
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
-				$this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
+				$this->set('title_for_layout', 'Take the `' . $this->module_name() . '` Test');
 			}
 		}
-		else $this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
+		else $this->set('title_for_layout', 'Take the `' . $this->module_name() . '` Test');
   	}
   	
   	/**
@@ -197,7 +206,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 	public function module_added() 
 	{
   		$this->set('message', "The healthy eating module has now been added to your dashboard.");
-  		$this->set('title_for_layout', '`' . $this->_module_name() . '` has been Added');
+  		$this->set('title_for_layout', '`' . $this->module_name() . '` has been Added');
   	}
 	
   	/**
@@ -224,7 +233,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -237,7 +246,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	
   		$achievements = $this->FiveADayAchievement->findByUserId($this->Auth->user('id'));
   		$this->set('achievements', $achievements);
-  		$this->set('message', "Achievements from the " . $this->_module_name());
+  		$this->set('message', "Achievements from the " . $this->module_name());
   		$this->render();
   	}
 
@@ -260,7 +269,7 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->FiveADayWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . ucwords($this->_module_name()) . '` records for ' . ucwords($month) . ' ' . $year);
+		$this->set('title_for_layout', 'My `' . ucwords($this->module_name()) . '` records for ' . ucwords($month) . ' ' . $year);
   	}
   	
   	/**
@@ -324,12 +333,12 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   					return $this->redirect('module_dashboard');
   				} else {
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
-					$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+					$this->set('title_for_layout', 'Your `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   				}
   			} else {
   				// Validation failed
   				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
-				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'My `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   			}
   		} else {
   			// This is a new request for this form - display a blank or previous record
@@ -343,9 +352,9 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   			// If so, edit this entry instead of creating a new one...
   			if(!empty($previousEntry)){ 
 				$this->request->data = $previousEntry;
-				$this->set('title_for_layout', 'Edit my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'Edit my `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   			}
-			else $this->set('title_for_layout', 'Add my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+			else $this->set('title_for_layout', 'Add my `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   		}
   	}
 	
@@ -516,6 +525,76 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   		$this->FiveADayScreener->query("DROP TABLE `fiveaday_screeners`");
   		$this->FiveADayWeekly->query("DROP TABLE `fiveaday_weekly`");
   		$this->FiveADayAchievement->query("DROP TABLE `fiveaday_achievements`");
+  	}
+  	
+  	/**
+  	 * Returns the SQL necessary to create and set up the module for use.
+  	 * 
+  	 * @return array of SQL commands to execute
+  	 */
+  	public function admin_install_sql() {
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `fiveaday_achievements`;
+			CREATE TABLE IF NOT EXISTS `fiveaday_achievements` (
+			  `user_id` int(11) NOT NULL,
+			  `healthy_days_last_week` int(11) NOT NULL default '0',
+			  `total_days_healthy` int(11) NOT NULL default '0',
+			  `total_full_weeks_healthy` int(11) NOT NULL default '0',
+			  `consec_healthy_weeks` int(10) NOT NULL default '0',
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`user_id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `fiveaday_screeners`;
+			CREATE TABLE IF NOT EXISTS `fiveaday_screeners` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `user_id` int(11) NOT NULL,
+			  `veg_often` int(11) NOT NULL,
+			  `veg_no` int(11) NOT NULL,
+			  `salad_often` int(11) NOT NULL,
+			  `salad_no` int(11) NOT NULL,
+			  `whole_fruit_often` int(11) NOT NULL,
+			  `whole_fruit_no` int(11) NOT NULL,
+			  `medium_fruit_often` int(11) NOT NULL,
+			  `medium_fruit_no` int(11) NOT NULL,
+			  `small_fruit_often` int(11) NOT NULL,
+			  `small_fruit_no` int(11) NOT NULL,
+			  `tinned_fruit_often` int(11) NOT NULL,
+			  `tinned_fruit_no` int(11) NOT NULL,
+			  `dried_fruit_often` int(11) NOT NULL,
+			  `dried_fruit_no` int(11) NOT NULL,
+			  `fruit_juice_often` int(11) NOT NULL,
+			  `fruit_juice_no` int(11) NOT NULL,
+			  `score` int(11) NOT NULL,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `fiveaday_weekly`;
+			CREATE TABLE IF NOT EXISTS `fiveaday_weekly` (
+			  `id` int(11) unsigned NOT NULL auto_increment,
+			  `week_beginning` date NOT NULL,
+			  `user_id` int(11) NOT NULL,
+			  `monday` int(11) default NULL,
+			  `tuesday` int(11) default NULL,
+			  `wednesday` int(11) default NULL,
+			  `thursday` int(11) default NULL,
+			  `friday` int(11) default NULL,
+			  `saturday` int(11) default NULL,
+			  `sunday` int(11) default NULL,
+			  `total` int(11) NOT NULL,
+			  `what_worked` text NULL,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`),
+			  UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		return $installSQL;
   	}
 }
 ?>

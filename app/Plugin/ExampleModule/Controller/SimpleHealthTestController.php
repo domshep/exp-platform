@@ -13,8 +13,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	
 	public function beforeRender() {
 		parent::beforeRender();
-		$this->set('module_name', $this->_module_name());
-		$this->set('module_icon_url', $this->_module_icon_url());
+		$this->set('module_name', $this->module_name());
+		$this->set('module_icon_url', $this->module_icon_url());
 	}
 	
 	/**
@@ -27,7 +27,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 				$this->Auth->user('id'),
-				$this->Module->getModuleID($this->_module_name()));
+				$this->Module->getModuleID($this->module_name()));
 		
 		if($addedToDashboard) {
 			return $this->redirect('module_dashboard');
@@ -66,8 +66,17 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 	 * 
 	 * @return string
 	 */
- 	public function _module_name() {
+ 	public function module_name() {
   		return $this->module_name;
+  	}
+
+  	/**
+  	 * Returns the type of module (e.g. dashboard, widget, survey).
+  	 *
+  	 * @return string
+  	 */
+  	public function module_type() {
+  		return 'dashboard';
   	}
   	
   	/**
@@ -75,7 +84,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 *
   	 * @return string
   	 */
-  	public function _module_base_url() {
+  	public function module_base_url() {
   		return $this->base_url;
   	}
   	
@@ -84,7 +93,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 *
   	 * @return string
   	 */
-  	public function _module_icon_url() {
+  	public function module_icon_url() {
   		return '/example_module/img/icon.png';
   	}
   	
@@ -98,11 +107,11 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
  		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
 		
   		$this->set('message', "This is just an example module, while we work on the module interface");
-		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Explore the `' . $this->module_name() . '` Module');
  	}
 
  	/**
@@ -115,9 +124,9 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
  		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
-		$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Add the `' . $this->module_name() . '` Module');
  	}
   
 	/**
@@ -162,7 +171,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
 							$this->User->data['User']['id'],
-							$this->Module->getModuleID($this->_module_name())
+							$this->Module->getModuleID($this->module_name())
 					);
 					
 					if($success) 
@@ -172,7 +181,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					else 
 					{
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
-						$this->set('title_for_layout', '`' . $this->_module_name() . '` could not be added');
+						$this->set('title_for_layout', '`' . $this->module_name() . '` could not be added');
 					}
 					}
 				else 
@@ -183,7 +192,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 					$this->set('score', $score);
 					$this->SimpleHealthTestScreener->set('score', $score);
 					$this->set($this->SimpleHealthTestScreener->data);
-					$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` Score');
+					$this->set('title_for_layout', 'Your `' . $this->module_name() . '` Score');
 					$this->render('score');
 				}
 			} 
@@ -191,12 +200,12 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			{
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
-				$this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
+				$this->set('title_for_layout', 'Take the `' . $this->module_name() . '` Test');
 			}
 			}
 		else
 		{
-			$this->set('title_for_layout', 'Take the `' . $this->_module_name() . '` Test');
+			$this->set('title_for_layout', 'Take the `' . $this->module_name() . '` Test');
 		}
   	}
   	
@@ -205,7 +214,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 */
 	public function module_added() {
   		$this->set('message', "The test module has now been added to your dashboard.");
-		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` Module has been added');
+		$this->set('title_for_layout', 'The `' . $this->module_name() . '` Module has been added');
   	}
 	
   	/**
@@ -232,7 +241,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -267,7 +276,7 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->SimpleHealthTestWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` monthly records for ' . ucfirst($month) . ' ' . $year);
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` monthly records for ' . ucfirst($month) . ' ' . $year);
   	}
   	 
   	/**
@@ -337,12 +346,12 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 				else 
 				{
 					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
-					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+					$this->set('title_for_layout', 'My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 				}
 			} else {
 				// Validation failed
 				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
-				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
 		} 
 		else 
@@ -359,11 +368,11 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
 			if(!empty($previousEntry))
 			{ 
 				$this->request->data = $previousEntry;
-				$this->set('title_for_layout', 'Edit My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'Edit My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
 			else
 			{
-				$this->set('title_for_layout', 'Add My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'Add My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
 		}
   	}
@@ -522,6 +531,61 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   		$this->SimpleHealthTestScreener->query("DROP TABLE `simple_health_test_screeners`");
   		$this->SimpleHealthTestWeekly->query("DROP TABLE `simple_health_test_weekly`");
   		$this->SimpleHealthTestAchievement->query("DROP TABLE `simple_health_test_achievements`");
+  	}
+  	
+  	/**
+  	 * Returns the SQL necessary to create and set up the module for use.
+  	 * 
+  	 * @return array of SQL commands to execute
+  	 */
+  	public function admin_install_sql() {
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `simple_health_test_achievements`;
+			CREATE TABLE IF NOT EXISTS `simple_health_test_achievements` (
+			  `user_id` int(11) NOT NULL,
+			  `healthy_days_last_week` int(11) NOT NULL default '0',
+			  `total_days_healthy` int(11) NOT NULL default '0',
+			  `total_full_weeks_healthy` int(11) NOT NULL default '0',
+			  `consec_healthy_weeks` int(10) NOT NULL default '0',
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`user_id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `simple_health_test_screeners`;
+			CREATE TABLE IF NOT EXISTS `simple_health_test_screeners` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `user_id` int(11) NOT NULL,
+			  `healthy` varchar(1) NOT NULL,
+			  `score` int(11) NOT NULL,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `simple_health_test_weekly`;
+			CREATE TABLE IF NOT EXISTS `simple_health_test_weekly` (
+			  `id` int(10) unsigned NOT NULL auto_increment,
+			  `week_beginning` date NOT NULL,
+			  `user_id` int(11) NOT NULL,
+			  `monday` int(11) default NULL,
+			  `tuesday` int(11) default NULL,
+			  `wednesday` int(11) default NULL,
+			  `thursday` int(11) default NULL,
+			  `friday` int(11) default NULL,
+			  `saturday` int(11) default NULL,
+			  `sunday` int(11) default NULL,
+			  `total` int(11) NOT NULL,
+			  `what_worked` text,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`),
+			  UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;";
+  		
+  		return $installSQL;
   	}
 }
 ?>

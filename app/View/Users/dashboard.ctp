@@ -79,7 +79,7 @@
 							</td>
 							<td style="height:40px;vertical-align:middle;">
 							<?php
-							echo $this->Html->image('/'.$module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> '/' . $module['Module']['base_url'] . '/explore_module'));
+							echo $this->Html->image($module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> '/' . $module['Module']['base_url'] . '/explore_module'));
 							echo $this->Html->link($module['Module']['name'], '/' . $module['Module']['base_url'] . '/explore_module', array('target' => '_self', 'escape' => false));
 							
 							?>&nbsp;</td>
@@ -92,7 +92,7 @@
 					$widget = $this->requestAction($module['Modules']['base_url'].'/dashboard_widget'); 
 					?>
 					<div class='module' id="<?php echo $module['Modules']['name']; ?>">
-						<h3><?php echo $this->Html->image('/'.$module['Modules']['icon_url'], array('alt' => "&lsquo;".$module['Modules']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/'.$module['Modules']['base_url'].'/module_dashboard'));
+						<h3><?php echo $this->Html->image($module['Modules']['icon_url'], array('alt' => "&lsquo;".$module['Modules']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/'.$module['Modules']['base_url'].'/module_dashboard'));
 						?> <strong><?php 
 							echo $this->Html->link($module['Modules']['name'], '/'.$module['Modules']['base_url'].'/module_dashboard',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
 						<?php 

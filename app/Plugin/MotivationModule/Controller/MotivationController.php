@@ -12,8 +12,8 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	
 	public function beforeRender() {
 		parent::beforeRender();
-		$this->set('module_name', $this->_module_name());
-		$this->set('module_icon_url', $this->_module_icon_url());
+		$this->set('module_name', $this->module_name());
+		$this->set('module_icon_url', $this->module_icon_url());
 	}
 
 	/**
@@ -26,7 +26,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
 			
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 				$this->Auth->user('id'),
-				$this->Module->getModuleID($this->_module_name()));
+				$this->Module->getModuleID($this->module_name()));
 	
 		if($addedToDashboard) {
 			return $this->redirect('module_dashboard');
@@ -35,10 +35,9 @@ class MotivationController extends MotivationModuleAppController implements Modu
 		}
 	}
 	
-	public function dashboard_widget() {
+	public function dashboard_widget() { 
 		$this->loadModel('Module');
-		$this->loadModel('MotivationModule.MotivationScreener');
-		 
+		
 		// Don't allow this method to be called directly from a URL
 		if (empty($this->request->params['requested'])) {
 			throw new ForbiddenException();
@@ -46,13 +45,14 @@ class MotivationController extends MotivationModuleAppController implements Modu
 		
 		// Check this module is installed and activated - if not, just return a blank
 		$module = $this->Module->findByName($this->module_name);
-		$active = true;
-		if(empty($module)) {
-			$active = false;
-			$motivation = null;
-		} else {
+		$active = false;
+		$motivation = null;
+		if(!empty($module)) {
 			$active = $module['Module']['active'];
-			$motivation = $this->MotivationScreener->findByUserId($this->Auth->user('id'));
+			if($active) {
+				$this->loadModel('MotivationModule.MotivationScreener');
+				$motivation = $this->MotivationScreener->findByUserId($this->Auth->user('id'));
+			}
 		}
 		
 		$this->set('motivation', $motivation);
@@ -72,8 +72,17 @@ class MotivationController extends MotivationModuleAppController implements Modu
 	 * 
 	 * @return string
 	 */
- 	public function _module_name() {
+ 	public function module_name() {
   		return $this->module_name;
+  	}
+
+  	/**
+  	 * Returns the type of module (e.g. dashboard, widget, survey).
+  	 *
+  	 * @return string
+  	 */
+  	public function module_type() {
+  		return 'widget';
   	}
   	
   	/**
@@ -81,7 +90,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	 *
   	 * @return string
   	 */
-  	public function _module_base_url() {
+  	public function module_base_url() {
   		return $this->base_url;
   	}
 
@@ -90,7 +99,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	 *
   	 * @return string
   	 */
-  	public function _module_icon_url() {
+  	public function module_icon_url() {
   		return '/motivation_module/img/icon.png';
   	}
   	
@@ -125,7 +134,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
   		$this->loadModel('User');
   		$this->loadModel('Module');
 		
-		$this->set('title_for_layout', $this->_module_name());
+		$this->set('title_for_layout', $this->module_name());
 		
 		// Get user id from current user session, rather than from form
 		$currentUser = $this->User->findById($this->Auth->user('id'));
@@ -252,6 +261,26 @@ class MotivationController extends MotivationModuleAppController implements Modu
   		$this->loadModel('MotivationModule.MotivationScreener');
   		
   		$this->MotivationScreener->query("DROP TABLE `motivation_screeners`");
+  	}
+  	
+  	/**
+  	 * Returns the SQL necessary to create and set up the module for use.
+  	 * 
+  	 * @return array of SQL commands to execute
+  	 */
+  	public function admin_install_sql() {
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `motivation_screeners`;
+			CREATE TABLE IF NOT EXISTS `motivation_screeners` (
+			  `id` int(11) NOT NULL auto_increment,
+			  `user_id` int(11) NOT NULL,
+			  `reason` text NOT NULL,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`)
+			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		return $installSQL;
   	}
 }
 ?>

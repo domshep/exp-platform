@@ -3,21 +3,28 @@ interface ModulePlugin {
 	/**
 	 * Return the public name of the module.
 	 */
-	public function _module_name();
+	public function module_name();
 	
 	/**
 	 * Returns the base URL to this module.
 	 *
 	 * @return string
 	 */
-	public function _module_base_url();
+	public function module_base_url();
 	
 	/**
 	 * Returns the path to the icon for this module.
 	 *
 	 * @return string
 	 */
-	public function _module_icon_url();
+	public function module_icon_url();
+
+	/**
+	 * Returns the type of module (e.g. dashboard, widget, survey).
+	 *
+	 * @return string
+	 */
+	public function module_type();
 	
 	/**
 	 * Default index function for the module.
@@ -86,5 +93,12 @@ interface ModulePlugin {
 	 * Tidies up database in preparation for the module to be deleted from the website.
 	 */
 	public function admin_delete_module();
+	
+	/**
+	 * Returns the SQL necessary to create and set up the module for use.
+	 *
+	 * @return array of SQL commands to execute
+	 */
+	public function admin_install_sql();
 }
 ?>

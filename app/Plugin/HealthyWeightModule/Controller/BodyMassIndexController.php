@@ -13,8 +13,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 	
 	public function beforeRender() {
 		parent::beforeRender();
-		$this->set('module_name', $this->_module_name());
-		$this->set('module_icon_url', $this->_module_icon_url());
+		$this->set('module_name', $this->module_name());
+		$this->set('module_icon_url', $this->module_icon_url());
 	}
 	
 	public function dashboard_widget() {
@@ -35,7 +35,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 			
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 				$this->Auth->user('id'),
-				$this->Module->getModuleID($this->_module_name()));
+				$this->Module->getModuleID($this->module_name()));
 	
 		if($addedToDashboard) {
 			return $this->redirect('module_dashboard');
@@ -66,8 +66,17 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 	 * 
 	 * @return string
 	 */
- 	public function _module_name() {
+ 	public function module_name() {
   		return $this->module_name;
+  	}
+
+  	/**
+  	 * Returns the type of module (e.g. dashboard, widget, survey).
+  	 *
+  	 * @return string
+  	 */
+  	public function module_type() {
+  		return 'dashboard';
   	}
 
   	/**
@@ -75,7 +84,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 *
   	 * @return string
   	 */
-  	public function _module_base_url() {
+  	public function module_base_url() {
   		return $this->base_url;
   	}
   	 
@@ -84,7 +93,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * 
   	 * @return string
   	 */
-  	public function _module_icon_url() {
+  	public function module_icon_url() {
   		return '/healthy_weight_module/img/Bmi/icon.png';
   	}
 
@@ -98,9 +107,9 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
-		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Explore the `' . $this->module_name() . '` Module');
  	}
 
  	/**
@@ -168,12 +177,12 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
 							$this->User->data['User']['id'],
-							$this->Module->getModuleID($this->_module_name())
+							$this->Module->getModuleID($this->module_name())
 					);
 					if($success)return $this->redirect('module_added');
 					else 
 					{
-						$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
+						$this->set('title_for_layout', 'Add the `' . $this->module_name() . '` Module');
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
 					}
 				} 
@@ -218,7 +227,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 */
 	public function module_added() {
   		$this->set('message', "The BMI module has now been added to your dashboard.");
-		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` Module has been added');
+		$this->set('title_for_layout', 'The `' . $this->module_name() . '` Module has been added');
   	}
 	
   	/**
@@ -282,7 +291,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 		}
 	
   		$this->set('records', $records);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -295,7 +304,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	
   		$achievements = $this->BmiAchievement->findByUserId($this->Auth->user('id'));
   		$this->set('achievements', $achievements);
-  		$this->set('message', "Achievements from the " . $this->_module_name());
+  		$this->set('message', "Achievements from the " . $this->module_name());
   		$this->render();
   	}
 
@@ -354,7 +363,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 		}
 	
   		$this->set('records', $records);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . ucwords($month) . ' ' . $year);
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` records for: ' . ucwords($month) . ' ' . $year);
   	}
   	
   	/**
@@ -429,12 +438,12 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 				else 
 				{
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
-					$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+					$this->set('title_for_layout', 'My `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   				}
   			} else {
   				// Validation failed
   				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
-				$this->set('title_for_layout', 'My `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'My `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   			}
   		} else {
   			// This is a new request for this form - display a blank or previous record
@@ -460,9 +469,9 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
 
 				$this->request->data['BmiWeekly']['weight_stones'] = $stones;
 				$this->request->data['BmiWeekly']['weight_lbs'] = $lbs;
-				$this->set('title_for_layout', 'Edit my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'Edit my `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
   			}
-			else $this->set('title_for_layout', 'Add my `' . $this->_module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
+			else $this->set('title_for_layout', 'Add my `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
 		}
   	}
 	
@@ -633,6 +642,56 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		$this->BmiScreener->query("DROP TABLE `bmi_screeners`");
   		$this->BmiWeekly->query("DROP TABLE `bmi_weekly`");
   		$this->BmiAchievement->query("DROP TABLE `bmi_achievements`");
+  	}
+  	
+  	/**
+  	 * Returns the SQL necessary to create and set up the module for use.
+  	 * 
+  	 * @return array of SQL commands to execute
+  	 */
+  	public function admin_install_sql() {
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `bmi_achievements`;
+			CREATE TABLE IF NOT EXISTS `bmi_achievements` (
+			  `user_id` int(11) NOT NULL,
+			  `latest_bmi` double(5,2) NOT NULL default '0.00',
+			  `change_since_start` int(11) NOT NULL default '0',
+			  `consec_healthy_weeks` int(10) NOT NULL default '0',
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`user_id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `bmi_screeners`;
+			CREATE TABLE IF NOT EXISTS `bmi_screeners` (
+			  `id` int(11) NOT NULL auto_increment,
+			  `user_id` int(11) NOT NULL,
+			  `height_cm` int(11) NOT NULL,
+			  `start_weight_kg` int(11) NOT NULL,
+			  `start_bmi` double(5,2) NOT NULL,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`)
+			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `bmi_weekly`;
+			CREATE TABLE IF NOT EXISTS `bmi_weekly` (
+			  `id` int(11) unsigned NOT NULL auto_increment,
+			  `week_beginning` date NOT NULL,
+			  `user_id` int(11) NOT NULL,
+			  `height_cm` int(11) default NULL,
+			  `weight_kg` int(11) default NULL,
+			  `bmi` double(5,2) NOT NULL,
+			  `what_worked` text,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`),
+			  UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
+			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		return $installSQL;
   	}
 }
 ?>

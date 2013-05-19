@@ -13,8 +13,8 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 	
 	public function beforeRender() {
 		parent::beforeRender();
-		$this->set('module_name', $this->_module_name());
-		$this->set('module_icon_url', $this->_module_icon_url());
+		$this->set('module_name', $this->module_name());
+		$this->set('module_icon_url', $this->module_icon_url());
 	}
 	
 	/**
@@ -27,7 +27,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 			
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 				$this->Auth->user('id'),
-				$this->Module->getModuleID($this->_module_name()));
+				$this->Module->getModuleID($this->module_name()));
 	
 		if($addedToDashboard) {
 			return $this->redirect('module_dashboard');
@@ -65,7 +65,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 	 * 
 	 * @return string
 	 */
- 	public function _module_name() {
+ 	public function module_name() {
   		return $this->module_name;
   	}
 
@@ -74,16 +74,25 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   	 *
   	 * @return string
   	 */
-  	public function _module_base_url() {
+  	public function module_base_url() {
   		return $this->base_url;
   	}
-  	 
+  	
+  	/**
+	 * Returns the type of module (e.g. dashboard, widget, survey).
+	 *
+	 * @return string
+	 */
+	public function module_type() {
+		return 'dashboard';
+	}
+  	
   	/**
   	 * Returns the path to the icon for this module.
   	 * 
   	 * @return string
   	 */
-  	public function _module_icon_url() {
+  	public function module_icon_url() {
   		return '/drink_safely_module/img/drinking/icon.png';
   	}
 
@@ -97,9 +106,9 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
-		$this->set('title_for_layout', 'Explore the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Explore the `' . $this->module_name() . '` Module');
  	}
 
  	/**
@@ -112,9 +121,9 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 		
 		$addedToDashboard = $this->ModuleUser->alreadyOnDashboard(
 			$this->Auth->user('id'),
-			$this->Module->getModuleID($this->_module_name()));
+			$this->Module->getModuleID($this->module_name()));
 		$this->set('added_to_dashboard', $addedToDashboard);
-		$this->set('title_for_layout', 'Add the `' . $this->_module_name() . '` Module');
+		$this->set('title_for_layout', 'Add the `' . $this->module_name() . '` Module');
  	}
   
 	/**
@@ -163,7 +172,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 					// And then add the module to the user's dashboard
 					$success = $this->User->addModule(
 							$this->User->data['User']['id'],
-							$this->Module->getModuleID($this->_module_name())
+							$this->Module->getModuleID($this->module_name())
 					);
 					if($success) 
 					{
@@ -172,7 +181,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 					else 
 					{
 						$this->Session->setFlash(__('The module could not be added to your dashboard - Is it already on there?'));
-						$this->set('title_for_layout', '`' . $this->_module_name() . '` Could not be added');
+						$this->set('title_for_layout', '`' . $this->module_name() . '` Could not be added');
 					}
 					
 				} 
@@ -194,7 +203,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 					$this->set('how_many', $how_many);
 					$this->DrinkingScreener->set('score', "".$score);
 					$this->set($this->DrinkingScreener->data);
-					$this->set('title_for_layout', 'Your `' . $this->_module_name() . '` Score');
+					$this->set('title_for_layout', 'Your `' . $this->module_name() . '` Score');
 					$this->render('score');
 				}
 			} 
@@ -202,12 +211,12 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 			{
 				// Validation failed
 				$this->Session->setFlash(__('Your score could not be calculated - Did you miss some questions? Please see the error messages below, and try again.'));
-				$this->set('title_for_layout', '`' . $this->_module_name() . '` Test');
+				$this->set('title_for_layout', '`' . $this->module_name() . '` Test');
 			}
 			}
 		else
 		{
-			$this->set('title_for_layout', '`' . $this->_module_name() . '` Test');
+			$this->set('title_for_layout', '`' . $this->module_name() . '` Test');
 		}
   	}
   	
@@ -216,7 +225,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   	 */
 	public function module_added() {
   		$this->set('message', "The 'Drink Safely' module has now been added to your dashboard.");
-		$this->set('title_for_layout', 'The `' . $this->_module_name() . '` module has been added');
+		$this->set('title_for_layout', 'The `' . $this->module_name() . '` module has been added');
   	}
 	
   	/**
@@ -249,7 +258,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->DrinkingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Dashboard');
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` Dashboard');
   	}
   	
   	public function dashboard_achievements() {
@@ -262,7 +271,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
 		
   		$achievements = $this->DrinkingAchievement->findByUserId($this->Auth->user('id'));
   		$this->set('achievements', $achievements);
-  		$this->set('message', "Achievements from the " . $this->_module_name());
+  		$this->set('message', "Achievements from the " . $this->module_name());
   		$this->render();
   	}
 
@@ -295,7 +304,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		// Calendar Related Items:
   		$monthlyRecords = $helper->getMonthlyCalendarEntries($this->DrinkingWeekly, $userId, $year, $month);
   		$this->set('records', $monthlyRecords);
-		$this->set('title_for_layout', 'My `' . $this->_module_name() . '` Monthly Records for ' . $month . ' ' . $year);
+		$this->set('title_for_layout', 'My `' . $this->module_name() . '` Monthly Records for ' . $month . ' ' . $year);
   	}
   	
   	/**
@@ -370,7 +379,7 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   				$this->Session->setFlash(__('Your weekly record could not be saved. Please see the error messages below and try again.'));
   			}
 			
-			$this->set('title_for_layout', 'Edit My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+			$this->set('title_for_layout', 'Edit My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
   		} else {
   			// This is a new request for this form - display a blank or previous record
   				
@@ -383,11 +392,11 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   			// If so, edit this entry instead of creating a new one...
   			if(!empty($previousEntry)){ 
 				$this->request->data = $previousEntry;
-				$this->set('title_for_layout', 'Edit My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'Edit My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
 			else
 			{
-				$this->set('title_for_layout', 'Add My `' . $this->_module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
+				$this->set('title_for_layout', 'Add My `' . $this->module_name() . '` record for: ' . date('d-m-Y',$weekBeginning));
 			}
   		}
   	}
@@ -558,6 +567,64 @@ class DrinkingController extends DrinkSafelyModuleAppController implements Modul
   		$this->DrinkingScreener->query("DROP TABLE `drinking_screeners`");
   		$this->DrinkingWeekly->query("DROP TABLE `drinking_weekly`");
   		$this->DrinkingAchievement->query("DROP TABLE `drinking_achievements`");
+  	}
+  	
+  	/**
+  	 * Returns the SQL necessary to create and set up the module for use.
+  	 * 
+  	 * @return array of SQL commands to execute
+  	 */
+  	public function admin_install_sql() {
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `drinking_achievements`;
+			CREATE TABLE IF NOT EXISTS `drinking_achievements` (
+			  `user_id` int(11) NOT NULL,
+			  `total_sensible_days` int(11) NOT NULL default '0',
+			  `total_excess_days` int(11) NOT NULL default '0',
+			  `total_binge_days` int(11) NOT NULL default '0',
+			  `consec_healthy_weeks` int(10) NOT NULL default '0',
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`user_id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `drinking_screeners`;
+			CREATE TABLE IF NOT EXISTS `drinking_screeners` (
+			  `id` int(11) NOT NULL auto_increment,
+			  `user_id` int(11) NOT NULL,
+			  `gender` varchar(1) NOT NULL,
+			  `how_often` int(11) NOT NULL default '0',
+			  `how_many` int(11) NOT NULL default '0',
+			  `binge` int(11) NOT NULL default '0',
+			  `score` int(11) NOT NULL,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`)
+			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		$installSQL[] = "
+  			DROP TABLE IF EXISTS `drinking_weekly`;
+			CREATE TABLE IF NOT EXISTS `drinking_weekly` (
+			  `id` int(11) unsigned NOT NULL auto_increment,
+			  `week_beginning` date NOT NULL,
+			  `user_id` int(11) NOT NULL,
+			  `monday` int(11) default NULL,
+			  `tuesday` int(11) default NULL,
+			  `wednesday` int(11) default NULL,
+			  `thursday` int(11) default NULL,
+			  `friday` int(11) default NULL,
+			  `saturday` int(11) default NULL,
+			  `sunday` int(11) default NULL,
+			  `total` int(11) NOT NULL,
+			  `what_worked` text,
+			  `created` datetime NOT NULL,
+			  `modified` datetime NOT NULL,
+			  PRIMARY KEY  (`id`),
+			  UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
+			) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+  		
+  		return $installSQL;
   	}
 }
 ?>

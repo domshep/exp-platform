@@ -77,30 +77,56 @@ class ModulesController extends AppController {
 				$this->redirect($this->Auth->redirect('users/dashboard'));
 		}
 		
-		$pluginList = CakePlugin::loaded();
-		
-		$helper = new ModuleHelperFunctions();
-		$moduleList = $this->Module->find('all');
-		$healthModuleList = array();
-		
-		// Add module list to data
-		foreach($pluginList as $plugin) {
-			$controllerList = App::objects($plugin.'.Controller');
-			foreach($controllerList as $controller) {
-				$controllerName = str_replace ( "Controller" , "" , $controller );
-				App::import('Controller', $plugin.'.'.$controllerName);
-				if(in_array( "ModulePlugin", class_implements($controller)) && !$helper->search($moduleList, 'module_name', $plugin.'.'.$controllerName)) {
-					$healthModuleList[] = array(
-							"plugin" => $plugin,
-							"controller" => $controller,
-							"controllerName" => $controllerName
-					);
-				}
-			}
-		}
+		$healthModuleList = $this->get_uninstalled_module_list();
 		
 		$this->set('healthModuleList', $healthModuleList);
 		$this->set('title_for_layout', 'Add New Module');
+	}
+	
+	/**
+	 * install new module method
+	 * if admin, installs the module specified, else redirects to user dashboard.
+	 * @return void
+	 */
+	public function admin_install($plugin, $controllerName) {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('users/dashboard'));
+		}
+		
+		// Check that the given plugin/controller is able to be installed
+		$helper = new ModuleHelperFunctions();
+		$healthModuleList = $this->get_uninstalled_module_list();
+		
+		if(!($helper->search($healthModuleList, 'plugin', $plugin) && $helper->search($healthModuleList, 'controllerName', $controllerName))) {
+			throw new NotFoundException("The specified health module plugin was not found");
+			$this->set('title_for_layout', 'Health Module Plugin Not Found');
+		}
+		
+		// Retrieve any SQL code required to set up the health module tables
+		$sqlCode = $this->requestAction(
+				"/admin/".Inflector::underscore($plugin)."/".Inflector::underscore($controllerName)."/install_sql");
+		
+		foreach($sqlCode as $installSQL) {
+			$this->Module->query($installSQL);
+		}
+		
+		// Finally, install the module data into the module table
+		$this->Module->create();
+		$this->Module->set(array(
+				'name'=> $this->requestAction(Inflector::underscore($plugin)."/".Inflector::underscore($controllerName)."/module_name"),
+				'base_url'=> $this->requestAction(Inflector::underscore($plugin)."/".Inflector::underscore($controllerName)."/module_base_url"),
+				'icon_url'=> $this->requestAction(Inflector::underscore($plugin)."/".Inflector::underscore($controllerName)."/module_icon_url"),
+				'type'=> $this->requestAction(Inflector::underscore($plugin)."/".Inflector::underscore($controllerName)."/module_type"),
+				'module_name'=> $plugin.".".$controllerName,
+				'active' => false,
+				));
+		if($this->Module->save()) {
+			$this->Session->setFlash(__('Module installed successfully'));
+		} else {
+			$this->Session->setFlash(__('There was a problem installing the module. Please try again.'));
+		}
+
+		$this->redirect(array('action' => 'index', 'admin' => 'true'));
 	}
 	
 	/**
@@ -216,6 +242,35 @@ class ModulesController extends AppController {
 		
 		$this->Module->recursive = 0;
 		return $this->Module->findAllByTypeAndActive('dashboard','1');
+	}
+	
+	/**
+	 * Returns an array of health modules that are installed as plugins, but not yet added to the platform database.
+	 */
+	private function get_uninstalled_module_list() {
+		$pluginList = CakePlugin::loaded();
+		
+		$helper = new ModuleHelperFunctions();
+		$moduleList = $this->Module->find('all');
+		$healthModuleList = array();
+		
+		// Add module list to data
+		foreach($pluginList as $plugin) {
+			$controllerList = App::objects($plugin.'.Controller');
+			foreach($controllerList as $controller) {
+				$controllerName = str_replace ( "Controller" , "" , $controller );
+				App::import('Controller', $plugin.'.'.$controllerName);
+				if(in_array( "ModulePlugin", class_implements($controller)) && !$helper->search($moduleList, 'module_name', $plugin.'.'.$controllerName)) {
+					$healthModuleList[] = array(
+							"plugin" => $plugin,
+							"controller" => $controller,
+							"controllerName" => $controllerName
+					);
+				}
+			}
+		}
+		
+		return $healthModuleList;
 	}
 }
 ?>

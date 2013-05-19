@@ -8,24 +8,30 @@ if(empty($healthModuleList)) { ?>
 	<h2>No health module plugins were found on this server that could be added to the website.</h2>
 	<p>First install the new health module into the Plugin directory and then try again.</p>
 <?php } else {?>
-
 	<table class="module-list">
+		<?php
+		foreach ($healthModuleList as $module): ?>
+			<tr>
+				<td style="width:15em;height:40px;vertical-align:middle;">
 					<?php
-					foreach ($healthModuleList as $module): ?>
-						<tr>
-							<td style="width:15em;height:40px;vertical-align:middle;">
-								<?php
-								echo $this->Html->link(__('Add this module'), array('plugin' => Inflector::underscore($module['plugin']), 'controller' => Inflector::underscore($module['controllerName']), 'action' => 'explore_module', 'admin' => false), array('class' => 'button action', 'target' => '_self'));			
-								?>
-							</td>
-							<td style="height:40px;vertical-align:middle;">
-							<?php
-							echo $this->Html->link(Inflector::humanize(Inflector::underscore($module['plugin'])." - ".Inflector::underscore($module['controllerName'])), array('plugin' => Inflector::underscore($module['plugin']), 'controller' => Inflector::underscore($module['controllerName']), 'action' => 'explore_module', 'admin' => false), array('target' => '_self', 'escape' => false));
-							
-							?>&nbsp;</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
+					echo $this->Html->link(__('Add this module'),
+						array('action' => 'install',$module['plugin'],$module['controllerName']),
+						array('class' => 'button action', 'target' => '_self')
+					);			
+					?>
+				</td>
+				<td style="height:40px;vertical-align:middle;">
+					<?php
+					echo $this->Html->link(
+						Inflector::humanize(Inflector::underscore($module['plugin'])." - ".Inflector::underscore($module['controllerName'])),
+						array('action' => 'install',$module['plugin'],$module['controllerName']),
+						array('target' => '_self', 'escape' => false)
+					);
+					?>&nbsp;
+				</td>
+			</tr>
+		<?php endforeach; ?>
+	</table>
 <?php }?>
 </div>
 <div class="actions">
