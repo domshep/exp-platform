@@ -39,5 +39,6 @@ if(empty($healthModuleList)) { ?>
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Modules'), array('action' => 'index')); ?></li>
+		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>
