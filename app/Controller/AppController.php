@@ -51,7 +51,7 @@ class AppController extends Controller {
 			),
 			'Openid' => array(
 					'use_database' => false,
-					'accept_google_apps' => false)
+					'accept_google_apps' => true)
 	);
 	
 	/**

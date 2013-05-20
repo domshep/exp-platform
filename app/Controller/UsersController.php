@@ -9,7 +9,7 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('register','password_reminder'); // Let new users register themselves
+		$this->Auth->allow('register','password_reminder', 'openid_login'); // Let new users register themselves
 	}
 	
 	public function admin_login() {
@@ -30,6 +30,94 @@ class UsersController extends AppController {
 			}
 		}
 		$this->set('title_for_layout', 'Log In'); 
+	}
+	
+	public function openid_login($service = null) {
+		$realm = 'http://' . $_SERVER['HTTP_HOST'];
+		$returnTo = $realm . '/users/openid_login';
+	
+		if (!$this->Openid->isOpenIDResponse()) {
+			if($service == "google") {
+				$openidurl = "https://www.google.com/accounts/o8/id";
+			} elseif($service == "yahoo") {
+				$openidurl = "https://me.yahoo.com";
+			} else {
+				throw new NotFoundException(__('Invalid OpenID service'));
+			}
+            $this->makeOpenIDRequest($openidurl, $returnTo, $realm);
+        } elseif ($this->Openid->isOpenIDResponse()) {
+            $this->handleOpenIDResponse($returnTo);
+        }
+	}
+	
+	private function makeOpenIDRequest($openid, $returnTo, $realm) {
+		// used by Google, Yahoo
+		$axSchema = 'axschema.org';
+		$attributes[] = Auth_OpenID_AX_AttrInfo::make('http://'.$axSchema.'/contact/email', 1, true, 'ax_email');
+		
+		// used by MyOpenID (Google supports this schema for /contact/email only)
+		$openidSchema = 'schema.openid.net';
+		$attributes[] = Auth_OpenID_AX_AttrInfo::make('http://'.$openidSchema.'/contact/email', 1, true, 'email');
+		
+		$this->Openid->authenticate($openid, $returnTo, 'http://'.$_SERVER['SERVER_NAME'], array('ax' => $attributes,
+				'sreg_required' => array('email'),
+				'sreg_optional' => array()));
+	}
+	
+	private function handleOpenIDResponse($returnTo) {
+		$response = $this->Openid->getResponse($returnTo);
+
+        if ($response->status == Auth_OpenID_CANCEL) {
+        	$this->Session->setFlash(__('OpenID verification cancelled'));
+        	$this->redirect('login');
+        } elseif ($response->status == Auth_OpenID_FAILURE) {
+        	$this->Session->setFlash(__('OpenID verification failed: '.$response->message));
+        	$this->redirect('login');
+        } elseif ($response->status == Auth_OpenID_SUCCESS) {
+            $openid = $response->identity_url;
+
+            $sregResponse = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
+            $sreg = $sregResponse->contents();
+
+            $axResponse = Auth_OpenID_AX_FetchResponse::fromSuccessResponse($response);
+
+            $email = array();
+            if ($axResponse) {
+            	$email = $axResponse->get('http://axschema.org/contact/email');
+            	
+            	// If the email couldn't be retrieved from the axschema, try the openid.net schema instead...
+            	if(empty($email)) {
+            		$email = $axResponse->get('http://schema.openid.net/contact/email');
+            	}
+            }
+            
+            if(empty($email)) {
+            	$this->Session->setFlash(__('Unable to retrieve your login details from the OpenID provider'));
+            	$this->redirect('login');
+            }
+            
+            $registeredUser = $this->User->findByEmail($email[0]);
+            
+            if(!empty($registeredUser)) {
+            	$this->Auth->login($registeredUser['User']);
+            	$this->redirect($this->Auth->redirect(array('action'=>'dashboard')));
+            }
+            
+            // If we get this far, we must be an authenticated, but new user.
+        	$this->User->create();
+        	$this->User->set('email',$email[0]);
+			$this->User->set('role','user');
+			
+			if ($this->User->save()) {
+				$this->Session->setFlash(__('Welcome! Your OpenID account has been linked to this website.'));
+				
+				$registeredUser = $this->User->findByEmail($email[0]);
+				$this->Auth->login($registeredUser['User']);
+				$this->redirect(array('action'=>'addProfile'));
+			} else {
+				$this->Session->setFlash(__('There was a problem with your registration. Please, try again.'));
+			}
+        }
 	}
 	
 	/**
