@@ -9,7 +9,7 @@ class NewsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('index','view','news_widget'); // Let new users register themselves
+		$this->Auth->allow('index','view','news_widget');
 	}
 	
 	/**
@@ -18,9 +18,11 @@ class NewsController extends AppController {
 	 * @return void
 	 */
 	 public function index() {
-		$this->News->recursive = 0;
-		$this->set('news', $this->paginate());
-		$this->set('title_for_layout', 'News'); 
+	 	if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+				$this->redirect($this->Auth->redirect('users/dashboard'));
+		} else {
+			$this->redirect($this->Auth->redirect('/admin/news'));
+		}
 	}
 	
 	 public function news_widget() {
@@ -39,37 +41,19 @@ class NewsController extends AppController {
 		}
 	}
 	
-	/**
-	 * view method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id
-	 * @return void
-	 */
-	public function view($id = null) {
-		if (!$this->News->exists($id)) {
-			throw new NotFoundException(__('Invalid news'));
-		}
-		//$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-		$this->set('news', $this->News->find('first'));
-		$news =  $this->News->find('first');
-		$title = $news['News']['headline'];
-		$this->set('title_for_layout', 'News: ' . $title);
-	}
-
 	public function admin_view($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if (!$this->News->exists($id)) {
-				throw new NotFoundException(__('Invalid news'));
-			}
-			//$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->set('news', $this->News->find('first'));
-			$news =  $this->News->find('first');
-			$title = $news['News']['headline'];
-			$this->set('title_for_layout', 'News Admin: ' . $title);
 		}
+		
+		if (!$this->News->exists($id)) {
+			throw new NotFoundException(__('Invalid news'));
+		}
+		
+		$news =  $this->News->findById($id);
+		$this->set('news', $news);
+		$title = $news['News']['headline'];
+		$this->set('title_for_layout', 'News Admin: ' . $title);
 	}
 	/**
 	 * add method
@@ -79,40 +63,44 @@ class NewsController extends AppController {
 	public function admin_add() {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if ($this->request->is('post')) {
-				$this->News->create();
-				if ($this->News->save($this->request->data)) {
-					$this->Session->setFlash(__('The news has been saved'));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The news could not be saved. Please, try again.'));
-				}
-			}
-			$this->set('title_for_layout', 'News Admin: Add News');
 		}
+		
+		if ($this->request->is('post')) {
+			$this->News->create();
+			if ($this->News->save($this->request->data)) {
+				$this->Session->setFlash(__('The news has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The news could not be saved. Please, try again.'));
+			}
+		}
+		$this->set('title_for_layout', 'News Admin: Add News');
 	}
 	
 	public function admin_edit($id = null) {
 		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
 				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if (!$this->News->exists($id)) {
-				throw new NotFoundException(__('Invalid news'));
-			}
-			if ($this->request->is('post') || $this->request->is('put')) {
-				if ($this->News->save($this->request->data)) {
-					$this->Session->setFlash(__('The news has been saved'));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The news could not be saved. Please, try again.'));
-				}
-			} else {
-				//$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-				$this->request->data = $this->News->find('first');
-			}
-			$this->set('title_for_layout', 'News Admin: Edit News');
 		}
+		
+		if (!$this->News->exists($id)) {
+			throw new NotFoundException(__('Invalid news'));
+		}
+		if ($this->request->is('post') || $this->request->is('put')) {
+			// Was cancel clicked?
+			if (isset($this->request->data['cancel'])) {
+				$this->redirect(array('action' => 'view',$id));
+			}
+			
+			if ($this->News->save($this->request->data)) {
+				$this->Session->setFlash(__('The news has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The news could not be saved. Please, try again.'));
+			}
+		} else {
+			$this->request->data = $this->News->findById($id);
+		}
+		$this->set('title_for_layout', 'News Admin: Edit News');
 	}
 
 	public function admin_delete($id = null) {

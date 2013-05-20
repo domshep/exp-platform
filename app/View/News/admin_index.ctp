@@ -1,6 +1,9 @@
+<div class="module-title">
+	<h1><?php echo $this->Html->image('/img/Mimetypes-message-news-icon.png', array('alt' => "News icon", 'escape' => false, 'class'=> 'icon'));?>
+Admin Panel - News</h1>
+</div>
 <div class="newsadmin index">
-	<h2><?php echo __('News'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table>
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('headline'); ?></th>
@@ -39,8 +42,7 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Add News'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('User Admin'), '/admin/users/'); ?></li>
-		<li><?php echo $this->Html->link(__('Module Admin'), '/admin/modules/'); ?></li>
+		<li><?php echo $this->Html->link(__('Add news'), array('action' => 'add')); ?></li>
+		<li><?php echo $this->Html->link(__('Admin panel'), '/admin_panel'); ?></li>
 	</ul>
 </div>

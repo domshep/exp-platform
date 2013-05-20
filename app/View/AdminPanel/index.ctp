@@ -26,26 +26,28 @@ Admin Panel</h1>
 				<p><strong>Number of modules added to user dashboards:</strong> <?php echo $totalModuleInstances; ?></p>
 				<p><strong>Number of health data records submitted:</strong> <?php echo $totalDataRecords; ?></p>
 				<?php 
-					echo $this->Html->link(__('Activate Module'), '/admin/modules/add',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
-					echo $this->Html->link(__('View Module List'), '/admin/modules',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+					echo $this->Html->link(__('Activate module'), '/admin/modules/add',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+					echo $this->Html->link(__('View module list'), '/admin/modules',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 				?>
 		</div>
 		
 		<div class='module' id="news">
 			<h3><?php 
-				echo $this->Html->image('/img/test-tube.png', array('alt' => "News icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/news/index'));
-				?> <strong><?php echo $this->Html->link("News", '/admin/news/index',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
-				<p>Number of News Articles: <?php echo $totalNews; ?></p>
+				echo $this->Html->image('/img/Mimetypes-message-news-icon.png', array('alt' => "News icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/admin/news/index'));
+				?> <strong><?php echo $this->Html->link("News", '/admin/news',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
+				<p><strong>Number of news articles:</strong> <?php echo $totalNews; ?></p>
 				<?php 
 				if ($totalNews > 0) 
 				{
-					$viewNewsURL = "/news/view/" . $latestNews['News']['id'];
-					
-					echo "<p>Latest News Article:"; 
-					echo $this->Html->link($latestNews['News']['headline'],$viewNewsURL,array('target' => '_self','escape' => false)); 
-					echo "</p>"; 
+				?>
+					<p><strong>Latest news article:</strong>  
+				<?php
+					echo $this->Html->link($latestNews['News']['headline'],array('controller' => 'news', 'action' => 'view', 'admin' => 'true', $latestNews['News']['id']),array('target' => '_self','escape' => false)); 
+				?>
+					</p>
+				<?php 
 				} 
-				echo $this->Html->link(__('News Admin'), '/admin/news/index',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+				echo $this->Html->link(__('View news list'), '/admin/news',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 				?>
 		</div>
 	</div>
