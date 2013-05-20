@@ -71,15 +71,7 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load('MenuBuilder');
-CakePlugin::load('DebugKit');
-CakePlugin::load('ExampleModule');
-CakePlugin::Load('HealthyEatingModule');
-CakePlugin::Load('HealthyWeightModule');
-CakePlugin::Load('StopSmokingModule');
-CakePlugin::Load('MotivationModule');
-CakePlugin::Load('TakeRegularExerciseModule');
-CakePlugin::Load('DrinkSafelyModule');
+CakePlugin::loadAll();
 
 /**
  * You can attach event listeners to the request lifecyle as Dispatcher Filter . By Default CakePHP bundles two filters:
@@ -122,4 +114,10 @@ CakeLog::config('error', array(
  */
 App::uses('ModulePlugin', 'Lib');
 App::uses('ModuleHelperFunctions', 'Lib');
+
+/**
+ * Use an insecure random number generator for OpenID because the default random number generator used (/dev/urandom)
+ * is not available on Windows...
+ */
+define('Auth_OpenID_RAND_SOURCE', null);
 ?>

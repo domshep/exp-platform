@@ -48,7 +48,10 @@ class AppController extends Controller {
 					'authenticate' => array(
 							'Form' => array(
 									'fields' => array('username'=>'email')))
-			)
+			),
+			'Openid' => array(
+					'use_database' => false,
+					'accept_google_apps' => false)
 	);
 	
 	/**
