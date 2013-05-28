@@ -414,6 +414,8 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 * Admin panel view.
   	 */
   	public function admin_module_data() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('Module');
   		$this->loadModel('StopSmokingModule.StopSmokingScreener');
   		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
@@ -443,6 +445,8 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 * Exports a full set of screener data.
   	 */
   	public function admin_export_screeners() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('StopSmokingModule.StopSmokingScreener');
   		
   		$filename = "stop_smoking_screener_export_".date("Y.m.d").".csv";
@@ -472,6 +476,8 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 * Exports a full set of weekly data.
   	 */
   	public function admin_export_weekly() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
   		
   		$filename = "stop_smoking_weekly_export_".date("Y.m.d").".csv";
@@ -507,6 +513,8 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 * Tidies up database in preparation for the module to be deleted from the website.
   	 */
   	public function admin_delete_module() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('StopSmokingModule.StopSmokingScreener');
   		$this->loadModel('StopSmokingModule.StopSmokingWeekly');
   		$this->loadModel('StopSmokingModule.StopSmokingAchievement');
@@ -522,6 +530,8 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
   	 * @return array of SQL commands to execute
   	 */
   	public function admin_install_sql() {
+  		$this->redirectIfNotAdmin();
+  		
   		$installSQL[] = "
   			DROP TABLE IF EXISTS `stop_smoking_achievements`;
 			CREATE TABLE IF NOT EXISTS `stop_smoking_achievements` (

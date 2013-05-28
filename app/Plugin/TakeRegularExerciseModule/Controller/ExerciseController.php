@@ -418,6 +418,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   	 * Admin panel view.
   	 */
   	public function admin_module_data() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('Module');
   		$this->loadModel('TakeRegularExerciseModule.ExerciseScreener');
   		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
@@ -447,6 +449,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   	 * Exports a full set of screener data.
   	 */
   	public function admin_export_screeners() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('TakeRegularExerciseModule.ExerciseScreener');
   		
   		$filename = "exercise_screener_export_".date("Y.m.d").".csv";
@@ -478,6 +482,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   	 * Exports a full set of weekly data.
   	 */
   	public function admin_export_weekly() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
   		
   		$filename = "exercise_weekly_export_".date("Y.m.d").".csv";
@@ -513,6 +519,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   	 * Tidies up database in preparation for the module to be deleted from the website.
   	 */
   	public function admin_delete_module() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('TakeRegularExerciseModule.ExerciseScreener');
   		$this->loadModel('TakeRegularExerciseModule.ExerciseWeekly');
   		$this->loadModel('TakeRegularExerciseModule.ExerciseAchievement');
@@ -528,6 +536,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
   	 * @return array of SQL commands to execute
   	 */
   	public function admin_install_sql() {
+  		$this->redirectIfNotAdmin();
+  		
   		$installSQL[] = "
   			DROP TABLE IF EXISTS `exercise_achievements`;
 			CREATE TABLE IF NOT EXISTS `exercise_achievements` (

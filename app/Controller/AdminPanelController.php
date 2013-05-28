@@ -11,9 +11,7 @@ class AdminPanelController extends AppController {
  	* @return void
  	*/
 	public function index() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		}
+		$this->redirectIfNotAdmin();
 		
 		// Load the required Models
 		$this->loadModel('User');
@@ -56,10 +54,7 @@ class AdminPanelController extends AppController {
 	* If module not found throws not found exception.
  	*/
 	public function health_data($moduleId = null) {
-		// redirect to module dashboard if not admin.
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		}
+		$this->redirectIfNotAdmin();
 		
 		// Load the Module
 		$this->loadModel('Module');

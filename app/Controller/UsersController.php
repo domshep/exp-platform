@@ -14,7 +14,6 @@ class UsersController extends AppController {
 	
 	public function admin_login() {
 		return $this->redirect($this->Auth->redirect('users/login'));
-		$this->set('title_for_layout', 'Admin: Log In'); 
 	}
 	
 	public function login() {
@@ -183,13 +182,11 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_index() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->User->recursive = 1;
-			$this->set('users', $this->paginate());
-			$this->set('title_for_layout', 'Admin'); 
-		}
+		$this->redirectIfNotAdmin();
+	
+		$this->User->recursive = 1;
+		$this->set('users', $this->paginate());
+		$this->set('title_for_layout', 'Admin'); 
 	}
 
 	/**
@@ -199,33 +196,31 @@ class UsersController extends AppController {
 	 * @throws NotFoundException If no matching user is found
 	 */
 	public function admin_view($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$viewuser = $this->User->findById($id);
-				
-			if (empty($viewuser)) {
-				throw new NotFoundException(__('Invalid user'));
-			}
+		$this->redirectIfNotAdmin();
+		
+		$viewuser = $this->User->findById($id);
 			
-			$helper = new ModuleHelperFunctions();
-			$this->loadModel('Module');
-			
-			$moduleList = $this->Module->findAllByType('dashboard');
-			$userModules = array();
-				
-			// Add module list to data
-			foreach($moduleList as $module) {
-				if($helper->search($viewuser['ModuleUser'], 'module_id', $module['Module']['id'])) {
-					$userModules[] = $module['Module']['name'];
-				}
-			}
-			
-			$this->set('viewuser', $this->User->findById($id));
-			$this->set('userModules', $userModules);
-			
-			$this->set('title_for_layout', 'Admin: View User Details'); 
+		if (empty($viewuser)) {
+			throw new NotFoundException(__('Invalid user'));
 		}
+		
+		$helper = new ModuleHelperFunctions();
+		$this->loadModel('Module');
+		
+		$moduleList = $this->Module->findAllByType('dashboard');
+		$userModules = array();
+			
+		// Add module list to data
+		foreach($moduleList as $module) {
+			if($helper->search($viewuser['ModuleUser'], 'module_id', $module['Module']['id'])) {
+				$userModules[] = $module['Module']['name'];
+			}
+		}
+		
+		$this->set('viewuser', $this->User->findById($id));
+		$this->set('userModules', $userModules);
+		
+		$this->set('title_for_layout', 'Admin: View User Details'); 
 	}
 	
 /**
@@ -234,22 +229,19 @@ class UsersController extends AppController {
  * @return void
  */
 	public function admin_add() {
+		$this->redirectIfNotAdmin();
 		
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if ($this->request->is('post')) {
-				$this->User->create();
-				if ($this->User->saveAssociated($this->request->data)) {
-					$this->Session->setFlash(__('The user has been saved'));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-				} 
-			}
-
-			$this->set('title_for_layout', 'Admin: Add New User');
+		if ($this->request->is('post')) {
+			$this->User->create();
+			if ($this->User->saveAssociated($this->request->data)) {
+				$this->Session->setFlash(__('The user has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+			} 
 		}
+
+		$this->set('title_for_layout', 'Admin: Add New User');
 	}
 	
 	/**
@@ -274,60 +266,56 @@ class UsersController extends AppController {
 	}
 
 	public function admin_edit($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if ($this->request->is('post') || $this->request->is('put')) {
-				// Was cancel clicked?
-				if (isset($this->request->data['cancel'])) {
-					$this->redirect(array('action' => 'view',$id));
-				}
-				
-				// Get user id from the URL, rather than from form
-				$this->request->data['User']['id'] = $id;
-				$this->request->data['Profile']['user_id'] = $id;
-				$this->request->data['Profile']['id'] = $id;
-				
-				// Has password changed?
-				if (!empty($this->request->data['User']['new_password'])) {
-					if($this->request->data['User']['new_password'] != $this->request->data['User']['repeat_password']) {
-						$this->Session->setFlash(__('Your passwords did not match. Please, try again.'));
-						return;
-					} else {
-						$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-					}
-				}
-					
-				if ($this->User->saveAssociated($this->request->data)) {
-					$this->Session->setFlash(__('The user&rsquo;s profile has been updated.'));
-					$this->redirect(array('action' => 'view',$id));
-				} else {
-					$this->Session->setFlash(__('The user&rsquo;s profile could not be saved. Please, try again.'));
-				}
-			} else {
-				$this->request->data = $this->User->findById($id);
+		$this->redirectIfNotAdmin();
+		
+		if ($this->request->is('post') || $this->request->is('put')) {
+			// Was cancel clicked?
+			if (isset($this->request->data['cancel'])) {
+				$this->redirect(array('action' => 'view',$id));
 			}
-			$this->set('title_for_layout', 'Admin: Edit User Profile'); 
+			
+			// Get user id from the URL, rather than from form
+			$this->request->data['User']['id'] = $id;
+			$this->request->data['Profile']['user_id'] = $id;
+			$this->request->data['Profile']['id'] = $id;
+			
+			// Has password changed?
+			if (!empty($this->request->data['User']['new_password'])) {
+				if($this->request->data['User']['new_password'] != $this->request->data['User']['repeat_password']) {
+					$this->Session->setFlash(__('Your passwords did not match. Please, try again.'));
+					return;
+				} else {
+					$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+				}
+			}
+				
+			if ($this->User->saveAssociated($this->request->data)) {
+				$this->Session->setFlash(__('The user&rsquo;s profile has been updated.'));
+				$this->redirect(array('action' => 'view',$id));
+			} else {
+				$this->Session->setFlash(__('The user&rsquo;s profile could not be saved. Please, try again.'));
+			}
+		} else {
+			$this->request->data = $this->User->findById($id);
 		}
+		$this->set('title_for_layout', 'Admin: Edit User Profile'); 
 	}
 
 	public function admin_delete($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->User->id = $id;
-			if (!$this->User->exists()) {
-				throw new NotFoundException(__('Invalid user'));
-			}
-			//$this->request->onlyAllow('user', 'delete');
-			if ($this->User->delete($id)) {
-				$this->Session->setFlash(__('User deleted'));
-				$this->redirect(array('action' => 'index'));
-			}
-			$this->Session->setFlash(__('User was not deleted'));
-			$this->redirect(array('action' => 'index'));
-			$this->set('title_for_layout', 'Admin: Delete User'); 
+		$this->redirectIfNotAdmin();
+
+		$this->User->id = $id;
+		if (!$this->User->exists()) {
+			throw new NotFoundException(__('Invalid user'));
 		}
+		//$this->request->onlyAllow('user', 'delete');
+		if ($this->User->delete($id)) {
+			$this->Session->setFlash(__('User deleted'));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->Session->setFlash(__('User was not deleted'));
+		$this->redirect(array('action' => 'index'));
+		$this->set('title_for_layout', 'Admin: Delete User'); 
 	}
 	
 	public function dashboard() {
@@ -435,6 +423,8 @@ class UsersController extends AppController {
 	 * user's dashboard.
 	 */
 	public function admin_full_export() {
+		$this->redirectIfNotAdmin();
+		
 		$this->loadModel('Module');
 		
 		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large
@@ -500,6 +490,8 @@ class UsersController extends AppController {
 	 * Exports a set of user data, containing just the essentials for sending an email or SMS message.
 	 */
 	public function admin_comms_export() {
+		$this->redirectIfNotAdmin();
+		
 		$this->loadModel('Module');
 	
 		ini_set('max_execution_time', 600); //increase max_execution_time to 10 min if data set is very large

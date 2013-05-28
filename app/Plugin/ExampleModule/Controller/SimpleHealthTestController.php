@@ -437,6 +437,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * Admin panel view.
   	 */
   	public function admin_module_data() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('Module');
   		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
   		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
@@ -466,6 +468,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * Exports a full set of screener data.
   	 */
   	public function admin_export_screeners() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
   		
   		$filename = "simple_health_test_screener_export_".date("Y.m.d").".csv";
@@ -489,6 +493,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * Exports a full set of weekly data.
   	 */
   	public function admin_export_weekly() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
   		
   		$filename = "simple_health_test_weekly_export_".date("Y.m.d").".csv";
@@ -524,6 +530,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * Tidies up database in preparation for the module to be deleted from the website.
   	 */
   	public function admin_delete_module() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('ExampleModule.SimpleHealthTestScreener');
   		$this->loadModel('ExampleModule.SimpleHealthTestWeekly');
   		$this->loadModel('ExampleModule.SimpleHealthTestAchievement');
@@ -539,6 +547,8 @@ class SimpleHealthTestController extends ExampleModuleAppController implements M
   	 * @return array of SQL commands to execute
   	 */
   	public function admin_install_sql() {
+  		$this->redirectIfNotAdmin();
+  		
   		$installSQL[] = "
   			DROP TABLE IF EXISTS `simple_health_test_achievements`;
 			CREATE TABLE IF NOT EXISTS `simple_health_test_achievements` (

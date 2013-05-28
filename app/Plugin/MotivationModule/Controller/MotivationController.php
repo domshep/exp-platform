@@ -212,6 +212,8 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	 * Admin panel view.
   	 */
   	public function admin_module_data() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('Module');
   		$this->loadModel('MotivationModule.MotivationScreener');
   		
@@ -237,6 +239,8 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	 * Exports a full set of screener data.
   	 */
   	public function admin_export_reasons() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('MotivationModule.MotivationScreener');
   		
   		$filename = "motivation_reasons_export_".date("Y.m.d").".csv";
@@ -258,6 +262,8 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	 * Tidies up database in preparation for the module to be deleted from the website.
   	 */
   	public function admin_delete_module() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('MotivationModule.MotivationScreener');
   		
   		$this->MotivationScreener->query("DROP TABLE `motivation_screeners`");
@@ -269,6 +275,8 @@ class MotivationController extends MotivationModuleAppController implements Modu
   	 * @return array of SQL commands to execute
   	 */
   	public function admin_install_sql() {
+  		$this->redirectIfNotAdmin();
+  		
   		$installSQL[] = "
   			DROP TABLE IF EXISTS `motivation_screeners`;
 			CREATE TABLE IF NOT EXISTS `motivation_screeners` (

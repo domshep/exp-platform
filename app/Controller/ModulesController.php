@@ -24,11 +24,9 @@ class ModulesController extends AppController {
 	 * @return void	
  	*/
 	public function index() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->redirect($this->Auth->redirect('admin/modules/index'));
-		}
+		$this->redirectIfNotAdmin();
+		
+		$this->redirect($this->Auth->redirect('admin/modules/index'));
 	}
 	
 	/**
@@ -37,13 +35,11 @@ class ModulesController extends AppController {
 	* @return void.
  	*/
 	public function admin_index() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->Module->recursive = 1;
-			$this->set('modules', $this->paginate());
-			$this->set('title_for_layout', 'Admin Panel - Modules'); 
-		}
+		$this->redirectIfNotAdmin();
+
+		$this->Module->recursive = 1;
+		$this->set('modules', $this->paginate());
+		$this->set('title_for_layout', 'Admin Panel - Modules');
 	}
 	
 	/**
@@ -53,16 +49,14 @@ class ModulesController extends AppController {
  	* @return void
 	*/
 	public function admin_view($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
+		$this->redirectIfNotAdmin();
+		
+		if ($id == null) {
+			$this->redirect($this->Auth->redirect('admin/modules/index'));
 		} else {
-			if ($id == null) $this->redirect($this->Auth->redirect('admin/modules/index'));
-			else 
-			{
-				$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
-				$this->set('module', $this->Module->find('first', $options));
-				$this->set('title_for_layout', 'View Module'); 
-			}
+			$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
+			$this->set('module', $this->Module->find('first', $options));
+			$this->set('title_for_layout', 'View Module'); 
 		}
 	}
 	
@@ -73,9 +67,7 @@ class ModulesController extends AppController {
 	 * @return void
 	 */
  	public function admin_add() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		}
+		$this->redirectIfNotAdmin();
 		
 		$healthModuleList = $this->get_uninstalled_module_list();
 		
@@ -89,9 +81,7 @@ class ModulesController extends AppController {
 	 * @return void
 	 */
 	public function admin_install($plugin, $controllerName) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		}
+		$this->redirectIfNotAdmin();
 		
 		// Check that the given plugin/controller is able to be installed
 		$helper = new ModuleHelperFunctions();
@@ -137,25 +127,24 @@ class ModulesController extends AppController {
 	 * @return void
 	 */
 	public function admin_edit($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			if (!$this->Module->exists($id)) {
-				throw new NotFoundException(__('Invalid module'));
-			}
-			if ($this->request->is('post') || $this->request->is('put')) {
-				if ($this->Module->save($this->request->data)) {
-					$this->Session->setFlash(__('The module has been saved'));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
-				}
-			} else {
-				$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
-				$this->request->data = $this->Module->find('first', $options);
-			}
-			$this->set('title_for_layout', 'Edit Module'); 
+		$this->redirectIfNotAdmin();
+		
+		if (!$this->Module->exists($id)) {
+			throw new NotFoundException(__('Invalid module'));
 		}
+		
+		if ($this->request->is('post') || $this->request->is('put')) {
+			if ($this->Module->save($this->request->data)) {
+				$this->Session->setFlash(__('The module has been saved'));
+				$this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The module could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('Module.' . $this->Module->primaryKey => $id));
+			$this->request->data = $this->Module->find('first', $options);
+		}
+		$this->set('title_for_layout', 'Edit Module'); 
 	}
 	
 	/**
@@ -167,33 +156,31 @@ class ModulesController extends AppController {
 	 * @return void
 	 */
 	public function admin_delete($moduleId = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->loadModel('Module');
-			$module = $this->Module->findById($moduleId);
-			
-			if(empty($module)) {
-				throw new NotFoundException("The module with id ".$moduleId." was not found");
-				$this->set('title_for_layout', 'Module Not Found');
-			}
-			
-			// Delete the module-user links
-			$this->loadModel('ModuleUser');
-			$this->ModuleUser->deleteAll(array('ModuleUser.module_id' => $module['Module']['id']), false);
-			
-			// Delete the associated health data
-			$this->requestAction('/admin/'.$module['Module']['base_url'].'/delete_module');
-			
-			// Delete the module data itself
-			$this->Module->id = $module['Module']['id'];
-			if ($this->Module->delete()) {
-				$this->Session->setFlash(__('Module deleted'));
-				$this->redirect(array('action' => 'index', 'admin' => 'true'));
-			}
-			$this->Session->setFlash(__('Module was not deleted'));
+		$this->redirectIfNotAdmin();
+		
+		$this->loadModel('Module');
+		$module = $this->Module->findById($moduleId);
+		
+		if(empty($module)) {
+			throw new NotFoundException("The module with id ".$moduleId." was not found");
+			$this->set('title_for_layout', 'Module Not Found');
+		}
+		
+		// Delete the module-user links
+		$this->loadModel('ModuleUser');
+		$this->ModuleUser->deleteAll(array('ModuleUser.module_id' => $module['Module']['id']), false);
+		
+		// Delete the associated health data
+		$this->requestAction('/admin/'.$module['Module']['base_url'].'/delete_module');
+		
+		// Delete the module data itself
+		$this->Module->id = $module['Module']['id'];
+		if ($this->Module->delete()) {
+			$this->Session->setFlash(__('Module deleted'));
 			$this->redirect(array('action' => 'index', 'admin' => 'true'));
 		}
+		$this->Session->setFlash(__('Module was not deleted'));
+		$this->redirect(array('action' => 'index', 'admin' => 'true'));
 	}
 	
 	/**
@@ -205,26 +192,24 @@ class ModulesController extends AppController {
 	 * @return void
 	 */
 	public function admin_activate($id = null, $active = true) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-			$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->Module->id = $id;
-			if (!$this->Module->exists()) {
-				throw new NotFoundException(__('Invalid module'));
-				$this->set('title_for_layout', 'Module Not Found');
+		$this->redirectIfNotAdmin();
+
+		$this->Module->id = $id;
+		if (!$this->Module->exists()) {
+			throw new NotFoundException(__('Invalid module'));
+			$this->set('title_for_layout', 'Module Not Found');
+		}
+		$this->Module->set('active', $active);
+		if ($this->Module->save()) {
+			if($active) {
+				$this->Session->setFlash(__('Module activated'));
+			} else {
+				$this->Session->setFlash(__('Module de-activated'));
 			}
-			$this->Module->set('active', $active);
-			if ($this->Module->save()) {
-				if($active) {
-					$this->Session->setFlash(__('Module activated'));
-				} else {
-					$this->Session->setFlash(__('Module de-activated'));
-				}
-				$this->redirect(array('action' => 'index', 'admin' => 'true'));
-			}
-			$this->Session->setFlash(__('Module was not updated'));
 			$this->redirect(array('action' => 'index', 'admin' => 'true'));
 		}
+		$this->Session->setFlash(__('Module was not updated'));
+		$this->redirect(array('action' => 'index', 'admin' => 'true'));
 	}
 	
 	/**

@@ -250,5 +250,14 @@ class AppController extends Controller {
 		fclose($csv_file);
 		$this->render('/AdminPanel/export');
 	}
+	
+	/**
+	 * Checks to see if the user is an admin or super-admin. Redirects to the user dashboard if they are not.
+	 */
+	protected function redirectIfNotAdmin() {
+		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
+			$this->redirect($this->Auth->redirect('/users/dashboard'));
+		}
+	}
 }
 ?>

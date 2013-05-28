@@ -558,6 +558,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * Admin panel view.
   	 */
   	public function admin_module_data() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('Module');
   		$this->loadModel('HealthyWeightModule.BmiScreener');
   		$this->loadModel('HealthyWeightModule.BmiWeekly');
@@ -587,6 +589,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * Exports a full set of screener data.
   	 */
   	public function admin_export_screeners() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('HealthyWeightModule.BmiScreener');
   		
   		$filename = "body_mass_index_screener_export_".date("Y.m.d").".csv";
@@ -610,6 +614,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * Exports a full set of weekly data.
   	 */
   	public function admin_export_weekly() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('HealthyWeightModule.BmiWeekly');
   		
   		$filename = "body_mass_index_weekly_export_".date("Y.m.d").".csv";
@@ -635,6 +641,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * Tidies up database in preparation for the module to be deleted from the website.
   	 */
   	public function admin_delete_module() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('HealthyWeightModule.BmiScreener');
   		$this->loadModel('HealthyWeightModule.BmiWeekly');
   		$this->loadModel('HealthyWeightModule.BmiAchievement');
@@ -650,6 +658,8 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   	 * @return array of SQL commands to execute
   	 */
   	public function admin_install_sql() {
+  		$this->redirectIfNotAdmin();
+  		
   		$installSQL[] = "
   			DROP TABLE IF EXISTS `bmi_achievements`;
 			CREATE TABLE IF NOT EXISTS `bmi_achievements` (

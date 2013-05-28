@@ -18,33 +18,32 @@ class NewsController extends AppController {
 	 * @return void
 	 */
 	 public function index() {
-	 	if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->redirect($this->Auth->redirect('/admin/news'));
-		}
+	 	$this->redirectIfNotAdmin();
+	 	
+		$this->redirect($this->Auth->redirect('/admin/news'));
 	}
 	
 	 public function news_widget() {
+	 	// Don't allow this method to be called directly from a URL
+	 	if (empty($this->request->params['requested'])) {
+	 		throw new ForbiddenException();
+	 	}
+	 	
 	 	$news = $this->News->find('all', array('order' => 'News.created DESC', 'limit' => 3));
         $this->set('news', $news);
 		$this->render();
 	}
 	
 	public function admin_index() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->News->recursive = 0;
-			$this->set('news', $this->paginate());
-			$this->set('title_for_layout', 'News Admin'); 
-		}
+		$this->redirectIfNotAdmin();
+		
+		$this->News->recursive = 0;
+		$this->set('news', $this->paginate());
+		$this->set('title_for_layout', 'News Admin'); 
 	}
 	
 	public function admin_view($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		}
+		$this->redirectIfNotAdmin();
 		
 		if (!$this->News->exists($id)) {
 			throw new NotFoundException(__('Invalid news'));
@@ -55,15 +54,14 @@ class NewsController extends AppController {
 		$title = $news['News']['headline'];
 		$this->set('title_for_layout', 'News Admin: ' . $title);
 	}
+	
 	/**
 	 * add method
 	 *
 	 * @return void
 	 */
 	public function admin_add() {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		}
+		$this->redirectIfNotAdmin();
 		
 		if ($this->request->is('post')) {
 			$this->News->create();
@@ -78,9 +76,7 @@ class NewsController extends AppController {
 	}
 	
 	public function admin_edit($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		}
+		$this->redirectIfNotAdmin();
 		
 		if (!$this->News->exists($id)) {
 			throw new NotFoundException(__('Invalid news'));
@@ -104,23 +100,21 @@ class NewsController extends AppController {
 	}
 
 	public function admin_delete($id = null) {
-		if ($this->Auth->user('role') != 'admin' and $this->Auth->user('role') != 'super-admin' ) { // if not admin
-				$this->redirect($this->Auth->redirect('users/dashboard'));
-		} else {
-			$this->News->id = $id;
-			if (!$this->News->exists()) {
-				throw new NotFoundException(__('Invalid news'));
-			}
-			//$this->request->onlyAllow('post', 'delete');
-			if ($this->News->delete()) {
-				$this->Session->setFlash(__('News deleted'));
-				$this->redirect(array('action' => 'index'));
-			}
-			$this->Session->setFlash(__('The News was not deleted'));
-			$this->redirect(array('action' => 'index'));
-			
-			$this->set('title_for_layout', 'News Admin: Delete News');
+		$this->redirectIfNotAdmin();
+
+		$this->News->id = $id;
+		if (!$this->News->exists()) {
+			throw new NotFoundException(__('Invalid news'));
 		}
+		
+		if ($this->News->delete()) {
+			$this->Session->setFlash(__('News deleted'));
+			$this->redirect(array('action' => 'index'));
+		}
+		$this->Session->setFlash(__('The News was not deleted'));
+		$this->redirect(array('action' => 'index'));
+		
+		$this->set('title_for_layout', 'News Admin: Delete News');
 	}
 }
 ?>

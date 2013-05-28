@@ -417,6 +417,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * Admin panel view.
   	 */
   	public function admin_module_data() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('Module');
   		$this->loadModel('HealthyEatingModule.FiveADayScreener');
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
@@ -446,6 +448,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * Exports a full set of screener data.
   	 */
   	public function admin_export_screeners() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('HealthyEatingModule.FiveADayScreener');
   		
   		$filename = "five-a-day_screener_export_".date("Y.m.d").".csv";
@@ -483,6 +487,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * Exports a full set of weekly data.
   	 */
   	public function admin_export_weekly() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
   		
   		$filename = "five-a-day_weekly_export_".date("Y.m.d").".csv";
@@ -518,6 +524,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * Tidies up database in preparation for the module to be deleted from the website.
   	 */
   	public function admin_delete_module() {
+  		$this->redirectIfNotAdmin();
+  		
   		$this->loadModel('HealthyEatingModule.FiveADayScreener');
   		$this->loadModel('HealthyEatingModule.FiveADayWeekly');
   		$this->loadModel('HealthyEatingModule.FiveADayAchievement');
@@ -533,6 +541,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
   	 * @return array of SQL commands to execute
   	 */
   	public function admin_install_sql() {
+  		$this->redirectIfNotAdmin();
+  		
   		$installSQL[] = "
   			DROP TABLE IF EXISTS `fiveaday_achievements`;
 			CREATE TABLE IF NOT EXISTS `fiveaday_achievements` (
