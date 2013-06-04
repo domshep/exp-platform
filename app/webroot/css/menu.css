@@ -121,3 +121,8 @@ way to fit your requirements.
 	left:-9999px; 
 	top:-9999px;
 }
+
+/* fix for IE7 formatting issue */
+#main-menu a {
+	float:left;
+}
