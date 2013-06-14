@@ -10,16 +10,22 @@
 	text-indent: -6000px;
 	overflow: hidden;
 }
-.calendar .badbeer, .calendar .badbeer a:link, .calendar .badbeer a:visited{
+.calendar .badbeer, .calendar .badbeer a:link, .calendar .badbeer a:visited, .calendar .goodbeer, .calendar .goodbeer a:link, .calendar .goodbeer a:visited, .calendar .excessbeer, .calendar .excessbeer a:link, .calendar .excessbeer a:visited{
 	color:#000000;
 	text-align: center;
 }
-.calendar .goodbeer, .calendar .goodbeer a:link, .calendar .goodbeer a:visited{
-	color:#ffffff;
-	text-align: center;
+.calendar .excessbeer a{
+	background-image: url(/drink_safely_module/img/drinking/beer-icon.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	display: block;
+	height: 32px;
+	padding-top:10px;
+	text-indent: -6000px;
+	overflow: hidden;
 }
 .calendar .goodbeer a{
-	background-image: url(/drink_safely_module/img/drinking/beer-icon.png);
+	background-image: url(/drink_safely_module/img/drinking/beer-good-icon.png);
 	background-repeat: no-repeat;
 	background-position: center top;
 	display: block;

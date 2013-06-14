@@ -24,6 +24,14 @@
 	<tr>
 		<td class="colblue col1">
 			<strong>How many units of alcohol if any, do you drink on a typical day when you are drinking?</strong>
+			<a href="#units" class="info" title="Click for information about how many units are in your drinks"><?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'What is this?',
+						'class' => 'info')
+				);
+			?>
+			</a>
 		</td>
 		<td class="colgreen col2">
 			<?php 
@@ -42,6 +50,14 @@
 				else echo " 8 ";
 			?> 
 			or more units on a single occasion during the last 8 weeks?</strong>
+			<a href="#units" class="info" title="Click for information about how many units are in your drinks"><?php 
+				echo $this->Html->image(
+					'info-icon.png', 
+					array('alt' => 'What is this?',
+						'class' => 'info')
+				);
+			?>
+			</a>
 		</td>
 		<td class="colgreen col2">
 			<?php 
@@ -58,3 +74,15 @@
 	);
 	echo $this->Form->end($options);
 ?>
+
+<!-- This contains the hidden content for inline calls -->
+<div style='display:none'>
+	<div id='units' class='popup'>
+		<h3>How many units are in your drinks?</h3>
+		<p><strong>Have you ever thought....&ldquo;I only have a couple of drinks a night &ndash; what&rsquo;s the big deal&rdquo;?</strong></p>
+		<p>Understanding what a unit of alcohol is can be confusing, working out how many are in your drink can be even worse. Take a look at this chart to help give an idea of how many units you are drinking, and use the tools below to get a more exact figure.</p> 
+		<p><img height="336" alt="" width="572" src="/drink_safely_module/img/drinkschart.png" style="width:572px;margin-left:auto;margin-right:auto;display:block;"/></p>
+		<p>Find out how many units you had the last time you had a drink using the <a title="click to go to the drinks checker on the Change4Life Wales website [external website - opens in new window]" href="http://change4lifewales.org.uk/adults/alcohol/drinks-checker/?lang=en" target="_blank"><strong>Change4Life Wales drinks checker.&nbsp;</strong></a></p>
+		<p>Find out whether you are <a title="click to use the alcohol calculator on the NHS Choices website [external website - opens in new window]" href="http://www.nhs.uk/Tools/Pages/Alcoholcalculator.aspx" target="_blank"><strong>drinking within the sensible levels by using this assessment </strong></a>from NHS Choices.&nbsp;</p>
+    </div>
+</div>

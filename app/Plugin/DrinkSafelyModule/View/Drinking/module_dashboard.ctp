@@ -34,9 +34,15 @@ if ($newswidget != "") echo $newswidget;
 						?>&nbsp;<strong><?php echo $this->Html->link(__('My month at a glance'), array('action' => 'view_records')); ?></strong>
 		</h3>
 		<?php 
-			if ($gender == "F") $safelimit = 4;
-			else $safelimit = 5; 
-			echo $this->Calendar->calendar($year,$month,$records,'/drink_safely_module/drinking/module_dashboard','/drink_safely_module/drinking/data_entry',$safelimit,'badbeer','goodbeer'); ?>
+			if ($gender == "F"){ 
+				$safelimit = 3;
+				$excesslimit = 6;
+			}
+			else {
+				$safelimit = 4; 
+				$excesslimit = 8;
+			}
+			echo $this->Calendar->calendar($year,$month,$records,'/drink_safely_module/drinking/module_dashboard','/drink_safely_module/drinking/data_entry',$excesslimit,'badbeer','goodbeer',$safelimit,'excessbeer'); ?>
 		<p>
 		<?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button', 'style' => 'float:left;')); ?>
 		<?php echo $this->Html->link(__('View my monthly records'), array('action' => 'view_records'),array('class' => 'button', 'style' => 'float:right;clear:none;')); ?></p>

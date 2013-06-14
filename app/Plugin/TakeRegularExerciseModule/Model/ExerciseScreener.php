@@ -71,8 +71,8 @@ class ExerciseScreener extends AppModel {
 			),
 			'sedentary_mins' => array(
 					'valid' => array(
-						'rule'    => array('range', -1, 301),
-						'message' => 'Please enter a number between 0 and 300 minutes',
+						'rule'    => array('range', -1, 3001),
+						'message' => 'Please enter a number between 0 and 3000 minutes',
 					)
 			)
 	);

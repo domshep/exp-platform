@@ -33,7 +33,7 @@ if ($newswidget != "") echo $newswidget;
 		<h3><?php echo $this->Html->image('/img/Actions-view-calendar-icon.png', array('alt' => "Calendar icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
 						?>&nbsp;<strong><?php echo $this->Html->link(__('My month at a glance'), array('action' => 'view_records')); ?></strong>
 		</h3>
-		<?php echo $this->Calendar->calendar($year,$month,$records,'/take_regular_exercise_module/exercise/module_dashboard','/take_regular_exercise_module/exercise/data_entry','21','green-exercise','red-exercise'); ?>
+		<?php echo $this->Calendar->calendar($year,$month,$records,'/take_regular_exercise_module/exercise/module_dashboard','/take_regular_exercise_module/exercise/data_entry','21','green-exercise','red-exercise','1','amber-exercise'); ?>
 		<p>
 		<?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button', 'style' => 'float:left;')); ?>
 		<?php echo $this->Html->link(__('View my monthly records'), array('action' => 'view_records'),array('class' => 'button', 'style' => 'float:right;clear:none;')); ?></p>
