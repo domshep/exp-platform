@@ -55,8 +55,8 @@ class BmiWeekly extends AppModel {
 			),
 			'weight_kg' => array(
 					'valid' => array(
-							'rule' => array('range', 29, 131),
-							'message' => 'Please enter a number between 30kg (70lbs) and 130kg (290lbs) for your current weight.',
+							'rule' => array('range', 29, 251),
+							'message' => 'Please enter a number between 30kg (70lbs) and 250kg (551lbs) for your current weight.',
 							'allowEmpty' => true,
 					)
 			),

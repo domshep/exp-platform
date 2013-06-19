@@ -41,8 +41,8 @@ class BmiScreener extends AppModel {
 			),
 			'weight_kg' => array(
 					'valid' => array(
-						'rule'    => array('range', 29, 131),
-						'message' => 'Please enter your current weight. This should be between 30kg (70lbs) and 130kg (290lbs)',
+						'rule'    => array('range', 29, 251),
+						'message' => 'Please enter your current weight. This should be between 30kg (70lbs) and 250kg (551lbs)',
 					)
 			)
 	);
