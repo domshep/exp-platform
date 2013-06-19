@@ -873,7 +873,7 @@ a.infohover{
 	color: #BF1C2D;
 	font-size:1.3em;
 	background-image:url(/img/info-icon.png);
-	background-repeat:no-repeat no-repeat;
+	background-repeat:no-repeat;
 	height:32px;
 	padding-left:40px;
 	margin-bottom:1em;

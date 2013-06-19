@@ -102,9 +102,10 @@ jQuery(".weekly-total input").bind("keyup", function() {
 <!-- This contains the hidden content for inline calls -->
 <div style='display:none'>
 	<div id='portion' class='popup'>
-		<h3><img src='/healthy_eating_module/img/five_a_day/5-a-dayportionposter.png' alt="Healthy Eating Poster" style="float:right; margin-left: 10px;" />How much is a portion?</h3>
+		<h3>How much is a portion?</h3>
 		<p>Did you know that the World Health Organization recommends eating a minimum of 400g of fruit and vegetables every day to lower risk of serious health problems? This is equal to 5 portions of 80g.</p>
-		<p>But how do we measure what 80g is? Have a look at the poster on the right to see how your portion sizes match up.</p>
+		<p>But how do we measure what 80g is? Have a look at the poster below to see how your portion sizes match up.</p>
+		<p><img src='/healthy_eating_module/img/five_a_day/5-a-dayportionposter.png' alt="Healthy Eating Poster" style="margin:1em auto;width:334px;display:block;"/></p>
 		<p>A larger version of the poster, which is produced by the <a href='http://www.wcrf-uk.org/'>World Cancer Research Fund</a>, can be <a href='http://www.wcrf-uk.org/PDFs/5adayposter.pdf'>downloaded from their website</a>.
 You can also download information on <a href='http://www.wcrf-uk.org/PDFs/Portion-Size-finding-the-balance.pdf'>portion sizes for a balanced diet</a> by the World Cancer Research Fund.</p>
 	</div>
