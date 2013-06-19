@@ -124,7 +124,7 @@ img.right {
 	width: 960px;
 }
 #content {
-	padding: 0px 5px 0px 20px; 
+	padding: 5px 10px 0px 10px; 
 }
 
 /*browsertools*/	
@@ -290,10 +290,6 @@ div#breadcrumb a {
 #content p {
 	line-height: 1.4em; 
 	padding: 0px 0;
-}
-#content {
-	padding-top: 5px;  
-	padding-right: 20px;
 }
 #content ul {
 	margin:1em 0 1em 2em;
@@ -484,8 +480,8 @@ div#breadcrumb a {
 	clear: both;
 }
 .widget, .module {
-	width: 47.2%;
-	margin-right: 10px;
+	width: 434px;
+	margin-right: 15px;
 	margin-bottom: 10px;
 	float: left;
 	box-shadow: 3px 3px 3px #eeeeee; 
