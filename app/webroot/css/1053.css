@@ -749,6 +749,11 @@ img.next, img.previous {
 }
 
 /* Cancel button */
+form .submit input {
+	clear:none;
+	float:right;
+}
+
 form .submit input#cancel[type=submit] {
 	background:#afafaf;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#bfbfbf), to(#828282));
@@ -757,7 +762,7 @@ form .submit input#cancel[type=submit] {
 	border-color: #636363;
 	color: #fff;
 	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0px;
-	padding: 8px 10px;
+	margin-right:10px;
 }
 form .submit input#cancel[type=submit]:hover {
 	background: #a1a1a1;
