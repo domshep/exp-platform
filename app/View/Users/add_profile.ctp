@@ -8,6 +8,7 @@
 		<p>All data is held confidentially and securely.</p>
 	<?php
 		echo $this->Form->input('Profile.name');
+		echo $this->Form->input('User.email', array('disabled' => true));
 		echo $this->Form->input('Profile.gender', array(
 				'options' => array('M' => 'Male', 'F' => 'Female')
 		));
@@ -30,8 +31,8 @@
 		?></td><td style="border:0px; padding:0px;"><?php 
 		echo $this->Form->input('height_inches', array('label'=>'&nbsp;', 'class'=>'inches', 'style'=>'width:100px;'));
 		?></td></tr></table><?php
-		echo $this->Form->input('Profile.post_code');
-		echo $this->Form->input('Profile.mobile_no');
+		echo $this->Form->input('Profile.post_code', array('label' => 'Home post code (UK)'));
+		echo $this->Form->input('Profile.mobile_no', array('label' => 'Mobile number'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

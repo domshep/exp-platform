@@ -3,8 +3,8 @@
 	<fieldset>
 		<legend><?php echo __('Edit Profile'); ?></legend>
 	<?php
-		echo $this->Form->input('User.email');
 		echo $this->Form->input('Profile.name');
+		echo $this->Form->input('User.email');
 		echo $this->Form->input('Profile.gender', array(
 				'options' => array('M' => 'Male', 'F' => 'Female')
 		));
@@ -28,8 +28,8 @@
 		?></td><td style="border:0px; padding:0px;"><?php 
 		echo $this->Form->input('height_inches', array('label'=>'&nbsp;', 'class'=>'inches', 'style'=>'width:100px;'));
 		?></td></tr></table><?php
-		echo $this->Form->input('Profile.post_code');
-		echo $this->Form->input('Profile.mobile_no');
+		echo $this->Form->input('Profile.post_code', array('label' => 'Home post code (UK)'));
+		echo $this->Form->input('Profile.mobile_no', array('label' => 'Mobile number'));
 		
 		echo $this->Form->input('new_password', array('type' => 'password'));
 		echo $this->Form->input('repeat_password', array('type' => 'password'));

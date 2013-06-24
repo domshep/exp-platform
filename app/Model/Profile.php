@@ -51,7 +51,12 @@ class Profile extends AppModel {
 			'mobile_no' => array(
 					'rule' => array('phone','/^([0-9]{11})$/','gb'),
 					'message' => 'Please enter a valid mobile number (eleven digits, no spaces), or leave blank. All UK mobile phones begin with \'07\'. Please omit the international phone code (+44)',
-					'allowEmpty' => true
+					'allowEmpty' => false
+			),
+			'post_code' => array(
+					'rule' => array('postal',null,'uk'),
+					'message' => 'Please enter a valid UK post code.',
+					'allowEmpty' => false
 			),
 			'date_of_birth' => array(
 					'rule' => 'date',
