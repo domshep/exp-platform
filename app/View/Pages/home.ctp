@@ -1,4 +1,4 @@
-<h1>Experimental Platform for Health Promotion - version 0.4</h1>
+<h1>Experimental Platform for Health Promotion - version 0.5</h1>
 <p>This web-tool is an under-development 'experimental platform',
 	intended to provide a platform for the preliminary development and
 	testing of interactive health topic modules.</p>
