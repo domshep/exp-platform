@@ -929,3 +929,27 @@ a.infohover{
 	background-color:#FF99CC;
 	border-radius: 10px;
 }
+
+/* Registration / login pages */
+.register-form p {
+	font-size:0.8em;
+}
+.register-form div {
+	padding:2px;
+}
+.register-form div.input {
+	margin-bottom:0.5em;
+}
+.register-form fieldset {
+	margin-bottom:0;
+	padding:5px;
+}
+.register-form .submit input[type="submit"] {
+	font-size:1em;
+	padding:3px;
+}
+ul.social-media-list li {
+	list-style-type:none;
+	width:340px;
+	float:left;
+}
