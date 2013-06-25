@@ -37,6 +37,7 @@ Admin Panel - New User</h1>
 				?></td></tr></table><?php
 				echo $this->Form->input('Profile.post_code');
 				echo $this->Form->input('Profile.mobile_no');
+				echo $this->Form->input('Profile.allow_research', array('label' => 'This user&rsquo;s information can be used for research into improving health', 'after' => '<br />(Researchers will not have access to their personal details)', 'checked' => true));
 			?>
 			</fieldset>
 		<?php echo $this->Form->end(__('Submit')); ?>

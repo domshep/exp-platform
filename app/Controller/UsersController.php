@@ -440,7 +440,7 @@ class UsersController extends AppController {
 		$results = $this->User->find('all', array());
 		
 		// The column headings of your .csv file
-		$header_row = array("User ID", "Email", "Role", "Name", "Gender", "Date of birth", "Height (CM)", "Post code", "Mobile no", "Registered");
+		$header_row = array("User ID", "Email", "Role", "Name", "Gender", "Date of birth", "Height (CM)", "Post code", "Mobile no", "Registered", "Allow research");
 		
 		$moduleList = $this->Module->findAllByType('dashboard');
 		
@@ -465,7 +465,8 @@ class UsersController extends AppController {
 					$result['Profile']['height_cm'],
 					$result['Profile']['post_code'],
 					$result['Profile']['mobile_no'],
-					$result['User']['created']
+					$result['User']['created'],
+					$result['Profile']['allow_research']
 			);
 			
 			$helper = new ModuleHelperFunctions();

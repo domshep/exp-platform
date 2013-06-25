@@ -256,6 +256,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `height_cm` int(10) unsigned NOT NULL,
   `post_code` varchar(20) NOT NULL,
   `mobile_no` varchar(20) NOT NULL,
+  `allow_research` tinyint(1) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),

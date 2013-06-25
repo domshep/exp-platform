@@ -5,7 +5,7 @@
 		<p>Please enter some general details about yourself below. The information that you enter here will be made available to any health
 		modules that you add to your personal dashboard, and will save you from having to re-enter general information
 		each time you explore a new module.</p>
-		<p>All data is held confidentially and securely.</p>
+		<p><strong>All your data will be treated in the strictest confidence and held in a highly secure database. This website allows you modify or remove your profile at a later stage should you wish to do so.</strong></p>
 	<?php
 		echo $this->Form->input('Profile.name');
 		echo $this->Form->input('User.email', array('disabled' => true));
@@ -33,6 +33,7 @@
 		?></td></tr></table><?php
 		echo $this->Form->input('Profile.post_code', array('label' => 'Home post code (UK)'));
 		echo $this->Form->input('Profile.mobile_no', array('label' => 'Mobile number'));
+		echo $this->Form->input('Profile.allow_research', array('label' => 'My information can be used for research into improving health', 'after' => '<br />(Researchers will not have access to your personal details)', 'checked' => true));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

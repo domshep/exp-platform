@@ -30,6 +30,7 @@
 		?></td></tr></table><?php
 		echo $this->Form->input('Profile.post_code', array('label' => 'Home post code (UK)'));
 		echo $this->Form->input('Profile.mobile_no', array('label' => 'Mobile number'));
+		echo $this->Form->input('Profile.allow_research', array('label' => 'My information can be used for research into improving health', 'after' => '<br />(Researchers will not have access to your personal details)'));
 		
 		echo $this->Form->input('new_password', array('type' => 'password'));
 		echo $this->Form->input('repeat_password', array('type' => 'password'));

@@ -68,6 +68,10 @@ class Profile extends AppModel {
 							'message' => 'Please select your gender',
 							'allowEmpty' => false
 					)
+			),
+			'allow_research' => array(
+					'rule'    => array('boolean'),
+					'message' => 'Incorrect value for research approval'
 			)
 	);
 }

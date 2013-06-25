@@ -34,7 +34,7 @@ Admin Panel - View User</h1>
 			<?php echo h($viewuser['Profile']['height_cm']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Post Code'); ?></dt>
+		<dt><?php echo __('Home Post Code'); ?></dt>
 		<dd>
 			<?php echo h($viewuser['Profile']['post_code']); ?>
 			&nbsp;
@@ -52,11 +52,19 @@ Admin Panel - View User</h1>
 		<dt><?php echo __('Modules'); ?></dt>
 		<dd>
 			<?php foreach($userModules as $module) {
-				echo h($module)."<br />";
+				echo $module."<br />";
 			}?>
 			&nbsp;
 		</dd>
 	</dl>
+	<p style="margin-top:1em;">
+		<?php if($viewuser['Profile']['allow_research']) {
+			echo "This user's information MAY be used for research into improving health";
+		} else {
+			echo "This user's information MAY NOT be used for research into improving health";
+		}
+		?>
+	</p>
 </div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>

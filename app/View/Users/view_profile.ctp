@@ -26,7 +26,7 @@
 			<?php echo h($user['Profile']['height_cm']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Post Code'); ?></dt>
+		<dt><?php echo __('Home Post Code'); ?></dt>
 		<dd>
 			<?php echo h($user['Profile']['post_code']); ?>
 			&nbsp;
@@ -42,6 +42,14 @@
 			&nbsp;
 		</dd>
 	</dl>
+	<p style="margin-top:1em;">
+		<?php if($user['Profile']['allow_research']) {
+			echo "My information MAY be used for research into improving health";
+		} else {
+			echo "My information MAY NOT be used for research into improving health";
+		}
+		?>
+	</p>
 </div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>

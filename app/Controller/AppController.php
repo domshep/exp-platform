@@ -230,7 +230,20 @@ class AppController extends Controller {
 		header('Content-type: application/csv');
 		header('Content-Disposition: attachment; filename="'.$filename.'"');
 	
-		$results = $model->find('all', array());
+		$options['joins'] = array(
+				array('table' => 'profile',
+						'alias' => 'Profile',
+						'type' => 'LEFT',
+						'conditions' => array(
+								'Profile.user_id = '.get_class($model).'.user_id',
+						)
+				)
+		);
+		$options['conditions'] = array(
+				'Profile.allow_research' => 1
+		);
+		
+		$results = $model->find('all', $options);
 
 		fputcsv($csv_file,$headerRow,',','"');
 	
