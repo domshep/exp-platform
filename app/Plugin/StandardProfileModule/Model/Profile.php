@@ -5,7 +5,7 @@ App::uses('AppModel', 'Model');
  *
  * @property User $User
  */
-class Profile extends AppModel {
+class Profile extends StandardProfileModuleAppModel {
 
 /**
  * Use table

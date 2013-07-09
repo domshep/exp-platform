@@ -54,7 +54,7 @@
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('My Dashboard'), array('action' => 'dashboard')); ?> </li>
+		<li><?php echo $this->Html->link(__('My Dashboard'), array('plugin' => false,'controller' => 'users', 'action' => 'dashboard')); ?> </li>
 		<li><?php echo $this->Html->link(__('Edit Profile'), array('action' => 'editProfile')); ?> </li>
 	</ul>
 </div>

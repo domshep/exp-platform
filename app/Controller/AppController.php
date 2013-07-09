@@ -184,7 +184,7 @@ class AppController extends Controller {
 					$userModuleChildren[] = array('title'=>$userModule['Modules']['name'],'url'=>'/' . $userModule['Modules']['base_url'] . '/module_dashboard');
 				endforeach;
 			
-				$userModuleChildren[] = array('title'=>"My Profile",'url'=>'/users/viewProfile');
+				$userModuleChildren[] = array('title'=>"My Profile",'url' => array('plugin' => 'standard_profile_module', 'controller' => 'profile', 'action' => 'index'));
 			
 				if (count($userModuleChildren) != 0){ 
 					$menu['main-menu']['dashboard-menu']['children'] = $userModuleChildren;

@@ -30,7 +30,7 @@
 			
 			echo $this->Html->link(
 				__d('cake_dev', ' My Profile >>'),
-				array('controller' => 'users', 'action' => 'viewProfile'),
+				array('plugin' => 'standard_profile_module', 'controller' => 'profile', 'action' => 'index'),
 				array('class'=>'pad')
 			);
 		?>

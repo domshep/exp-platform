@@ -112,7 +112,7 @@ class UsersController extends AppController {
 				
 				$registeredUser = $this->User->findByEmail($email[0]);
 				$this->Auth->login($registeredUser['User']);
-				$this->redirect(array('action'=>'addProfile'));
+				$this->redirect(array('plugin' => 'standard_profile_module', 'controller' => 'profile', 'action'=>'addProfile'));
 			} else {
 				$this->Session->setFlash(__('There was a problem with your registration. Please, try again.'));
 			}
@@ -257,7 +257,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('Welcome! Your login details have been recorded.'));
 				$this->Auth->login();
 				
-				$this->redirect(array('action'=>'addProfile'));
+				$this->redirect(array('plugin' => 'standard_profile_module', 'controller' => 'profile', 'action'=>'addProfile'));
 			} else {
 				$this->Session->setFlash(__('There was a problem with your registration. Please, try again.'));
 			}
@@ -340,82 +340,6 @@ class UsersController extends AppController {
 		
 		$this->set('userModules', $userModules);
 		$this->set('title_for_layout', 'My Challenge Dashboard'); 
-	}
-	
-	public function viewProfile() {
-		$this->set('user', $this->User->findById($this->Auth->user('id')));
-		$this->set('title_for_layout', 'My Profile'); 
-	}
-	
-	public function addProfile() {
-		// Does the user already have a profile stored? If so, send them to edit it instead...
-		$currentUser = $this->User->findById($this->Auth->user('id'));
-		
-		if(!is_null($currentUser['Profile']['id'])) {
-			return $this->redirect(array('action' => 'editProfile'));
-		}
-		
-		
-		if ($this->request->is('post') || $this->request->is('put')) {
-			// Get user id from current user session, rather than from form
-			$this->request->data['User']['id'] = $currentUser['User']['id'];
-			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
-			
-			if ($this->User->saveAssociated($this->request->data)) {
-				$userName = $this->request->data['Profile']['name'];
-				$emailAddress = $currentUser['User']['email'];
-				
-				// Send the registration email.
-				$Email = new CakeEmail('default');
-				$Email->template('registration', 'default')
-				->emailFormat('both')
-				->to($emailAddress)
-				->subject($this->siteName.' : Welcome');
-					
-				$Email->viewVars(array('userName' => $userName, 'siteName' => $this->siteName));
-					
-				$Email->send();
-				
-				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
-				$this->redirect(array('action' => 'dashboard'));
-			} else {
-				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $currentUser;
-		}
-		$this->set('title_for_layout', 'Set Up My Profile'); 
-	}
-	
-	public function editProfile() {
-		if ($this->request->is('post') || $this->request->is('put')) {
-			// Get user id from current user session, rather than from form
-			$currentUser = $this->User->findById($this->Auth->user('id'));
-			$this->request->data['User']['id'] = $currentUser['User']['id'];
-			$this->request->data['Profile']['user_id'] = $currentUser['User']['id'];
-			$this->request->data['Profile']['id'] = $currentUser['Profile']['id'];
-			
-			// Has password changed?
-			if (!empty($this->request->data['User']['new_password'])) {
-				if($this->request->data['User']['new_password'] != $this->request->data['User']['repeat_password']) {
-					$this->Session->setFlash(__('Your passwords did not match. Please, try again.'));
-					return;
-				} else {
-					$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-				}
-			}
-			
-			if ($this->User->saveAssociated($this->request->data)) {
-				$this->Session->setFlash(__('Your profile has been updated'));
-				$this->redirect(array('action' => 'viewProfile'));
-			} else {
-				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->User->findById($this->Auth->user('id'));
-		}
-		
-		$this->set('title_for_layout', 'Edit My Profile'); 
 	}
 	
 	/**

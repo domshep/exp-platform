@@ -133,7 +133,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		$this->loadModel('HealthyWeightModule.BmiScreener');
   		$this->loadModel('HealthyWeightModule.BmiAchievement');
   		$this->loadModel('User');
-  		$this->loadModel('Profile');
+  		$this->loadModel('StandardProfileModule.Profile');
   		$this->loadModel('Module');
 	  	
 	  	if ($this->request->is('post')) 
@@ -375,7 +375,7 @@ class BodyMassIndexController extends HealthyWeightModuleAppController implement
   		$this->loadModel('HealthyWeightModule.BmiWeekly');
 		$this->loadModel('HealthyWeightModule.BmiAchievement');
   		$this->loadModel('User');
-		$this->loadModel('Profile');
+		$this->loadModel('StandardProfileModule.Profile');
 		
 		// Height is loaded from the "profile" into the form - but may be worth re-loading it. 
 		// Weight is entered into the form

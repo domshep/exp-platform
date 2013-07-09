@@ -20,7 +20,7 @@ interface ModulePlugin {
 	public function module_icon_url();
 
 	/**
-	 * Returns the type of module (e.g. dashboard, widget, survey).
+	 * Returns the type of module (e.g. dashboard, widget, survey, profile).
 	 *
 	 * @return string
 	 */

@@ -3,7 +3,11 @@ App::uses('AuthComponent', 'Controller/Component');
 App::uses('CakeEmail', 'Network/Email');
 
 class User extends AppModel {
-	public $hasOne = 'Profile';
+	public $hasOne = array(
+		'Profile' => array(
+			'className' => 'StandardProfileModule.Profile'
+		)
+	);
 	public $hasMany = array('ModuleUser');
 	
 	public $validate = array(
