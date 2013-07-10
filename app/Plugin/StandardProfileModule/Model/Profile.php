@@ -1,5 +1,5 @@
 <?php
-App::uses('AppModel', 'Model');
+App::uses('StandardProfileModuleAppModel', 'StandardProfileModule.Model');
 /**
  * Profile Model
  *

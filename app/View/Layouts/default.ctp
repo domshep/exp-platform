@@ -41,6 +41,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 		echo $this->Html->script('platform.js');
 		echo $this->Html->css('/js/colorbox-master/example1/colorbox');
 		echo $this->Html->css('/js/qTip2-master/dist/jquery.qtip');
+		echo $this->Html->css('http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

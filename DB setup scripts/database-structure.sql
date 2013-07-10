@@ -199,6 +199,15 @@ CREATE TABLE IF NOT EXISTS `fiveaday_weekly` (
   UNIQUE KEY `uc_weekUserID` (`week_beginning`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `health_scores`;
+CREATE TABLE IF NOT EXISTS `health_scores` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
+  `score` int(1) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `modules`;
 CREATE TABLE IF NOT EXISTS `modules` (
   `id` int(11) unsigned NOT NULL auto_increment,

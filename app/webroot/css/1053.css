@@ -953,3 +953,10 @@ ul.social-media-list li {
 	width:340px;
 	float:left;
 }
+
+/* Health score slider */
+#slider-vertical, #slider-vertical div {
+	margin-bottom:0;
+	padding:0;
+	clear:none;
+}

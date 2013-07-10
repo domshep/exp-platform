@@ -164,8 +164,7 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   					
   				$Email->send();
   	
-  				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
-  				$this->redirect(array('plugin' => false, 'controller' => 'users', 'action' => 'dashboard'));
+  				$this->redirect(array('action' => 'healthScore'));
   			} else {
   				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
   			}
@@ -173,6 +172,43 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   			$this->request->data = $currentUser;
   		}
   		$this->set('title_for_layout', 'Set Up My Profile');
+  	}
+
+  	/**
+  	 * Allows the user to record their current health score (from 0 to 100).
+  	 */
+  	public function healthScore() {
+  		$this->loadModel('User');
+  		$this->loadModel('StandardProfileModule.HealthScore');
+  		
+  		$this->set('title_for_layout', 'Your Current Health');
+  	
+  		// Does the user already have a profile stored? If so, send them to edit it instead...
+  		$currentUser = $this->User->findById($this->Auth->user('id'));
+  		
+  		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Get user id from current user session, rather than from form
+  			$this->request->data['HealthScore']['user_id'] = $currentUser['User']['id'];
+  			
+  			// Get hold of the posted data
+  			$this->HealthScore->create();
+  			$this->HealthScore->set($this->request->data);
+  			
+  			if ($this->HealthScore->validates()) {
+	  			if ($this->HealthScore->save()) {
+	  				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
+	  				$this->redirect(array('plugin' => false, 'controller' => 'users', 'action' => 'dashboard'));
+	  			} else {
+	  				$this->Session->setFlash(__('Your health score could not be saved. Please, try again.'));
+	  			}
+  			} else {
+  				// Validation failed
+  				$this->Session->setFlash(__('Your health score could not be saved. Please see the error messages below, and try again.'));
+  			}
+  		} else {
+  			$this->HealthScore->create();
+  			$this->request->data = $this->HealthScore->data;
+  		}
   	}
   	
   	/**
