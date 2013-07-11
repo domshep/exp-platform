@@ -36,13 +36,10 @@
 		echo $this->Form->input('repeat_password', array('type' => 'password'));
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('My Dashboard'), array('plugin' => false,'controller' => 'users', 'action' => 'dashboard')); ?> </li>
-	</ul>
+	<div class="submit">
+         <?php echo $this->Form->submit(__('Submit', true), array('name' => 'ok', 'div' => false, 'id' =>'submit')); ?>
+         <?php echo $this->Form->submit(__('Cancel (without saving changes)', true), array('name' => 'cancel','div' => false, 'id' =>'cancel')); ?>
+	</div>
 </div>
 <script type="text/javascript">
 	jQuery(".feet").bind("blur", function() 

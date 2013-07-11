@@ -272,6 +272,20 @@ CREATE TABLE IF NOT EXISTS `profile` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `profile_equal_opps`;
+CREATE TABLE IF NOT EXISTS `profile_equal_opps` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `disability` text,
+  `sexual_orientation` text,
+  `ethnicity` text,
+  `religion` text,
+  `marital_status` text,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `profile_general_health`;
 CREATE TABLE IF NOT EXISTS `profile_general_health` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

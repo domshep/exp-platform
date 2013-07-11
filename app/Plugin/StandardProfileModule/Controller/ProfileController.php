@@ -105,6 +105,11 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   		$this->loadModel('User');
   		
   		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Was cancel clicked?
+  			if (isset($this->request->data['cancel'])) {
+  				return $this->redirect(array('action' => 'index'));
+  			}
+  			
   			// Get user id from current user session, rather than from form
   			$currentUser = $this->User->findById($this->Auth->user('id'));
   			$this->request->data['User']['id'] = $currentUser['User']['id'];
@@ -253,6 +258,56 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
 			} else {
 				$this->request->data = $this->GeneralHealth->data;
 			}
+  		}
+  	}
+  	
+  	/**
+  	 * Allows the user to record their equality profile information.
+  	 */
+  	public function equality() {
+  		$this->loadModel('User');
+  		$this->loadModel('StandardProfileModule.Equality');
+  		 
+  		$this->set('title_for_layout', 'Equality Profile');
+  			
+  		// Does the user already have a profile stored? If so, send them to edit it instead...
+  		$currentUser = $this->User->findById($this->Auth->user('id'));
+  		 
+  		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Was cancel clicked?
+  			if (isset($this->request->data['cancel'])) {
+  				return $this->redirect(array('action' => 'index'));
+  			}
+  			
+  			// Get user id from current user session, rather than from form
+  			$this->request->data['Equality']['user_id'] = $currentUser['User']['id'];
+  	
+  			// Get hold of the posted data
+  			$this->Equality->create();
+  			$this->Equality->set($this->request->data);
+  	
+  			if ($this->Equality->validates()) {
+  				if ($this->Equality->save()) {
+  					$this->Session->setFlash(__('Your equality profile has been updated'));
+  					$this->redirect(array('action' => 'index'));
+  				} else {
+  					$this->Session->setFlash(__('Your equality profile could not be saved. Please, try again.'));
+  				}
+  			} else {
+  				// Validation failed
+  				$this->Session->setFlash(__('Your equality profile could not be saved. Please see the error messages below, and try again.'));
+  			}
+  		} else {
+  			// It hasn't been posted so we are either adding a new entry or editing the form:
+  			$this->Equality->create();
+  			$previousEntry = $this->Equality->findByUserId($this->Auth->user('id'));
+  	
+  			// If so, edit this entry instead of creating a new one...
+  			if(!empty($previousEntry)){
+  				$this->request->data = $previousEntry;
+  			} else {
+  				$this->request->data = $this->Equality->data;
+  			}
   		}
   	}
   	

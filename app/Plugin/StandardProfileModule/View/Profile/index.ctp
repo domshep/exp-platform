@@ -56,5 +56,6 @@
 	<ul>
 		<li><?php echo $this->Html->link(__('My Dashboard'), array('plugin' => false,'controller' => 'users', 'action' => 'dashboard')); ?> </li>
 		<li><?php echo $this->Html->link(__('Edit Profile'), array('action' => 'editProfile')); ?> </li>
+		<li><?php echo $this->Html->link(__('Equality Profile'), array('action' => 'equality')); ?> </li>
 	</ul>
 </div>
