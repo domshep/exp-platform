@@ -960,3 +960,6 @@ ul.social-media-list li {
 	padding:0;
 	clear:none;
 }
+table.question-range td {
+	border-bottom:none;
+}

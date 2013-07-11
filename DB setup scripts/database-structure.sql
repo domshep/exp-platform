@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `created` datetime default NULL,
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `module_users`;
 CREATE TABLE IF NOT EXISTS `module_users` (
@@ -270,7 +270,26 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `profile_general_health`;
+CREATE TABLE IF NOT EXISTS `profile_general_health` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `general_health` int(1) DEFAULT NULL,
+  `nervous` int(1) DEFAULT NULL,
+  `worrying` int(1) DEFAULT NULL,
+  `little_interest` int(1) DEFAULT NULL,
+  `feeling_down` int(1) DEFAULT NULL,
+  `supervisor` tinyint(1) DEFAULT NULL,
+  `occupation` varchar(50) DEFAULT NULL,
+  `sickness_absence` int(1) DEFAULT NULL,
+  `sickness_absence_spells` int(1) DEFAULT NULL,
+  `work_performance` int(1) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `simple_health_test_achievements`;
 CREATE TABLE IF NOT EXISTS `simple_health_test_achievements` (
@@ -374,7 +393,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

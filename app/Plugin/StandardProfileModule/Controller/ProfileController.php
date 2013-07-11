@@ -196,8 +196,8 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   			
   			if ($this->HealthScore->validates()) {
 	  			if ($this->HealthScore->save()) {
-	  				$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
-	  				$this->redirect(array('plugin' => false, 'controller' => 'users', 'action' => 'dashboard'));
+	  				$this->Session->setFlash(__('Your profile has now been set up - just a few more questions remaining...'));
+	  				$this->redirect(array('action' => 'generalHealth'));
 	  			} else {
 	  				$this->Session->setFlash(__('Your health score could not be saved. Please, try again.'));
 	  			}
@@ -208,6 +208,51 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   		} else {
   			$this->HealthScore->create();
   			$this->request->data = $this->HealthScore->data;
+  		}
+  	}
+  	
+  	/**
+  	 * Allows the user to record their general health profile information.
+  	 */
+  	public function generalHealth() {
+  		$this->loadModel('User');
+  		$this->loadModel('StandardProfileModule.GeneralHealth');
+  	
+  		$this->set('title_for_layout', 'Your General Health');
+  		 
+  		// Does the user already have a profile stored? If so, send them to edit it instead...
+  		$currentUser = $this->User->findById($this->Auth->user('id'));
+  	
+  		if ($this->request->is('post') || $this->request->is('put')) {
+  			// Get user id from current user session, rather than from form
+  			$this->request->data['GeneralHealth']['user_id'] = $currentUser['User']['id'];
+  				
+  			// Get hold of the posted data
+  			$this->GeneralHealth->create();
+  			$this->GeneralHealth->set($this->request->data);
+  				
+  			if ($this->GeneralHealth->validates()) {
+  				if ($this->GeneralHealth->save()) {
+  					$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
+  					$this->redirect(array('plugin' => false, 'controller' => 'users', 'action' => 'dashboard'));
+  				} else {
+  					$this->Session->setFlash(__('Your general health details could not be saved. Please, try again.'));
+  				}
+  			} else {
+  				// Validation failed
+  				$this->Session->setFlash(__('Your general health details could not be saved. Please see the error messages below, and try again.'));
+  			}
+  		} else {
+  			// It hasn't been posted so we are either adding a new entry or editing the form:
+			$this->GeneralHealth->create();
+			$previousEntry = $this->GeneralHealth->findByUserId($this->Auth->user('id'));
+
+			// If so, edit this entry instead of creating a new one...
+			if(!empty($previousEntry)){
+				$this->request->data = $previousEntry;
+			} else {
+				$this->request->data = $this->GeneralHealth->data;
+			}
   		}
   	}
   	
