@@ -63,7 +63,9 @@
 	<h3>This is the highest band possible. We suggest that you have a chat with your GP about how much you are drinking but you can still follow the tips, advice and information pages to help you cut down...</h3>
 	<?php } ?>
     
-    <p>You can add the &lsquo;Drink Safely&rsquo; module
+    <p>Take a look at the chart below to understand how your score relates to the classification scale used by the NHS.</p>
+    <p><img height="324" alt="" width="911" src="/drink_safely_module/img/alcohol-screening-score.png" style="width:911px;margin-left:auto;margin-right:auto;display:block;"/></p>
+	<p>You can add the &lsquo;Drink Safely&rsquo; module
     to your personal dashboard to monitor and track your alcohol consumption to help
     you make and maintain more changes.</p>
     
