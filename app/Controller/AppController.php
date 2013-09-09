@@ -62,6 +62,10 @@ class AppController extends Controller {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		
+		// Prevent browser caching of any pages - which will help to prevent the back button from causing
+		// data integrity issues.
+		$this->disableCache();
+		
 		// Allow access to index, view, register and log out
 		$this->Auth->allow('index', 'view', 'register', 'logout');
 		
