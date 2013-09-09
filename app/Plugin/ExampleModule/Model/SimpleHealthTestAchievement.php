@@ -108,18 +108,18 @@ class SimpleHealthTestAchievement extends AppModel {
 	 * @param int $user_id
 	 */
 	private function totalHealthyWeeks($user_id) {
-		$total = $this->query("SELECT COUNT(*) AS `total` FROM `simple_health_test_weekly` WHERE user_id = " . $user_id
-				. " AND ("
-				. " monday >= " . $this->healthyScore
-				. " AND tuesday >= " . $this->healthyScore
-				. " AND wednesday >= " . $this->healthyScore
-				. " AND thursday >= " . $this->healthyScore
-				. " AND friday >= " . $this->healthyScore
-				. " AND saturday >= " . $this->healthyScore
-				. " AND sunday >= " . $this->healthyScore
-				. ");"
-				);
-		return $total[0][0]['total'];
+		$total = $this->SimpleHealthTestWeekly->find('count', array(
+							'conditions' => array(
+									'user_id' => $user_id,
+									'monday >=' => $this->healthyScore,
+									'tuesday >=' => $this->healthyScore,
+									'wednesday >=' => $this->healthyScore,
+									'thursday >=' => $this->healthyScore,
+									'friday >=' => $this->healthyScore,
+									'saturday >=' => $this->healthyScore,
+									'sunday >=' => $this->healthyScore
+									)));
+		return $total;
 	}
 	
 	/**

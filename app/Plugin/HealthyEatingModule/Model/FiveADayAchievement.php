@@ -119,11 +119,12 @@ class FiveADayAchievement extends AppModel {
 	 * @param int $user_id
 	 */
 	private function totalHealthyWeeks($user_id) {
-		$total = $this->query("SELECT COUNT(*) AS `total` FROM `fiveaday_weekly` WHERE user_id = " . $user_id
-				. " AND ("
-				. " total >= " . $this->healthyWeekScore . ");"
-				);
-		return $total[0][0]['total'];
+		$total = $this->FiveADayWeekly->find('count', array(
+				'conditions' => array(
+						'user_id' => $user_id,
+						'total >=' => $this->healthyWeekScore
+				)));
+		return $total;
 	}
 	
 	/**

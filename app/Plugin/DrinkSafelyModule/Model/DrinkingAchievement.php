@@ -130,7 +130,7 @@ class DrinkingAchievement extends AppModel {
 	 * @param number $healthyScore
 	 * @return number
 	 */
-	public function totalWeeksNoBingeConsec($user_id = null, $gender = null) {
+	private function totalWeeksNoBingeConsec($user_id = null, $gender = null) {
 		$helper = new ModuleHelperFunctions();
 		
 		$currentDate = date('Y-m-d',$helper->_getWeekBeginningDate(date('Y-m-d')));
@@ -151,7 +151,6 @@ class DrinkingAchievement extends AppModel {
 		
 		foreach($healthyWeeks as $week)
 		{
-			echo $expectedWeek;
 			$weekBeginning = $week['drinking_weekly']['week_beginning'];
 			
 			// Is there a gap between entries?
@@ -161,20 +160,6 @@ class DrinkingAchievement extends AppModel {
 			$total++;
 		}
 		return $total; // number of consecutive healthy weeks
-	}
-	
-	/**
-	 * Returns the total number of healthy weeks recorded, where the given user has recorded a 'feeling healthy' score
-	 * every single day.
-	 * 
-	 * @param int $user_id
-	 */
-	private function totalHealthyWeeks($user_id,$gender) {
-		$total = $this->query("SELECT COUNT(*) AS `total` FROM `drinking_weekly` WHERE user_id = " . $user_id
-				. " AND ("
-				. " total <= " . $this->healthyWeekScore($gender) . ");"
-				);
-		return $total[0][0]['total'];
 	}
 	
 	/**
