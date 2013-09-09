@@ -33,7 +33,10 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 	// Load the Menu Builder Plugin
-	var $helpers = array('MenuBuilder.MenuBuilder' => array('authField' => 'role'));
+	var $helpers = array('MenuBuilder.MenuBuilder' => array(
+			'authField' => 'role',
+			'childrenClass' => 'dropdown',
+			'noLinkFormat' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown">%s <b class="caret"></b></a>'));
 	
 	// Set the Site Name
 	var $siteName = "Experimental Platform for Health Promotion";
@@ -88,18 +91,22 @@ class AppController extends Controller {
 							),
 							'explore-menu' => array(
 									'title' => 'Explore Modules',
-									'url' => '/pages/explore_modules'
 							),
 							'dashboard-menu' => array(
 									'title' => 'My Dashboard',
-									'url' => '/users/dashboard',
 									'permissions' => array('user','admin','super-admin'),
 							),
 							array(
 									'title' => 'Admin Panel',
-									'url' => '/admin_panel',
 	                    			'permissions' => array('admin','super-admin'),
 									'children' => array(
+											array (
+													'title' => 'View Admin Panel',
+													'url' => '/admin_panel',
+	                    							'permissions' => array('admin','super-admin'),
+											),
+											array (
+													'separator' => '<li class="divider"></li>'),
 											array(
 												'title' => 'Users',
 												'url' => array('plugin' => false, 'controller' => 'users', 'action' => 'index', 'admin' => 'true'),
@@ -157,12 +164,18 @@ class AppController extends Controller {
 			// Populate the Explore Modules menu
 			$this->loadModel('Modules');
 			$modules = $this->Modules->findAllByTypeAndActive('dashboard','1');
-			$children = array();
+			$children = array(
+				array (
+					'title' => 'Available Health Modules',
+					'url' => '/pages/explore_modules'
+				),
+				array (
+						'separator' => '<li class="divider"></li>'));
 			foreach ($modules as $module):
 				$children[] = array('title'=>$module['Modules']['name'],'url'=>'/' . $module['Modules']['base_url'] . '/explore_module');
 			endforeach;
 			
-			if (count($children) != 0){ 
+			if (count($children) != 0){
 				$menu['main-menu']['explore-menu']['children'] = $children;
 			}
 			
@@ -183,7 +196,13 @@ class AppController extends Controller {
 						'Modules.active' => true
 				);
 				$userModules = $this->Modules->find('all', $options);
-				$userModuleChildren = array();
+				$userModuleChildren =  array(
+					array (
+						'title' => 'View My Dashboard',
+						'url' => '/users/dashboard'
+					),
+					array (
+							'separator' => '<li class="divider"></li>'));
 				foreach ($userModules as $userModule):
 					$userModuleChildren[] = array('title'=>$userModule['Modules']['name'],'url'=>'/' . $userModule['Modules']['base_url'] . '/module_dashboard');
 				endforeach;
