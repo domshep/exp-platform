@@ -28,14 +28,13 @@
 	<?php foreach ($modules as $module): ?>
 	<tr>
 		<td>
-		
-		<?php
-		echo $this->Html->link(
-			'<button class="btn btn-primary btn-lg">Explore this module</button>',
-			'/' . $module['Module']['base_url'] . '/explore_module',
-			array('escape' => FALSE)
-		);
-		?>
+			<?php
+			echo $this->Html->link(
+				'<button class="btn btn-success btn-lg">Explore this module</button>',
+				'/' . $module['Module']['base_url'] . '/explore_module',
+				array('escape' => FALSE)
+			);
+			?>
 		</td>
 		<td><?php
 		echo $this->Html->image($module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'img-thumbnail', 'url'=> '/' . $module['Module']['base_url'] . '/explore_module'));
