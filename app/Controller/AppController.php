@@ -147,6 +147,7 @@ class AppController extends Controller {
 							array(
 									'title' => 'Accessibility',
 									'url' => '/pages/accessibility',
+									'class' => 'navbar-link'
 							),
 							array(
 									'title' => 'Terms of Use',

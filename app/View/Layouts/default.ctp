@@ -36,6 +36,8 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 	
 		//echo $this->Html->css('cake.generic');
 		//echo $this->Html->css('1053');
+
+		echo $this->Html->css('platform');
 		echo $this->Html->script('http://code.jquery.com/jquery-latest.min.js');
 		echo $this->Html->script('http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js');
 		//echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js');
@@ -52,36 +54,54 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 	?>
 </head>
 <body>
-	<div class="container">
-		<div id="banner" class="header">
-			<div class="why">
-			<?php 
+	<div class="container wrapper">
+		<div id="banner" class="row">
+			<div class="col-xs-12 col-sm-6 col-md-8">
+				<?php
+					echo $this->Html->link(
+    					$this->Html->image("/img/new-logo2.png", array("alt" => $cakeDescription, "class" => "img-responsive")),
+    					"/",
+    					array('escape' => false)
+					);
+				?>
+			</div>
+  			<div id="why" class="col-xs-6 col-sm-6 col-md-4"><?php 
 			/* Currently hardcoded to display the motivation module widget. In the future, this space should be
 			 * editable from within the admin control panel.
 			 */
 			$widget = $this->requestAction('/motivation_module/motivation/dashboard_widget');
 			echo $widget;
-			?>
-			</div>
-			<h1><?php echo $this->Html->link($cakeDescription, '/'); ?></h1>
+			?></div>
 		</div>
-		<div class="navbar navbar-default">
-			<div class="navbar-collapse collapse">
+		<nav class="navbar navbar-default" role="navigation">
+  			<!-- Brand and toggle get grouped for better mobile display -->
+  			<div class="navbar-header">
+    		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      		<span class="sr-only">Toggle navigation</span>
+      		<span class="icon-bar"></span>
+      		<span class="icon-bar"></span>
+      		<span class="icon-bar"></span>
+    		</button>
+    		<a class="navbar-brand visible-xs" href="#">Main menu</a>
+  			</div>
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<?php 
         			echo $this->MenuBuilder->build('main-menu', array('class' => 'nav navbar-nav'));
         			echo $this->MenuBuilder->build('right-main-menu', array('class' => 'nav navbar-nav navbar-right'));
     			?>
     		</div>
+		</nav>
+		<div class="container">
+		<?php echo $this->Session->flash(); ?>
+		<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="content">
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<?php 
-        			echo $this->MenuBuilder->build('footer-menu');
+		<div class="navbar navbar-default">
+			<div class="navbar-collapse collapse">
+				<?php 
+        			echo $this->MenuBuilder->build('footer-menu', array('class' => 'nav nav-justified'));
     			?>
-		</div>
+    		</div>
+    	</div>
 	</div>
 	<?php //echo $this->element('sql_dump'); ?>
 	
