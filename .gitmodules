@@ -1,6 +1,8 @@
 [submodule "cakephp"]
 	path = cakephp
 	url = git://github.com/cakephp/cakephp.git
+	ignore = dirty
 [submodule "app/Plugin/menu_builder"]
 	path = app/Plugin/menu_builder
 	url = git://github.com/torifat/cake-menu_builder.git
+	ignore = dirty
