@@ -69,6 +69,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 			<div class="navbar-collapse collapse">
 			<?php 
         			echo $this->MenuBuilder->build('main-menu', array('class' => 'nav navbar-nav'));
+        			echo $this->MenuBuilder->build('right-main-menu', array('class' => 'nav navbar-nav navbar-right'));
     			?>
     		</div>
 		</div>

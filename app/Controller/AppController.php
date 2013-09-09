@@ -124,6 +124,8 @@ class AppController extends Controller {
 											),
 									),
 							),
+					),
+					'right-main-menu' => array(
 							array(
 									'title' => 'Log Out',
 									'url' => '/users/logout',
