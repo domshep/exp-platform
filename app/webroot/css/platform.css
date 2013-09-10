@@ -9,8 +9,16 @@ body {
 	box-shadow:  0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
 }
 
+h1 {
+	color: #BF1C2D;
+}
+
 h2 {
 	color: #325A8A;
+}
+
+.top-buffer {
+	margin-top: 32px;
 }
 
 /* Jumbotron */
