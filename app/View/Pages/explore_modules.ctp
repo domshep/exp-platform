@@ -26,9 +26,9 @@
 		<td class="explore">
 			<?php
 			echo $this->Html->link(
-				'<button class="btn btn-success btn-md">Explore this module</button>',
+				'Explore this module',
 				'/' . $module['Module']['base_url'] . '/explore_module',
-				array('escape' => FALSE)
+				array('class' => 'btn btn-success btn-md')
 			);
 			?>
 		</td>

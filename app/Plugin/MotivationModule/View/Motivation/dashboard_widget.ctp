@@ -22,5 +22,7 @@ if(is_null($user['User']['role']) || !$activated) {
 				'url' => array('action' => 'screener')
 		));
 	}
+	?>
+	</p>
+	<?php
 }?>
-</p>
