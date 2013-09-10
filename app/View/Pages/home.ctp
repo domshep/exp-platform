@@ -1,6 +1,5 @@
 <div class="jumbotron">
-  <div class="container">
-    <h1>Experimental Platform for Health Promotion - version 0.6</h1>
+  <h1>Experimental Platform for Health Promotion - version 0.6</h1>
 	<p>This web-tool is an under-development 'experimental platform',
 		intended to provide a platform for the preliminary development and
 		testing of interactive health topic modules.</p>
@@ -18,33 +17,37 @@
 		the future, but the ones that are currently available via this test
 		deployment are listed below.
 	</p>
-  </div>
 </div>
 
 <h2>Available health modules</h2>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
 <table class="table table-striped module-list">
 	<tbody>
 	<?php $modules = $this->requestAction('modules/list_all_explorable_modules'); ?>
 	<?php foreach ($modules as $module): ?>
 	<tr>
-		<td>
+		
+		<td class="icon"><?php
+		echo $this->Html->image($module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'img-thumbnail', 'url'=> '/' . $module['Module']['base_url'] . '/explore_module'));
+		?>
+		</td>
+		<td><h4>
+		<?php
+		echo $this->Html->link($module['Module']['name'], '/' . $module['Module']['base_url'] . '/explore_module', array('target' => '_self', 'escape' => false));
+		?>&nbsp;</h4></td>
+		<td class="explore">
 			<?php
 			echo $this->Html->link(
-				'<button class="btn btn-success btn-lg">Explore this module</button>',
+				'<button class="btn btn-success btn-md">Explore this module</button>',
 				'/' . $module['Module']['base_url'] . '/explore_module',
 				array('escape' => FALSE)
 			);
 			?>
 		</td>
-		<td><?php
-		echo $this->Html->image($module['Module']['icon_url'], array('alt' => "&lsquo;".$module['Module']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'img-thumbnail', 'url'=> '/' . $module['Module']['base_url'] . '/explore_module'));
-		?>
-		</td>
-		<td>
-		<?php
-		echo $this->Html->link($module['Module']['name'], '/' . $module['Module']['base_url'] . '/explore_module', array('target' => '_self', 'escape' => false));
-		?>&nbsp;</td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody>
 </table>
+</div>
+</div>

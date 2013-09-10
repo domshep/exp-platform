@@ -28,3 +28,7 @@ h2 {
 .module-list tbody > tr > td {
 	vertical-align:middle;
 }
+
+.module-list .explore, .module-list .icon {
+	text-align:center;
+}
