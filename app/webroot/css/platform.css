@@ -32,3 +32,31 @@ h2 {
 .module-list .explore, .module-list .icon {
 	text-align:center;
 }
+
+/* Footer menu */
+#footer-menu {
+	margin: 7.5px auto;
+}
+
+#footer-menu li > a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 20px;
+}
+
+#footer-menu > li > a {
+  color: #777777;
+}
+
+#footer-menu > li > a:hover,
+#footer-menu > li > a:focus {
+  color: #333333;
+  background-color: transparent;
+}
+
+#footer-menu > .active > a,
+#footer-menu > .active > a:hover,
+#footer-menu > .active > a:focus {
+  color: #555555;
+  background-color: #e7e7e7;
+}
