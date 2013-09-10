@@ -1,8 +1,9 @@
 <?php $this->extend('/Modules/module_template');?>
-
 <h2>
 	How eating 5-a-day can improve your health
-	<?php echo $this->Html->image('/healthy_eating_module/img/five_a_day/fruitnveg.png', array('alt' => "Fruit and veg in the shape of a heart", 'escape' => false, 'class'=> 'right'));?>
+	<span class="container pull-right">
+	<?php echo $this->Html->image('/healthy_eating_module/img/five_a_day/fruitnveg.png', array('alt' => "Fruit and veg in the shape of a heart", 'escape' => false));?>
+	</span>
 </h2>
 <h3>
 	Fruit and vegetables are good for you because...
@@ -44,7 +45,7 @@ It is important to remember that eating the recommended levels of
 </p>
 <?php
 if($added_to_dashboard) {
-	echo "<p>This module is already on your dashboard.</p>";
+	echo $this->Html->link(__('View the module dashboard'), array('action' => 'module_dashboard'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self'));
 } else {
-	echo $this->Html->link(__('Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'button action', 'target' => '_self'));
+	echo $this->Html->link(__('Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self'));
 }?>

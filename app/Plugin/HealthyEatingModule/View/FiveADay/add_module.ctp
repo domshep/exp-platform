@@ -1,7 +1,7 @@
 <?php $this->extend('/Modules/module_template');?>
 
 <h2>Eat healthily assessment guidance</h2>
-<p>This assessment helps measure how much of your recommended 5 daily portions of different fruit and vegetables you are consuming. This acts as an indicator of a healthy diet during your challenge period.</p>
+<p class="lead">This assessment helps measure how much of your recommended 5 daily portions of different fruit and vegetables you are consuming. This acts as an indicator of a healthy diet during your challenge period.</p>
 <p>To help generate the most accurate results possible, please  can you read the guidance below and click &lsquo;Take the test&rsquo; to take the assessment. The questions in the assessment refer to the last <strong>7 days</strong>.</p>
 <p>Please can you tell us the following;</p>
 <ul>
@@ -11,4 +11,4 @@
 <br />
 <p>If you did not have any of a particular foodtype category in the last 7 days, please select &lsquo;never&rsquo;. Report the amount eaten or drunk by yourself, and not your family or household.</p>
 <p><a href="http://www.championsforhealth.wales.nhs.uk/recommended-fruit-and-vegetable-portion-" target="eatingassessment">Get some help working out what counts as a fruit and vegetable portion</a>.</p>
-<p><?php echo $this->Html->link('Take the test >', 'screener', array('class' => 'button action', 'target' => '_self')); ?></p>
+<p><?php echo $this->Html->link('Take the test >', 'screener', array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self')); ?></p>

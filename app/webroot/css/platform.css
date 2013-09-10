@@ -21,6 +21,14 @@ h2 {
 	margin-top: 32px;
 }
 
+.bot-buffer {
+	margin-bottom: 32px;
+}
+
+.module-title img {
+	margin-right:10px;
+}
+
 /* Jumbotron */
 .jumbotron {
 	font-size: 18px;
