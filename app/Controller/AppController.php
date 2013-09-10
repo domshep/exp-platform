@@ -159,7 +159,7 @@ class AppController extends Controller {
 							),
 							array(
 									'title' => 'Back to Top',
-									'url' => '#',
+									'url' => '#top',
 							),
 					),
 			);

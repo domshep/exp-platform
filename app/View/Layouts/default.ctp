@@ -54,7 +54,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 	?>
 </head>
 <body>
-	<div class="container wrapper">
+	<div class="container wrapper" id="top">
 		<div id="banner" class="row">
 			<div class="col-xs-12 col-sm-6 col-md-8">
 				<?php

@@ -1,4 +1,10 @@
 $(document).ready(function() {
+	// Smooth scroll for "Back to top"
+	$('a[href=#top]').click(function() {
+		$('html, body').animate({scrollTop:0}, 'slow');
+		return false;
+	});
+	
 	// Match all #calendar <a/> links with a title tag and convert to a qtip.
 	$('#calendar a[title]').qtip();
 	
