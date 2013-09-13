@@ -13,7 +13,7 @@ h1 {
 	color: #BF1C2D;
 }
 
-h2 {
+h2, h3, h4 {
 	color: #325A8A;
 }
 
@@ -37,6 +37,23 @@ h2 {
 
 .panel-heading .panel-title {
 	font-size:20px;
+	color: #ffffff;
+}
+
+.thumbnail .caption h4 {
+	text-align:center;
+}
+
+.achievements .list-group {
+	font-size: 110%;
+	box-shadow: none;
+}
+.achievements .list-group .list-group-item {
+	border:0px;
+}
+
+.achievements .list-group .label {
+	font-size:100%;
 }
 
 /* Jumbotron */

@@ -102,7 +102,11 @@
 						<div class="panel-body">
 						<?php 
 							echo $widget; 
-							echo $this->Html->link(__('My \'' . $module['Modules']['name'] . '\' dashboard'), '/'.$module['Modules']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
+						?>
+						</div>
+						<div class="panel-footer">
+						<?php 
+						echo $this->Html->link(__('<span class="glyphicon glyphicon-th-large"></span> Go to my \'' . $module['Modules']['name'] . '\' dashboard'), '/'.$module['Modules']['base_url'].'/module_dashboard',array('target' => '_self', 'escape' => false)); 
 						?>
 						</div>
 					</div>
