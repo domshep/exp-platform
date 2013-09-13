@@ -41,7 +41,10 @@ class AppController extends Controller {
 			),
 			'Session' => array(
         		'className' => 'BootstrapSession'
-    		)
+    		),
+			'Form' => array(
+					'className' => 'BootstrapForm'
+			),
 		);
 	
 	// Set the Site Name

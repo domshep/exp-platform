@@ -4,10 +4,7 @@
 <div class="row">
 <?php echo $this->Form->create('UserPass', array('class' => 'col-md-6')); ?>
     <fieldset>
-        <?php echo $this->Form->input('email',
-        		array(
-					'class' => 'form-control',
-					'div' => 'form-group'));?>
+        <?php echo $this->Form->input('email');?>
     </fieldset>
 <?php
 $options = array(

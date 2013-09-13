@@ -27,14 +27,8 @@
 		<fieldset>
 			<p>If you'd rather not login via your social media profile, then please enter an email address and password that can be used to access your account in the future.</p>
 		<?php
-			echo $this->Form->input('email',
-						array(
-						'class' => 'form-control',
-						'div' => 'form-group'));
-			echo $this->Form->input('password',
-						array(
-						'class' => 'form-control',
-						'div' => 'form-group'));
+			echo $this->Form->input('email');
+			echo $this->Form->input('password');
 		?>
 		</fieldset>
 		<?php
