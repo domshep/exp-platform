@@ -74,15 +74,14 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 			?></div>
 		</div>
 		<nav class="navbar navbar-default" role="navigation">
-  			<!-- Brand and toggle get grouped for better mobile display -->
   			<div class="navbar-header">
-    		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      		<span class="sr-only">Toggle navigation</span>
-      		<span class="icon-bar"></span>
-      		<span class="icon-bar"></span>
-      		<span class="icon-bar"></span>
-    		</button>
-    		<a class="navbar-brand visible-xs" href="#">Main menu</a>
+	    		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	      		<span class="sr-only">Toggle navigation</span>
+	      		<span class="icon-bar"></span>
+	      		<span class="icon-bar"></span>
+	      		<span class="icon-bar"></span>
+	    		</button>
+	    		<a class="navbar-brand visible-xs" href="#">Main menu</a>
   			</div>
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 			<?php 
@@ -95,13 +94,22 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 		<?php echo $this->Session->flash(); ?>
 		<?php echo $this->fetch('content'); ?>
 		</div>
-		<div class="navbar navbar-default">
-			<div class="navbar-collapse collapse">
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+	    		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex2-collapse">
+	      		<span class="sr-only">Toggle navigation</span>
+	      		<span class="icon-bar"></span>
+	      		<span class="icon-bar"></span>
+	      		<span class="icon-bar"></span>
+	    		</button>
+	    		<a class="navbar-brand visible-xs" href="#">Footer menu</a>
+  			</div>
+			<div class="navbar-collapse collapse navbar-ex2-collapse">
 				<?php 
         			echo $this->MenuBuilder->build('footer-menu', array('class' => 'nav nav-justified'));
     			?>
     		</div>
-    	</div>
+    	</nav>
 	</div>
 	<?php //echo $this->element('sql_dump'); ?>
 	
