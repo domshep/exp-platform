@@ -9,14 +9,14 @@
 <table class="table table-hover">
 	<thead>
 	<tr>
-		<th class="colblue col1">Food Type</th>
-		<th class="colgreen col2">On average, <em>how often</em> did you eat
+		<th class="col-md-4">Food Type</th>
+		<th class="col-md-3">On average, <em>how often</em> did you eat
 			each food type during the past 7 days
 		</th>
-		<th class="colpeach col3">On an average day when you ate/drank this, <em>how
+		<th class="col-md-3">On an average day when you ate/drank this, <em>how
 				many portions</em> of this food group did you have?
 		</th>
-		<th class="colpeach col4">Portion scale</th>
+		<th class="col-md-2">Portion scale</th>
 	</tr>
 	</thead>
 	<tr>

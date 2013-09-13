@@ -1,9 +1,9 @@
 <?php $this->extend('/Modules/module_template');?>
 <h2>Your feedback</h2>
-<h3>
+<p class="lead">
 	Your score is
 	<?php echo $score;?>
-</h3>
+</p>
 <?php if($score < 35) {?>
 <p>
 	Did you know that your score indicates that you have eaten
@@ -63,7 +63,8 @@ echo $this->Form->hidden('FiveADayScreener.score', array('value'=>$score));
 
 $options = array(
     'label' => 'Add the &lsquo;Healthy Eating - 5-a-day&rsquo; module to my dashboard',
-	'escape' => false
+	'escape' => false,
+	'class' => 'btn btn-success btn-md bot-buffer'
 );
 
 echo $this->Form->end($options);
