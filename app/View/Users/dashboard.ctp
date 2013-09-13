@@ -17,8 +17,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-<div class="modulesgrid">
-	<p class="profilelink">
+	<div class="pull-right">
 		<?php
 			echo $this->Html->image(
 				'Apps-system-users-icon.png', 
@@ -34,7 +33,7 @@
 				array('class'=>'pad')
 			);
 		?>
-	</p>
+	</div>
 	<h1>My Challenge Dashboard</h1>
 	
 	
@@ -53,7 +52,7 @@
 		</div>
 		<?php } ?>
 	
-	<div class="modules">
+	<div class="row">
 		<!--<div class="news">
 			<h3><?php echo __('My Module News and Updates'); ?></h3>
 			<?php 
@@ -91,17 +90,24 @@
 				foreach ($userModules as $module):
 					$widget = $this->requestAction($module['Modules']['base_url'].'/dashboard_widget'); 
 					?>
-					<div class='module' id="<?php echo $module['Modules']['name']; ?>">
-						<h3><?php echo $this->Html->image($module['Modules']['icon_url'], array('alt' => "&lsquo;".$module['Modules']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;', 'url' => '/'.$module['Modules']['base_url'].'/module_dashboard'));
-						?> <strong><?php 
-							echo $this->Html->link($module['Modules']['name'], '/'.$module['Modules']['base_url'].'/module_dashboard',array('target' => '_self','escape' => false)); ?></strong>&nbsp;</h3>
+					<div class="col-md-6">
+					<div class='panel panel-primary' id="<?php echo $module['Modules']['name']; ?>">
+						<div class="panel-heading">
+   							<h3 class="panel-title">
+   								<?php
+   									echo $this->Html->image($module['Modules']['icon_url'], array('alt' => "&lsquo;".$module['Modules']['name']."&rsquo; icon", 'escape' => false, 'class'=> 'img-thumbnail', 'url' => '/'.$module['Modules']['base_url'].'/module_dashboard'));
+									echo $this->Html->link($module['Modules']['name'], '/'.$module['Modules']['base_url'].'/module_dashboard',array('target' => '_self','escape' => false));
+								?></h3>
+						</div>
+						<div class="panel-body">
 						<?php 
 							echo $widget; 
 							echo $this->Html->link(__('My \'' . $module['Modules']['name'] . '\' dashboard'), '/'.$module['Modules']['base_url'].'/module_dashboard',array('class' => 'button action', 'target' => '_self', 'escape' => false)); 
 						?>
+						</div>
+					</div>
 					</div>
 				<?php endforeach;
 			}?>
 	</div>
-</div>
 <p style="clear:both;">&nbsp;</p>
