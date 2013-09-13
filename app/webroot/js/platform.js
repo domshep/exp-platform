@@ -5,6 +5,8 @@ $(document).ready(function() {
 		return false;
 	});
 	
+	$(".alert").alert();
+	
 	// Match all #calendar <a/> links with a title tag and convert to a qtip.
 	$('#calendar a[title]').qtip();
 	

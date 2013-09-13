@@ -33,10 +33,16 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 	// Load the Menu Builder Plugin
-	var $helpers = array('MenuBuilder.MenuBuilder' => array(
-			'authField' => 'role',
-			'childrenClass' => 'dropdown',
-			'noLinkFormat' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown">%s <b class="caret"></b></a>'));
+	var $helpers = array(
+			'MenuBuilder.MenuBuilder' => array(
+				'authField' => 'role',
+				'childrenClass' => 'dropdown',
+				'noLinkFormat' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown">%s <b class="caret"></b></a>'
+			),
+			'Session' => array(
+        		'className' => 'BootstrapSession'
+    		)
+		);
 	
 	// Set the Site Name
 	var $siteName = "Experimental Platform for Health Promotion";
