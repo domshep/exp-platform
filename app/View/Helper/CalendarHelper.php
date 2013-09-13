@@ -118,22 +118,22 @@
 				)
 		);
 			
-			$str .= '<table class="calendar" id="calendar">';
-			$str .= '<tr><th class="cell-prev">'. $prev_link. '</th>';
-			$str .= '<th colspan="5" style="text-align: center;">' . ucfirst($month) . ' ' . $year . '</th>';
+			$str .= '<table class="calendar table table-striped" id="calendar">';
+			$str .= '<thead><tr><th class="cell-prev text-center">'. $prev_link. '</th>';
+			$str .= '<th colspan="5" class="text-center"><h4>' . ucfirst($month) . ' ' . $year . '</h4></th>';
 			if(strtotime("1 " . $next_month . " ".$next_year) <= time()) {
-				$str .= '<th class="cell-next">' . $next_link. '</th>';
+				$str .= '<th class="cell-next text-center">' . $next_link. '</th>';
 			} else {
-				$str .= '<th class="cell-next">&nbsp;</th>';
+				$str .= '<th class="cell-next text-center">&nbsp;</th>';
 			}
 			$str .= '</tr><tr>';
 			
 			// Day of the week headers
 			for($i = 0; $i < 7;$i++)
 			{
-				$str .= '<th class="cell-header">' . $day_list[$i] . '</th>';
+				$str .= '<th class="cell-header text-center">' . $day_list[$i] . '</th>';
 			}
-			$str .= '</tr>';
+			$str .= '</tr></thead>';
 	
 			// get the first day of the month
 			while($day < $days_in_month+1)

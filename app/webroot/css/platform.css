@@ -44,6 +44,10 @@ h2, h3, h4 {
 	text-align:center;
 }
 
+.panel-body .thumbnail img {
+	margin:0 auto;
+}
+
 .achievements .list-group {
 	font-size: 110%;
 	box-shadow: none;
@@ -54,6 +58,30 @@ h2, h3, h4 {
 
 .achievements .list-group .label {
 	font-size:100%;
+}
+
+/* Calendar classes */
+.calendar .red, .calendar .red a:link{
+	background-color:#FF0000;
+	color:#FFFFFF;
+}
+.calendar .green, .calendar .green a:link{
+	background-color:#006600;
+	color:#FFFFFF;
+}
+
+.calendar .add a{
+	background-image: url(/img/Actions-window-new-icon.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	display: block;
+	height: 32px;
+	text-indent: -6000px;
+	overflow: hidden;
+}
+
+.calendar a {
+	text-decoration:none;
 }
 
 /* Jumbotron */

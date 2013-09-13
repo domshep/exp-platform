@@ -1,10 +1,10 @@
 <?php $this->extend('/Modules/module_template');?>
-    <h1>Your score is <?php echo $score;?></h1>
+    <h2>Your score is <?php echo $score;?></h2>
     <?php 
     if($score==100) {?>
-    <p>Congratulations - you are a healthy specimen. Keep it up!</p>
+    <p class="lead">Congratulations - you are a healthy specimen. Keep it up!</p>
     <?php } else {?>
-    <p>Oh, so close. Go and lie down.</p>
+    <p class="lead">Oh, so close. Go and lie down.</p>
     <?php }
 
     echo $this->Form->create('SimpleHealthTestScreener', array(
@@ -15,10 +15,9 @@
     echo $this->Form->hidden('healthy');
     echo $this->Form->hidden('SimpleHealthTestScreener.score', array('value'=>$score));
     
-    
-    
 $options = array(
-    'label' => 'Add the module to my dashboard'
+    'label' => 'Add the module to my dashboard',
+	'class' => 'btn btn-success btn-md bot-buffer pull-right'
 );
 
 echo $this->Form->end($options);
