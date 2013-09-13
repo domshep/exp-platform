@@ -39,12 +39,10 @@ class AppController extends Controller {
 				'childrenClass' => 'dropdown',
 				'noLinkFormat' => '<a href="#" class="dropdown-toggle" data-toggle="dropdown">%s <b class="caret"></b></a>'
 			),
-			'Session' => array(
-        		'className' => 'BootstrapSession'
-    		),
-			'Form' => array(
-					'className' => 'BootstrapForm'
-			),
+			'Session' => array('className' => 'BootstrapSession'),
+			'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
+			'Form' => array('className' => 'BootstrapForm'),
+			'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
 		);
 	
 	// Set the Site Name

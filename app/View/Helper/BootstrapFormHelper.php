@@ -1,14 +1,15 @@
 <?php
-App::uses('FormHelper', 'View/Helper');
+App::import('View/Helper', 'BoostCake.BoostCakeFormHelper');
 
-class BootstrapFormHelper extends FormHelper {
+class BootstrapFormHelper extends BoostCakeFormHelper {
 
 	/** This function intercepts the input calls and adds a variety of Bootstrap options to the call.
 	 */
 	public function input($fieldName, $options = array()) {
 		$bootstrapOptions = array(
 				'class' => 'form-control',
-				'div' => 'form-group'
+				'div' => 'form-group',
+				'errorClass' => 'has-error error'
 				);
 				
 		$options = array_merge($options, $bootstrapOptions);
