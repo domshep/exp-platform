@@ -41,11 +41,8 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 		echo $this->Html->script('http://code.jquery.com/jquery-latest.min.js');
 		echo $this->Html->script('http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js');
 		//echo $this->Html->script('https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js');
-		//echo $this->Html->script('/js/colorbox-master/jquery.colorbox.js'); // JQuery for Lightboxes
 		//echo $this->Html->script('/js/qTip2-master/dist/jquery.qtip.js'); // Used for Calendar Pop Ups
 		echo $this->Html->script('platform.js');
-		//echo $this->Html->css('/js/colorbox-master/example1/colorbox');
-		//echo $this->Html->css('/js/qTip2-master/dist/jquery.qtip');
 		//echo $this->Html->css('http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css');
 
 		echo $this->fetch('meta');

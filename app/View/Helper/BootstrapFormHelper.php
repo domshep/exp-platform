@@ -21,8 +21,7 @@ class BootstrapFormHelper extends BoostCakeFormHelper {
 	 */
 	public function textarea($fieldName, $options = array()) {
 		$bootstrapOptions = array(
-				'class' => 'form-control',
-				'errorClass' => 'has-error error'
+				'class' => 'form-control'
 		);
 	
 		$options = array_merge($options, $bootstrapOptions);

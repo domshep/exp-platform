@@ -1,6 +1,6 @@
 <?php
 $this->extend('/Modules/module_template');
-echo $this->Html->css('/ExampleModule/css/module.css');
+echo $this->Html->css('/ExampleModule/css/module.css', array('inline' => false));
 ?>
 <div class="row">
 

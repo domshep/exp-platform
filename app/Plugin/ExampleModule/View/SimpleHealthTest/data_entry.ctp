@@ -21,7 +21,7 @@ if(isset($nextWeek)) {
 				  'title' => 'Go to next week'
 			)
 	);
-}?></h2>
+}?></h3>
 <p class="lead">How healthy have you felt each day this week? Give yourself a score out of 10...
 		<a data-toggle="modal" href="#help" class="info" title="Click for more information">
 		<?php 
@@ -67,7 +67,7 @@ if(isset($nextWeek)) {
 	</tbody>
 	</table>
 	<div class="form-group">
-	<label for="SimpleHealthTestWeeklyWhat_Worked">What worked for me this week?
+		<label for="SimpleHealthTestWeeklyWhatWorked">What worked for me this week?
 		<a data-toggle="modal" href="#whatworked" class="info" title="Click for more information on the 'What worked for me?' box">
 		<?php 
 			echo $this->Html->image(
@@ -77,12 +77,13 @@ if(isset($nextWeek)) {
 			);
 		?>
 		</a></label>
-		<?php echo $this->Form->textarea('SimpleHealthTestWeekly.what_worked',array('label'=>'false', 'rows'=>'5')); ?>
-		</div>
+		<?php echo $this->Form->textarea('SimpleHealthTestWeekly.what_worked',array('rows'=>'5')); ?>
+	</div>
 	<div class="submit">
          <?php echo $this->Form->submit(__('Submit', true), array('name' => 'ok', 'div' => false, 'id' =>'submit', 'class' => 'btn btn-success btn-md bot-buffer pull-right')); ?>
          <?php echo $this->Form->submit(__('Cancel (without saving changes)', true), array('name' => 'cancel','div' => false, 'id' =>'cancel', 'class' => 'btn btn-default btn-md bot-buffer pull-right')); ?>
-</div>
+	</div>
+	<?php echo $this->Form->end(); ?>
 <script type="text/javascript">
 <!--
 	jQuery(".weekly-entry input").bind("keyup", function() {
@@ -107,15 +108,15 @@ if(isset($nextWeek)) {
 
 </script>
 <!-- This contains the hidden content for inline calls -->
-<div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="helpModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Help for the Example Module</h4>
+          	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          	<h4 class="modal-title" id="helpModalLabel">Help for the Example Module</h4>
         </div>
         <div class="modal-body">
-		<p>This is where you can display extra information and suggestions for this data entry page.</p>
+			<p>This is where you can display extra information and suggestions for this data entry page.</p>
 		</div>
 	  </div>
 	</div>

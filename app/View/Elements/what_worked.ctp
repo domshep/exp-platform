@@ -1,9 +1,9 @@
-<div class="modal fade" id="whatworked" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="whatworked" tabindex="-1" role="dialog" aria-labelledby="whatWorkedLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">The &lsquo;What worked for me this week?&rsquo; tool</h4>
+          <h4 class="modal-title" id="whatWorkedLabel">The &lsquo;What worked for me this week?&rsquo; tool</h4>
         </div>
         <div class="modal-body">
 		<p>The &lsquo;What worked for me this week?&rsquo; tool can help you identify which actions or activities have been effective at helping you achieve your goals. You can use it to make a note of the things that you are doing to change your lifestyle and then see if these changes are having an effect via your health run-chart.</p>

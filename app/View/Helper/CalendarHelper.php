@@ -120,7 +120,7 @@
 			
 			$str .= '<table class="calendar table table-striped" id="calendar">';
 			$str .= '<thead><tr><th class="cell-prev text-center">'. $prev_link. '</th>';
-			$str .= '<th colspan="5" class="text-center"><h4>' . ucfirst($month) . ' ' . $year . '</h4></th>';
+			$str .= '<th colspan="5" class="text-center month-name">' . ucfirst($month) . ' ' . $year . '</th>';
 			if(strtotime("1 " . $next_month . " ".$next_year) <= time()) {
 				$str .= '<th class="cell-next text-center">' . $next_link. '</th>';
 			} else {
