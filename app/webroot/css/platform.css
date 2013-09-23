@@ -84,6 +84,26 @@ h2, h3, h4 {
 	text-decoration:none;
 }
 
+/* Data entry screen */
+.week-commencing .previous, .week-commencing .next {
+	vertical-align:top;
+	margin:0 5px;
+}
+
+img.info {
+	width:20px;
+	height:20px;
+	vertical-align:top;
+}
+
+.weekly-entry thead th {
+	text-align:center;
+}
+
+form .submit input#cancel[type=submit] {
+	margin-right:10px;
+}
+
 /* Jumbotron */
 .jumbotron {
 	font-size: 18px;
