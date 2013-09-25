@@ -50,7 +50,7 @@ if ($newswidget != "") echo $newswidget;
 		<div class="panel-body">
 			<?php 
 				echo $this->Calendar->calendar($year,$month,$records,'/healthy_weight_module/body_mass_index/module_dashboard','/healthy_weight_module/body_mass_index/data_entry','$passrate','bmi','bmi'); 
-				echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button', 'style' => 'float:left;'));
+				echo $this->Html->link(__('Add weekly record <span class="glyphicon glyphicon-plus"></span>'), array('action' => 'data_entry', date("Ymd")),array('class' => 'btn btn-success btn-md pull-right', 'escape' => false));
 			?>
 		</div>
 		<div class="panel-footer">
