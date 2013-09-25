@@ -14,7 +14,7 @@ echo $this->Html->css('/ExampleModule/css/module.css', array('inline'=> false));
 	<div class='panel panel-primary'>
 		<div class="panel-heading">
 			<h3 class="panel-title">
-			<?php echo $this->Html->image('/img/Status-dialog-password-icon.png', array('alt' => "Key", 'escape' => false, 'class'=> 'small-icon', 'style'=>'vertical-align:middle;'));?>
+			<?php echo $this->Html->image('/img/Status-dialog-password-icon.png', array('alt' => "Key", 'escape' => false, 'class'=> 'img-thumbnail', 'style'=>'vertical-align:middle;'));?>
 &nbsp;Key to icons
 			</h3>
 		</div>

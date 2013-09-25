@@ -15,7 +15,7 @@ if ($newswidget != "") echo $newswidget;
 		<div class='panel panel-primary'>
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				<?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Piechart icon", 'escape' => false, 'class'=> 'img-thumbnail', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
+				<?php echo $this->Html->image('/img/Actions-office-chart-pie-icon.png', array('alt' => "Piechart icon", 'escape' => false, 'class'=> 'img-thumbnail', 'url'=> array('action' => 'view_records')));
 						?>&nbsp;<?php echo $this->Html->link(__('My progress over time'), array('action' => 'view_records')); ?>
 			</h3>
 		</div>
@@ -44,7 +44,7 @@ if ($newswidget != "") echo $newswidget;
 	<div class="col-md-6">
 		<div class='panel panel-primary'>
 		<div class="panel-heading">
-			<h3 class="panel-title"><?php echo $this->Html->image('/img/Actions-view-calendar-icon.png', array('alt' => "Calendar icon", 'escape' => false, 'class'=> 'img-thumbnail', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
+			<h3 class="panel-title"><?php echo $this->Html->image('/img/Actions-view-calendar-icon.png', array('alt' => "Calendar icon", 'escape' => false, 'class'=> 'img-thumbnail', 'url'=> array('action' => 'view_records')));
 						?>&nbsp;<?php echo $this->Html->link(__('My month at a glance'), array('action' => 'view_records')); ?>
 			</h3>
 		</div>
@@ -60,7 +60,7 @@ if ($newswidget != "") echo $newswidget;
 	<div class="col-md-6">
 		<div class='panel panel-primary achievements'>
 		<div class="panel-heading">
-			<h3 class="panel-title"><?php echo $this->Html->image('/img/Actions-rating-icon.png', array('alt' => "Star icon", 'escape' => false, 'class'=> 'img-thumbnail', 'style'=>'vertical-align:middle;', 'url'=> array('action' => 'view_records')));
+			<h3 class="panel-title"><?php echo $this->Html->image('/img/Actions-rating-icon.png', array('alt' => "Star icon", 'escape' => false, 'class'=> 'img-thumbnail', 'url'=> array('action' => 'view_records')));
 						?>&nbsp;<?php echo $this->Html->link(__('My 5-a-day achievements'), array('action' => 'view_records')); ?>
 		</h3>
 		</div>
