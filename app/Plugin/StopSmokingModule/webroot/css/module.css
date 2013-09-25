@@ -36,3 +36,26 @@
 	text-align: center;
 	margin-top: 0px;
 }
+
+/* Data entry screen */
+.weekly-entry td {
+	text-align:center;
+}
+
+.weekly-entry td div {
+	margin:4px;
+}
+
+.weekly-entry tbody img {
+	margin:0px auto;
+	display:block;
+}
+
+.nosmokeup{
+	background-color:#66CC99;
+	border-radius: 10px;
+}
+.smokeup{
+	background-color:#FF99CC;
+	border-radius: 10px;
+}

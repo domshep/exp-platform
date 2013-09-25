@@ -323,7 +323,7 @@ class StopSmokingController extends StopSmokingModuleAppController implements Mo
 
 					Cache::clear();
 					
-					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
+					$this->Session->setFlash('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.', 'default', array('class' => 'alert alert-success'));
 					return $this->redirect('module_dashboard');
 				} 
 				else 
