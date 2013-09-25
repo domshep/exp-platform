@@ -329,8 +329,8 @@ class FiveADayController extends HealthyEatingModuleAppController implements Mod
 
 					Cache::clear();
 						
-  					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
-  					return $this->redirect('module_dashboard');
+  					$this->Session->setFlash('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.', 'default', array('class' => 'alert alert-success'));
+					return $this->redirect('module_dashboard');
   				} else {
   					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' could not be recorded. Please try again.'));
 					$this->set('title_for_layout', 'Your `' . $this->module_name() . '` records for: ' . date('d-m-Y',$weekBeginning));
