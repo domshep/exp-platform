@@ -8,7 +8,7 @@ $ydata = $graphData;
 $xdata = $dates;
 
 // Create the graph. These two calls are always required
-$graph = new Graph(434,475);
+$graph = new Graph(494,475);
 $graph->SetScale('datlin',min($ydata)-1,max($ydata) + 1, min($xdata),max($xdata));
 $graph->img->SetAntiAliasing(false); 
 
