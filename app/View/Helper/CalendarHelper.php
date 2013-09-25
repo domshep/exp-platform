@@ -21,7 +21,7 @@
 
 	class CalendarHelper extends AppHelper 
 	{
-		public $helpers = array('Html');
+		public $helpers = array('Html', 'Text');
 		
 		/*public function __construct(View $view, $settings = array()) {
         	parent::__construct($view, $settings);
@@ -147,9 +147,8 @@
 					$popup = '';
 					$popupfull = '';
 					if(isset($data[$day]['entry'])) $cell = $data[$day]['entry'];
-					if(isset($data[$day]['comment'])) $popupfull = $data[$day]['comment'];
-					$popup = $popupfull;
-					if (strlen($popup) > 100) $popup = substr($popupfull,0,100) . "...";
+					if(isset($data[$day]['comment'])) $popup = $this->Text->truncate($data[$day]['comment']);
+					
 					$class = '';
 					
 					// optional weekend and today classes
