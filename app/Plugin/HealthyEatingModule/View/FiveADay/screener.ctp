@@ -1,22 +1,22 @@
 <?php $this->extend('/Modules/module_template'); ?>
 <h2>Complete this screening tool to get some feedback on your current
 	diet</h2>
+<div class="col-md-8 col-md-offset-2">
 <?php echo $this->Form->create('FiveADayScreener', array(
 		'inputDefaults' => array(
         'label' => false
     )))?>
-<div class="table-responsive">
 <table class="table table-hover">
 	<thead>
 	<tr>
-		<th class="col-md-4">Food Type</th>
-		<th class="col-md-3">On average, <em>how often</em> did you eat
+		<th class="col-md-3">Food Type</th>
+		<th class="col-md-2">On average, <em>how often</em> did you eat
 			each food type during the past 7 days
 		</th>
-		<th class="col-md-3">On an average day when you ate/drank this, <em>how
+		<th class="col-md-2">On an average day when you ate/drank this, <em>how
 				many portions</em> of this food group did you have?
 		</th>
-		<th class="col-md-2">Portion scale</th>
+		<th class="col-md-1">Portion scale</th>
 	</tr>
 	</thead>
 	<tr>
@@ -164,70 +164,71 @@
 		<td class="colpeach col4">One small glass/carton</td>
 	</tr>
 </table>
-</div>
 <?php 
-$options = array(
+	$options = array(
     	'label' => 'Calculate my score',
 		'class' => 'btn btn-success btn-md bot-buffer pull-right'
 	);
 	echo $this->Form->end($options);
-	?>
+?>
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	$('#FiveADayScreenerVegOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerVegNo').val("0").hide();
+			$('#FiveADayScreenerVegNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerVegNo').show();
+			$('#FiveADayScreenerVegNo').parent().parent().show();
 		}
 	});
 	$('#FiveADayScreenerSaladOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerSaladNo').val("0").hide();
+			$('#FiveADayScreenerSaladNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerSaladNo').show();
+			$('#FiveADayScreenerSaladNo').parent().parent().show();
 		}
 	});
 	$('#FiveADayScreenerWholeFruitOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerWholeFruitNo').val("0").hide();
+			$('#FiveADayScreenerWholeFruitNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerWholeFruitNo').show();
+			$('#FiveADayScreenerWholeFruitNo').parent().parent().show();
 		}
 	});
 	$('#FiveADayScreenerMediumFruitOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerMediumFruitNo').val("0").hide();
+			$('#FiveADayScreenerMediumFruitNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerMediumFruitNo').show();
+			$('#FiveADayScreenerMediumFruitNo').parent().parent().show();
 		}
 	});
 	$('#FiveADayScreenerSmallFruitOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerSmallFruitNo').val("0").hide();
+			$('#FiveADayScreenerSmallFruitNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerSmallFruitNo').show();
+			$('#FiveADayScreenerSmallFruitNo').parent().parent().show();
 		}
 	});
 	$('#FiveADayScreenerTinnedFruitOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerTinnedFruitNo').val("0").hide();
+			$('#FiveADayScreenerTinnedFruitNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerTinnedFruitNo').show();
+			$('#FiveADayScreenerTinnedFruitNo').parent().parent().show();
 		}
 	});
 	$('#FiveADayScreenerDriedFruitOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerDriedFruitNo').val("0").hide();
+			$('#FiveADayScreenerDriedFruitNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerDriedFruitNo').show();
+			$('#FiveADayScreenerDriedFruitNo').parent().parent().show();
 		}
 	});
 	$('#FiveADayScreenerFruitJuiceOften').change(function() {
 		if(this.value == 0) {
-			$('#FiveADayScreenerFruitJuiceNo').val("0").hide();
+			$('#FiveADayScreenerFruitJuiceNo').val("0").parent().parent().hide();
 		} else {
-			$('#FiveADayScreenerFruitJuiceNo').show();
+			$('#FiveADayScreenerFruitJuiceNo').parent().parent().show();
 		}
 	});
 });

@@ -64,7 +64,7 @@ echo $this->Form->hidden('FiveADayScreener.score', array('value'=>$score));
 $options = array(
     'label' => 'Add the &lsquo;Healthy Eating - 5-a-day&rsquo; module to my dashboard',
 	'escape' => false,
-	'class' => 'btn btn-success btn-md bot-buffer'
+	'class' => 'btn btn-success btn-md bot-buffer pull-right'
 );
 
 echo $this->Form->end($options);

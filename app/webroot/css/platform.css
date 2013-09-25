@@ -29,6 +29,10 @@ h2, h3, h4 {
 	margin-right:10px;
 }
 
+.container p a {
+	font-weight:bold;
+}
+
 /* Dashboard panels */
 .panel-heading .panel-title img {
 	margin-right:10px;

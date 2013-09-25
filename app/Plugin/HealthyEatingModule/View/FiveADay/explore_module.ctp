@@ -40,12 +40,12 @@ It is important to remember that eating the recommended levels of
 <p>
 	For more information about how to achieve a balanced diet visit the <a
 		title="click here to find out about balanced diets from the Change4Life website [external website - opens in a new window]"
-		target="_blank" href="http://change4lifewales.org.uk/adults/?lang=en"><strong>Change4Life
-			Wales</strong> </a> website.
+		target="_blank" href="http://change4lifewales.org.uk/adults/?lang=en">Change4Life
+			Wales</a> website.
 </p>
 <?php
 if($added_to_dashboard) {
-	echo $this->Html->link(__('View the module dashboard'), array('action' => 'module_dashboard'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self'));
+	echo $this->Html->link(__('<span class="glyphicon glyphicon-th-large"></span> View the module dashboard'), array('action' => 'module_dashboard'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self', 'escape' => false));
 } else {
-	echo $this->Html->link(__('Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self'));
+	echo $this->Html->link(__('<span class="glyphicon glyphicon-ok-circle"></span> Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self', 'escape' => false));
 }?>
