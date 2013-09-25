@@ -91,7 +91,7 @@
 					$widget = $this->requestAction($module['Modules']['base_url'].'/dashboard_widget'); 
 					?>
 					<div class="col-md-6">
-					<div class='panel panel-primary' id="<?php echo $module['Modules']['name']; ?>">
+					<div class='panel panel-primary' id="<?php echo Inflector::slug($module['Modules']['name']); ?>">
 						<div class="panel-heading">
    							<h3 class="panel-title">
    								<?php
