@@ -1,6 +1,7 @@
 <h1>My profile</h1>
-<div class="users view">
-	<dl>
+<div class="row">
+<div class="col-md-9 col-md-push-3">
+	<dl class="dl-horizontal">
 		<dt><?php echo __('Name'); ?></dt>
 		<dd>
 			<?php echo h($user['Profile']['name']); ?>
@@ -51,11 +52,11 @@
 		?>
 	</p>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('My Dashboard'), array('plugin' => false,'controller' => 'users', 'action' => 'dashboard')); ?> </li>
-		<li><?php echo $this->Html->link(__('Edit Profile'), array('action' => 'editProfile')); ?> </li>
-		<li><?php echo $this->Html->link(__('Equality Profile'), array('action' => 'equality')); ?> </li>
-	</ul>
+<div class="col-md-3 col-md-pull-9">
+	<div class="list-group">
+		<?php echo $this->Html->link(__('My Dashboard'), array('plugin' => false, 'controller' => 'users', 'action' => 'dashboard'), array('class' => 'list-group-item')); ?>
+		<?php echo $this->Html->link(__('Edit Profile'), array('action' => 'editProfile'), array('class' => 'list-group-item')); ?>
+		<?php echo $this->Html->link(__('Equality Profile'), array('action' => 'equality'), array('class' => 'list-group-item')); ?>
+	</div>
+</div>
 </div>

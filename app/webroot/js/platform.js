@@ -24,8 +24,8 @@ function getImperialHeight(cms)
 		var newinches = (cms / 2.54);
 		newinches = (newinches - (newfeet*12));
 		newinches = Math.round(newinches * 10)/10;
-		$(".feet").val(newfeet);
-		$(".inches").val(Math.round(newinches * 10)/10);
+		$("input[id$='Feet']").val(newfeet);
+		$("input[id$='Inches']").val(Math.round(newinches * 10)/10);
 	}
 }
 
@@ -36,22 +36,22 @@ function getMetricHeight(feet, inches)
 	
 	if (feet > -1 && inches > -1){
 		var newcm = Math.round(((feet * 12) + inches) * 2.54);
-		$(".cms").val(newcm);
+		$("input[id$='Cm']").val(newcm);
 	}
 	
 	if (inches >= 12){
-		var newfeet = ($(".feet").val()* 1) + 1;
-		var newinches = ($(".inches").val()* 1) - 12;
+		var newfeet = ($("input[id$='Feet']").val()* 1) + 1;
+		var newinches = ($("input[id$='Inches']").val()* 1) - 12;
 		while (newinches >= 12)
 		{
 			newfeet = newfeet + 1;
 			newinches = newinches - 12;
 		}
-		$(".feet").val(newfeet);
-		$(".inches").val(newinches);
+		$("input[id$='Feet']").val(newfeet);
+		$("input[id$='Inches']").val(newinches);
 	}
 	if (inches < 0){
-		$(".inches").val(0);
+		$("input[id$='Inches']").val(0);
 	}
 	
 }

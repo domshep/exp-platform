@@ -211,13 +211,17 @@ class AppController extends Controller {
 						'title' => 'View My Dashboard',
 						'url' => '/users/dashboard'
 					),
+					array(
+						'title'=>"View My Profile",
+						'url' => array(
+								'plugin' => 'standard_profile_module',
+								'controller' => 'profile',
+								'action' => 'index')),
 					array (
 							'separator' => '<li class="divider"></li>'));
 				foreach ($userModules as $userModule):
 					$userModuleChildren[] = array('title'=>$userModule['Modules']['name'],'url'=>'/' . $userModule['Modules']['base_url'] . '/module_dashboard');
 				endforeach;
-			
-				$userModuleChildren[] = array('title'=>"My Profile",'url' => array('plugin' => 'standard_profile_module', 'controller' => 'profile', 'action' => 'index'));
 			
 				if (count($userModuleChildren) != 0){ 
 					$menu['main-menu']['dashboard-menu']['children'] = $userModuleChildren;

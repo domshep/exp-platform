@@ -127,7 +127,7 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   			}
   				
   			if ($this->User->saveAssociated($this->request->data)) {
-  				$this->Session->setFlash(__('Your profile has been updated'));
+  				$this->Session->setFlash('Your profile has been updated', 'default', array('class' => 'alert alert-success'));
   				$this->redirect(array('action' => 'index'));
   			} else {
   				$this->Session->setFlash(__('Your profile could not be saved. Please, try again.'));
