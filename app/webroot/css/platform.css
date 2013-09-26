@@ -164,6 +164,21 @@ form .submit input#cancel[type=submit] {
 	text-align:center;
 }
 
+/* Why am I doing this? widget */
+#why h2 {
+	font-size:2em;
+	font-weight:bold;
+}
+#why .reason {
+	color: #BF1C2D;
+	font-weight:bold;
+}
+#why .byline {
+	text-align:right;
+	font-weight:bold;
+	font-style:italic;
+}
+
 /* Footer menu */
 #footer-menu {
 	margin: 7.5px auto;

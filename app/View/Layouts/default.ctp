@@ -52,7 +52,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 <body>
 	<div class="container wrapper" id="top">
 		<div id="banner" class="row">
-			<div class="col-xs-12 col-sm-6 col-md-8">
+			<div class="col-xs-12 col-sm-12 col-md-8">
 				<?php
 					echo $this->Html->link(
     					$this->Html->image("/img/new-logo2.png", array("alt" => $cakeDescription, "class" => "img-responsive")),
@@ -61,7 +61,7 @@ $cakeDescription = __d('cake_dev', 'Experimental Platform for Health Promotion')
 					);
 				?>
 			</div>
-  			<div id="why" class="col-xs-6 col-sm-6 col-md-4"><?php 
+  			<div id="why" class="col-md-4 hidden-xs hidden-sm"><?php 
 			/* Currently hardcoded to display the motivation module widget. In the future, this space should be
 			 * editable from within the admin control panel.
 			 */

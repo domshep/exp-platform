@@ -148,7 +148,7 @@ class MotivationController extends MotivationModuleAppController implements Modu
 			
 			if ($this->MotivationScreener->save($this->request->data)) 
 			{
-				$this->Session->setFlash(__('Your reason has been updated'));
+				$this->Session->setFlash('Your reason for taking part has been updated', 'default', array('class' => 'alert alert-success'));
 				$this->redirect(array('controller' => 'Users', 'action' => 'dashboard', 'full_base' => true, 'plugin' => false));
 			} 
 			else 
