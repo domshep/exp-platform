@@ -1,17 +1,20 @@
-<h4 class="graph-caption">My alcohol units over recent weeks</h4>
-		<p><?php 
-				echo $this->Html->image(
-					'/drink_safely_module/drinking/minigraph', 
-					array(
-						'alt' => 'My Units of Alcohol over recent weeks',
-	    				'url' => array('action' => 'view_records'),
-						'class' => 'mini-graph'
-					)
-				);
-			?>
-		</p>
+<div class="thumbnail">
+	<div class="caption">
+		<h4>My alcohol units over recent weeks</h4>
+	</div>
+		<?php 
+			echo $this->Html->image(
+				'/drink_safely_module/drinking/minigraph', 
+				array(
+					'alt' => 'My Units of Alcohol over recent weeks',
+    				'url' => array('action' => 'view_records'),
+					'class' => 'img-responsive'
+				)
+			);
+		?>
+</div>
 <div class="achievements">
-	<h4><strong>My weekly totaliser</strong></h4>
+	<h3>My weekly achievements</h3>
 	<?php echo $this->requestAction(array('action'=> 'dashboard_achievements')); ?>
 </div>
-<p><?php echo $this->Html->link(__('Add weekly record'), array('action' => 'data_entry', date("Ymd")),array('class' => 'button')); ?></p>
+<?php echo $this->Html->link(__('Add weekly record <span class="glyphicon glyphicon-plus"></span>'), array('action' => 'data_entry', date("Ymd")),array('class' => 'btn btn-success btn-md pull-right', 'escape' => false)); ?>

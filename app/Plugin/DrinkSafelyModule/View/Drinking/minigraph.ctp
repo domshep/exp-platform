@@ -8,7 +8,7 @@ $ydata = $graphData;
 $xdata = $dates;
 
 // Create the graph. These two calls are always required
-$graph = new Graph(434,475);
+$graph = new Graph(494,475);
 if($gender=='M') {
 	$graph->SetScale('datlin',min(array_merge($ydata, array(20)))-1,max(array_merge($ydata, array(20))) + 1, min($xdata),max($xdata));
 } else {
