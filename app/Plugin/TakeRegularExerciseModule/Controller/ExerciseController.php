@@ -325,8 +325,8 @@ class ExerciseController extends TakeRegularExerciseModuleAppController implemen
 
 					Cache::clear();
 						
-  					$this->Session->setFlash(__('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.'));
-  					return $this->redirect('module_dashboard');
+  					$this->Session->setFlash('Your weekly record for week beginning ' . date('d-m-Y',$weekBeginning) . ' has been stored.', 'default', array('class' => 'alert alert-success'));
+					return $this->redirect('module_dashboard');
   				} 
 				else 
 				{
