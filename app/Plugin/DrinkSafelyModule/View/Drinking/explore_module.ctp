@@ -1,6 +1,10 @@
 <?php $this->extend('/Modules/module_template');?>
-<h2><img src="/drink_safely_module/img/drinking/wine-glass.png" alt="Wine Glass" style="width: 185px; height: 262px; float: right; margin-left: 15px;"/>Cutting down on your drinking improves your health</h2>
-<p>There's nothing wrong with enjoying a drink within sensible limits, but regularly drinking more can be bad for your health and the way you feel.</p>
+<h2>Cutting down on your drinking improves your health
+	<span class="container pull-right">
+		<?php echo $this->Html->image('/drink_safely_module/img/drinking/wine-glass.png', array('alt' => "Wine Glass", 'escape' => false));?>
+	</span>
+</h2>
+<p class="lead">There's nothing wrong with enjoying a drink within sensible limits, but regularly drinking more can be bad for your health and the way you feel.</p>
 <p>You can benefit from cutting down your drinking because...</p>
 <ul>
 	<li>You can feel better in the mornings - hangovers can leave you feeling anxious and low</li>
@@ -13,9 +17,8 @@
     <li>You will have more time to enjoy other things and save money! </li>
 </ul>
 <?php
-	if($added_to_dashboard) {
-		echo "<p>This module is already on your dashboard.</p>";
-	} else {
-		echo $this->Html->link(__('Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'button action', 	'target' => '_self'));
-	}
-?>
+if($added_to_dashboard) {
+	echo $this->Html->link(__('<span class="glyphicon glyphicon-th-large"></span> View the module dashboard'), array('action' => 'module_dashboard'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self', 'escape' => false));
+} else {
+	echo $this->Html->link(__('<span class="glyphicon glyphicon-ok-circle"></span> Add this module to your dashboard'), array('action' => 'add_module'), array('class' => 'btn btn-success btn-md bot-buffer pull-right', 'target' => '_self', 'escape' => false));
+}?>
