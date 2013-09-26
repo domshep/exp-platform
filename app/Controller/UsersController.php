@@ -254,7 +254,7 @@ class UsersController extends AppController {
 			$this->User->create();
 			$this->User->set('role','user');
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('Welcome! Your login details have been recorded.'));
+				$this->Session->setFlash('Welcome! Your login details have been recorded.', 'default', array('class' => 'alert alert-success'));
 				$this->Auth->login();
 				
 				$this->redirect(array('plugin' => 'standard_profile_module', 'controller' => 'profile', 'action'=>'addProfile'));

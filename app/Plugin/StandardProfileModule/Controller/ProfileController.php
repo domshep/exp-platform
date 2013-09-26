@@ -201,7 +201,7 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   			
   			if ($this->HealthScore->validates()) {
 	  			if ($this->HealthScore->save()) {
-	  				$this->Session->setFlash(__('Your profile has now been set up - just a few more questions remaining...'));
+	  				$this->Session->setFlash('Your profile has now been set up - just a few more questions remaining...', 'default', array('class' => 'alert alert-success'));
 	  				$this->redirect(array('action' => 'generalHealth'));
 	  			} else {
 	  				$this->Session->setFlash(__('Your health score could not be saved. Please, try again.'));
@@ -238,7 +238,7 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   				
   			if ($this->GeneralHealth->validates()) {
   				if ($this->GeneralHealth->save()) {
-  					$this->Session->setFlash(__('Your profile has now been set up - you&rsquo;re ready to go!'));
+  					$this->Session->setFlash('Your profile has now been set up - you&rsquo;re ready to go!', 'default', array('class' => 'alert alert-success'));
   					$this->redirect(array('plugin' => false, 'controller' => 'users', 'action' => 'dashboard'));
   				} else {
   					$this->Session->setFlash(__('Your general health details could not be saved. Please, try again.'));
@@ -288,7 +288,7 @@ class ProfileController extends StandardProfileModuleAppController implements Mo
   	
   			if ($this->Equality->validates()) {
   				if ($this->Equality->save()) {
-  					$this->Session->setFlash(__('Your equality profile has been updated'));
+  					$this->Session->setFlash('Your equality profile has been updated', 'default', array('class' => 'alert alert-success'));
   					$this->redirect(array('action' => 'index'));
   				} else {
   					$this->Session->setFlash(__('Your equality profile could not be saved. Please, try again.'));
