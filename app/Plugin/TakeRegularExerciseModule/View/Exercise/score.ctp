@@ -1,8 +1,8 @@
 <?php $this->extend('/Modules/module_template');?>
 <h2>Your feedback</h2>
 <?php if ($feedback == "HIGH") {?>
-<h3>Congratulations, based on your responses you exceeded the recommended
-	weekly levels of exercise over the last 7 days. Keep up the good work.</h3>
+<p class="lead">Congratulations, based on your responses you exceeded the recommended
+	weekly levels of exercise over the last 7 days. Keep up the good work.</p>
 <p>By continuing to achieve the recommended guidelines of physical
 	activity you can lower the risk of suffering from coronary heart
 	disease and strokes by 35%, as well as helping to protect against
@@ -10,12 +10,12 @@
 <p>
 	<a href="http://www.championsforhealth.wales.nhs.uk/exercise"
 		target="exercisehigh">Find out more about the health benefits
-		associated with taking regular exercise</a>
+		associated with taking regular exercise.</a>
 </p>
 <?php } elseif ($feedback == "MODERATE") {?>
-<h3>Your responses indicate you have taken some exercise this week and
+<p class="lead">Your responses indicate you have taken some exercise this week and
 	were close to achieving the recommended weekly levels of exercise. This
-	classes you in the moderate category of physical activity.</h3>
+	classes you in the moderate category of physical activity.</p>
 <p>With just a little bit more you can exceed the recommended levels of
 	physical activity.</p>
 <p>Achieving the recommended levels of physical activity can help you
@@ -23,11 +23,11 @@
 <p>
 	<a href="http://www.championsforhealth.wales.nhs.uk/exercise"
 		target="exercisehigh">Find out more about the health benefits
-		associated with taking regular exercise</a>
+		associated with taking regular exercise.</a>
 </p>
 <?php } else {?>
-<h3>Your responses indicate that you have not taken much exercise in the
-	last 7 days and are classed in the low activity category.</h3>
+<p class="lead">Your responses indicate that you have not taken much exercise in the
+	last 7 days and are classed in the low activity category.</p>
 <p>Did you know, this places you at greater risk from a range of
 	diseases including coronary heart disease, stroke and type 2 diabetes
 	and can make it more difficult to maintain a healthy weight.</p>
@@ -35,7 +35,7 @@
 	<a
 		href="http://www.championsforhealth.wales.nhs.uk/what-s-the-problem-with-being-inactive-"
 		target="exerciseinactive">Find out more about the health problems
-		associated with being inactive</a>
+		associated with being inactive.</a>
 </p>
 <?php }?>
 <p>You can add the Take Regular Exercise module to your personal
@@ -58,7 +58,9 @@ echo $this->Form->hidden('ExerciseScreener.score', array('value'=>$score));
 echo $this->Form->hidden('ExerciseScreener.feedback', array('value'=>$feedback));
 
 $options = array(
-    'label' => 'Add the Take Regular Exercise module to my dashboard'
+		'label' => 'Add the &lsquo;Take Regular Exercise&rsquo; module to my dashboard',
+		'escape' => false,
+		'class' => 'btn btn-success btn-md bot-buffer pull-right'
 );
 
 echo $this->Form->end($options);
