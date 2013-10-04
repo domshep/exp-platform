@@ -56,23 +56,23 @@
 class DATABASE_CONFIG {
 
 	public $default = array(
-		'datasource' => 'Database/Mysql',
+		'datasource' => '127.0.0.1/exp-platform',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'database_name',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'exp-platform',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
 
 	public $test = array(
-		'datasource' => 'Database/Mysql',
+		'datasource' => '127.0.0.1/exp-platform',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
+		'login' => 'root',
+		'password' => '',
+		'database' => 'exp-platform',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
